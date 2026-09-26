@@ -11,6 +11,7 @@ import re
 from collections import defaultdict
 
 from .model import BoqLine, MaterialQty, PlanRow, Rule
+from .paths import DATA_DIR
 
 SMALL_CONCRETE_M3 = 40   # LHCS 14 20 10 05:2020 3.12.5.1(5): 전체 사용량 40㎥ 미만이면 강도시험 생략 가능(감독자 판단)
 UNIT_LABEL = {"m3": "㎥", "m2": "㎡", "ton": "ton", "m": "m", "ea": "개"}
@@ -499,7 +500,7 @@ def rebar_group_row(m: MaterialQty, rule: Rule, ks: bool = True, makers: int | N
                    basis=rule.group_basis, material=m.material, spec=m.spec, sources=list(m.sources))
 
 
-COMMON_SPECS = Path(__file__).resolve().parents[2] / "data" / "common_specs.yaml"
+COMMON_SPECS = DATA_DIR / "common_specs.yaml"
 
 
 def missing_common_specs(mats: list[MaterialQty], path: Path = COMMON_SPECS) -> list[str]:

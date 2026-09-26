@@ -56,7 +56,7 @@ def test_labor_only_still_uses_all_rows():
 @pytest.fixture(scope="module")
 def rules():
     from pathlib import Path
-    return load_rules(Path(__file__).resolve().parents[1] / "data" / "rules")
+    return load_rules(Path(__file__).resolve().parents[1] / "src" / "danburn" / "data" / "rules")
 
 
 def test_real_index_exclusions(rules):

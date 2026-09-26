@@ -13,7 +13,7 @@ from danburn.extra import load_catalog
 from danburn.model import BoqLine
 from danburn.rules import load_rules
 
-RULES = Path(__file__).resolve().parents[2] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[2] / "src" / "danburn" / "data" / "rules"
 BV = "LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」"
 # 부록에 종별이 일부만 있는 목록 항목 — 경고를 지우지 않는다(extra_keys 로 주장하지 않음)
 PARTIAL = {"fire_shutter", "balcony_drain", "pvc_molding", "ventilation", "spray_coating"}

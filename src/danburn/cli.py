@@ -10,8 +10,9 @@ import re
 import os
 import sys
 from pathlib import Path
+from .paths import RULES_DIR
 
-DEFAULT_RULES = Path(__file__).resolve().parents[2] / "data" / "rules"
+DEFAULT_RULES = RULES_DIR
 
 
 YES, NO = ("예", "네", "yes", "y", "true", "1", "o"), ("아니오", "아니요", "no", "n", "false", "0", "x")
@@ -281,7 +282,14 @@ def cmd_check_basis(a: argparse.Namespace) -> int:
     """규칙 데이터의 기준 판이 현행 고시와 같은지 공개 법령 미러로 확인한다(사용자 파일은 보내지 않음)."""
     from .basis import check_basis
     from .rules import load_rules
-    res = check_basis(load_rules(a.rules))
+    rules = load_rules(a.rules)
+    if getattr(a, "offline", False) or "1" in (os.environ.get("DANBURN_OFFLINE"), os.environ.get("QCPLAN_OFFLINE")):
+        def _no_net(url):
+            raise OSError("offline")
+        res = check_basis(rules, fetch=_no_net)            # 네트워크 없이: 규칙의 기준 판만 보이고 status unknown(종료 4)
+        res["message"] = "--offline: 기준 최신 여부를 확인하지 않음 — 규칙 데이터의 판만 표시"
+    else:
+        res = check_basis(rules)
     print(json.dumps(res, ensure_ascii=False))
     return {"current": 0, "outdated": 3}.get(res["status"], 4)
 
@@ -331,18 +339,19 @@ def main(argv: list[str] | None = None) -> int:
     b.set_defaults(func=cmd_build)
     pl = sub.add_parser("plan", help="도급내역서+현장 정보로 품질관리계획서 전체(표지·목차·개정이력·1~10장, 8.11 계산 표)를 만든다")
     _add_calc_args(pl)
-    pl.add_argument("--project", required=True, help="현장 정보 YAML (예: data/templates/project.example.yaml)")
+    pl.add_argument("--project", required=True, help="현장 정보 YAML (예: src/danburn/data/templates/project.example.yaml)")
     pl.add_argument("--revision", default="0", help="개정 번호 (예: 0, 3)")
     pl.add_argument("--date", required=True, help="개정 일자 (예: 2026. 09. 26.)")
     pl.set_defaults(func=cmd_build)
     c = sub.add_parser("check-basis", help="기준 판(업무지침 고시 번호)이 현행인지 확인한다. 종료 0=현행, 3=개정됨, 4=확인 못 함")
     c.add_argument("--rules", default=str(DEFAULT_RULES))
+    c.add_argument("--offline", action="store_true", help="공개 법령 미러를 조회하지 않고 규칙 데이터의 기준 판만 보인다(종료 4)")
     c.set_defaults(func=cmd_check_basis)
     i = sub.add_parser("inspect", help="도급내역서를 읽을 수 있는지, 어떤 블록이 있는지 확인한다")
     i.add_argument("--boq", nargs="+", required=True)
     i.set_defaults(func=cmd_inspect)
     st = sub.add_parser("start", help="처음이면 여기부터: 몇 가지 질문으로 현장 정보를 만들고 계획서까지 만든다")
-    st.add_argument("--answers", default=None, help="질문 답을 담은 yaml(비대화형). 키는 data/interview.yaml 의 key")
+    st.add_argument("--answers", default=None, help="질문 답을 담은 yaml(비대화형). 키는 src/danburn/data/interview.yaml 의 key")
     st.add_argument("--plain", action="store_true", help="한 줄 질문·번호 응답(에이전트·스크린리더용)")
     st.add_argument("--yes", action="store_true", help="--answers 에 없는 답은 기본값(없으면 모름)으로")
     st.add_argument("--folder", default=".", help="내역서·로고 후보를 찾을 폴더(기본: 지금 폴더)")

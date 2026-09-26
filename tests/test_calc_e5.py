@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @pytest.fixture(scope="module")
 def rules():
-    return load_rules(ROOT / "data" / "rules")
+    return load_rules(ROOT / "src" / "danburn" / "data" / "rules")
 
 
 def _line(name, unit="M2", qty=100.0, spec="합성", row=1):

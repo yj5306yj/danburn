@@ -8,7 +8,7 @@ from danburn.index import coverage, load_index
 from danburn.model import BoqLine
 from danburn.rules import load_rule, load_rules
 
-RULES = Path(__file__).resolve().parents[2] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[2] / "src" / "danburn" / "data" / "rules"
 
 G3 = ("rolled_steel_general", "form_plywood", "welded_wire_mesh", "temp_system_scaffold", "general_pvc_pipe",
       "water_rubber", "backfill", "excavation_bearing", "fill_soil", "road_subgrade", "frost_subbase",

@@ -9,7 +9,7 @@ from danburn.extra import flag_extras
 from danburn.model import BoqLine
 from danburn.rules import load_rules
 
-RULES = Path(__file__).resolve().parents[1] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[1] / "src" / "danburn" / "data" / "rules"
 MECH = ("lh_floor_drain_trap", "lh_pb_pipe", "lh_pvc_multilayer_pipe")
 
 

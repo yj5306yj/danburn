@@ -10,8 +10,9 @@ from functools import lru_cache
 from pathlib import Path
 
 import yaml
+from .paths import DATA_DIR
 
-DEFAULT_INDEX = Path(__file__).resolve().parents[2] / "data" / "byeolpyo2_index.yaml"
+DEFAULT_INDEX = DATA_DIR / "byeolpyo2_index.yaml"
 KEY_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 # 노무·장비 행: 자재 이름을 뺀 나머지 품명에 이 말이 있으면 자재 행이 아니다(예: '레미콘 타설', '조립식맨홀 설치').
 LABOR_WORDS = ("시공", "설치", "운반", "타설", "조립", "인건", "노무", "인력", "가공", "하차", "절단",

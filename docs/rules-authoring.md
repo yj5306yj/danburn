@@ -1,4 +1,4 @@
-# 자재 규칙 작성 안내 (data/rules/*.yaml)
+# 자재 규칙 작성 안내 (src/danburn/data/rules/*.yaml)
 
 규칙 파일은 **추가만 하면 자동 등록**된다(`load_rules`가 폴더의 모든 yaml을 읽는다). 한 파일 = 한 자재(`material`).
 
@@ -14,7 +14,7 @@ material: concrete_brick            # 영문 소문자 키(파일명과 같게: 
 label: 콘크리트벽돌                   # 8.11 시험항목에 나오는 이름
 work: 조적공사                        # 선택. 8.11 공종 칸 기본값(아래 “공종 칸” 참고)
 basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
-index_keys: [concrete_brick]        # data/byeolpyo2_index.yaml 의 종별 key(여럿 가능). 동의어가 자동으로 매칭에 쓰인다
+index_keys: [concrete_brick]        # src/danburn/data/byeolpyo2_index.yaml 의 종별 key(여럿 가능). 동의어가 자동으로 매칭에 쓰인다
 match:                              # 선택. 없으면 색인 동의어를 쓴다
   names: [콘크리트벽돌]
   units: [ea]                       # 정규화 단위(m3, m2, ton, m, ea …). 도급내역서 단위와 맞아야 행이 잡힌다
@@ -70,7 +70,7 @@ unit_factors:
 LH 등 발주처 전문시방서의 시험 기준은 `owner: LH`를 붙인 규칙으로 만든다(`--owner LH` 일 때만 켜짐).
 - 출처: LHCS 10 40 00:2020 「시험」 부록 「품질시험 및 검사기준」(한국토지주택공사, KCSC 공개, 공공데이터포털 이용허락범위 제한 없음). `basis`에 부록 절(예: Ⅱ.11)과 종별을 적는다. 원문 문장·표 전체를 옮기지 않고 종별·시험종목·빈도 사실만.
 - `basis_version: "LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」"`
-- 별표2 밖 목록(`data/extra_catalog.yaml`)의 항목을 다루면 `extra_keys: [sealant]`처럼 적어 “발주처 기준 필요” 경고에서 뺀다.
+- 별표2 밖 목록(`src/danburn/data/extra_catalog.yaml`)의 항목을 다루면 `extra_keys: [sealant]`처럼 적어 “발주처 기준 필요” 경고에서 뺀다.
 - 파일 이름은 `lh_<key>.yaml`.
 
 ## 규격 묶음(선택, `spec_group`)

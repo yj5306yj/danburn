@@ -10,7 +10,7 @@ from danburn.index import load_index
 from danburn.model import BoqLine
 from danburn.rules import load_rules
 
-RULES = Path(__file__).resolve().parents[2] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[2] / "src" / "danburn" / "data" / "rules"
 KEYS = ("h_pile", "temp_h_pile", "steel_fiber", "grout", "light_gauge_section", "hot_rolled_mild_sheet",
         "repair_polymer_mortar")
 KS = {"h_pile", "temp_h_pile", "steel_fiber", "light_gauge_section", "hot_rolled_mild_sheet", "repair_polymer_mortar"}

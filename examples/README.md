@@ -15,7 +15,7 @@
 .venv/bin/python scripts/make_example_boq.py                 # → examples/out/example_boq.xlsx
 .venv/bin/danburn inspect --boq examples/out/example_boq.xlsx
 .venv/bin/danburn plan --boq examples/out/example_boq.xlsx --block 나동 \
-  --project data/templates/project.example.yaml --revision 0 --date "2026. 01. 05." \
+  --project src/danburn/data/templates/project.example.yaml --revision 0 --date "2026. 01. 05." \
   --offline --out examples/out/품질관리계획서.hwpx
 .venv/bin/hwpx-validate examples/out/품질관리계획서.hwpx
 ```

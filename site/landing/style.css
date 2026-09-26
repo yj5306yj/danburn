@@ -98,21 +98,16 @@ p { margin: 0 0 12px; }
 .label, .step { font-size: 0.8rem; letter-spacing: 0.02em; color: var(--muted); margin: 0; }
 .step .mono { font-weight: 500; }
 
-/* ① 히어로: 책상 위 제목 / 영상은 종이에 붙인 그림.
-   구역 종이와 같은 격자(--col). 옆에 나란히 두면 영상이 860px 아래로 줄어 글이 안 읽히므로
-   글 머리를 두 칸(제목 | 행동)으로 두고 영상은 그 아래 종이 폭 그대로 */
+/* ① 히어로: 책상 위 제목 / 영상은 종이에 붙인 그림 */
 main section.hero {
-  padding: 40px 0 56px; margin-bottom: 20px;
+  max-width: 1440px; padding: 40px 0 56px; margin-bottom: 20px;
   background: none; border: 0; box-shadow: none;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 48px; align-items: center;
 }
-.hero-text {
-  display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px; align-items: end;
-  padding-bottom: 28px; margin-bottom: 28px; border-bottom: 1px solid var(--line);
-}
+.hero-text { padding-left: 24px; }
 .hero .label { display: inline-block; padding: 3px 8px; border: 1px solid var(--line); border-radius: 2px; background: var(--paper); color: var(--ink-2); }
-.hero h1 { margin-bottom: 0; }
-.hero-act .cmd { margin-top: 16px; }
-.hero-act .small { margin-bottom: 4px; }
+.hero h1 { padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.hero-text .small { margin-bottom: 4px; }
 .hint a { white-space: nowrap; } /* 링크 말은 끊지 않는다(좁은 화면에서 '맡기기' 한 단어만 넘어가지 않게) */
 .hero-media {
   margin: 0; padding: 14px 14px 8px;
@@ -130,7 +125,7 @@ main section.hero {
 .video-toggle:hover { background: var(--blue-soft); color: var(--blue-ink); }
 .video-toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .video-toggle .ico { width: 10px; height: 12px; border-left: 3px solid currentColor; border-right: 3px solid currentColor; }
-.hero-text > *, .grid2 > *, .grid3 > *, .flow3 > * { min-width: 0; }
+.hero > *, .grid2 > *, .grid3 > *, .flow3 > * { min-width: 0; }
 
 /* 명령 한 줄 */
 .cmd {
@@ -221,7 +216,6 @@ footer .small { flex-basis: 100%; }
 @media (max-width: 1040px) {
   :root { --pad: 32px; }
   .grid3 { grid-template-columns: 1fr; }
-  .hero-text { grid-template-columns: 1fr; gap: 20px; }
   .grid3 > * + * { border-left: 0; border-top: 1px solid var(--rule); }
 }
 
@@ -233,8 +227,8 @@ footer .small { flex-basis: 100%; }
   .top nav { gap: 0 18px; }
   main { padding: 0 8px 4px; }
   main section { padding: 36px var(--pad) 40px; margin-bottom: 16px; }
-  main section.hero { padding: 20px 0 28px; }
-  .hero-text { padding: 0 8px 24px; margin-bottom: 24px; }
+  main section.hero { grid-template-columns: 1fr; gap: 24px; padding: 20px 0 28px; }
+  .hero-text { padding: 0 8px; }
   .hero-media { padding: 8px 8px 4px; }
   .hero-media figcaption { margin-top: 4px; }
   .hero-media video { aspect-ratio: 4 / 5; }

@@ -9,7 +9,7 @@ from danburn.extra import flag_extras
 from danburn.model import BoqLine
 from danburn.rules import load_rules
 
-RULES = Path(__file__).resolve().parents[2] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[2] / "src" / "danburn" / "data" / "rules"
 
 
 @pytest.fixture(scope="module")

@@ -20,8 +20,9 @@ from pathlib import Path
 import yaml
 
 from .model import BoqLine
+from .paths import DATA_DIR
 
-DEFAULT_KEYWORDS = Path(__file__).resolve().parents[2] / "data" / "member_keywords.yaml"
+DEFAULT_KEYWORDS = DATA_DIR / "member_keywords.yaml"
 _SLUMP_POUR = re.compile(r"S\s*(\d{1,2})", re.I)
 
 

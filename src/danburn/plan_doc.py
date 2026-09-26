@@ -25,8 +25,9 @@ from lxml import etree
 from . import hwpx_out, plan_parts
 from .hwpx_out import HP, LINE_OUTER, LINE_THIN, NOTICE, PAGE, add_811_tables, compact_date, grid_table, hold
 from .model import PlanRow
+from .paths import TEMPLATES_DIR
 
-DEFAULT_TEMPLATE = Path(__file__).resolve().parents[2] / "data" / "templates" / "qplan.yaml"
+DEFAULT_TEMPLATE = TEMPLATES_DIR / "qplan.yaml"
 MARK_811 = "{8.11}"
 _PH = re.compile(r"\{([^{}]+)\}")
 _MM = 7200 / 25.4                               # mm → HWPUNIT

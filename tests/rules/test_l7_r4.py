@@ -9,7 +9,7 @@ from danburn.index import coverage, load_index
 from danburn.model import BoqLine
 from danburn.rules import load_rule, load_rules
 
-RULES = Path(__file__).resolve().parents[2] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[2] / "src" / "danburn" / "data" / "rules"
 
 R4 = ("drain_board", "general_pe_pipe", "rc_pipe", "road_marking_paint", "double_wall_hdpe_pipe", "wired_glass",
       "raised_floor")

@@ -52,7 +52,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```bash
 uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -e .
 .venv/bin/python scripts/make_example_boq.py
-.venv/bin/danburn plan --boq examples/out/example_boq.xlsx --block 나동 --project data/templates/project.example.yaml --revision 0 --date "2026. 01. 05." --offline --out examples/out/품질관리계획서.hwpx
+.venv/bin/danburn plan --boq examples/out/example_boq.xlsx --block 나동 --project src/danburn/data/templates/project.example.yaml --revision 0 --date "2026. 01. 05." --offline --out examples/out/품질관리계획서.hwpx
 ```
 
 `examples/out/품질관리계획서.hwpx`가 생기면 준비 끝입니다. 합성 예제는 내역 50행 → 규격 묶음 40개 → 8.11 약 90행, 계획서 약 140쪽으로 나옵니다(규칙이 늘면 달라짐). 자세한 기대 결과는 [`examples/README.md`](examples/README.md)에 있습니다.
@@ -105,7 +105,7 @@ mkdir -p out
 |---|---|
 | 8.11 품질시험계획표, ‘시험계획 미작성 자재’ 표 | 도급내역서에서 **계산** |
 | 표지·쪽 머리, 4.1 공사개요, 5.2 조직도·조직 표, 6.2 품질목표, 8.11 시험장비·품질관리자 배치, 개정이력·결재란, 양식 머리 칸(공사명 등) | 현장 정보 파일에서 **그대로** |
-| 절마다 목적·적용기준·업무 분장표·업무 흐름표·양식·부표의 문장과 칸 | 별표1 작성기준 항목을 따라 이 저장소가 직접 쓴 **공통 문구**(`data/templates/qplan.yaml`). 모든 현장에 같은 문장이 들어가므로 현장 실정에 맞게 고쳐 씁니다 |
+| 절마다 목적·적용기준·업무 분장표·업무 흐름표·양식·부표의 문장과 칸 | 별표1 작성기준 항목을 따라 이 저장소가 직접 쓴 **공통 문구**(`src/danburn/data/templates/qplan.yaml`). 모든 현장에 같은 문장이 들어가므로 현장 실정에 맞게 고쳐 씁니다 |
 
 쪽 모양(여백·쪽 머리·표 열 비율·글자 크기)은 현장에서 쓰는 계획서 양식 관행에 맞추려고 실제 현장 계획서 한 부의 쪽 유형별 수치를 재어 맞췄습니다(수치만 쓰고 문장은 옮기지 않았습니다. [`docs/design/plan-layout.md`](docs/design/plan-layout.md)). 로고·회사명 칸은 비워 두며, 현장 정보 파일에 적으면 채워집니다.
 
@@ -113,7 +113,7 @@ mkdir -p out
 
 현장 정보 파일(yaml)은 공사명·회사·사람 같은 **계획서에 들어갈 글자**를 적는 텍스트 파일입니다.
 
-1. `data/templates/project.example.yaml`을 복사해 `내현장.yaml` 같은 이름으로 저장합니다(합성 예시라 값이 모두 가짜입니다).
+1. `src/danburn/data/templates/project.example.yaml`을 복사해 `내현장.yaml` 같은 이름으로 저장합니다(합성 예시라 값이 모두 가짜입니다).
 2. 텍스트 편집기(맥 텍스트 편집기, Windows 메모장, VS Code 등)로 열어 **따옴표 안의 값만** 고칩니다. `키: "값"` 모양과 줄 앞 칸 띄움은 그대로 둡니다. 저장은 UTF-8로.
 3. `--project 내현장.yaml`로 넘깁니다.
 
@@ -234,8 +234,8 @@ danburn check-basis                        # 계산 기준(업무지침 고시 �
 
 ## 범위와 한계
 
-- **대상**: 공동주택 신축공사의 품질관리계획서. 장·절 구성은 업무지침 별표1 작성기준 항목을 따르는 자체 템플릿(`data/templates/qplan.yaml`)입니다. 고시의 항목을 따랐다는 뜻이지 **법정 서식 충족을 보장한다는 뜻은 아닙니다**. 절마다 들어가는 흐름표·분장표·양식 문장은 공통 문구라 현장에 맞게 고쳐야 합니다.
-- **자재 규칙**: `data/rules/*.yaml` — 이 글을 쓴 시점에 124종(별표2 기반 82종은 항상 적용, LH 전용 42종 `lh_*.yaml`은 `--owner LH`일 때만). 규칙은 계속 늘어나므로 개수는 `ls data/rules | wc -l`로 셉니다. 파일을 추가하면 자동 등록됩니다.
+- **대상**: 공동주택 신축공사의 품질관리계획서. 장·절 구성은 업무지침 별표1 작성기준 항목을 따르는 자체 템플릿(`src/danburn/data/templates/qplan.yaml`)입니다. 고시의 항목을 따랐다는 뜻이지 **법정 서식 충족을 보장한다는 뜻은 아닙니다**. 절마다 들어가는 흐름표·분장표·양식 문장은 공통 문구라 현장에 맞게 고쳐야 합니다.
+- **자재 규칙**: `src/danburn/data/rules/*.yaml` — 이 글을 쓴 시점에 124종(별표2 기반 82종은 항상 적용, LH 전용 42종 `lh_*.yaml`은 `--owner LH`일 때만). 규칙은 계속 늘어나므로 개수는 `ls src/danburn/data/rules | wc -l`로 셉니다. 파일을 추가하면 자동 등록됩니다.
 - **규칙이 없는 자재**: 내역서에서 알아본 자재는 8.11 계획표나 경고 중 한 곳에 나오게 했습니다. 별표2에 있으나 규칙이 아직 없으면 “규칙 없음”, 별표2에 없는 자재(실링재·벽지·바닥 완충재 등)는 **“발주처 기준 필요 — 시험계획 미작성”**으로 요약과 계획서에 표시합니다. 품명이 특이하면 자재로 알아보지 못할 수 있으니 요약의 ‘규칙 밖 행’(`unmatched_in_covered`)을 함께 확인하세요. 이 자재의 시험계획은 사람이 발주처 기준으로 써야 합니다. 법정 현장측정(실내공기질·바닥충격음)은 확인 안내만 합니다.
 - **기준 판**: 규칙은 국토교통부고시 제2026-360호 「건설공사 품질관리 업무지침」 별표2 기준입니다. 개정되면 `check-basis`가 알려 주지만 규칙 갱신은 사람이 공식 PDF로 확인한 뒤 합니다.
 - LH 외 발주처의 전문시방서 강화 기준과 감리 지시는 반영하지 않습니다. **계산 결과는 초안**이고 품질관리자가 확정합니다.

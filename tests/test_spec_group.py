@@ -8,7 +8,7 @@ from danburn.calc import aggregate, plan_rows
 from danburn.model import BoqLine
 from danburn.rules import load_rule, load_rules
 
-RULES = Path(__file__).resolve().parents[1] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[1] / "src" / "danburn" / "data" / "rules"
 
 BASE = '''material: synthetic_pipe
 label: 합성관

@@ -4,7 +4,7 @@ import pytest
 
 from danburn.rules import load_rules
 
-RULES_DIR = Path(__file__).resolve().parents[1] / "data" / "rules"
+RULES_DIR = Path(__file__).resolve().parents[1] / "src" / "danburn" / "data" / "rules"
 
 
 @pytest.fixture(scope="module")

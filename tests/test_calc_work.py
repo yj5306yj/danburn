@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @pytest.fixture(scope="module")
 def rules():
-    return load_rules(ROOT / "data" / "rules")
+    return load_rules(ROOT / "src" / "danburn" / "data" / "rules")
 
 
 def _line(name, spec, unit, qty, section="", row=1, supply="사급"):
@@ -104,7 +104,7 @@ def test_work_missing_counts_blank_rows(rules):
 
 
 def test_loader_reads_optional_work(tmp_path):
-    src = (ROOT / "data" / "rules" / "liquid_waterproofing.yaml").read_text(encoding="utf-8")
+    src = (ROOT / "src" / "danburn" / "data" / "rules" / "liquid_waterproofing.yaml").read_text(encoding="utf-8")
     (tmp_path / "a.yaml").write_text(src.replace("work: 방수공사\n", ""), encoding="utf-8")
     assert load_rules(tmp_path)["liquid_waterproofing"].work == ""
 

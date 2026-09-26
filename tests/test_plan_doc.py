@@ -14,7 +14,7 @@ from danburn.model import PlanRow
 from danburn.plan_doc import PlaceholderError, build_plan, load_template, placeholders, toc_entries
 
 ROOT = Path(__file__).resolve().parents[1]
-EXAMPLE = ROOT / "data" / "templates" / "project.example.yaml"
+EXAMPLE = ROOT / "src" / "danburn" / "data" / "templates" / "project.example.yaml"
 VALIDATE = Path(sys.executable).parent / "hwpx-validate"
 
 

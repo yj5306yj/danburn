@@ -5,7 +5,7 @@ from danburn.index import coverage, identify, is_labor, load_index
 from danburn.model import BoqLine
 from danburn.rules import load_rules
 
-RULES = Path(__file__).resolve().parents[1] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[1] / "src" / "danburn" / "data" / "rules"
 
 
 def _line(name, spec="", unit="m2", qty=10.0):

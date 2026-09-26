@@ -9,7 +9,7 @@ from danburn.index import load_index
 from danburn.model import BoqLine
 from danburn.rules import load_rule, load_rules
 
-RULES = Path(__file__).resolve().parents[2] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[2] / "src" / "danburn" / "data" / "rules"
 
 R5 = ("ordinary_plywood", "veneer_floor", "fiberboard", "pvc_floor", "lacquer", "varnish", "multicolor_paint")
 PAGES = {"ordinary_plywood": (39, 40), "veneer_floor": (40,), "fiberboard": (40, 41), "pvc_floor": (43, 44),

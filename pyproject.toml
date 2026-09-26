@@ -16,6 +16,9 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+danburn = ["data/*.yaml", "data/rules/*.yaml", "data/templates/*.yaml", "data/**/*"]   # 기준 데이터를 휠에 넣는다(L8-P1)
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = ["network: 실제 네트워크 호출(기본 건너뜀, DANBURN_NETWORK=1 로 실행)"]

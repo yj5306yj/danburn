@@ -43,25 +43,20 @@
 <main>
   <!-- ① 히어로 -->
   <section class="hero" id="top">
-    <!-- 글 머리는 두 칸(제목 | 행동), 영상은 그 아래 종이 폭 그대로 — 페이지 격자(--col)와 영상 가독 폭(860px 이상)을 함께 지키려고 -->
     <div class="hero-text">
-      <div class="hero-head">
-        <p class="label">오픈소스 · 현장 품질관리자가 만든 도구</p>
-        <h1>도급내역서를 넣으면<br>품질관리계획서 초안이 나옵니다</h1>
+      <p class="label">오픈소스 · 현장 품질관리자가 만든 도구</p>
+      <h1>도급내역서를 넣으면<br>품질관리계획서 초안이 나옵니다</h1>
+      <ul class="facts" aria-label="나오는 것">
+        <li>1~10장 서식</li>
+        <li>8.11 시험계획 자동 계산</li>
+        <li>한글(.hwpx) 파일</li>
+      </ul>
+      <div class="cmd">
+        <code id="cmd-hero">uvx --from git+https://github.com/<wbr>yj5306yj/<wbr>danburn danburn start</code>
+        <button type="button" data-copy="cmd-hero">복사</button>
       </div>
-      <div class="hero-act">
-        <ul class="facts" aria-label="나오는 것">
-          <li>1~10장 서식</li>
-          <li>8.11 시험계획 자동 계산</li>
-          <li>한글(.hwpx) 파일</li>
-        </ul>
-        <div class="cmd">
-          <code id="cmd-hero">uvx --from git+https://github.com/<wbr>yj5306yj/<wbr>danburn danburn start</code>
-          <button type="button" data-copy="cmd-hero">복사</button>
-        </div>
-        <p class="small hint">처음이면 <a href="#install">uv 설치부터(1분)</a> · 터미널이 낯설면 <a href="#agent">AI 에이전트에게 맡기기</a></p>
-        <p class="small"><a href="https://github.com/yj5306yj/danburn">https://github.com/yj5306yj/danburn</a></p>
-      </div>
+      <p class="small hint">처음이면 <a href="#install">uv 설치부터(1분)</a> · 터미널이 낯설면 <a href="#agent">AI 에이전트에게 맡기기</a></p>
+      <p class="small"><a href="https://github.com/yj5306yj/danburn">https://github.com/yj5306yj/danburn</a></p>
     </div>
     <figure class="hero-media">
       <!-- 16초 무음 반복. 좁은 화면은 4:5 판. 움직임 줄이기 설정이면 멈춘 첫 화면(poster)만. 멈춤 단추(WCAG 2.2.2) -->

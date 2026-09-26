@@ -5,7 +5,7 @@ from danburn.calc import aggregate, ambiguous, match_candidates, match_rule
 from danburn.model import BoqLine
 from danburn.rules import load_rules
 
-RULES = Path(__file__).resolve().parents[1] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[1] / "src" / "danburn" / "data" / "rules"
 
 
 def L(name, unit, disc="건축", spec=""):

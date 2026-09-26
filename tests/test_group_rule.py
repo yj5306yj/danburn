@@ -7,7 +7,7 @@ from danburn.index import coverage
 from danburn.model import BoqLine
 from danburn.rules import load_rules
 
-RULES = Path(__file__).resolve().parents[1] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[1] / "src" / "danburn" / "data" / "rules"
 
 
 def test_index_linked_group_rule(tmp_path):

@@ -194,7 +194,7 @@ def test_attachments_listing_shows_count_only(tmp_path):
 def test_old_project_without_judged_keys_gets_defaults_and_note(tmp_path):
     from danburn.model import PlanRow
     from danburn.plan_doc import PRE_JUDGE_NOTE, build_plan
-    p = yaml.safe_load((ROOT / "data" / "templates" / "project.example.yaml").read_text(encoding="utf-8"))
+    p = yaml.safe_load((ROOT / "src" / "danburn" / "data" / "templates" / "project.example.yaml").read_text(encoding="utf-8"))
     for k in ("승인절차_문장", "품질관리_대상등급", "시험실"):
         p.pop(k, None)
     notes = []

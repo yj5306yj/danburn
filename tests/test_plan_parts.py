@@ -13,7 +13,7 @@ from danburn.plan_doc import build_plan
 from danburn.plan_parts import FLOW_COLS_MM, PAGE_BODY_MM, PartError, form_numbers, form_ref, form_rows
 
 ROOT = Path(__file__).resolve().parents[1]
-EXAMPLE = ROOT / "data" / "templates" / "project.example.yaml"
+EXAMPLE = ROOT / "src" / "danburn" / "data" / "templates" / "project.example.yaml"
 VALIDATE = Path(sys.executable).parent / "hwpx-validate"
 TEAMS = [{"key": "품질", "name": "품질팀"}, {"key": "안전", "name": "안전팀"}, {"key": "공사", "name": "공사팀"},
          {"key": "공무", "name": "공무팀"}, {"key": "대리인", "name": "현장대리인"}]

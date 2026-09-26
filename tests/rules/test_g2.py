@@ -10,7 +10,7 @@ from danburn.index import coverage, load_index
 from danburn.model import BoqLine
 from danburn.rules import load_rules
 
-RULES = Path(__file__).resolve().parents[2] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[2] / "src" / "danburn" / "data" / "rules"
 
 # key → 별표2 시험종목 수(원문 행을 빠짐없이 옮긴 수, 조건부 포함)
 G2 = {

@@ -121,6 +121,8 @@ def load_rule(path: Path) -> Rule:
 
 
 def load_rules(dir: str | Path) -> dict[str, Rule]:
+    if not Path(dir).is_dir():                  # 설치본에 데이터가 빠졌거나 --rules 경로가 틀림 — 규칙 0개로 조용히 돌지 않는다(L8-P1)
+        raise FileNotFoundError(f"규칙 폴더가 없습니다: {dir}")
     rules: dict[str, Rule] = {}
     for path in sorted(Path(dir).glob("*.yaml")):
         rule = load_rule(path)

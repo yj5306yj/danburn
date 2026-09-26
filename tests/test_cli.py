@@ -80,7 +80,7 @@ def test_plan_command_builds_whole_document(tmp_path, capsys):
     from pathlib import Path
     src = tmp_path / "s.xlsx"
     _xlsx(src, "지급(건)", [["품명", "규격", "단위", "수량"], ["레미콘", "25-24-15", "M3", 500]])
-    project = Path(__file__).resolve().parents[1] / "data" / "templates" / "project.example.yaml"
+    project = Path(__file__).resolve().parents[1] / "src" / "danburn" / "data" / "templates" / "project.example.yaml"
     out = tmp_path / "plan.hwpx"
     assert main(["plan", "--boq", str(src), "--project", str(project), "--revision", "0",
                  "--date", "2026. 01. 05.", "--out", str(out)]) == 0
@@ -101,7 +101,7 @@ def test_uncovered_materials_are_reported(tmp_path, capsys):
     from pathlib import Path
     only = tmp_path / "rules"                      # 규칙이 늘어나도 흔들리지 않게 레미콘 규칙만 둔다
     only.mkdir()
-    shutil.copy(Path(__file__).resolve().parents[1] / "data" / "rules" / "ready_mixed_concrete.yaml", only)
+    shutil.copy(Path(__file__).resolve().parents[1] / "src" / "danburn" / "data" / "rules" / "ready_mixed_concrete.yaml", only)
     out = tmp_path / "o.hwpx"
     assert main(["build", "--boq", str(src), "--rules", str(only), "--out", str(out)]) == 0
     summary = json.loads(capsys.readouterr().out)

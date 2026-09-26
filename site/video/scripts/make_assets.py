@@ -25,7 +25,7 @@ PY = ROOT / ".venv" / "bin" / "python"
 QCPLAN = ROOT / ".venv" / "bin" / "danburn"   # 이름 변경(qcplan → danburn)
 RHWP = ROOT / ".tools" / "rhwp" / "rhwp"
 BOQ = ROOT / "examples" / "out" / "example_boq.xlsx"
-PROJECT = ROOT / "data" / "templates" / "project.example.yaml"
+PROJECT = ROOT / "src" / "danburn" / "data" / "templates" / "project.example.yaml"
 BLOCK = "나동"
 DPI = 110
 ZOOM_DPI = 220     # v1: 8.11 쪽을 2배 확대해도 줄 글씨가 읽히게
@@ -112,7 +112,7 @@ def main() -> int:
     from danburn.boq import read_boq
     from danburn.calc import match_rule
     from danburn.rules import load_rules
-    rules = load_rules(ROOT / "data" / "rules")
+    rules = load_rules(ROOT / "src" / "danburn" / "data" / "rules")
     boq, seen = [], set()
     for ln in read_boq(BOQ):
         if ln.block and BLOCK not in ln.block:

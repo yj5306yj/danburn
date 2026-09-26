@@ -12,7 +12,7 @@ from danburn.rules import load_rules
 @pytest.fixture(scope="module")
 def rules():
     from pathlib import Path
-    return {k: r for k, r in load_rules(Path(__file__).resolve().parents[2] / "data" / "rules").items()
+    return {k: r for k, r in load_rules(Path(__file__).resolve().parents[2] / "src" / "danburn" / "data" / "rules").items()
             if not r.owner or r.owner.upper() == "LH"}
 
 

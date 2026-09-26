@@ -25,10 +25,10 @@ from urllib.parse import unquote
 import yaml
 
 from .judge import GRADES, decides, judge, number
+from .paths import DATA_DIR, TEMPLATES_DIR
 
-ROOT = Path(__file__).resolve().parents[2]
-INTERVIEW = ROOT / "data" / "interview.yaml"
-EXAMPLE = ROOT / "data" / "templates" / "project.example.yaml"
+INTERVIEW = DATA_DIR / "interview.yaml"
+EXAMPLE = TEMPLATES_DIR / "project.example.yaml"
 TODO = "(작성 필요)"
 ATTACH_WORDS = ("자격", "경력", "증명", "면허", "수첩", "cert", "license")
 LOGO_WORDS = ("로고", "logo", "ci", "CI")

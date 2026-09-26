@@ -5,8 +5,9 @@ import re
 from pathlib import Path
 
 import yaml
+from .paths import DATA_DIR
 
-CATALOG = Path(__file__).resolve().parents[2] / "data" / "extra_catalog.yaml"
+CATALOG = DATA_DIR / "extra_catalog.yaml"
 
 
 def _sq(s: str) -> str:

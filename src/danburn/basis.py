@@ -26,7 +26,7 @@ _BARE_NUMBER_RE = re.compile(r"^(\d{4})-(\d+)$")
 
 OUTDATED_ADVICE = (
     "업무지침 부칙(기존 품질관리계획은 개정 시행 후 60일 내 재수립) 확인, "
-    "별표2 레미콘·철근 행 변경 여부는 사람이 공식 별표2 PDF로 확인한 뒤 data/rules 갱신"
+    "별표2 레미콘·철근 행 변경 여부는 사람이 공식 별표2 PDF로 확인한 뒤 src/danburn/data/rules 갱신"
 )
 
 

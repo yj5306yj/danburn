@@ -10,7 +10,7 @@ from danburn.index import coverage, load_index
 from danburn.model import BoqLine
 from danburn.rules import load_rules
 
-RULES = Path(__file__).resolve().parents[2] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[2] / "src" / "danburn" / "data" / "rules"
 
 # key → 규칙의 시험종목 수(별표2 원문 종목을 빠짐없이, 조건부 포함). 섬유강화 시멘트판은 종류별 25행을 종목 8개로 합침.
 G4 = {

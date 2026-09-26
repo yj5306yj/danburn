@@ -10,7 +10,7 @@ import pytest
 from danburn.cli import main
 
 ROOT = Path(__file__).resolve().parents[1]
-PROJECT = ROOT / "data" / "templates" / "project.example.yaml"
+PROJECT = ROOT / "src" / "danburn" / "data" / "templates" / "project.example.yaml"
 VALIDATE = Path(sys.executable).parent / "hwpx-validate"
 
 

@@ -9,7 +9,7 @@ from danburn.index import load_index
 from danburn.model import BoqLine
 from danburn.rules import load_rules
 
-RULES = Path(__file__).resolve().parents[2] / "data" / "rules"
+RULES = Path(__file__).resolve().parents[2] / "src" / "danburn" / "data" / "rules"
 
 # material: (도급내역서 품명, 단위, 수량, 별표2 시험종목 수, 비KS 물량 빈도(None=문구형))
 # 수량은 unit_factors 환산 뒤 값이 빈도 단위와 같도록 고른다(포 40 → 1.6톤 등은 아래 환산 테스트에서 따로 본다).

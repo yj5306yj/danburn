@@ -8,7 +8,7 @@ from danburn.basis import MIRROR_URL, OFFICIAL_URL, check_basis
 from danburn.model import Rule
 from danburn.rules import load_rules
 
-RULES_DIR = Path(__file__).resolve().parents[1] / "data" / "rules"
+RULES_DIR = Path(__file__).resolve().parents[1] / "src" / "danburn" / "data" / "rules"
 TODAY = date(2026, 9, 26)
 
 

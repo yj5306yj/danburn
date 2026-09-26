@@ -11,7 +11,7 @@ from danburn.model import BoqLine
 from danburn.rules import load_rule, load_rules
 
 ROOT = Path(__file__).resolve().parents[1]
-RULES = ROOT / "data" / "rules"
+RULES = ROOT / "src" / "danburn" / "data" / "rules"
 
 
 @pytest.fixture(scope="module")
