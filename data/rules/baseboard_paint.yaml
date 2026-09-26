@@ -1,0 +1,59 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 3. 건축 > 사. 도장공사 > 굽도리 모르타르면 페인트 (PDF p.49)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 종목 경계: 원문 표에서 종별 칸(세로 가운데)과 시험종목 행 위치를 맞춰 주도(KU)~내수성 및 내알칼리성 7종목으로 읽었다.
+#   바로 아래 '도막의 상태'부터는 낙서방지용 페인트 종별(PDF p.49~50).
+# KS 처리: 종별 이름에 괄호 KS 규격이 없다 → ※주석(PDF p.52) 시험 면제 대상 아님 → ks_mark false.
+#   묶음 행 비KS: 제조회사 수(기본 1, --makers)×1회.
+# 이름: '굽도리페인트'처럼 붙은 이름만 잡는다 — '걸레받이 수성페인트' 등은 수성도료(KS M 6010) 규칙으로 간다.
+material: baseboard_paint
+label: 굽도리모르타르면페인트
+work: 도장공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [baseboard_paint]
+match:
+  names: [굽도리모르타르면페인트, 굽도리페인트, 걸레받이페인트, 굽도리도장, 걸레받이도장]
+  units: [m2, m, l, ℓ, kg, 통, 캔]
+  exclude: [에폭시, 인건, 노무, 운반, 할증]
+ks_mark: false
+order: 62
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 사. 도장공사 굽도리 모르타르면 페인트 (PDF p.49)"
+tests:
+  - test_type: "주도(KU)"
+    method: "KS M 5000-2122"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 굽도리 모르타르면 페인트 주도(KU) (PDF p.49)"
+  - test_type: "연화도(N.S)"
+    method: "KS M 5000-2141"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 굽도리 모르타르면 페인트 연화도(N.S) (PDF p.49)"
+  - test_type: "비휘발분"
+    method: "KS M ISO 3251"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 굽도리 모르타르면 페인트 비휘발분(%) (PDF p.49)"
+  - test_type: "건조시간(고화)"
+    method: "KS M 5000-2512"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 굽도리 모르타르면 페인트 건조시간(고화) (PDF p.49)"
+  - test_type: "붓 작업성"
+    method: "KS M 5000-2411"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 굽도리 모르타르면 페인트 붓 작업성 (PDF p.49)"
+  - test_type: "광택(60°)"
+    method: "KS M ISO 2813"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 굽도리 모르타르면 페인트 광택(60°) (PDF p.49)"
+  - test_type: "내수성 및 내알칼리성"
+    method: "주택건설전문시방서"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 굽도리 모르타르면 페인트 내수성 및 내알칼리성 (PDF p.49)"
+    conditions: "시험방법 칸이 KS 가 아닌 주택건설전문시방서로 적혀 있다."

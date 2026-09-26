@@ -1,0 +1,56 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 나. 방수공사 > 시멘트계 액체형 방수제(KS F 4925) (PDF p.33~34)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+material: liquid_waterproofing
+label: 시멘트계 액체형 방수제
+work: 방수공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [liquid_waterproofing]
+match:
+  names: [시멘트액체방수, 액체방수제, 액체방수]
+  units: [m2, kg, l, ℓ]
+  exclude: [인건, 노무, 운반, 할증]
+ks_mark: true                          # 종별 괄호에 KS F 4925 — KS 칸 ◎
+ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
+order: 40
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 나. 방수공사 시멘트계 액체형 방수제(KS F 4925) (PDF p.33~34); KS 제품은 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "안정성"
+    method: "KS F 4925"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 시멘트계 액체형 방수제(KS F 4925) 안정성 (PDF p.33)"
+
+  - test_type: "투수비"
+    method: "KS F 4925"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 시멘트계 액체형 방수제(KS F 4925) 투수비 (PDF p.33)"
+
+  - test_type: "부착 강도"
+    method: "KS F 4925"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 시멘트계 액체형 방수제(KS F 4925) 부착 강도 (PDF p.34)"
+    conditions: "해석 필요: 쪽이 바뀐 p.34 첫 행의 시험방법 칸이 비어 있어 p.33 의 KS F 4925 병합 칸에 속하는 것으로 읽음."
+
+  - test_type: "물흡수 계수"
+    method: "KS F 2609"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 시멘트계 액체형 방수제(KS F 4925) 물흡수 계수 (PDF p.34)"
+
+  - test_type: "응결 시간"
+    method: "KS L 5103"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 시멘트계 액체형 방수제(KS F 4925) 응결 시간 (PDF p.34)"
+
+  - test_type: "압축 강도"
+    method: "KS L 5105"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 시멘트계 액체형 방수제(KS F 4925) 압축 강도 (PDF p.34)"

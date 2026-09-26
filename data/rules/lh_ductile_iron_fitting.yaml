@@ -1,0 +1,36 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」 Ⅰ. 공통 및 토목분야 1. 공통 마. 기타
+#       > 상수도용 관(공통 치수, 주철관). 국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2에는 주철관·이형관 종별이 없다.
+# 원문에는 이형관 칸이 따로 없고 '주철관'(KS D 4311) 칸뿐이다 — 이형관(덕타일 주철 이형관 KS 번호는 제품으로 확인)에는
+#   상수도용 관 공통 치수와 KS 성적서 갈음만 적는다. 관로 수압시험은 직관 규칙(lh_ductile_iron_pipe)에서 한 번 센다.
+# 표기: 실자료 '닥타일이형관(각종)(시멘트라이닝)'(KG). 규격 '시멘트라이닝'은 관 내면 라이닝이지 시멘트 자재가 아니다.
+material: lh_ductile_iron_fitting
+label: 수도용 덕타일 주철 이형관
+work: 상수도공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+match:
+  names: [덕타일이형관, 닥타일이형관, 덕타일주철이형관, 닥타일주철이형관, 주철이형관, DCIP이형관]
+  units: [kg, ton, 개, ea]
+  exclude: [보호공, 배수용, NO-HUB, 부설, 접합, 절단, 운반, 통행료, 밸브, 인건, 노무, 할증]
+ks_mark: true
+ks_count: none
+order: 72
+spec_group: {label: 각종}
+group_tests: true
+group:
+  frequency: 제조회사별, 제품규격마다(치수) / KS 성적서 갈음
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.1 공통 마. 기타 상수도용 관(공통 치수, 주철관 KS D 4311 — KS 인증업체 공인기관 성적서 확인으로 갈음)
+tests:
+- test_type: 치수
+  method: 원문 시험방법 칸 빈칸(실측)
+  where: 현장
+  frequency: {per_qty: null, unit: null, text: 제조회사별, 제품규격마다, minimum: 1}
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.1 공통 마. 기타 상수도용 관(공통) 치수
+  conditions: 상수도용 관 공통 종목.
+- test_type: KS 규정 시험종목
+  method: KS D 4311(원문 주철관 칸)
+  where: KS
+  frequency: {per_qty: null, unit: null, text: KS 인증업체 공인기관 시험성적서 확인으로 갈음, minimum: 1}
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.1 공통 마. 기타 상수도용 관 주철관 — KS에 규정된 시험종목
+  conditions: 비고 — KS 인증업체가 공인기관에 의뢰한 시험성적서 징구 확인으로 갈음. 이형관 제품의 KS 번호는 제품으로 확인.

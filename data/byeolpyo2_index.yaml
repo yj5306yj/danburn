@@ -1,0 +1,320 @@
+# 별표2 전체 종별 색인 — 규칙이 없는 자재를 식별하려는 목록 (루프 3, L3-T6)
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련),
+#       국토교통부고시 제2025-311호 판 PDF(52쪽). 레미콘·철근 외 행은 제2026-360호와 부처명만 다름(R3 확인 2026-09-26).
+# 시험종목·시험방법·시험빈도 원문은 옮기지 않는다. 종별 이름·괄호 안 KS 번호·PDF 시작 쪽만 적는다.
+# ks: 종별 괄호 안 KS 규격(별표2 끝 ※주석 — 시행령 제91조제1항 시험을 하지 않아도 되는 KS). 괄호가 없으면 null.
+# names: 도급내역서 품명에 나올 법한 이름(공백 무시 부분 일치). 규칙이 있는 종별은 규칙 match.names 와 맞춘다.
+# rule: data/rules/*.yaml 의 material 키. 없으면 null.
+# exclude(선택): 품명에 이 말이 있으면 그 종별로 보지 않는다(부분 일치 오탐 제거, L4-G5).
+source: "국토교통부고시 제2025-311호 「건설공사 품질관리 업무지침」 별표2 (PDF 52쪽)"
+sections:
+  - part: "1. 공통"
+    section: "가. 토공사 및 기초공사"
+    entries:
+      - {key: fill_soil, label: "성토용 흙", ks: null, page: 1, names: [성토, 흙쌓기, 성토용흙, 순성토, 유용토], rule: null}
+      - {key: excavation_bearing, label: "터파기(지지력 — 확대기초·말뚝기초)", ks: null, page: 1, names: [터파기, 재하시험, 정재하, 동재하, 말뚝재하], rule: null}
+      - {key: soft_ground_survey, label: "지반조사(연약지반등)", ks: null, page: 1, names: [지반조사, 토질조사, 시추조사, 보링조사], rule: null}
+      - {key: backfill, label: "되메우기 및 구조물 뒷채움", ks: null, page: 2, names: [되메우기, 되메움, 뒷채움], rule: null}
+      - {key: concrete_sheet_pile, label: "콘크리트 널말뚝", ks: "KS F 4208", page: 2, names: [콘크리트널말뚝, 콘크리트시트파일], rule: null}
+      - {key: centrifugal_concrete_pile, label: "원심력 콘크리트 말뚝", ks: "KS F 4301", page: 2, names: [원심력콘크리트말뚝, RC말뚝, RC파일], rule: null}
+      - {key: pc_pile, label: "프리텐션 방식 원심력 PC 말뚝", ks: "KS F 4303", page: 2, names: [원심력PC말뚝, PC말뚝, PC파일], rule: null}
+      - {key: phc_pile, label: "프리텐션 방식 원심력 고강도 콘크리트말뚝", ks: "KS F 4306", page: 2, names: [PHC파일, PHC말뚝, 고강도콘크리트말뚝], rule: null}
+      - {key: vibrated_pc_pile, label: "프리텐션 방식 진동 PC 말뚝", ks: "KS F 4307", page: 2, names: [진동PC말뚝, 진동PC파일], rule: null}
+      - {key: steel_pipe_pile, label: "강관말뚝", ks: "KS F 4602", page: 2, names: [강관말뚝, 강관파일], rule: null}
+      - {key: h_pile, label: "H형강 말뚝", ks: "KS F 4603", page: 3, names: [H형강말뚝, H형강파일, H파일, HPILE], rule: null}
+      - {key: steel_sheet_pile, label: "열간 압연강 널말뚝", ks: "KS F 4604", page: 3, names: [강널말뚝, 시트파일, SHEETPILE, 널말뚝], rule: null}
+      - {key: sand_mat_sand, label: "샌드매트 및 샌드드레인용 모래", ks: null, page: 3, names: [샌드매트, 샌드드레인, 샌드매트용모래], rule: null}
+      - {key: caisson_steel_slag, label: "케이슨 채움재용 철강슬래그", ks: "KS F 2579", page: 3, names: [케이슨채움재, 철강슬래그, 채움재용슬래그], rule: null}
+
+  - part: "1. 공통"
+    section: "나. 철근콘크리트공사"
+    entries:
+      - {key: concrete_aggregate, label: "콘크리트용 골재", ks: "KS F 2527", page: 3, names: [콘크리트용골재, 잔골재, 굵은골재, 부순모래, 강모래], rule: null}
+      - {key: recycled_concrete_aggregate, label: "콘크리트용 순환골재", ks: "KS F 2573", page: 4, names: [콘크리트용순환골재, 순환골재, 재생골재], rule: null}
+      - {key: tile_cement, label: "도자기질 타일시멘트", ks: "KS L 1592", page: 4, names: [타일시멘트, 압착시멘트, 타일붙임시멘트], rule: null}
+      - {key: portland_cement, label: "포틀랜드 시멘트", ks: "KS L 5201", page: 4, names: [포틀랜드시멘트, 보통시멘트, 조강시멘트, 시멘트], rule: null}
+      - {key: white_cement, label: "백색 포틀랜드 시멘트", ks: "KS L 5204", page: 4, names: [백색시멘트, 백시멘트, 화이트시멘트], rule: null}
+      - {key: slag_cement, label: "고로 슬래그 시멘트", ks: "KS L 5210", page: 4, names: [고로슬래그시멘트, 슬래그시멘트, 고로시멘트], rule: null}
+      - {key: masonry_cement, label: "메이슨리 시멘트", ks: "KS L 5219", page: 4, names: [메이슨리시멘트], rule: null}
+      - {key: fly_ash_cement, label: "플라이애시 시멘트", ks: "KS L 5211", page: 4, names: [플라이애시시멘트, 플라이애쉬시멘트], rule: null}
+      - {key: pozzolan_cement, label: "포틀랜드 포졸란 시멘트", ks: "KS L 5401", page: 5, names: [포졸란시멘트], rule: null}
+      - {key: mixing_water, label: "물(수질검사)", ks: null, page: 5, names: [배합수, 혼합수, 콘크리트용수], rule: null}
+      - {key: chemical_admixture, label: "콘크리트용 화학혼화제", ks: "KS F 2560", page: 5, names: [화학혼화제, 혼화제, 감수제, AE제, 유동화제], rule: null}
+      - {key: rebar_corrosion_inhibitor, label: "철근콘크리트용 방청제", ks: "KS F 2561", page: 5, names: [철근방청제, 방청제], rule: null}
+      - {key: curing_compound, label: "콘크리트 양생용 액상피막 형성제", ks: "KS F 2540", page: 5, names: [액상피막형성제, 피막양생제, 양생제, 막양생], rule: null}
+      - {key: expansive_additive, label: "콘크리트용 팽창재", ks: "KS F 2562", page: 5, names: [팽창재, 팽창제], rule: null}
+      - {key: integral_waterproofing, label: "콘크리트 혼입용 방수재", ks: "KS F 4926", page: 5, names: [혼입용방수재, 구체방수제, 방수혼화제, 콘크리트방수제], rule: null}
+      - {key: shotcrete_accelerator, label: "숏크리트용 급결제", ks: "KS F 2782", page: 6, names: [급결제, 숏크리트급결제], rule: null}
+      - {key: steel_fiber, label: "콘크리트용 강섬유", ks: "KS F 2564", page: 6, names: [강섬유, 스틸화이버, 스틸파이버], rule: null}
+      - {key: fly_ash, label: "플라이 애시", ks: "KS L 5405", page: 6, names: [플라이애시, 플라이애쉬, 비산재], rule: null}
+      - {key: ggbs, label: "콘크리트용 고로슬래그 미분말", ks: "KS F 2563", page: 6, names: [고로슬래그미분말, 슬래그미분말, 고로슬래그분말], rule: null}
+      - {key: silica_fume, label: "콘크리트용 실리카 퓸", ks: "KS F 2567", page: 6, names: [실리카퓸, 실리카흄], rule: null}
+      - {key: fresh_concrete, label: "굳지 아니한 콘크리트(레미콘포함)", ks: null, page: 6, names: [레미콘], rule: ready_mixed_concrete}
+      - {key: hardened_concrete, label: "굳은 콘크리트(레미콘포함)", ks: null, page: 7, names: [레미콘], rule: ready_mixed_concrete}
+      - {key: rebar, label: "철근콘크리트용 봉강", ks: "KS D 3504", page: 7, names: [철근, 봉강, 이형철근, 이형봉강], exclude: [간격재, 고임대, 스페이서, 결속선], rule: rebar}
+      - {key: recycled_rebar, label: "철근콘크리트용 재생봉강", ks: "KS D 3527", page: 7, names: [재생봉강, 재생철근], rule: null}
+      - {key: epoxy_coated_rebar, label: "에폭시 피복철근", ks: "KS D 3629", page: 7, names: [에폭시피복철근, 에폭시코팅철근, 에폭시철근], rule: null}
+      - {key: galvanized_rebar, label: "철근콘크리트용 아연 도금 봉강", ks: "KS D 3613", page: 7, names: [아연도금철근, 아연도금봉강, 도금철근], rule: null}
+      - {key: pc_strand, label: "PC강선 및 PC강연선", ks: "KS D 7002", page: 7, names: [PC강선, PC강연선, 강연선, 스트랜드, 앵커강선], rule: null}
+      - {key: pc_bar, label: "PC 강봉", ks: "KS D 3505", page: 8, names: [PC강봉], rule: null}
+      - {key: pc_hard_drawn_wire, label: "PC경강선", ks: "KS D 7009", page: 8, names: [PC경강선], rule: null}
+      - {key: hard_drawn_wire, label: "경강선", ks: "KS D 3510", page: 8, names: [경강선], rule: null}
+      - {key: mild_steel_wire_rod, label: "연강선재", ks: "KS D 3554", page: 8, names: [연강선재], rule: null}
+      - {key: welded_wire_mesh, label: "용접철망 및 철근격자", ks: null, page: 8, names: [용접철망, 와이어메쉬, 와이어메시, 철근격자], rule: null}
+      - {key: rebar_splice, label: "철근 이음", ks: null, page: 8, names: [철근이음, 커플러, 가스압접, 기계적이음], rule: null}
+      - {key: batch_plant, label: "배치플랜트", ks: null, page: 9, names: [배치플랜트, 배처플랜트], rule: null}
+      - {key: grout, label: "그라우트", ks: null, page: 9, names: [그라우트, 그라우팅], rule: null}
+      - {key: nonshrink_grout, label: "수경성시멘트 무수축 그라우트", ks: "KS F 4044", page: 9, names: [무수축그라우트, 무수축모르타르, 무수축몰탈], rule: null}
+      - {key: precast_wall_panel, label: "조립용 콘크리트 벽판", ks: "KS F 4722", page: 9, names: [PC벽판, 콘크리트벽판, 조립식벽판], rule: null}
+      - {key: precast_floor_panel, label: "조립용 콘크리트 바닥판", ks: "KS F 4726", page: 9, names: [PC바닥판, 콘크리트바닥판, 조립식바닥판], rule: null}
+      - {key: precast_roof_panel, label: "조립용 콘크리트 지붕판", ks: "KS F 4729", page: 10, names: [PC지붕판, 콘크리트지붕판], rule: null}
+      - {key: alc_panel, label: "경량기포 콘크리트 패널(ALC패널)", ks: "KS F 4914", page: 10, names: [ALC패널, ALC판넬, 경량기포콘크리트패널], rule: null}
+      - {key: precast_joint, label: "PC조립식 구조접합부", ks: null, page: 10, names: [PC접합부, 구조접합부, PC조립식], rule: null}
+
+  - part: "1. 공통"
+    section: "다. 철강구조물공사"
+    entries:
+      - {key: steel_weld_inspection, label: "강재(용접부 반입검사)", ks: null, page: 10, names: [용접부검사, 비파괴검사, 스터드용접, 초음파탐상], rule: null}
+      - {key: bridge_welding, label: "강교용접", ks: null, page: 10, names: [강교용접, 강교제작, 강박스거더, 플레이트거더], rule: null}
+      - {key: rolled_steel_general, label: "일반 구조용 압연 강재", ks: "KS D 3503", page: 11, names: [일반구조용압연강재, SS275, SS400, 형강, 강판], rule: null}
+      - {key: rolled_steel_welded, label: "용접 구조용 압연강재", ks: "KS D 3515", page: 11, names: [용접구조용압연강재, SM275, SM355, SM490], rule: null}
+      - {key: weathering_steel, label: "용접구조용 내후성 열간압연 강재", ks: "KS D 3529", page: 11, names: [내후성강재, 내후성강판, 내후성열간압연], rule: null}
+      - {key: light_gauge_section, label: "일반구조용 경량 형강", ks: "KS D 3530", page: 11, names: [경량형강, 경량철골, C형강, 립형강], exclude: [천장틀, 천정틀, 천정판, 천장판], rule: null}
+      - {key: hot_rolled_mild_sheet, label: "열간 압연 연강판 및 강대", ks: "KS D 3501", page: 11, names: [열연강판, 연강판, 강대, SPHC], exclude: [뚜껑], rule: null}
+      - {key: welded_light_h, label: "일반구조용 용접 경량 H형강", ks: "KS D 3558", page: 11, names: [용접경량H형강, 경량H형강], rule: null}
+      - {key: carbon_steel_pipe, label: "일반 구조용 탄소강관", ks: "KS D 3566", page: 11, names: [일반구조용탄소강관, 구조용강관, 원형강관, STK400, STK490], rule: null}
+      - {key: square_steel_pipe, label: "일반구조용 각형강관", ks: "KS D 3568", page: 12, names: [각형강관, 각관, 사각파이프, SPSR], rule: null}
+      - {key: building_carbon_pipe, label: "건축구조용 탄소 강관", ks: "KS D 3632", page: 12, names: [건축구조용탄소강관, 건축구조용강관, SNT275, SNT355], rule: null}
+      - {key: building_rolled_steel, label: "건축구조용 압연강재", ks: "KS D 3861", page: 12, names: [건축구조용압연강재, SN275, SN355, SN400, SN490], rule: null}
+      - {key: bridge_rolled_steel, label: "교량구조용 압연강재", ks: "KS D 3868", page: 12, names: [교량구조용압연강재, HSB380, HSB460, HSB], rule: null}
+      - {key: high_performance_building_steel, label: "건축구조용 고성능 압연강재", ks: "KS D 5994", page: 12, names: [건축구조용고성능압연강재, 고성능압연강재, HSA800], rule: null}
+      - {key: high_yield_plate, label: "용접구조용 고항복점 강판", ks: "KS D 3611", page: 13, names: [고항복점강판], rule: null}
+      - {key: pressure_vessel_plate, label: "압력용기용 강판", ks: "KS D 3521", page: 13, names: [압력용기용강판], rule: null}
+      - {key: pressure_vessel_thick_plate, label: "압력용기용 강판(제1부: 두꺼운 판재)", ks: "KS D 3853", page: 13, names: [압력용기용후판, 압력용기용두꺼운판재], rule: null}
+      - {key: low_temp_vessel_plate, label: "저온 압력 용기용 탄소강 강판", ks: "KS D 3541", page: 13, names: [저온압력용기용, 저온용강판], rule: null}
+      - {key: high_weathering_steel, label: "고내후성 압연강재", ks: "KS D 3542", page: 13, names: [고내후성압연강재, 고내후성강판, 고내후성강], rule: null}
+      - {key: assembly_section, label: "조립용 형강", ks: "KS D 3593", page: 13, names: [조립용형강, 조립형강], rule: null}
+      - {key: surface_treated_light_section, label: "건축 구조용 표면처리 경량형강", ks: "KS D 3854", page: 13, names: [표면처리경량형강, 아연도금경량형강, 도금경량형강], rule: null}
+      - {key: building_hot_rolled_section, label: "건축 구조용 열간압연형강", ks: "KS D 3866", page: 14, names: [건축구조용열간압연형강, 열간압연형강, SHN275, SHN355], rule: null}
+      - {key: structural_cast_steel, label: "구조용 고장력 탄소강 및 저합금강 주강품", ks: "KS D 4102", page: 14, names: [주강품, 주강], rule: null}
+      - {key: friction_bolt_set, label: "마찰접합용 고장력 6각볼트, 6각너트, 평와셔의 세트", ks: "KS B 1010", page: 14, names: [고장력볼트, 고력볼트, HTB, F10T, 6각볼트], rule: null}
+      - {key: tc_bolt_set, label: "구조물용 토크-전단형 고장력 볼트, 6각너트, 평와셔의 세트", ks: "KS B 2819", page: 14, names: [토크전단형고장력볼트, 토크전단형, TC볼트, S10T], rule: null}
+
+  - part: "1. 공통"
+    section: "라. 가설기자재"
+    entries:
+      - {key: temp_pipe_support, label: "강재 파이프서포트", ks: null, page: 15, names: [파이프서포트, 파이프써포트, 강관동바리], rule: null}
+      - {key: temp_scaffold_pipe, label: "비계용 강관(강관·조인트)", ks: null, page: 15, names: [비계용강관, 강관비계, 비계파이프, 비계클램프], rule: null}
+      - {key: temp_system_scaffold, label: "조립형 비계 및 동바리 부재", ks: null, page: 15, names: [시스템비계, 시스템동바리, 조립형비계, 조립형동바리], rule: null}
+      - {key: temp_rolled_steel_general, label: "일반 구조용 압연 강재(흙막이용 자재로 제한)", ks: "KS D 3503", page: 15, names: [흙막이, 띠장, 버팀보, 사보강], rule: null}
+      - {key: temp_rolled_steel_welded, label: "용접 구조용 압연강재(흙막이용 자재로 제한)", ks: "KS D 3515", page: 15, names: [흙막이, 띠장, 버팀보], rule: null}
+      - {key: temp_welded_light_h, label: "일반구조용 용접 경량 H형강(흙막이용 자재로 제한)", ks: "KS D 3558", page: 15, names: [흙막이, 흙막이용경량H형강], rule: null}
+      - {key: temp_square_pipe, label: "일반구조용 각형강관(거푸집·동바리 멍에·장선용으로 제한)", ks: "KS D 3568", page: 15, names: [멍에, 장선], rule: null}
+      - {key: temp_steel_sheet_pile, label: "열간압연강 널말뚝(가설)", ks: "KS F 4604", page: 15, names: [가설널말뚝, 가시설시트파일, 흙막이시트파일], rule: null}
+      - {key: temp_h_pile, label: "H형강 말뚝(가설)", ks: "KS F 4603", page: 15, names: [엄지말뚝, 가시설H파일, 흙막이H파일], rule: null}
+      - {key: temp_deck_plate, label: "복공판", ks: null, page: 16, names: [복공판], rule: null}
+      - {key: form_plywood, label: "콘크리트 거푸집용 합판", ks: "KS F 3110", page: 16, names: [거푸집용합판, 거푸집합판, 합판거푸집, 코팅합판], rule: null}
+
+  - part: "1. 공통"
+    section: "마. 기타"
+    entries:
+      - {key: stone, label: "석재", ks: null, page: 16, names: [석재, 화강석, 대리석, 사고석], exclude: [뿜칠], rule: null}
+      - {key: geotextile_mat, label: "토목섬유 매트(지반보강용·배수용)", ks: null, page: 16, names: [토목섬유매트, 지오텍스타일, 지오그리드, 보강토매트], rule: null}
+      - {key: geotextile_drain, label: "토목섬유(배수용)", ks: null, page: 16, names: [배수용토목섬유, 배수필터, 필터매트], rule: null}
+      - {key: nonwoven_geotextile, label: "토목용 부직포 섬유", ks: "KS K 2630", page: 16, names: [토목용부직포, 부직포], rule: null}
+      - {key: drain_board, label: "드레인보드(Drain Board)", ks: null, page: 17, names: [드레인보드, 플라스틱보드드레인, PBD], rule: null}
+      - {key: coated_steel_water_pipe, label: "상수도용 도복장강관", ks: "KS D 3565", page: 17, names: [도복장강관, 상수도용강관], rule: null}
+      - {key: water_plastic_pipe, label: "수도용 플라스틱 배관", ks: "KS M 3408-2", page: 17, names: [수도용PE관, 수도용폴리에틸렌관, PE수도관, 수도용플라스틱관], rule: null}
+      - {key: water_pvc_pipe, label: "수도용 경질폴리염화비닐관", ks: "KS M 3401", page: 17, names: [수도용PVC관, 수도용경질염화비닐관, 수도용경질폴리염화비닐관], rule: null}
+      - {key: general_pvc_pipe, label: "일반용 경질폴리염화비닐관", ks: "KS M 3404", page: 18, names: [PVC관, 경질염화비닐관, 경질폴리염화비닐관, VG1, VG2], rule: null}
+      - {key: general_pe_pipe, label: "일반용 폴리에틸렌 관", ks: "KS M 3407", page: 18, names: [PE관, 폴리에틸렌관, 일반용PE관], exclude: [고강도], rule: null}
+      - {key: rc_pipe, label: "철근콘크리트관", ks: "KS F 4402", page: 18, names: [철근콘크리트관, 콘크리트관], rule: null}
+      - {key: centrifugal_rc_pipe, label: "원심력 철근콘크리트관", ks: "KS F 4403", page: 18, names: [원심력철근콘크리트관, 흄관, 원심력관], rule: null}
+      - {key: core_psc_pipe, label: "코어식 프리스트레스트 콘크리트관", ks: "KS F 4405", page: 19, names: [코어식프리스트레스트, 코어식PC관, PSC관], rule: null}
+      - {key: psc_cylinder_pipe, label: "프리스트레스트 콘크리트 실린더관", ks: "KS F 4406", page: 19, names: [실린더관, PCCP], rule: null}
+      - {key: sewer_manhole_block, label: "하수도용 콘크리트 맨홀 블록", ks: "KS F 4012", page: 19, names: [맨홀블록, 조립식맨홀, 콘크리트맨홀, 하수맨홀], rule: null}
+      - {key: water_pvc_fitting, label: "수도용 경질 폴리염화비닐 이음관", ks: "KS M 3402", page: 19, names: [수도용PVC이음관, 수도용경질염화비닐이음관], rule: null}
+      - {key: drain_pvc_fitting, label: "배수용 경질 염화비닐 이음관", ks: "KS M 3410", page: 19, names: [배수용PVC이음관, 배수용이음관, PVC이음관], rule: null}
+      - {key: coated_steel_fitting, label: "상수도용 도복장 강관 이형관", ks: "KS D 3578", page: 20, names: [도복장강관이형관, 도복장이형관, 강관이형관], rule: null}
+      - {key: pe_lined_steel_pipe, label: "수도용 폴리에틸렌 분체라이닝강관", ks: "KS D 3619", page: 20, names: [분체라이닝강관, PE라이닝강관, 폴리에틸렌라이닝강관], rule: null}
+      - {key: foam_core_pvc_pipe, label: "발포 중심층을 갖는 공압출 염화비닐관", ks: "KS M 3413", page: 20, names: [발포중심층, 공압출염화비닐관, 공압출PVC관, 3층PVC관, PVC3층관, 3층발포관], rule: null}
+      - {key: rigid_pvc_sheet, label: "경질 폴리염화비닐 시트", ks: "KS M 3501", page: 20, names: [경질PVC시트, 경질염화비닐시트, PVC시트], rule: null}
+      - {key: water_rubber, label: "수도용 고무", ks: "KS M 6613", page: 20, names: [수도용고무, 고무링, 수도용패킹], rule: null}
+      - {key: iron_wire, label: "철선", ks: "KS D 3552", page: 21, names: [철선, 결속선, 반생], rule: null}
+      - {key: pvc_coated_wire, label: "염화비닐 피복철선", ks: "KS D 7036", page: 21, names: [피복철선, PVC피복철선, 비닐피복철선], rule: null}
+      - {key: welding_rod, label: "연강용 피복아크 용접봉", ks: "KS D 7004", page: 21, names: [용접봉, 피복아크용접봉], rule: null}
+      - {key: chain_link_mesh, label: "체인링크 철망", ks: "KS D 7018", page: 21, names: [체인링크, 철망펜스, 철망휀스], rule: null}
+      - {key: repair_polymer_mortar, label: "콘크리트 구조물 보수용 폴리머시멘트모르타르", ks: "KS F 4042", page: 21, names: [폴리머시멘트모르타르, 폴리머모르타르, 보수모르타르, 단면보수], exclude: [방수], rule: null}
+      - {key: repair_epoxy_mortar, label: "콘크리트 구조물 보수용 에폭시 수지모르타르", ks: "KS F 4043", page: 21, names: [에폭시수지모르타르, 에폭시모르타르], rule: null}
+      - {key: repair_epoxy_resin, label: "콘크리트 구조물 보수용 에폭시수지", ks: "KS F 4923", page: 21, names: [보수용에폭시, 에폭시주입, 균열주입, 균열보수], rule: null}
+      - {key: concrete_protective_coating, label: "콘크리트 보호용 도막재", ks: "KS F 4936", page: 22, names: [콘크리트보호용도막재, 표면보호재, 보호도막], rule: null}
+      - {key: aluminum_extrusion, label: "알루미늄 및 알루미늄 합금 압출형재", ks: "KS D 6759", page: 22, names: [알루미늄압출형재, 알루미늄형재, 알루미늄프레임], rule: null}
+      - {key: aluminum_rod_wire, label: "알루미늄 및 알루미늄 합금 봉 및 선", ks: "KS D 6763", page: 22, names: [알루미늄봉, 알루미늄선, 알루미늄환봉], rule: null}
+
+  - part: "2. 토목"
+    section: "가. 도로공사"
+    subsection: "(1) 흙 및 혼합골재"
+    entries:
+      - {key: road_embankment, label: "노체", ks: null, page: 22, names: [노체, 노체성토, 노체쌓기], rule: null}
+      - {key: road_subgrade, label: "노상", ks: null, page: 23, names: [노상성토, 노상쌓기, 노상층, 노상토], rule: null}
+      - {key: frost_subbase, label: "동상방지층 및 보조기층", ks: null, page: 23, names: [동상방지층, 보조기층], rule: null}
+      - {key: cement_treated_base, label: "시멘트안정처리 기층", ks: null, page: 23, names: [시멘트안정처리, 안정처리기층, 시멘트처리기층], rule: null}
+      - {key: graded_aggregate_base, label: "입도조정기층", ks: null, page: 24, names: [입도조정기층, 입도조정, 쇄석기층], rule: null}
+
+  - part: "2. 토목"
+    section: "가. 도로공사"
+    subsection: "(2) 아스팔트 포장"
+    entries:
+      - {key: asphalt_aggregate, label: "아스팔트 혼합물용 골재", ks: "KS F 2357", page: 25, names: [아스팔트혼합물용골재, 아스콘용골재, 아스콘골재], rule: null}
+      - {key: asphalt_recycled_aggregate, label: "아스팔트 콘크리트용 순환골재", ks: "KS F 2572", page: 25, names: [아스팔트콘크리트용순환골재, 아스콘순환골재, 순환아스콘골재], rule: null}
+      - {key: asphalt_plant, label: "플랜트(아스팔트 혼합)", ks: null, page: 25, names: [아스콘플랜트, 아스팔트플랜트], rule: null}
+      - {key: asphalt_filler, label: "아스팔트 포장용 채움재", ks: "KS F 3501", page: 25, names: [아스팔트포장용채움재, 석분, 광물질채움재, 필러], rule: null}
+      - {key: paving_asphalt, label: "도로포장용 아스팔트", ks: "KS M 2201", page: 25, names: [도로포장용아스팔트, 포장용아스팔트, 스트레이트아스팔트, 아스팔트바인더], rule: null}
+      - {key: cutback_asphalt, label: "컷백 아스팔트", ks: "KS M 2202", page: 25, names: [컷백아스팔트, 컷백], rule: null}
+      - {key: blown_asphalt, label: "블론 아스팔트", ks: "KS M 2204", page: 26, names: [블론아스팔트, 블로운아스팔트], rule: null}
+      - {key: emulsified_asphalt, label: "유화 아스팔트", ks: "KS M 2203", page: 26, names: [유화아스팔트, 택코팅, 프라임코팅, 택코트, 프라임코트], rule: null}
+      - {key: asphalt_plant_mix, label: "플랜트혼합물", ks: null, page: 26, names: [아스콘, 아스팔트콘크리트, 아스팔트혼합물, 아스팔트포장, 가열아스팔트], rule: null}
+      - {key: asphalt_laying, label: "혼합물의 포설", ks: null, page: 26, names: [아스콘포설, 아스팔트포설, 표층포설, 기층포설, 아스팔트포장기층, 아스팔트포장표층, 아스팔트혼합물포설], rule: null}
+
+  - part: "2. 토목"
+    section: "가. 도로공사"
+    subsection: "(3) 기타"
+    entries:
+      - {key: concrete_pavement, label: "콘크리트포장", ks: null, page: 26, names: [콘크리트포장, 시멘트콘크리트포장, 콘크리트도로포장], rule: null}
+      - {key: antiskid_aggregate, label: "미끄럼방지 포장용 골재", ks: null, page: 26, names: [미끄럼방지포장용골재, 미끄럼방지골재], rule: null}
+      - {key: antiskid_resin, label: "미끄럼방지 포장(수지)", ks: null, page: 27, names: [미끄럼방지포장, 미끄럼방지수지, 논슬립포장], rule: null}
+      - {key: pavement_joint_filler, label: "콘크리트 포장용 신축이음 채움재(줄눈판)", ks: "KS F 2538", page: 27, names: [신축이음채움재, 신축줄눈판, 줄눈판], rule: null}
+      - {key: pavement_joint_sealant, label: "콘크리트 포장용 주입줄눈재", ks: null, page: 27, names: [주입줄눈재, 줄눈주입재, 주입줄눈], rule: null}
+      - {key: paving_slab, label: "포장용 콘크리트 평판", ks: "KS F 4001", page: 28, names: [콘크리트평판, 보도평판, 포장용평판], rule: null}
+      - {key: porous_asphalt, label: "투수성 아스팔트 혼합물", ks: "KS F 2385", page: 28, names: [투수성아스팔트, 투수성아스콘, 투수아스콘], rule: null}
+      - {key: interlocking_block, label: "보·차도용 콘크리트 인터로킹 블록", ks: "KS F 4419", page: 28, names: [인터로킹블록, 보도블록, 보도블럭, 차도블록, 인조화강석블록, 인조화강석블럭, 인터로킹블럭], rule: null}
+      - {key: paving_stone_slab, label: "보차도 포장용 판석", ks: "KS F 2530-1", page: 28, names: [포장용판석, 보도판석, 판석], rule: null}
+      - {key: curb_block, label: "콘크리트 경계블록(보·차도용)", ks: "KS F 4006", page: 28, names: [경계블록, 경계블럭, 보차도경계, 도로경계석, 경계석], rule: null}
+      - {key: road_marking_paint, label: "도로표지용 도료", ks: "KS M 6080", page: 29, names: [도로표지용도료, 차선도색, 차선도료, 노면표시, 융착식도료], rule: null}
+      - {key: road_marking_glass_beads, label: "도로표지 도료용 유리알", ks: "KS L 2521", page: 29, names: [도료용유리알, 유리알, 글래스비드, 유리비드], rule: null}
+      - {key: elastomeric_bearing, label: "교량지지용 탄성받침", ks: "KS F 4420", page: 29, names: [탄성받침, 고무받침, 교량받침], rule: null}
+      - {key: pot_bearing, label: "교량 지지용 포트받침", ks: "KS F 4424", page: 30, names: [포트받침, 포트베어링, 교량받침], rule: null}
+      - {key: bridge_expansion_joint, label: "교량용 신축이음장치", ks: null, page: 30, names: [신축이음장치, 교량신축이음, 교량용신축이음], rule: null}
+      - {key: pc_cone, label: "PC콘", ks: null, page: 30, names: [PC콘, 피씨콘], rule: null}
+      - {key: pvc_waterstop, label: "폴리염화비닐 지수판", ks: "KS M 3805", page: 30, names: [PVC지수판, 지수판, 워터스톱], rule: null}
+      - {key: double_wall_hdpe_pipe, label: "이중벽 고밀도 폴리에틸렌관", ks: "KS M 3500", page: 30, names: [이중벽고밀도폴리에틸렌관, 이중벽PE관, 이중벽관, 고밀도폴리에틸렌관], exclude: [PVC, 폴리염화비닐], rule: null}
+      - {key: tunnel_waterproof_sheet, label: "터널용 방수시트", ks: null, page: 30, names: [터널용방수시트, 터널방수시트], rule: null}
+      - {key: bridge_deck_sheet, label: "교면용 방수시트", ks: "KS F 4931", page: 31, names: [교면용방수시트, 교면방수시트, 시트식교면방수], rule: null}
+      - {key: bridge_deck_coating, label: "교면용 도막 방수재", ks: "KS F 4932", page: 31, names: [교면용도막방수재, 교면도막방수, 도막식교면방수, 교면방수], rule: null}
+
+  - part: "2. 토목"
+    section: "나. 수공구조물공사"
+    entries:
+      - {key: dam_canal_fill, label: "흙댐, 용수로, 배수로용 일반성토 및 표토", ks: null, page: 32, names: [흙댐, 용수로성토, 배수로성토, 제방성토, 표토], rule: null}
+      - {key: levee_fill, label: "축제성토공", ks: null, page: 32, names: [축제성토, 제방축조], rule: null}
+      - {key: dam_core_clay, label: "흙댐의 중심점토", ks: null, page: 32, names: [중심점토, 코어점토, 차수점토], rule: null}
+      - {key: revetment_block, label: "호안용 블록(콘크리트 및 모르터)", ks: null, page: 32, names: [호안블록, 호안블럭, 식생호안블록], rule: null}
+      - {key: gabion_wire, label: "아연도 철선(돌망태 포함)", ks: null, page: 32, names: [아연도철선, 아연도금철선, 돌망태, 개비온, 게비온], rule: null}
+
+  - part: "3. 건축"
+    section: "가. 조적공사"
+    entries:
+      - {key: concrete_brick, label: "콘크리트벽돌", ks: "KS F 4004", page: 32, names: [콘크리트벽돌, 시멘트벽돌, 벽돌], rule: null}
+      - {key: clay_brick, label: "점토벽돌", ks: "KS L 4201", page: 32, names: [점토벽돌, 치장벽돌, 붉은벽돌, 적벽돌], rule: null}
+      - {key: fireclay_brick, label: "내화 점토질 벽돌", ks: "KS L 3201", page: 33, names: [내화점토질벽돌, 내화벽돌], rule: null}
+      - {key: high_alumina_brick, label: "고알루미나질 내화벽돌", ks: "KS L 3205", page: 33, names: [고알루미나질내화벽돌, 고알루미나벽돌], rule: null}
+      - {key: insulating_fire_brick, label: "내화단열벽돌", ks: "KS L 3301", page: 33, names: [내화단열벽돌, 단열벽돌], rule: null}
+      - {key: cinder_brick, label: "연소재벽돌", ks: "KS L 8520", page: 33, names: [연소재벽돌], rule: null}
+      - {key: hollow_concrete_block, label: "속빈콘크리트블록", ks: "KS F 4002", page: 33, names: [속빈콘크리트블록, 콘크리트블록, 시멘트블록, 공동블록, 속빈콘크리트블럭, 콘크리트블럭, 시멘트블럭], rule: null}
+      - {key: architectural_block, label: "치장콘크리트블록", ks: "KS F 4038", page: 33, names: [치장콘크리트블록, 치장블록], rule: null}
+      - {key: aac_block, label: "경량기포콘크리트블록", ks: "KS F 2701", page: 33, names: [경량기포콘크리트블록, ALC블록, 경량블록], rule: null}
+      - {key: glass_block, label: "속빈유리블록", ks: "KS F 4903", page: 33, names: [속빈유리블록, 유리블록, 글라스블록], rule: null}
+
+  - part: "3. 건축"
+    section: "나. 방수공사"
+    entries:
+      - {key: liquid_waterproofing, label: "시멘트계 액체형 방수제", ks: "KS F 4925", page: 33, names: [시멘트액체방수, 액체방수제, 액체방수], rule: null}
+      - {key: coating_waterproofing, label: "건설용 도막방수재", ks: "KS F 3211", page: 34, names: [도막방수재, 도막방수, 우레탄방수, 우레탄도막, 아크릴방수], rule: null}
+      - {key: polyurea_waterproofing, label: "폴리우레아 수지 도막 방수재", ks: "KS F 4922", page: 34, names: [폴리우레아방수, 폴리우레아], rule: null}
+      - {key: asphalt_felt, label: "아스팔트 펠트", ks: "KS F 4901", page: 34, names: [아스팔트펠트, 펠트], rule: null}
+      - {key: asphalt_roofing, label: "아스팔트 루핑", ks: "KS F 4902", page: 34, names: [아스팔트루핑, 루핑], rule: null}
+      - {key: asphalt_shingle, label: "아스팔트 슁글", ks: "KS F 4750", page: 34, names: [아스팔트슁글, 아스팔트싱글, 슁글], rule: null}
+      - {key: polymer_waterproof_sheet, label: "합성 고분자계 방수시트", ks: "KS F 4911", page: 35, names: [합성고분자계방수시트, 고분자시트, PVC방수시트, TPO시트, 시트방수, 합성고무계복합시트, 합성고무계방수시트, 합성고무계시트], rule: null}
+      - {key: modified_asphalt_sheet, label: "개량 아스팔트 방수시트", ks: "KS F 4917", page: 35, names: [개량아스팔트방수시트, 개량아스팔트시트, 개량질아스팔트], rule: null}
+      - {key: bentonite_sheet, label: "수팽창성 벤토나이트 방수시트", ks: "KS M 3736", page: 35, names: [벤토나이트방수시트, 벤토나이트시트, 벤토나이트], rule: null}
+      - {key: self_adhesive_sheet, label: "자착식형 고무화 아스팔트 방수시트", ks: "KS F 4934", page: 35, names: [자착식방수시트, 자착형방수시트, 고무화아스팔트, 자착식], rule: null}
+      - {key: silicate_powder_coating, label: "규산질계 분말형 도포방수재", ks: "KS F 4918", page: 35, names: [규산질계도포방수, 규산질계, 도포방수, 침투성방수], rule: null}
+      - {key: polymer_cement_waterproofing, label: "시멘트 혼입 폴리머계 방수재", ks: "KS F 4919", page: 36, names: [시멘트혼입폴리머, 폴리머시멘트방수, 폴리머계방수, 탄성시멘트방수], rule: null}
+      - {key: absorption_inhibitor, label: "액상형 흡수방지재", ks: "KS F 4930", page: 36, names: [흡수방지재, 침투성발수제, 발수제], rule: null}
+      - {key: epoxy_waterproofing, label: "콘크리트용 에폭시수지계 방수・방식재", ks: "KS F 4921", page: 36, names: [에폭시수지계방수, 에폭시방수, 에폭시방식], rule: null}
+      - {key: waterproofing_asphalt, label: "방수공사용 아스팔트", ks: "KS F 4052", page: 36, names: [방수공사용아스팔트, 방수용아스팔트, 아스팔트방수], rule: null}
+
+  - part: "3. 건축"
+    section: "다. 단열·보온공사"
+    entries:
+      - {key: eps_insulation, label: "발포폴리스티렌단열재", ks: "KS M 3808", page: 36, names: [발포폴리스티렌, 스티로폼, 비드법, 압출법단열재, EPS단열재, 스치로폴, 스티로폴, 경질발포플라스틱단열재, 결로방지용발포폴리스티렌], exclude: [PUR, PIR, 우레탄, 페놀], rule: null}
+      - {key: pe_foam_insulation, label: "발포폴리에틸렌보온재", ks: "KS M 3862", page: 37, names: [발포폴리에틸렌, 폴리에틸렌보온재, PE보온재], rule: null}
+      - {key: mineral_wool, label: "인조광섬유 단열재", ks: "KS L 9102", page: 37, names: [인조광섬유, 그라스울, 글라스울, 미네랄울, 암면, 유리솜, 유리면보온재], rule: null}
+      - {key: perlite_insulation, label: "방수성펄라이트 보온재", ks: "KS F 4714", page: 37, names: [펄라이트보온재, 펄라이트], rule: null}
+      - {key: pur_foam_insulation, label: "경질폴리우레탄폼 단열재", ks: "KS M 3809", page: 37, names: [경질폴리우레탄폼, 폴리우레탄폼, 우레탄폼, 경질우레탄, 우레탄보드, 폴리우레탄단열재, 경질발포플라스틱단열재PUR], rule: null}
+      - {key: insulating_mortar, label: "단열 모르타르", ks: "KS F 4040", page: 37, names: [단열모르타르, 단열몰탈], rule: null}
+
+  - part: "3. 건축"
+    section: "라. 유리공사"
+    entries:
+      - {key: tempered_glass, label: "강화유리", ks: "KS L 2002", page: 37, names: [강화유리, 강화판유리], rule: null}
+      - {key: insulated_glass, label: "복층유리", ks: "KS L 2003", page: 37, names: [복층유리, 페어글라스, 삼중유리, 로이복층유리, 가스주입단열유리, 단열유리], rule: null}
+      - {key: wired_glass, label: "망판 유리", ks: "KS L 2006", page: 38, names: [망판유리, 망입유리, 철망유리], rule: null}
+      - {key: laminated_glass, label: "접합유리", ks: "KS L 2004", page: 38, names: [접합유리, 접합안전유리], rule: null}
+      - {key: heat_absorbing_glass, label: "열선흡수 판유리", ks: "KS L 2008", page: 38, names: [열선흡수판유리, 열선흡수유리], rule: null}
+      - {key: heat_reflective_glass, label: "열선반사 유리", ks: "KS L 2014", page: 38, names: [열선반사유리, 반사유리], rule: null}
+      - {key: heat_strengthened_glass, label: "배강도유리", ks: "KS L 2015", page: 38, names: [배강도유리, 반강화유리], rule: null}
+
+  - part: "3. 건축"
+    section: "마. 창호공사"
+    entries:
+      - {key: wood_window_frame, label: "창호 목제 틀재", ks: "KS F 3108", page: 38, names: [창호목제틀재, 목제틀, 목문틀, 목재문틀], rule: null}
+      - {key: door_set, label: "문세트", ks: "KS F 3109", page: 38, names: [문세트, 목재문, 방화문, 현관문, 도어세트, 목문, 여닫이문, 미서기문], rule: null}
+      - {key: window_set, label: "창세트", ks: "KS F 3117", page: 39, names: [창세트, 창호세트, 시스템창호, PVC창호, 알루미늄창호, 합성수지창호, 합성수지창, 이중창, 발코니창], rule: null}
+      - {key: synthetic_window_profile, label: "합성수지 창호형형재", ks: "KS F 5602", page: 39, names: [합성수지창호형재, PVC창호형재, 창호형재], rule: null}
+      - {key: hinge, label: "경첩", ks: "KS F 4519", page: 39, names: [경첩, 도어힌지, 힌지], rule: null}
+
+  - part: "3. 건축"
+    section: "바. 마감공사(지붕·목공사 포함)"
+    entries:
+      - {key: ordinary_plywood, label: "보통합판", ks: "KS F 3101", page: 39, names: [보통합판, 일반합판, 합판], exclude: [거푸집], rule: null}
+      - {key: glulam, label: "구조용 집성재", ks: "KS F 3021", page: 40, names: [구조용집성재, 집성재, 글루램], rule: null}
+      - {key: flooring_board, label: "플로어링 보드", ks: "KS F 3103", page: 40, names: [플로어링보드, 플로어링, 원목마루], rule: null}
+      - {key: veneer_floor, label: "천연무늬목 치장마루판", ks: "KS F 3111", page: 40, names: [치장마루판, 천연무늬목, 마루판, 강마루, 합판마루], rule: null}
+      - {key: fiberboard, label: "섬유판", ks: "KS F 3200", page: 40, names: [섬유판, MDF, HDF, 하드보드], rule: null}
+      - {key: particle_board, label: "파티클보드", ks: "KS F 3104", page: 41, names: [파티클보드], rule: null}
+      - {key: gypsum_board, label: "석고보드", ks: "KS F 3504", page: 41, names: [석고보드, 방수석고보드, 방화석고보드, 석고판], rule: null}
+      - {key: raised_floor, label: "이중바닥재", ks: "KS F 4760", page: 42, names: [이중바닥재, 이중바닥, 액세스플로어, 억세스플로어, ACCESSFLOOR, 억세스플로아], rule: null}
+      - {key: fiber_cement_board, label: "섬유강화 시멘트판", ks: "KS L 5114", page: 43, names: [섬유강화시멘트판, 시멘트보드, 규산칼슘판, 평형슬레이트, 슬래그석고판, 규산칼슘보드], rule: null}
+      - {key: pvc_floor, label: "PVC계 바닥재", ks: "KS M 3802", page: 43, names: [PVC바닥재, 비닐바닥재, 비닐타일, 비닐시트, 장판, 륨카펫, 륨카페트, 쿠션륨], rule: null}
+      - {key: ceramic_tile, label: "도자기질 타일", ks: "KS L 1001", page: 44, names: [도자기질타일, 자기질타일, 도기질타일, 포세린타일, 타일, 포셀린타일, 포셀린, 폴리싱타일], exclude: [덕타일, 닥타일], rule: null}
+      - {key: clay_roof_tile, label: "점토기와", ks: "KS F 3510", page: 44, names: [점토기와, 한식기와, 기와], rule: null}
+      - {key: dry_cement_mortar, label: "건조 시멘트 모르타르", ks: "KS L 5220", page: 44, names: [건조시멘트모르타르, 건조모르타르, 드라이모르타르, 드라이몰탈, 시멘트모르타르], rule: null}
+      - {key: self_leveling_mortar, label: "시멘트계 자기 수평 모르타르", ks: "KS F 4041", page: 44, names: [자기수평모르타르, 자기수평몰탈, 셀프레벨링, 자동수평몰탈], rule: null}
+      - {key: parking_floor_finish, label: "주차장 바닥용 표면마감재", ks: "KS F 4937", page: 44, names: [주차장바닥용표면마감재, 주차장바닥마감, 주차장바닥재, 주차장도장], rule: null}
+      - {key: cement_base_plaster, label: "시멘트계 바탕바름재", ks: "KS F 4716", page: 45, names: [바탕바름재, 바탕조정제, 바탕바름], rule: null}
+      - {key: thin_finish_plaster, label: "얇은 마무리용 벽바름재", ks: "KS F 4715", page: 45, names: [얇은마무리용벽바름재, 얇은마무리용, 벽바름재], rule: null}
+
+  - part: "3. 건축"
+    section: "사. 도장공사"
+    entries:
+      - {key: water_paint, label: "수성도료", ks: "KS M 6010", page: 45, names: [수성도료, 수성페인트, 에멀션페인트, 에멀젼페인트, 합성수지에멀전페인트, 합성수지에멀션페인트], rule: null}
+      - {key: oil_paint, label: "유성도료", ks: "KS M 6020", page: 46, names: [유성도료, 유성페인트], rule: null}
+      - {key: anticorrosive_paint, label: "방청도료", ks: "KS M 6030", page: 47, names: [방청도료, 방청페인트, 광명단, 녹막이], rule: null}
+      - {key: lacquer, label: "래커도료", ks: "KS M 6040", page: 48, names: [래커도료, 래커, 락카], exclude: [탈의실, 사물함, 신발장], rule: null}
+      - {key: varnish, label: "바니시", ks: "KS M 6050", page: 49, names: [바니시, 바니쉬, 니스], exclude: [피트니스], rule: null}
+      - {key: thinner, label: "도료용 희석제", ks: "KS M 6060", page: 49, names: [도료용희석제, 희석제, 시너, 신나], rule: null}
+      - {key: multicolor_paint, label: "다채무늬도료", ks: "KS M 6090", page: 49, names: [다채무늬도료, 다채무늬], rule: null}
+      - {key: baseboard_paint, label: "굽도리 모르타르면 페인트", ks: null, page: 49, names: [굽도리페인트, 굽도리, 걸레받이페인트, 굽도리모르타르면페인트], rule: null}
+      - {key: antigraffiti_paint, label: "낙서방지용 페인트", ks: null, page: 49, names: [낙서방지페인트, 낙서방지], rule: null}
+      - {key: epoxy_floor_finish, label: "에폭시 바닥마감재", ks: null, page: 50, names: [에폭시바닥마감재, 에폭시바닥, 바닥에폭시, 에폭시라이닝, 에폭시코팅], rule: null}
+      - {key: ready_mixed_paint, label: "조합페인트·목재 프라이머", ks: "KS M 5318", page: 50, names: [조합페인트, 목재프라이머, 목재용프라이머], rule: null}
+
+  - part: "3. 건축"
+    section: "아. 기타"
+    entries:
+      - {key: hpl, label: "열경화성 수지 화장판", ks: "KS M 3803", page: 51, names: [열경화성수지화장판, 멜라민화장판, 고압화장판, 화장판, HPL], rule: null}
+      - {key: tile_adhesive, label: "도자기질타일용 접착제", ks: "KS L 1593", page: 51, names: [타일용접착제, 타일접착제, 타일본드], rule: null}
+      - {key: vinyl_floor_adhesive, label: "비닐계 바닥재용 접착제", ks: "KS F 3218", page: 51, names: [바닥재용접착제, 바닥재접착제, 장판접착제, 륨카펫접착제, 비닐바닥재접착제], rule: null}
+      - {key: pvc_pipe_cement, label: "수도용 경질 염화비닐관용접착제", ks: "KS M 3409", page: 52, names: [염화비닐관용접착제, PVC관접착제, PVC접착제], rule: null}
+      - {key: wood_glue, label: "초산비닐수지 에멀션목재 접착제", ks: "KS M 3700", page: 52, names: [초산비닐수지, 목재접착제, 목공용접착제, 목공본드], rule: null}

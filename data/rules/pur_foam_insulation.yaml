@@ -1,0 +1,76 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 다. 단열·보온공사 > 경질폴리우레탄폼 단열재(KS M 3809) (PDF p.37)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 창호 주위 '우레탄폼 충전'(1액형 발포 충전재)은 이 종별이 아니므로 match.exclude 와 단위(m2·매)로 뺐다.
+material: pur_foam_insulation
+label: 경질폴리우레탄폼 단열재
+work: 단열공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [pur_foam_insulation]
+match:
+  names: [경질폴리우레탄폼, 폴리우레탄폼, 우레탄폼, 경질우레탄, 우레탄보드, 폴리우레탄단열재, 경질발포플라스틱단열재PUR, 단열재(PUR), 단열재PUR]
+  units: [m2, 매, 장]
+  exclude: [충전, 인건, 노무, 운반, 할증]
+ks_mark: true                          # 종별 괄호에 KS M 3809 — KS 칸 ◎
+ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
+order: 47
+spec_group: all                          # 두께·규격별 행을 한 행으로(KS ◎·면적 빈도, L4-D2)
+group_tests: true
+group:
+  frequency: "시공면적 1,000㎡마다, 1,000매마다"
+  basis: "별표2 3. 건축 다. 단열·보온공사 경질폴리우레탄폼 단열재(KS M 3809) (PDF p.37); KS 제품은 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양 및 치수"
+    method: "KS M 3809"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 경질폴리우레탄폼 단열재(KS M 3809) 겉모양 및 치수 (PDF p.37)"
+
+  - test_type: "흡수량"
+    method: "KS M 3809"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 경질폴리우레탄폼 단열재(KS M 3809) 흡수량 (PDF p.37)"
+
+  - test_type: "투습계수"
+    method: "KS M 3809"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 경질폴리우레탄폼 단열재(KS M 3809) 투습계수 (PDF p.37)"
+
+  - test_type: "녹"
+    method: "KS M 3809"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 경질폴리우레탄폼 단열재(KS M 3809) 녹 (PDF p.37)"
+    conditions: "원문 표기 그대로('녹'). 해석 필요: 금속 면재 부착 제품의 녹 발생 여부로 보이나 원문에 설명 없음."
+
+  - test_type: "겉보기 밀도"
+    method: "KS M ISO 845"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 경질폴리우레탄폼 단열재(KS M 3809) 겉보기 밀도 (PDF p.37)"
+
+  - test_type: "열전도율"
+    method: "KS L 9016"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 경질폴리우레탄폼 단열재(KS M 3809) 열전도율 (PDF p.37)"
+
+  - test_type: "굴곡 강도"
+    method: "KS M ISO 1209-1"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 경질폴리우레탄폼 단열재(KS M 3809) 굴곡 강도 (PDF p.37)"
+
+  - test_type: "압축 강도"
+    method: "KS M ISO 844"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 경질폴리우레탄폼 단열재(KS M 3809) 압축 강도 (PDF p.37)"
+
+  - test_type: "연소성"
+    method: "KS M ISO 9772"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 경질폴리우레탄폼 단열재(KS M 3809) 연소성 (PDF p.37)"

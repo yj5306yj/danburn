@@ -1,0 +1,35 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」 Ⅲ. 기계분야
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2에는 바닥 배수트랩 종별이 없다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+# 규격 묶음: 부록 빈도는 공구마다 1회뿐이다. 세탁실용·욕실용을 나눠 적는 것은 실무 관행(용도별 1회)이라 용도로 묶는다.
+# 매칭: 상트랩·배수트랩 행(개소). 매립 성형슬리브·트랩 배관·세면기 P/U 트랩은 바닥 배수트랩이 아니므로 뺀다.
+material: lh_floor_drain_trap
+label: 바닥 배수트랩
+work: 위생설비공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+match:
+  names: [바닥배수트랩, 배수트랩, 상트랩, 바닥트랩]
+  units: [개소, 개, ea]
+  exclude: [슬리브, 배관, P-트랩, U트랩, 가대]
+ks_mark: false
+ks_count: makers
+order: 71
+spec_group:
+  pattern: "(세탁|욕실)"
+  label: "{1}용"
+  other: 발코니 등
+group_tests: true
+group:
+  frequency: 공구마다 1회
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅲ. 기계분야 바닥 배수트랩(시험방법 LHCS 31 25 25 10)
+tests:
+- test_type: 압축파괴성상(500kgf, 4900N)
+  method: LHCS 31 25 25 10
+  where: 외부
+  frequency: &f {per_qty: null, unit: null, text: 공구마다 1회, minimum: 1}
+  basis: LHCS 10 40 00:2020 부록 Ⅲ. 기계분야 바닥 배수트랩 압축파괴성상
+  conditions: &c 옥내기계 공구마다 1회(옥외기계 해당 없음). 용도(세탁실·욕실)별로 나누는 것은 실무 관행.
+- {test_type: 배수능력 시험, method: LHCS 31 25 25 10, where: 외부, frequency: *f, basis: LHCS 10 40 00:2020 부록 Ⅲ. 기계분야 바닥 배수트랩 배수능력 시험, conditions: *c}
+- {test_type: 봉수깊이, method: LHCS 31 25 25 10, where: 외부, frequency: *f, basis: LHCS 10 40 00:2020 부록 Ⅲ. 기계분야 바닥 배수트랩 봉수깊이, conditions: "봉수트랩만 해당. 옥내기계 공구마다 1회."}

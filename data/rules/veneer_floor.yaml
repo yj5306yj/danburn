@@ -1,0 +1,211 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 바. 마감공사(지붕·목공사 포함) > 천연무늬목 치장마루판(KS F 3111) (PDF p.40)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다. (L7-R5, 원문 표를 렌더해 칸 경계 확인)
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 종목: 겉모양·치수 및 직각도~도막 밀착력(KS F 3111), 접착성·함수율(KS F 3101), 흡수 두께 팽창률·휨 강도(KS F 3200),
+#   치수 변화율(KS F 3126), 평면 인장 강도(KS F 3104) — 제조회사별·제품규격별. 실내공기 오염물질 방출량만 '필요시'.
+# 이름: 합판마루·강화합판마루(강마루) 자재 행. 깔기 시공 행은 '마루재 별도'라 받지 않는다(지급 자재 행과 중복).
+material: veneer_floor
+label: 천연무늬목 치장마루판
+work: 수장공사
+basis_version: 국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2
+index_keys:
+- veneer_floor
+match:
+  names:
+  - 천연무늬목치장마루판
+  - 치장마루판
+  - 천연무늬목
+  - 강화합판마루
+  - 합판마루
+  - 강마루
+  - 마루판
+  - 마루재
+  units:
+  - m2
+  - 매
+  - 장
+  exclude:
+  - 깔기
+  - 설치
+  - 귀틀
+  - 걸레받이
+  - 접착제
+  - 철거
+  - 인건
+  - 노무
+  - 운반
+  - 할증
+ks_mark: true
+ks_count: none
+order: 57
+spec_group: all
+group_tests: true
+group:
+  frequency: 제조회사별, 제품규격별
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) (PDF p.40); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외
+tests:
+- test_type: 겉모양, 치수 및 직각도
+  method: KS F 3111
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 겉모양, 치수 및 직각도 (PDF p.40)
+- test_type: 습열성
+  method: KS F 3111
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 습열성 (PDF p.40)
+- test_type: 내한성
+  method: KS F 3111
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 내한성 (PDF p.40)
+- test_type: 내열성
+  method: KS F 3111
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 내열성 (PDF p.40)
+- test_type: 내오염성
+  method: KS F 3111
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 내오염성 (PDF p.40)
+- test_type: 내산성
+  method: KS F 3111
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 내산성 (PDF p.40)
+- test_type: 내알칼리성
+  method: KS F 3111
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 내알칼리성 (PDF p.40)
+- test_type: 내시너성
+  method: KS F 3111
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 내시너성 (PDF p.40)
+- test_type: 내마모성
+  method: KS F 3111
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 내마모성 (PDF p.40)
+- test_type: 내변퇴색성
+  method: KS F 3111
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 내변퇴색성 (PDF p.40)
+- test_type: 도막 밀착력(테이프시험)
+  method: KS F 3111
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 도막 밀착력(테이프시험) (PDF p.40)
+- test_type: 접착성
+  method: KS F 3101
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 접착성 (PDF p.40)
+- test_type: 함수율
+  method: KS F 3101
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 함수율 (PDF p.40)
+- test_type: 흡수 두께 팽창률
+  method: KS F 3200
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 흡수 두께 팽창률 (PDF p.40)
+- test_type: 치수 변화율
+  method: KS F 3126
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 치수 변화율 (PDF p.40)
+- test_type: 휨 강도, 습윤시 휨 강도
+  method: KS F 3200
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 휨 강도, 습윤시 휨 강도 (PDF p.40)
+- test_type: 평면 인장 강도
+  method: KS F 3104
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 평면 인장 강도 (PDF p.40)
+- test_type: 실내공기 오염물질 방출량(총휘발성유기화합물, 톨루엔, 폼알데하이드)
+  method: KS M 1998 또는 실내공기질 공정시험기준(환경부고시)
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 필요시
+    minimum: 1
+  conditions: 원문 빈도 '필요시'.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 실내공기 오염물질 방출량(총휘발성유기화합물, 톨루엔, 폼알데하이드) (PDF p.40)

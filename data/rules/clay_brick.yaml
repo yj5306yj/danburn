@@ -1,0 +1,49 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 가. 조적공사 > 점토벽돌(KS L 4201)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+material: clay_brick
+label: 점토벽돌
+work: 조적공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [clay_brick]
+match:
+  names: [점토벽돌, 치장벽돌, 붉은벽돌, 적벽돌]
+  units: [ea, 개, 매, 천매]
+  exclude: [내화, 쌓기, 줄눈, 운반, 하차]
+unit_factors:                            # 합산 전 환산: 천매=1,000매(정의), 매·개=1개 → 빈도 단위(ea)와 맞춘다
+  천매: [ea, 1000]
+  매: [ea, 1]
+  개: [ea, 1]
+ks_mark: true                            # 종별 괄호 (KS L 4201)
+ks_count: none
+order: 51
+group_tests: true
+group:
+  frequency: "제품 50,000매당"
+  basis: "별표2 3. 건축 가. 조적공사 점토벽돌(KS L 4201) (PDF p.32~33); KS 제품은 별표2 ※주석(PDF p.52) — 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: 겉모양
+    method: "KS L 4201"
+    where: 외부
+    frequency: {per_qty: 50000, unit: ea, text: "제품 50,000매당", minimum: 1}
+    basis: "별표2 3. 가. 점토벽돌(KS L 4201) 겉모양 (PDF p.32)"
+    conditions: &clay "제품 50,000매당(쪽 경계 p.32→p.33에 걸친 병합 칸). KS 인증품은 ※주석(PDF p.52)으로 면제 → ◎. 내역 단위 천매·매·개는 unit_factors 로 개(ea)로 환산해 합산(천매=1,000매)."
+  - test_type: 치수
+    method: "KS L 4201"
+    where: 외부
+    frequency: {per_qty: 50000, unit: ea, text: "제품 50,000매당", minimum: 1}
+    basis: "별표2 3. 가. 점토벽돌(KS L 4201) 치수 (PDF p.33)"
+    conditions: *clay
+  - test_type: 흡수율
+    method: "KS L 4201"
+    where: 외부
+    frequency: {per_qty: 50000, unit: ea, text: "제품 50,000매당", minimum: 1}
+    basis: "별표2 3. 가. 점토벽돌(KS L 4201) 흡수율 (PDF p.33)"
+    conditions: *clay
+  - test_type: 압축강도
+    method: "KS L 4201"
+    where: 외부
+    frequency: {per_qty: 50000, unit: ea, text: "제품 50,000매당", minimum: 1}
+    basis: "별표2 3. 가. 점토벽돌(KS L 4201) 압축강도 (PDF p.33)"
+    conditions: *clay

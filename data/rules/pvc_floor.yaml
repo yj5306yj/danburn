@@ -1,0 +1,186 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 바. 마감공사(지붕·목공사 포함) > PVC계 바닥재(KS M 3802) (PDF p.43~44)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다. (L7-R5, 원문 표를 렌더해 칸 경계 확인)
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 원문은 바닥타일·바닥시트 2종류(p.43~44). 기본 행은 두 종류 공통 6종목, 바닥타일에만 있는 흡수에 의한 길이 변화율·긁기시험은 optional.
+# p.44 박리강도~난연성은 종류 칸 없이 종별 전체에 걸친 행이고 빈도 '필요시'(박리강도 포함 한 칸) → optional.
+# 시공 행: 공동주택 내역은 '비닐장판깔기'·'륨카펫트붙이기'처럼 재료+시공 한 행으로 나온다 → accept_install_rows(비고 '시공 행 추정').
+# 비닐 바닥재 접착제(KS M 3705)는 vinyl_floor_adhesive — 이름이 더 길어 그쪽이 이긴다.
+material: pvc_floor
+label: PVC계 바닥재
+work: 수장공사
+basis_version: 국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2
+index_keys:
+- pvc_floor
+match:
+  names:
+  - PVC계바닥재
+  - PVC바닥재
+  - 비닐바닥재
+  - 비닐장판
+  - 비닐타일
+  - 비닐바닥시트
+  - 장판
+  - 륨카펫
+  - 륨카페트
+  - 쿠션륨
+  - 데코타일
+  units:
+  - m2
+  exclude:
+  - 깔기
+  - 붙이기
+  - 설치
+  - 접착제
+  - 철거
+  - 인건
+  - 노무
+  - 운반
+  - 할증
+accept_install_rows: true
+ks_mark: true
+ks_count: none
+order: 58
+spec_group: all
+group_tests: true
+group:
+  frequency: 제조회사별, 제품규격별
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) (PDF p.43~44); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외
+tests:
+- test_type: 겉모양 및 치수
+  method: KS M 3802
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 바닥타일·바닥시트 공통.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) 겉모양 및 치수 (PDF p.43)
+- test_type: 압입량
+  method: KS M 3802
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 바닥타일·바닥시트 공통.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) 압입량 (PDF p.43)
+- test_type: 잔류 압입률
+  method: KS M 3802
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 바닥타일·바닥시트 공통.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) 잔류 압입률 (PDF p.43)
+- test_type: 가열에 의한 길이 변화율
+  method: KS M 3802
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 바닥타일·바닥시트 공통.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) 가열에 의한 길이 변화율 (PDF p.43)
+- test_type: 가열 감량률
+  method: KS M 3802
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 바닥타일·바닥시트 공통.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) 가열 감량률 (PDF p.43)
+- test_type: 오염성
+  method: KS M 3802
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 바닥타일·바닥시트 공통.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) 오염성 (PDF p.43)
+- test_type: 흡수에 의한 길이 변화율
+  method: KS M 3802
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 바닥타일에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) 흡수에 의한 길이 변화율 (PDF p.43)
+- test_type: 긁기시험
+  method: KS M 3802
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 바닥타일에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) 긁기시험 (PDF p.43)
+- test_type: 박리강도
+  method: KS M 3802
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 필요시
+    minimum: 1
+  conditions: 원문 빈도 '필요시'.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) 박리강도 (PDF p.44)
+- test_type: 퇴색성
+  method: KS M ISO 4892-4
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 필요시
+    minimum: 1
+  conditions: 원문 빈도 '필요시'.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) 퇴색성 (PDF p.44)
+- test_type: 미끄럼성
+  method: KS F 2602, KS M 3802-부속서 A
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 필요시
+    minimum: 1
+  conditions: 원문 빈도 '필요시'.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) 미끄럼성 (PDF p.44)
+- test_type: 마모성
+  method: KS F 2811, KS F 2813
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 필요시
+    minimum: 1
+  conditions: 원문 빈도 '필요시'.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) 마모성 (PDF p.44)
+- test_type: 난연성
+  method: KS F 2271
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 필요시
+    minimum: 1
+  conditions: 원문 빈도 '필요시'.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) PVC계 바닥재(KS M 3802) 난연성 (PDF p.44)

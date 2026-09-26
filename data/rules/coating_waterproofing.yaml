@@ -1,0 +1,80 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 나. 방수공사 > 건설용 도막방수재(KS F 3211) (PDF p.34)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 폴리우레아 수지 도막 방수재(KS F 4922, p.34)·교면용 도막 방수재(KS F 4932)는 별도 종별이라 이 파일에 넣지 않았다.
+material: coating_waterproofing
+label: 건설용 도막방수재
+work: 방수공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [coating_waterproofing]
+match:
+  names: [도막방수재, 도막방수, 우레탄방수, 우레탄도막, 아크릴방수]
+  units: [m2, kg, l, ℓ]
+  exclude: [교면, 폴리우레아, 인건, 노무, 운반, 할증]
+ks_mark: true                          # 종별 괄호에 KS F 3211 — KS 칸 ◎
+ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
+order: 41
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 나. 방수공사 건설용 도막방수재(KS F 3211) (PDF p.34); KS 제품은 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "인장성능"
+    method: "KS F 3211"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 건설용 도막방수재(KS F 3211) 인장성능 (PDF p.34)"
+
+  - test_type: "인열 성능"
+    method: "KS F 3211"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 건설용 도막방수재(KS F 3211) 인열 성능 (PDF p.34)"
+
+  - test_type: "온도 의존성"
+    method: "KS F 3211"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 건설용 도막방수재(KS F 3211) 온도 의존성 (PDF p.34)"
+
+  - test_type: "가열 신축 성상"
+    method: "KS F 3211"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 건설용 도막방수재(KS F 3211) 가열 신축 성상 (PDF p.34)"
+
+  - test_type: "열화 처리 후 인장성능"
+    method: "KS F 3211"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 건설용 도막방수재(KS F 3211) 열화 처리 후 인장성능 (PDF p.34)"
+
+  - test_type: "신장시 열화 성상"
+    method: "KS F 3211"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 건설용 도막방수재(KS F 3211) 신장시 열화 성상 (PDF p.34)"
+
+  - test_type: "부착 성능"
+    method: "KS F 3211"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 건설용 도막방수재(KS F 3211) 부착 성능 (PDF p.34)"
+
+  - test_type: "내피로 성능"
+    method: "KS F 3211"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 건설용 도막방수재(KS F 3211) 내피로 성능 (PDF p.34)"
+
+  - test_type: "흘러내림 저항"
+    method: "KS F 3211"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 건설용 도막방수재(KS F 3211) 흘러내림 저항 (PDF p.34)"
+
+  - test_type: "고형분"
+    method: "KS F 3211"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 나. 방수공사 건설용 도막방수재(KS F 3211) 고형분 (PDF p.34)"

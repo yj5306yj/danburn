@@ -1,0 +1,76 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 라. 가설기자재 > 콘크리트 거푸집용 합판(KS F 3110) (PDF p.16)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 비고: 강재틀 합판 거푸집(KS F 8006)은 제외 → match.exclude.
+# KS 제품 처리: 종별 괄호에 (KS F 3110) — ※주석(PDF p.52) 시행령 제91조제1항 시험 면제 → ks_mark true, ks_count none.
+material: form_plywood
+label: 거푸집용합판
+work: 철근콘크리트공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [form_plywood]
+match:
+  names: [거푸집용합판, 거푸집합판, 합판거푸집, 코팅합판]
+  names_generic: [거푸집]                 # 품명이 '거푸집 (토목,조경)'처럼 일반 이름뿐이고
+  spec_names: [합판]                      #   규격에 '합판6회, 간단' 처럼 합판이 있으면 이 자재(L7-E6). 유로폼·철망·PE 거푸집은 규격에 합판이 없어 안 잡힌다
+  units: [m2]
+  exclude: [강재틀, 해체, 운반, 철거, 알루미늄, 유로폼, 갱폼, 철망, 시스템]   # 다른 재질 거푸집(규격에 “합판 대체” 등이 있어도)
+ks_mark: true
+ks_count: none
+order: 60
+group_tests: true
+group:
+  frequency: "제품규격별"
+  basis: "별표2 1. 라. 콘크리트 거푸집용 합판(KS F 3110) (PDF p.16); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: 겉모양 및 치수
+    method: "KS F 3110"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제품규격별", minimum: 1}
+    basis: "별표2 1. 라. 콘크리트 거푸집용 합판(KS F 3110) 겉모양 및 치수 (PDF p.16)"
+    conditions: "제품규격별 1회. KS F 3110 인증품은 ※주석(PDF p.52)에 따라 시험 면제."
+
+  - test_type: 휨강성 변형량
+    method: "KS F 3110"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제품규격별", minimum: 1}
+    basis: "별표2 1. 라. 콘크리트 거푸집용 합판(KS F 3110) 휨강성 변형량 (PDF p.16)"
+    conditions: "제품규격별 1회."
+
+  - test_type: 도막 및 피복재와 바탕합판의 접착성
+    method: "KS F 3110"
+    where: 외부
+    optional: true                    # 표면가공 거푸집용 합판에 한함
+    frequency: {per_qty: null, unit: null, text: "제품규격별", minimum: 1}
+    basis: "별표2 1. 라. 콘크리트 거푸집용 합판(KS F 3110) 도막 및 피복재와 바탕합판의 접착성 (PDF p.16)"
+    conditions: "시험종목 칸 단서: 표면가공 거푸집용 합판(코팅합판 등)에 한함. 해석 필요: 규격 문자열로 표면가공 여부를 판정하지 않으므로 기본 산출에서 빼고 --include-optional 로 넣는다."
+
+  - test_type: 함수율
+    method: "KS F 3110"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "필요시", minimum: 1}
+    basis: "별표2 1. 라. 콘크리트 거푸집용 합판(KS F 3110) 함수율 (PDF p.16)"
+    conditions: "빈도 필요시(함수율·밀도·접착성·폼알데하이드방출량이 한 빈도 칸)."
+
+  - test_type: 밀도
+    method: "KS F 3110"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "필요시", minimum: 1}
+    basis: "별표2 1. 라. 콘크리트 거푸집용 합판(KS F 3110) 밀도 (PDF p.16)"
+    conditions: "빈도 필요시."
+
+  - test_type: 접착성
+    method: "KS F 3110"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "필요시", minimum: 1}
+    basis: "별표2 1. 라. 콘크리트 거푸집용 합판(KS F 3110) 접착성 (PDF p.16)"
+    conditions: "빈도 필요시."
+
+  - test_type: 폼알데하이드방출량
+    method: "KS M 1998"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "필요시", minimum: 1}
+    basis: "별표2 1. 라. 콘크리트 거푸집용 합판(KS F 3110) 폼알데하이드방출량 (PDF p.16)"
+    conditions: "빈도 필요시."

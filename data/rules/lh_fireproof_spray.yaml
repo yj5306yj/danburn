@@ -1,0 +1,61 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+# 참고: 석재·무기질 마감 뿜칠은 부록에 없음 — extra_keys(spray_coating) 주장하지 않음
+material: lh_fireproof_spray
+label: 철골 내화피복 뿜칠재
+work: 철골공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+match:
+  names:
+  - 내화뿜칠
+  - 내화피복뿜칠
+  - 철골내화피복
+  - 뿜칠내화피복
+  - 내화피복재
+  units:
+  - m2
+  exclude:
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: false
+ks_count: makers
+order: 86
+group_tests: false
+tests:
+- test_type: 두께
+  method: KS F 2901
+  where: 현장
+  frequency:
+    per_qty: null
+    unit: null
+    text: '1시간 내화: 매층 1개소 / 2시간 이상: 4개층 선정, 층별 연면적 1,000㎡마다 1개소'
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.5 구조용 철골 철골내화피복 뿜칠재 두께
+  conditions: 1개소당 각 면을 3회 이상 측정. 층수를 알아야 횟수가 정해짐
+- test_type: 밀도
+  method: KS F 2901
+  where: 현장
+  frequency:
+    per_qty: null
+    unit: null
+    text: '1시간 내화: 매층 1개소 / 2시간 이상: 4개층 선정, 층마다 1개소'
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.5 구조용 철골 철골내화피복 뿜칠재 밀도
+- test_type: 부착강도
+  method: KS F 2902
+  where: 현장
+  frequency:
+    per_qty: null
+    unit: null
+    text: '1시간 내화: 매층 1개소 / 2시간 이상: 4개층 선정, 층마다 1개소'
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.5 구조용 철골 철골내화피복 뿜칠재 부착강도

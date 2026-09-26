@@ -1,0 +1,87 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 마. 창호공사 > 창세트(KS F 3117) (PDF p.39)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 알루미늄·PVC(합성수지)·강제 창 모두 완제품 창은 이 종별. 형재(프로파일)만 반입하면 합성수지 창호형형재(KS F 5602).
+material: window_set
+label: 창세트
+work: 창호공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [window_set]
+accept_install_rows: true                # 합성수지 발코니창·이중창은 ‘…창 설치’ 시공 행으로만 나온다(L4-T4)
+install_units: [개소, ea, set]
+match:
+  names: [창세트, 창호세트, 시스템창호, PVC창호, 알루미늄창호, 합성수지창호, AL창호, 시스템창, 합성수지창, 이중창, 발코니창, /AW, /AG, /FSW, /SSW]   # 창호 부호 품명(재질+W/G=창) — L4-T3
+  units: [ea, 개, 개소, set, 틀, 조, m2]
+  exclude: [/AWD, /AGD, 형재, 문세트, 방충망, 철물, 설치, 하차, 코킹, 실링, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS F 3117)
+ks_count: none                           # KS 인증품은 시험 없이 ◎(산출근거 'KS자재')
+order: 58
+spec_group:                              # 창호 부호(12X10/AW 등) 규격마다 행이 생기지 않게 재질 부호·창 종류별로 묶는다(L4-D2)
+  pattern: "/(FSW|SSW|AW|AG)|(시스템창호|PVC창호|알루미늄창호|합성수지창호|AL창호|시스템창|합성수지창|이중창|발코니창|창호세트|창세트)"
+  label: "{1}{2}"
+  other: 기타
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 마. 창호공사 창세트(KS F 3117) (PDF p.39); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "치수"
+    method: "KS F 3117, KS F 1515"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 창세트(KS F 3117) 치수 (PDF p.39)"
+  - test_type: "개폐력"
+    method: "KS F 2237"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 창세트(KS F 3117) 개폐력 (PDF p.39)"
+  - test_type: "개폐 반복성"
+    method: "KS F 3109(스윙 창세트), KS F 4534(슬라이딩 창세트)"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 창세트(KS F 3117) 개폐 반복성 (PDF p.39)"
+    conditions: "원문: 스윙 창세트는 KS F 3109, 슬라이딩 창세트는 KS F 4534."
+  - test_type: "내풍압성"
+    method: "KS F 2296"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 창세트(KS F 3117) 내풍압성 (PDF p.39)"
+    conditions: "비고: 목제 창세트는 제외."
+  - test_type: "기밀성"
+    method: "KS F 2292"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 창세트(KS F 3117) 기밀성 (PDF p.39)"
+    conditions: "비고: 목제 창세트는 제외."
+  - test_type: "수밀성"
+    method: "KS F 2293"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 창세트(KS F 3117) 수밀성 (PDF p.39)"
+    conditions: "비고: 목제 창세트는 제외."
+  - test_type: "손잡이대 강도(슬라이딩 창세트)"
+    method: "KS F 2239"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 창세트(KS F 3117) 손잡이대 강도(슬라이딩 창세트) (PDF p.39)"
+    conditions: "슬라이딩 창세트에 한함. 비고: 목제 창세트는 제외."
+  - test_type: "방음성"
+    method: "KS F 10140-1"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 창세트(KS F 3117) 방음성 (PDF p.39)"
+    conditions: "비고: 목제 창세트는 제외."
+  - test_type: "단열성"
+    method: "KS F 2278"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 창세트(KS F 3117) 단열성 (PDF p.39)"
+    conditions: "비고: 목제 창세트는 제외."
+  - test_type: "함수율"
+    method: "KS F 2199"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 창세트(KS F 3117) 함수율 (PDF p.39)"
+    conditions: "비고: 목제 창세트에만 적용."

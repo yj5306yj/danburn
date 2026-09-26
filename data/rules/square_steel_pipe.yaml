@@ -1,0 +1,70 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 다. 철강구조물공사 > 일반구조용 각형강관(KS D 3568) (PDF p.12)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 가설기자재의 '일반구조용 각형강관(거푸집·동바리 멍에·장선용으로 제한)'(PDF p.15, 색인 temp_square_pipe)은
+# 시험종목·빈도가 달라 이 파일에 넣지 않았다 — 멍에·장선 행은 match.exclude 로 뺀다.
+# KS 제품 처리: 종별 괄호에 (KS D 3568) — 별표2 끝 ※주석(PDF p.52) → ks_mark true, ks_count none(시험 없이 ◎).
+material: square_steel_pipe
+label: 일반구조용각형강관
+work: 철골공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [square_steel_pipe]
+match:
+  names: [일반구조용각형강관, 각형강관, 사각강관, 사각파이프, 각파이프, 각관, SPSR]
+  units: [ton, kg, m]
+  exclude: [멍에, 장선, 동바리, 스테인리스, STS, 알루미늄, 가공, 조립, 설치, 운반, 절단, 하차, 인건, 노무, 할증, 도장, 페인트]
+unit_factors:                            # 합산 전 환산: kg → ton(빈도 단위). m 는 단위중량이 규격마다 달라 환산하지 않는다
+  kg: [ton, 0.001]
+ks_mark: true
+ks_count: none
+order: 15
+spec_group:                              # 치수(□-100×100×3.2 등)별 행 대신 강종별로 묶는다 — 비KS 100톤 빈도는 강종 합계로 계산
+  pattern: "(SPSR\\d{3})"
+  label: "{1}"
+  other: 규격별
+group_tests: true
+group:
+  frequency: "1. KS제품은 KS자재(시험 면제)\n2. 비KS제품은 제조회사별·제품규격별 100톤마다"
+  basis: "별표2 1. 다. 일반구조용 각형강관(KS D 3568) (PDF p.12); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: 겉모양, 치수, 무게
+    method: "KS D 3568"
+    where: 외부
+    frequency: {per_qty: 100, unit: ton, text: "제조회사별·제품규격별 100톤마다", minimum: 1}
+    basis: "별표2 1. 다. 일반구조용 각형강관(KS D 3568) 겉모양, 치수, 무게 (PDF p.12)"
+    conditions: &ks_note "제조회사별·제품규격별 100톤마다 또는 KS D 3568. 종별 괄호 안 KS 규격(KS D 3568) 인증품은 ※주석(PDF p.52)에 따라 시험 면제 → KS자재 ◎. 비KS는 100톤마다 외부 시험. 해석 필요: m 단위 내역은 규격별 단위중량으로 톤 환산해야 비KS 횟수가 맞음(자동 환산 안 함 — '단위 확인')."
+
+  - test_type: 화학성분
+    method: "KS D 3568"
+    where: 외부
+    frequency: {per_qty: 100, unit: ton, text: "제조회사별·제품규격별 100톤마다", minimum: 1}
+    basis: "별표2 1. 다. 일반구조용 각형강관(KS D 3568) 화학성분 (PDF p.12)"
+    conditions: *ks_note
+
+  - test_type: 인장강도
+    method: "KS D 3568"
+    where: 외부
+    frequency: {per_qty: 100, unit: ton, text: "제조회사별·제품규격별 100톤마다", minimum: 1}
+    basis: "별표2 1. 다. 일반구조용 각형강관(KS D 3568) 인장강도 (PDF p.12)"
+    conditions: *ks_note
+
+  - test_type: 항복점 또는 항복강도
+    method: "KS D 3568"
+    where: 외부
+    frequency: {per_qty: 100, unit: ton, text: "제조회사별·제품규격별 100톤마다", minimum: 1}
+    basis: "별표2 1. 다. 일반구조용 각형강관(KS D 3568) 항복점 또는 항복강도 (PDF p.12)"
+    conditions: *ks_note
+
+  - test_type: 연신율
+    method: "KS D 3568"
+    where: 외부
+    frequency: {per_qty: 100, unit: ton, text: "제조회사별·제품규격별 100톤마다", minimum: 1}
+    basis: "별표2 1. 다. 일반구조용 각형강관(KS D 3568) 연신율 (PDF p.12)"
+    conditions: *ks_note
+
+  - test_type: 굽힘성
+    method: "KS D 3568"
+    where: 외부
+    optional: true
+    frequency: {per_qty: 100, unit: ton, text: "제조회사별·제품규격별 100톤마다", minimum: 1}
+    basis: "별표2 1. 다. 일반구조용 각형강관(KS D 3568) 굽힘성 (PDF p.12)"
+    conditions: "비고: 굽힘성 시험은 필요시."

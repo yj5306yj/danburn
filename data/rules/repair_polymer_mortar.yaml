@@ -1,0 +1,37 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 마. 기타 > 콘크리트 구조물 보수용 폴리머시멘트모르타르(KS F 4042) (PDF p.21)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호에 (KS F 4042) — ※주석(PDF p.52) 시행령 제91조제1항 시험 면제 → ks_mark true, ks_count none.
+# 구조물 '보수용'(단면 보수·복구) 모르타르만. 방수·바탕 미장용 폴리머 모르타르는 이 종별이 아니므로 '방수'·'바탕'·'액체'를 뺀다.
+material: repair_polymer_mortar
+label: 보수용폴리머시멘트모르타르
+work: 보수공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [repair_polymer_mortar]
+match:
+  names: [보수용폴리머시멘트모르타르, 보수용폴리머모르타르, 폴리머시멘트모르타르, 단면보수모르타르, 단면복구모르타르, 보수모르타르, 단면보수, 단면복구]
+  units: [ton, kg, 포, m2, m3]
+  exclude: [방수, 바탕, 액체, 운반]
+unit_factors:
+  kg: [ton, 0.001]
+ks_mark: true
+ks_count: none
+order: 40
+group_tests: true
+group:
+  frequency: "제조회사별, 제조일부터 3월이 되어 재질의 변화가 있다고 인정되는 때, 300톤마다"
+  basis: "별표2 1. 마. 콘크리트 구조물 보수용 폴리머시멘트모르타르(KS F 4042) (PDF p.21); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: 시멘트 혼화용 폴리머 고형분
+    method: "KS F 4916"
+    where: 외부
+    frequency: &f {per_qty: 300, unit: ton, text: "제조회사별, 제조일부터 3월 경과로 재질 변화 인정 때, 300톤마다", minimum: 1}
+    basis: "별표2 1. 마. 보수용 폴리머시멘트모르타르(KS F 4042) 시멘트 혼화용 폴리머 고형분 (PDF p.21)"
+    conditions: &c "제조회사별, 제조일부터 3월이 되어 재질 변화가 있다고 인정되는 때, 300톤마다(시험종목 전체 병합 칸). KS F 4042 인증품은 ※주석(PDF p.52)에 따라 시험 면제 → KS자재 ◎. 내역 단위가 ㎡·㎥·포이면 톤으로 바꿔야 비KS 횟수가 맞다."
+  - {test_type: "휨, 압축, 부착강도", method: "KS F 4041", where: 외부, frequency: *f, basis: "별표2 1. 마. 보수용 폴리머시멘트모르타르(KS F 4042) 휨, 압축, 부착강도 (PDF p.21)", conditions: *c}
+  - {test_type: 내알칼리성, method: "KS F 4041", where: 외부, frequency: *f, basis: "별표2 1. 마. 보수용 폴리머시멘트모르타르(KS F 4042) 내알칼리성 (PDF p.21)", conditions: *c}
+  - {test_type: 중성화 저항성, method: "KS F 4041", where: 외부, frequency: *f, basis: "별표2 1. 마. 보수용 폴리머시멘트모르타르(KS F 4042) 중성화 저항성 (PDF p.21)", conditions: *c}
+  - {test_type: 투수량, method: "KS F 4916", where: 외부, frequency: *f, basis: "별표2 1. 마. 보수용 폴리머시멘트모르타르(KS F 4042) 투수량 (PDF p.21)", conditions: *c}
+  - {test_type: 물흡수 계수, method: "KS F 2609", where: 외부, frequency: *f, basis: "별표2 1. 마. 보수용 폴리머시멘트모르타르(KS F 4042) 물흡수 계수 (PDF p.21)", conditions: *c}
+  - {test_type: 습기투과 저항성, method: "KS F 4716", where: 외부, frequency: *f, basis: "별표2 1. 마. 보수용 폴리머시멘트모르타르(KS F 4042) 습기투과 저항성 (PDF p.21)", conditions: *c}
+  - {test_type: 염화물 이온 침투 저항성, method: "KS F 2711", where: 외부, frequency: *f, basis: "별표2 1. 마. 보수용 폴리머시멘트모르타르(KS F 4042) 염화물 이온 침투 저항성 (PDF p.21)", conditions: *c}
+  - {test_type: 길이변화율, method: "KS F 2424", where: 외부, frequency: *f, basis: "별표2 1. 마. 보수용 폴리머시멘트모르타르(KS F 4042) 길이변화율 (PDF p.21)", conditions: *c}

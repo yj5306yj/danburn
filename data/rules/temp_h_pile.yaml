@@ -1,0 +1,35 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 라. 가설기자재 > H형강 말뚝(KS F 4603) (PDF p.15)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 흙막이·가시설(엄지말뚝) H형강. 기초용 본 말뚝은 1. 가.의 별도 종별 → h_pile.yaml.
+# 내역서 관행: 흙막이 H형강은 자재 행이 'H형강(…)현장도착도'(톤)로 오고(일반 구조용 압연 강재 규칙에 걸림), 말뚝으로는
+#   'H형강말뚝박기'(본) 행만 있다. 박기 행 = 박는 말뚝이므로 받는다. 뽑기(같은 말뚝 인발)·천공(노무) 행은 뺀다.
+# 규격 묶음: 'H=300,…'·'H-300X300' 등에서 춤(H 뒤 세 자리)으로 묶는다 — 빈도가 제품규격마다라 규격 단위는 남긴다.
+# KS 처리: 종별 괄호에 (KS F 4603) — ※주석(PDF p.52) 시험 면제 → ks_mark true, ks_count none.
+material: temp_h_pile
+label: H형강말뚝(가설)
+work: 흙막이공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [temp_h_pile]
+match:
+  names: [엄지말뚝, 가시설H파일, 흙막이H파일, 흙막이H형강, 가시설H형강, H형강말뚝박기]
+  units: [본, 개, ea, ton]
+  exclude: [뽑기, 인발, 천공, 운반, 손료, 임대]
+ks_mark: true
+ks_count: none
+makers_label: 공급자
+order: 62
+spec_group:
+  pattern: "H\\s*[=-]?\\s*(\\d{3})"
+  label: "H-{1}"
+  other: 규격별
+group_tests: true
+group:
+  frequency: "제품규격마다, 공급자마다"
+  basis: "별표2 1. 라. 가설기자재 H형강 말뚝(KS F 4603) (PDF p.15); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양, 치수, 무게"
+    method: "KS D 3502, KS F 4603"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제품규격마다, 공급자마다", minimum: 1}
+    basis: "별표2 1. 라. 가설기자재 H형강 말뚝(KS F 4603) 겉모양, 치수, 무게 (PDF p.15)"
+    conditions: "제품규격마다·공급자마다. KS F 4603 인증품은 ※주석(PDF p.52)에 따라 시험 면제 → KS자재 ◎."

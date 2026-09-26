@@ -1,0 +1,49 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 마. 기타 > 드레인보드(Drain Board) (PDF p.17)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별에 괄호 KS 규격이 없다 → ※주석(PDF p.52) 면제 대상 아님 → ks_mark false.
+#   빈도 칸(제조회사별·제품규격마다·20,000제곱미터마다)은 다섯 종목 공통 병합 칸 → 비KS 묶음 행 ⌈면적/20,000㎡⌉×제조사 수.
+# 내역서 관행: '옹벽배수처리(드레인보드)'처럼 자재가 품명 괄호에 들어간 ㎡ 행이 자재 행이다.
+material: drain_board
+label: 드레인보드
+work: 배수공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [drain_board]
+match:
+  names: [드레인보드, 플라스틱보드드레인, PBD]
+  units: [m2]
+  exclude: [설치, 시공, 인건, 노무, 운반, 하차, 할증]
+ks_mark: false
+order: 73
+spec_group: all                          # 두께·용도별 행을 한 행으로(시험 종목 같음, 면적은 합계로 계산)
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격마다, 20,000㎡마다"
+  basis: "별표2 1. 공통 마. 기타 드레인보드(Drain Board) (PDF p.17)"
+tests:
+  - test_type: "인장강도 및 신도"
+    method: "KS K ISO 10319"
+    where: 외부
+    frequency: {per_qty: 20000, unit: m2, text: "제조회사별, 제품규격마다, 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 드레인보드 인장강도 및 신도 (PDF p.17)"
+  - test_type: "배수성능"
+    method: "KS K ISO 11058 또는 KS K ISO 12958"
+    where: 외부
+    frequency: {per_qty: 20000, unit: m2, text: "제조회사별, 제품규격마다, 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 드레인보드 배수성능 (PDF p.17)"
+  - test_type: "질량"
+    method: "KS K ISO 9864"
+    where: 외부
+    frequency: {per_qty: 20000, unit: m2, text: "제조회사별, 제품규격마다, 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 드레인보드 질량 (PDF p.17)"
+  - test_type: "유효구멍크기"
+    method: "KS K 0754 또는 KS K ISO 12956"
+    where: 외부
+    frequency: {per_qty: 20000, unit: m2, text: "제조회사별, 제품규격마다, 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 드레인보드 유효구멍크기 (PDF p.17)"
+  - test_type: "내약품성(액체저항성)"
+    method: "KS K ISO TR 12960 또는 해당 공사시방서"
+    where: 외부
+    optional: true
+    frequency: {per_qty: 20000, unit: m2, text: "제조회사별, 제품규격마다, 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 드레인보드 내약품성(액체저항성) (PDF p.17)"
+    conditions: "비고: 흙의 pH가 4 미만 또는 9를 초과하는 경우 — 시험 후 인장강도 50% 이상. 해당 흙이 아니면 적용하지 않아 기본 산출에서 뺀다."

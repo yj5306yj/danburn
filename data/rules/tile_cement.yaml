@@ -1,0 +1,72 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       1. 공통 나. 철근콘크리트공사 > 도자기질 타일시멘트(KS L 1592) (PDF p.4)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 타일(도자기질 타일)·타일용 접착제는 별도 종별. 포틀랜드 시멘트 규칙은 '타일'·'압착'을 exclude 한다.
+material: tile_cement
+label: 도자기질 타일시멘트
+work: 타일공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [tile_cement]
+match:
+  names: [타일시멘트, 압착시멘트, 타일붙임시멘트, 타일압착시멘트, 떠붙임시멘트]
+  units: [ton, kg, 포]
+  exclude: [운반, 하차, 붙이기, 붙임공, 줄눈, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS L 1592)
+ks_count: none                           # KS 인증품은 시험 없이 ◎(산출근거 'KS자재')
+order: 36
+group_tests: true
+group:
+  frequency: "제조회사별, 300톤마다
+제조일부터 3월이 되어 재질 변화가 있다고 인정되는 때"
+  basis: "별표2 1. 공통 나. 철근콘크리트공사 도자기질 타일시멘트(KS L 1592) (PDF p.4); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "위치교정도"
+    method: "KS L 1592"
+    where: 외부
+    frequency: {per_qty: 300, unit: ton, text: "제조회사별 300톤마다", minimum: 1}
+    basis: "별표2 1. 공통 나. 철근콘크리트공사 도자기질 타일시멘트(KS L 1592) 위치교정도 (PDF p.4)"
+    conditions: "제조회사별 300톤마다; 제조일부터 3월 경과해 재질 변화가 인정되면 추가(병합 빈도 칸). 해석 필요: kg·포 단위 내역은 톤으로 바꿔야 비KS 횟수를 셀 수 있음(엔진 단위 환산 없음)."
+  - test_type: "개방시간"
+    method: "KS L 1592"
+    where: 외부
+    frequency: {per_qty: 300, unit: ton, text: "제조회사별 300톤마다", minimum: 1}
+    basis: "별표2 1. 공통 나. 철근콘크리트공사 도자기질 타일시멘트(KS L 1592) 개방시간 (PDF p.4)"
+    conditions: "제조회사별 300톤마다; 제조일부터 3월 경과해 재질 변화가 인정되면 추가(병합 빈도 칸). 해석 필요: kg·포 단위 내역은 톤으로 바꿔야 비KS 횟수를 셀 수 있음(엔진 단위 환산 없음)."
+  - test_type: "압축강도"
+    method: "KS L 1592"
+    where: 외부
+    frequency: {per_qty: 300, unit: ton, text: "제조회사별 300톤마다", minimum: 1}
+    basis: "별표2 1. 공통 나. 철근콘크리트공사 도자기질 타일시멘트(KS L 1592) 압축강도 (PDF p.4)"
+    conditions: "제조회사별 300톤마다; 제조일부터 3월 경과해 재질 변화가 인정되면 추가(병합 빈도 칸). 해석 필요: kg·포 단위 내역은 톤으로 바꿔야 비KS 횟수를 셀 수 있음(엔진 단위 환산 없음)."
+  - test_type: "흡수율"
+    method: "KS L 1592"
+    where: 외부
+    frequency: {per_qty: 300, unit: ton, text: "제조회사별 300톤마다", minimum: 1}
+    basis: "별표2 1. 공통 나. 철근콘크리트공사 도자기질 타일시멘트(KS L 1592) 흡수율 (PDF p.4)"
+    conditions: "제조회사별 300톤마다; 제조일부터 3월 경과해 재질 변화가 인정되면 추가(병합 빈도 칸). 해석 필요: kg·포 단위 내역은 톤으로 바꿔야 비KS 횟수를 셀 수 있음(엔진 단위 환산 없음)."
+  - test_type: "전단접착강도"
+    method: "KS L 1592"
+    where: 외부
+    frequency: {per_qty: 300, unit: ton, text: "제조회사별 300톤마다", minimum: 1}
+    basis: "별표2 1. 공통 나. 철근콘크리트공사 도자기질 타일시멘트(KS L 1592) 전단접착강도 (PDF p.4)"
+    conditions: "제조회사별 300톤마다; 제조일부터 3월 경과해 재질 변화가 인정되면 추가(병합 빈도 칸). 해석 필요: kg·포 단위 내역은 톤으로 바꿔야 비KS 횟수를 셀 수 있음(엔진 단위 환산 없음)."
+  - test_type: "길이변화율"
+    method: "KS L 1592"
+    where: 외부
+    frequency: {per_qty: 300, unit: ton, text: "제조회사별 300톤마다", minimum: 1}
+    basis: "별표2 1. 공통 나. 철근콘크리트공사 도자기질 타일시멘트(KS L 1592) 길이변화율 (PDF p.4)"
+    conditions: "제조회사별 300톤마다; 제조일부터 3월 경과해 재질 변화가 인정되면 추가(병합 빈도 칸). 해석 필요: kg·포 단위 내역은 톤으로 바꿔야 비KS 횟수를 셀 수 있음(엔진 단위 환산 없음)."
+  - test_type: "보수율"
+    method: "KS L 1592"
+    where: 외부
+    frequency: {per_qty: 300, unit: ton, text: "제조회사별 300톤마다", minimum: 1}
+    basis: "별표2 1. 공통 나. 철근콘크리트공사 도자기질 타일시멘트(KS L 1592) 보수율 (PDF p.4)"
+    conditions: "제조회사별 300톤마다; 제조일부터 3월 경과해 재질 변화가 인정되면 추가(병합 빈도 칸). 해석 필요: kg·포 단위 내역은 톤으로 바꿔야 비KS 횟수를 셀 수 있음(엔진 단위 환산 없음)."
+  - test_type: "실내공기 오염물질 방출량(총휘발성유기화합물, 톨루엔, 폼알데하이드)"
+    method: "KS M 1998 또는 실내공기질 공정시험기준(환경부고시)"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "필요시", minimum: 1}
+    basis: "별표2 1. 공통 나. 철근콘크리트공사 도자기질 타일시멘트(KS L 1592) 실내공기 오염물질 방출량(총휘발성유기화합물, 톨루엔, 폼알데하이드) (PDF p.4)"
+    conditions: "비고: 실내에 시공되는 타일 시멘트 2종에 한함. 빈도 '필요시'."

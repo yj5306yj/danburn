@@ -1,0 +1,110 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_wallpaper
+label: 벽지
+work: 도배공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+extra_keys:
+- wallpaper
+match:
+  names:
+  - 벽지
+  - 도배지
+  - 실크벽지
+  - 합지벽지
+  - 천정지                     # 천장 도배지도 같은 도배지(L4-T4)
+  - 천장지
+  exclude:
+  - 풀
+  - 접착제
+  - 퍼티
+  - 초배지                     # '초배' 만 쓰면 '벽지(초배무)'·'(초배유)' 본 행까지 빠진다(L4-T4)
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: false
+ks_count: makers
+order: 75
+group_tests: true
+group:
+  frequency: 제조회사별
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.16 바닥재 및 벽지 벽지
+tests:
+- test_type: 중량
+  method: KS M 7305
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.16 바닥재 및 벽지 벽지 중량
+  conditions: 시료 1조 1롤
+- test_type: 일광견뢰도
+  method: KS M 7305
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.16 바닥재 및 벽지 벽지 일광견뢰도
+  conditions: 시료 1조 1롤
+- test_type: 마찰견뢰도
+  method: KS M 7305
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.16 바닥재 및 벽지 벽지 마찰견뢰도
+  conditions: 시료 1조 1롤
+- test_type: 습윤강도
+  method: KS M 7305
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.16 바닥재 및 벽지 벽지 습윤강도
+  conditions: 시료 1조 1롤
+- test_type: 은폐성
+  method: KS M 7305
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.16 바닥재 및 벽지 벽지 은폐성
+  conditions: 시료 1조 1롤
+- test_type: 시공성
+  method: KS M 7305
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.16 바닥재 및 벽지 벽지 시공성
+  conditions: 시료 1조 1롤
+- test_type: 친환경(TVOC·폼알데하이드·톨루엔)
+  method: 환경부 실내공기질 공정시험방법
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅴ 친환경시험 자재부문 / Ⅱ.16 바닥재 및 벽지 벽지
+  conditions: 공인시험기관(KOLAS 등) 성적서. 부위별 10% 미만 사용 자재 제외 규정 있음(Ⅴ)

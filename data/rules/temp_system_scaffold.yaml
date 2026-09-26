@@ -1,0 +1,57 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 라. 가설기자재 > 조립형 비계 및 동바리 부재 (PDF p.15)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 이름에 괄호 KS 규격이 없다 → ※주석(PDF p.52) 시험 면제 대상 아님 → ks_mark false, 시험마다 행.
+# 비고: 안전인증기준의 종별 명칭은 시스템비계 또는 시스템동바리.
+material: temp_system_scaffold
+label: 시스템비계·동바리
+work: 가설공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [temp_system_scaffold]
+match:
+  names: [시스템비계, 시스템동바리, 조립형비계, 조립형동바리, 시스템서포트]
+  units: [m2, m3, ea, 공m3, 공㎥]
+  exclude: [운반]
+ks_mark: false
+order: 61
+tests:
+  - test_type: 수직재 압축하중
+    method: "KS F 8021 또는 산업안전보건법에 따른 안전인증기준"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제품규격마다(3개), 공급자마다", minimum: 1}
+    basis: "별표2 1. 라. 조립형 비계 및 동바리 부재 — 수직재 압축 하중 (PDF p.15)"
+    conditions: &sup "제품규격마다 시험체 3개, 공급자마다. 해석 필요: 공급자·제품규격 수를 내역서로 알 수 없어 규격(행)당 1회로 적는다. 비고: 안전인증기준의 종별 명칭은 시스템비계 또는 시스템동바리."
+
+  - test_type: 수평재 휨하중
+    method: "KS F 8021 또는 산업안전보건법에 따른 안전인증기준"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제품규격마다(3개), 공급자마다", minimum: 1}
+    basis: "별표2 1. 라. 조립형 비계 및 동바리 부재 — 수평재 휨 하중 (PDF p.15)"
+    conditions: *sup
+
+  - test_type: 가새재 압축하중
+    method: "KS F 8021 또는 산업안전보건법에 따른 안전인증기준"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제품규격마다(3개), 공급자마다", minimum: 1}
+    basis: "별표2 1. 라. 조립형 비계 및 동바리 부재 — 가새재 압축 하중 (PDF p.15)"
+    conditions: *sup
+
+  - test_type: 트러스 휨하중
+    method: "KS F 8021 또는 산업안전보건법에 따른 안전인증기준"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제품규격마다(3개), 공급자마다", minimum: 1}
+    basis: "별표2 1. 라. 조립형 비계 및 동바리 부재 — 트러스 휨 하중 (PDF p.15)"
+    conditions: "트러스 부재를 쓰는 경우. 해석 필요: 원문에 한정 문구는 없으나 트러스가 없는 시스템이면 해당 없음 — 현장 판단. 빈도는 다른 부재와 같음(제품규격마다 3개, 공급자마다)."
+
+  - test_type: 연결조인트 압축하중
+    method: "KS F 8021 또는 산업안전보건법에 따른 안전인증기준"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제품규격마다(3개), 공급자마다", minimum: 1}
+    basis: "별표2 1. 라. 조립형 비계 및 동바리 부재 — 연결조인트 압축 하중 (PDF p.15)"
+    conditions: *sup
+
+  - test_type: 연결조인트 인장하중
+    method: "KS F 8021 또는 산업안전보건법에 따른 안전인증기준"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제품규격마다(3개), 공급자마다", minimum: 1}
+    basis: "별표2 1. 라. 조립형 비계 및 동바리 부재 — 연결조인트 인장 하중 (PDF p.15)"
+    conditions: *sup

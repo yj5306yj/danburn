@@ -1,0 +1,104 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_door_closer
+label: 플로어힌지·도어클로저
+work: 창호공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+extra_keys:
+- door_hardware
+match:
+  names:
+  - 도어클로저
+  - 도어체크
+  - 플로어힌지
+  exclude:
+  - 방화
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: true
+ks_count: none
+order: 72
+group_tests: true
+group:
+  frequency: 제조회사별, 제품규격별
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 플로어힌지 및 도어클로저; KS 표시자재는 LHCS 10 40 00 1.5.1(6)에 따라 시험 생략 가능(공종별 일반사항에 명시된 자재 제외)
+tests:
+- test_type: 연속개폐시험
+  method: KS F 4518
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 플로어힌지 및 도어클로저 연속개폐시험
+  conditions: '시료: 시험용 도어 1조'
+- test_type: 닫힘력시험
+  method: KS F 4518
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 플로어힌지 및 도어클로저 닫힘력시험
+  conditions: '시료: 시험용 도어 1조'
+- test_type: 닫힘속도시험
+  method: KS F 4518
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 플로어힌지 및 도어클로저 닫힘속도시험
+  conditions: '시료: 시험용 도어 1조'
+- test_type: 정지력시험
+  method: KS F 4518
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 플로어힌지 및 도어클로저 정지력시험
+  conditions: '시료: 시험용 도어 1조'
+- test_type: 도어폐쇄위치시험
+  method: KS F 4518
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 플로어힌지 및 도어클로저 도어폐쇄위치시험
+  conditions: '시료: 시험용 도어 1조'
+- test_type: 작동온도범위시험
+  method: KS F 4518
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 플로어힌지 및 도어클로저 작동온도범위시험
+  conditions: '시료: 시험용 도어 1조'
+- test_type: 내구시험
+  method: KS F 2806
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 플로어힌지 및 도어클로저 내구시험
+  conditions: '해석 필요: 원문 방법 칸은 ''KS F 4518 및 KS F 2806''을 함께 적음'

@@ -1,0 +1,67 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 라. 유리공사 > 강화유리(KS L 2002) (PDF p.37)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 비고 칸: KS L 2002 시험은 무늬·플로트·열선반사 강화유리, KS L 2014 시험은 열선반사 강화유리.
+material: tempered_glass
+label: 강화유리
+work: 유리공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [tempered_glass]
+match:
+  names: [강화유리, 강화판유리]
+  units: [m2]
+  exclude: [반강화, 배강도, 인건, 노무, 운반, 할증]
+ks_mark: true                          # 종별 괄호에 KS L 2002 — KS 칸 ◎
+ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
+order: 51
+spec_group: all                          # 두께·치수별 행을 한 행으로(L4-D2)
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 라. 유리공사 강화유리(KS L 2002) (PDF p.37); KS 제품은 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양 및 치수"
+    method: "KS L 2002"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 강화유리(KS L 2002) 겉모양 및 치수 (PDF p.37)"
+
+  - test_type: "만곡"
+    method: "KS L 2002"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 강화유리(KS L 2002) 만곡 (PDF p.37)"
+
+  - test_type: "낙구 충격 파괴 강도"
+    method: "KS L 2002"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 강화유리(KS L 2002) 낙구 충격 파괴 강도 (PDF p.37)"
+
+  - test_type: "파쇄시험"
+    method: "KS L 2002"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 강화유리(KS L 2002) 파쇄시험 (PDF p.37)"
+
+  - test_type: "쇼트백 충격 특성"
+    method: "KS L 2002"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 강화유리(KS L 2002) 쇼트백 충격 특성 (PDF p.37)"
+
+  - test_type: "내광성, 내마모성, 내산성"
+    method: "KS L 2014"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 강화유리(KS L 2002) 내광성, 내마모성, 내산성 (PDF p.37)"
+    conditions: "비고: 열선반사 강화유리에 한함."
+
+  - test_type: "내알칼리성"
+    method: "KS L 2014"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 강화유리(KS L 2002) 내알칼리성 (PDF p.37)"
+    conditions: "비고: 열선반사 강화유리에 한함."

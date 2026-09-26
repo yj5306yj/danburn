@@ -1,0 +1,30 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」 Ⅲ. 기계분야
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2에는 폴리부틸렌관 종별이 없다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+# 매칭: PB관 배관 행과 PB+CD 이중관(복합 항목). 보온재·부속(슬리브·리듀서·수전박스 등)·트랩 연결 행은 뺀다.
+# 규격 묶음: 부록 빈도가 공구마다 1회라 관경을 모두 한 행으로 묶는다.
+material: lh_pb_pipe
+label: 폴리부틸렌관(PB관)
+work: 급수설비공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+match:
+  names: [폴리부틸렌관, 폴리부틸렌, PB관, PB+CD관, PB이중관, PB이중배관]
+  units: [m]
+  exclude: [보온, 슬리브, 써포트, 서포트, 리듀서, 수전박스, 소음방지링, 지그, 고정대, 엘보, 트랩, 소켓, 부속]
+ks_mark: false
+ks_count: makers
+order: 72
+spec_group: {label: 급수·난방용}
+group_tests: true
+group:
+  frequency: 공구마다 1회
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅲ. 기계분야 폴리부틸렌관(PB관)(시험방법 KS M ISO 1167)
+tests:
+- test_type: 내압시험(95℃, 165시간, 정수응력 6.2MPa)
+  method: KS M ISO 1167
+  where: 외부
+  frequency: {per_qty: null, unit: null, text: 공구마다 1회, minimum: 1}
+  basis: LHCS 10 40 00:2020 부록 Ⅲ. 기계분야 폴리부틸렌관(PB관) 내압시험
+  conditions: 옥내기계 공구마다 1회(옥외기계 해당 없음). 비고 중앙·지역·개별난방.

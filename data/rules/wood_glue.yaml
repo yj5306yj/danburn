@@ -1,0 +1,68 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 3. 건축 > 아. 기타 > 초산비닐수지 에멀션 목재 접착제(KS M 3700) (PDF p.52)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 시험방법 칸 배치(세로 위치)로 나눔: 목재 오염성·접착력·요소수지 혼화성·조막성 = KS M 3700, 겉모양·점도 = KS M 3704,
+#   회분·pH·증발 찌꺼기 = KS M 3705.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# LH '의장목공사용 접착제'(lh_finish_carpentry_adhesive, --owner LH)는 파일 순서상 먼저 잡힌다. 마루 접착제는 뺀다.
+material: wood_glue
+label: 초산비닐수지 에멀션 목재 접착제
+work: 목공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [wood_glue]
+match:
+  names: [초산비닐수지에멀션, 초산비닐수지에멀젼, 초산비닐수지접착제, 초산비닐접착제, 목재접착제, 목재용접착제, 목공용접착제, 목공접착제, 목공본드]
+  units: [kg, l, ℓ, 통, 캔, m2]
+  exclude: [마루, 설치, 하차, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS M 3700)
+ks_count: none                           # KS 인증품은 시험 없이 ◎(산출근거 'KS자재')
+order: 57
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 아. 기타 초산비닐수지 에멀션 목재 접착제(KS M 3700) (PDF p.52); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "목재 오염성"
+    method: "KS M 3700"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 초산비닐수지 에멀션 목재 접착제(KS M 3700) 목재 오염성 (PDF p.52)"
+  - test_type: "접착력"
+    method: "KS M 3700"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 초산비닐수지 에멀션 목재 접착제(KS M 3700) 접착력 (PDF p.52)"
+  - test_type: "요소수지 혼화성"
+    method: "KS M 3700"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 초산비닐수지 에멀션 목재 접착제(KS M 3700) 요소수지 혼화성 (PDF p.52)"
+  - test_type: "조막성"
+    method: "KS M 3700"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 초산비닐수지 에멀션 목재 접착제(KS M 3700) 조막성 (PDF p.52)"
+  - test_type: "겉모양"
+    method: "KS M 3704"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 초산비닐수지 에멀션 목재 접착제(KS M 3700) 겉모양 (PDF p.52)"
+  - test_type: "점도"
+    method: "KS M 3704"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 초산비닐수지 에멀션 목재 접착제(KS M 3700) 점도 (PDF p.52)"
+  - test_type: "회분"
+    method: "KS M 3705"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 초산비닐수지 에멀션 목재 접착제(KS M 3700) 회분 (PDF p.52)"
+  - test_type: "pH"
+    method: "KS M 3705"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 초산비닐수지 에멀션 목재 접착제(KS M 3700) pH (PDF p.52)"
+  - test_type: "증발 찌꺼기"
+    method: "KS M 3705"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 초산비닐수지 에멀션 목재 접착제(KS M 3700) 증발 찌꺼기 (PDF p.52)"

@@ -1,0 +1,30 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 마. 기타 > 수도용 고무(KS M 6613) (PDF p.20)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 제품 처리: 종별 괄호에 (KS M 6613) — ※주석(PDF p.52) 시행령 제91조제1항 시험 면제 → ks_mark true, ks_count none.
+material: water_rubber
+label: 수도용고무
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [water_rubber]
+match:
+  names: [수도용고무, 고무링, 수도용패킹]
+  units: [ea, 개, set, 조]
+  exclude: [설치, 운반]
+ks_mark: true
+ks_count: none
+order: 71
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격마다"
+  basis: "별표2 1. 마. 수도용 고무(KS M 6613) (PDF p.20); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: 겉모양, 치수
+    method: "KS M 6613"
+    where: 외부
+    frequency: &f {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
+    basis: "별표2 1. 마. 수도용 고무(KS M 6613) 겉모양, 치수 (PDF p.20)"
+    conditions: &c "제조회사별·제품규격마다 1회. KS M 6613 인증품은 ※주석(PDF p.52)에 따라 시험 면제."
+  - {test_type: 경도, method: "KS M 6784", where: 외부, frequency: *f, basis: "별표2 1. 마. 수도용 고무(KS M 6613) 경도 (PDF p.20)", conditions: *c}
+  - {test_type: 인장시험, method: "KS M 6782", where: 외부, frequency: *f, basis: "별표2 1. 마. 수도용 고무(KS M 6613) 인장시험 (PDF p.20)", conditions: *c}
+  - {test_type: 영구 신장률, method: "KS M 6518", where: 외부, frequency: *f, basis: "별표2 1. 마. 수도용 고무(KS M 6613) 영구 신장률 (PDF p.20)", conditions: *c}
+  - {test_type: 노화시험, method: "KS M 6788", where: 외부, frequency: *f, basis: "별표2 1. 마. 수도용 고무(KS M 6613) 노화시험 (PDF p.20)", conditions: *c}
+  - {test_type: 영구 압축 줄음률, method: "KS M 6791", where: 외부, frequency: *f, basis: "별표2 1. 마. 수도용 고무(KS M 6613) 영구 압축 줄음률 (PDF p.20)", conditions: *c}

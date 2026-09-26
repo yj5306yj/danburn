@@ -1,0 +1,91 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 마. 창호공사 > 문세트(KS F 3109) (PDF p.38~39)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 표가 p.38 끝에서 p.39 첫머리로 이어진다. 목재 문틀만 있는 행은 창호 목제 틀재(KS F 3108) → exclude '문틀'.
+material: door_set
+label: 문세트
+work: 창호공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [door_set]
+match:
+  names: [문세트, 목재문, 방화문, 현관문, 도어세트, 강제문, 철재문, 스틸도어, 갑종방화문, 을종방화문, 목문, 여닫이문, 미서기문, /SD, /FSD, /SSD, /ASD, /AD, /AWD, /AGD, /WD]   # 창호 부호 품명(재질+D=문, 예: 10X21/SD) — L4-T3
+  units: [ea, 개, 개소, set, 틀, 조, m2]
+  exclude: [문틀, 틀재, 경첩, 힌지, 도어록, 도어클로저, 설치, 하차, 도장, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS F 3109)
+ks_count: none                           # KS 인증품은 시험 없이 ◎(산출근거 'KS자재')
+order: 58
+spec_group:                              # 창호 부호(10X21/FSD 등) 규격마다 행이 생기지 않게 재질 부호·문 종류별로 묶는다(L4-D2)
+  pattern: "/(F?S?SD|ASD|AWD|AGD|AD|WD)|(갑종방화문|을종방화문|방화문|현관문|목재문|목문|강제문|철재문|스틸도어|도어세트|문세트|여닫이문|미서기문)"
+  label: "{1}{2}"
+  other: 기타
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) (PDF p.38~39); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "치수"
+    method: "KS F 3109, KS F 1515"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 치수 (PDF p.38~39)"
+  - test_type: "비틀림 강도"
+    method: "KS F 3109"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 비틀림 강도 (PDF p.38~39)"
+  - test_type: "연직 하중 강도"
+    method: "KS F 2631"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 연직 하중 강도 (PDF p.38~39)"
+  - test_type: "개폐력"
+    method: "KS F 2237"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 개폐력 (PDF p.38~39)"
+  - test_type: "개폐 반복성"
+    method: "KS F 4534"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 개폐 반복성 (PDF p.38~39)"
+  - test_type: "내충격성"
+    method: "KS F 2236"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 내충격성 (PDF p.38~39)"
+  - test_type: "내풍압성"
+    method: "KS F 2296"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 내풍압성 (PDF p.38~39)"
+  - test_type: "기밀성"
+    method: "KS F 2292"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 기밀성 (PDF p.38~39)"
+  - test_type: "수밀성"
+    method: "KS F 2293"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 수밀성 (PDF p.38~39)"
+  - test_type: "방음성"
+    method: "KS F 10140-1"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 방음성 (PDF p.38~39)"
+  - test_type: "단열성"
+    method: "KS F 2278"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 단열성 (PDF p.38~39)"
+  - test_type: "내화성"
+    method: "KS F 2268-1"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 내화성 (PDF p.38~39)"
+  - test_type: "차연성"
+    method: "KS F 2846"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 차연성 (PDF p.38~39)"

@@ -1,0 +1,50 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+# 참고: PVC 몰딩은 부록에 없음 — extra_keys(pvc_molding) 주장하지 않음
+material: lh_extruded_lintel
+label: 압출성형 인방재
+work: 조적공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+match:
+  names:
+  - 압출성형인방재
+  - 압출성형인방
+  - 압출인방재
+  exclude:
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: false
+ks_count: makers
+order: 82
+group_tests: true
+group:
+  frequency: 제조회사별
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.6 벽돌 및 블록류 압출성형인방재
+tests:
+- test_type: 절건밀도·휨강도·흡수율
+  method: LHCS 41 34 02
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.6 벽돌 및 블록류 압출성형인방재
+- test_type: 치수
+  method: LHCS 41 34 02
+  where: 현장
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.6 벽돌 및 블록류 압출성형인방재 현장시험

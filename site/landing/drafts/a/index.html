@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>단번 — 도급내역서로 품질관리계획서 초안</title>
+<meta name="description" content="도급내역서와 몇 가지 질문으로 품질관리계획서(HWPX) 초안을 만드는 오픈소스 도구.">
+<link rel="canonical" href="https://danburn.kr/">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5.2.5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5.2.5/500.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- 도색 초안 A 절제형 — 사선 무늬·칸막이 격자, 파랑 최소 (L8-L2). 구조·문장은 site/landing/index.html 스케치와 같고, 머리말 링크·영상 경로만 다르다. -->
+
+<header class="top">
+  <span class="brand">단번 <span class="mono">Danburn</span></span>
+  <nav>
+    <a href="#what">무엇이 나오나</a>
+    <a href="#inside">계획서 구성</a>
+    <a href="#install">설치</a>
+    <a href="https://github.com/yj5306yj/danburn">GitHub</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ① 히어로 -->
+  <section class="hero" id="top">
+    <div class="hero-text">
+      <p class="label mono">오픈소스 · 품질관리계획서</p>
+      <h1>도급내역서를 넣으면<br>품질관리계획서 초안이 나옵니다</h1>
+      <p class="lead">질문 몇 개에 답하면 1~10장 틀과 8.11 시험계획을 채운 <code>품질관리계획서.hwpx</code>를 만듭니다. 확정은 품질관리자가 합니다.</p>
+      <div class="cmd">
+        <code id="cmd-hero">uvx --from git+https://github.com/yj5306yj/danburn danburn start</code>
+        <button type="button" data-copy="cmd-hero">복사</button>
+      </div>
+      <p class="small"><a href="https://github.com/yj5306yj/danburn">https://github.com/yj5306yj/danburn</a></p>
+    </div>
+    <figure class="hero-media">
+      <!-- 16초 무음 루프. 좁은 화면은 4:5 판. 움직임 줄이기 설정이면 멈춘 첫 화면(poster)만 -->
+      <video id="hero-video" autoplay muted loop playsinline preload="metadata" poster="../../media/hero-v4-poster.jpg"
+        aria-label="도급내역서 행이 품질관리계획서 줄로 옮겨지고, 레미콘 2,000 + 950 = 2,950㎥ 이 8.11 시험계획표 원문과 대조되는 16초 영상(합성 예제)">
+        <source src="../../media/hero-v4-45.mp4" type="video/mp4" media="(max-width: 760px)">
+        <source src="../../media/hero-v4.mp4" type="video/mp4">
+      </video>
+      <figcaption class="small">합성 예제로 만든 실제 계획서 쪽입니다.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ② 무엇을 넣고 무엇이 나오나 -->
+  <section id="what">
+    <h2>무엇을 넣고 무엇이 나오나</h2>
+    <ol class="flow3">
+      <li>
+        <p class="step mono">1 · 넣는 것</p>
+        <h3>도급내역서(xlsx)</h3>
+        <p>지급·사급 내역 시트가 있는 공동주택 도급내역서. 읽을 수 있는 양식인지 먼저 확인합니다.</p>
+      </li>
+      <li>
+        <p class="step mono">2 · 답하는 것</p>
+        <h3>질문 몇 개</h3>
+        <p>발주자(공공·민간), 공사 규모, 현장 이름과 사람. 답으로 적용 법(품질관리계획 대상, 품질관리자·시험실 기준)을 판정합니다.</p>
+      </li>
+      <li>
+        <p class="step mono">3 · 나오는 것</p>
+        <h3><code>품질관리계획서.hwpx</code></h3>
+        <p>한글에서 열리는 계획서 한 권과, 사람이 확인할 것 목록.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ③ 계획서에 들어가는 것 -->
+  <section id="inside">
+    <h2>계획서에 들어가는 것</h2>
+    <div class="grid3">
+      <div>
+        <h3>1~10장 틀</h3>
+        <p>「건설공사 품질관리 업무지침」 별표1 순서의 33절. 절마다 개요 칸·업무 분장표·업무 흐름표, 기록 양식 42종. 문장은 모든 현장에 같은 공통 초안이라 현장에 맞게 고쳐 씁니다.</p>
+      </div>
+      <div>
+        <h3>8.11 시험계획 계산</h3>
+        <p>내역서 물량으로 별표2의 시험종목·빈도·계획횟수를 계산하고 행마다 산출근거를 적습니다. 규칙이 없는 자재는 따로 표시합니다.</p>
+      </div>
+      <div>
+        <h3>법 판정</h3>
+        <p>건설기술 진흥법 시행령 제89조와 시행규칙 별표5로 계획 종류와 품질관리자·시험실 기준을 판정해 1장과 8.11에 적습니다.</p>
+      </div>
+    </div>
+    <p class="note">결과는 제출 전 검토용 초안입니다. 법정 서식 충족이나 승인을 보장하지 않습니다. 만들 때는 한글(한컴오피스)이 필요 없고, 제출 전에는 한글로 열어 확인합니다. 맥에서 만들고 확인했으며 Windows는 아직 검증 전입니다.</p>
+  </section>
+
+  <!-- ④ 설치 -->
+  <section id="install">
+    <h2>설치와 실행</h2>
+    <div class="grid2">
+      <div>
+        <h3>터미널에서 한 줄</h3>
+        <div class="cmd">
+          <code id="cmd-uvx">uvx --from git+https://github.com/yj5306yj/danburn danburn start</code>
+          <button type="button" data-copy="cmd-uvx">복사</button>
+        </div>
+        <p class="small"><a href="https://docs.astral.sh/uv/">uv</a>가 있어야 합니다. 계속 쓸 거라면 <code>pipx install git+https://github.com/yj5306yj/danburn</code> 후 <code>danburn start</code>.</p>
+      </div>
+      <div>
+        <h3>AI 에이전트에게 맡기기</h3>
+        <p>Claude Code·Codex 같은 코딩 에이전트에 저장소의 스킬을 연결하고 “이 폴더의 도급내역서로 품질관리계획서 만들어 줘”라고 말합니다. 에이전트가 같은 질문을 대신 묻습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑤ 감사와 출처 -->
+  <section id="thanks">
+    <h2>감사와 출처</h2>
+    <p>아래 공개 소프트웨어와 공개 자료 덕분에 만들 수 있었습니다. 전체 목록과 라이선스는 저장소의 NOTICE.md에 있습니다.</p>
+    <div class="grid2">
+      <div>
+        <h3>한글 문서·파일 처리 오픈소스</h3>
+        <ul class="credits">
+          <li><a href="https://github.com/airmang/python-hwpx">python-hwpx</a> <span class="mono">Apache-2.0</span> — 한컴 없이 HWPX를 만들고 검사</li>
+          <li><a href="https://github.com/edwardkim/rhwp">rhwp</a> <span class="mono">MIT</span> — 한컴 없이 HWPX를 PDF로 그려 쪽 모양 확인(개발 도구)</li>
+          <li><a href="https://github.com/lxml/lxml">lxml</a> <span class="mono">BSD-3-Clause</span> — HWPX 속 XML 처리</li>
+          <li><a href="https://foss.heptapod.net/openpyxl/openpyxl">openpyxl</a> <span class="mono">MIT</span> — 도급내역서 xlsx 읽기</li>
+          <li><a href="https://github.com/yaml/pyyaml">PyYAML</a> <span class="mono">MIT</span> — 규칙·현장 정보 읽기</li>
+          <li><a href="https://docs.astral.sh/uv/">uv</a> <span class="mono">Apache-2.0 OR MIT</span> — 설치를 한 줄로</li>
+        </ul>
+      </div>
+      <div>
+        <h3>법령·기준 공개 자료</h3>
+        <ul class="credits">
+          <li><a href="https://github.com/legalize-kr/admrule-kr">legalize-kr/admrule-kr</a> — 행정규칙 공개 미러, 업무지침 현행 판 확인</li>
+          <li><a href="https://www.law.go.kr">국가법령정보센터</a> · <a href="https://open.law.go.kr/LSO/openApi/guideList.do">공동활용 API</a> — 업무지침 별표1·별표2, 건설기술 진흥법·시행령·시행규칙 원문</li>
+          <li><a href="https://www.kcsc.re.kr">국가건설기준센터(KCSC)</a> — KCS·KDS·LHCS 번호·명칭 확인</li>
+          <li><a href="https://www.data.go.kr">공공데이터포털</a> — 공개 법령·기준 API 조사</li>
+          <li><a href="https://www.hancom.com/support/downloadCenter/hwpOwpml">한컴 HWP/OWPML 공개 문서</a> — HWP·HWPX 문서 구조 참고</li>
+        </ul>
+      </div>
+    </div>
+    <p class="notice"><strong>본 제품은 한글과컴퓨터의 HWP 문서 파일(.hwp) 공개 문서를 참고하여 개발하였습니다.</strong></p>
+    <p class="small">법령·고시 원문은 옮기지 않고 번호·항목명·쪽만 인용합니다. 글꼴 파일과 한컴오피스 소프트웨어는 포함하지 않습니다.</p>
+  </section>
+</main>
+
+<!-- ⑥ 바닥글 -->
+<footer>
+  <span>단번 (Danburn)</span>
+  <a href="https://danburn.kr/">danburn.kr</a>
+  <a href="https://github.com/yj5306yj/danburn">GitHub</a>
+  <span>Apache License 2.0</span>
+  <span class="small">화면과 영상의 계획서는 합성 예제로 만든 것입니다.</span>
+</footer>
+
+<script>
+  // 영상: 좁은 화면 poster 바꾸기, 움직임 줄이기 설정이면 멈추고 poster 만
+  (function () {
+    var v = document.getElementById('hero-video');
+    // 좁은 화면은 4:5 영상과 짝이 맞는 4:5 첫 화면(poster)
+    if (v && window.matchMedia && window.matchMedia('(max-width: 760px)').matches) v.poster = '../../media/hero-v4-45-poster.jpg';
+    if (v && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      v.removeAttribute('autoplay'); v.pause();
+    }
+  })();
+  // 복사 단추: 명령 한 줄을 클립보드로(스케치 단계 최소 동작)
+  document.querySelectorAll('button[data-copy]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = document.getElementById(b.dataset.copy).textContent;
+      if (navigator.clipboard) navigator.clipboard.writeText(t).then(function () {
+        b.textContent = '복사됨'; setTimeout(function () { b.textContent = '복사'; }, 1500);
+      });
+    });
+  });
+</script>
+</body>
+</html>

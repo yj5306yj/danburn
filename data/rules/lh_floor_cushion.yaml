@@ -1,0 +1,112 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+# 참고: 반입시마다(현장) 횟수는 반입 횟수를 알아야 해서 묶음 행은 제조회사 수×1회로 적고 빈도 문구로 알린다
+material: lh_floor_cushion
+label: 바닥 완충재
+work: 단열공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+extra_keys:
+- floor_cushion
+match:
+  names:
+  - 바닥완충재
+  - 층간소음완충재
+  - 층간완충재
+  - 완충재
+  exclude:
+  - 측면
+  - 벽체
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: false
+ks_count: makers
+order: 76
+group_tests: true
+group:
+  frequency: 반입시마다(밀도·규격·형상), 제조회사별(그 밖)
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.15 단열재 바닥 완충재
+tests:
+- test_type: 밀도·규격·형상
+  method: KS M ISO 845
+  where: 현장
+  frequency:
+    per_qty: null
+    unit: null
+    text: 반입시마다
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.15 단열재 바닥 완충재 밀도·규격·형상
+- test_type: 동탄성계수
+  method: KS F 2868
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.15 단열재 바닥 완충재 동탄성계수
+  conditions: 48시간 이상 하중판 거치
+- test_type: 손실계수
+  method: KS F 2868
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.15 단열재 바닥 완충재 손실계수
+  conditions: 48시간 이상 하중판 거치
+- test_type: 흡수량
+  method: KS M ISO 4898
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.15 단열재 바닥 완충재 흡수량
+- test_type: 가열 후 치수안정성·동탄성계수·손실계수
+  method: KS M ISO 4898
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.15 단열재 바닥 완충재 가열 후
+  conditions: 70℃ 48시간 이상, KS F 2868 하중판 거치 후 가열
+- test_type: 잔류변형량
+  method: KS F 2873
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.15 단열재 바닥 완충재 잔류변형량
+- test_type: 열전도율 또는 열관류율
+  method: KS L 9016
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.15 단열재 바닥 완충재 열전도율
+- test_type: 성능인정서 세부인정내용 시험종목
+  method: 세부인정내용
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.15 단열재 바닥 완충재 — 바닥충격음 차단구조 성능인정서

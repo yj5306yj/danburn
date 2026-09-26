@@ -1,0 +1,53 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 마. 기타 > 일반용 폴리에틸렌 관(KS M 3407) (PDF p.18)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 이름 주의: 'PE관'은 이중벽 고밀도 폴리에틸렌관(KS M 3500, double_wall_hdpe_pipe)·고강도(파형) PE관·보온재(발포폴리에틸렌)·
+#   P.E 거푸집에도 들어간다 — 이 종별(매끈한 일반용 PE관)이 아니므로 뺀다. 부설·접합 행은 노무.
+material: general_pe_pipe
+label: 일반용 폴리에틸렌관
+work: 배수공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [general_pe_pipe]
+match:
+  names: [일반용폴리에틸렌관, 일반용PE관, 폴리에틸렌관, PE관]
+  units: [m, 본, ea, 개]
+  exclude: [이중벽, 고강도, 파형, 파상, 유공, 보온, 발포, 거푸집, 수도용, 가스, 부설, 접합, 설치, 절단, 인건, 노무, 운반, 하차, 할증]
+ks_mark: true                            # 종별 괄호 (KS M 3407)
+ks_count: none
+order: 72
+spec_group: all                          # 호칭지름별 행을 한 행으로
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격마다"
+  basis: "별표2 1. 공통 마. 기타 일반용 폴리에틸렌 관(KS M 3407) (PDF p.18); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "치수"
+    method: "KS M 3407"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 일반용 폴리에틸렌 관(KS M 3407) 치수 (PDF p.18)"
+    conditions: &pe "하수도용관(비고)."
+  - test_type: "인장시험"
+    method: "KS M 3407"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 일반용 폴리에틸렌 관(KS M 3407) 인장시험 (PDF p.18)"
+    conditions: *pe
+  - test_type: "수압시험"
+    method: "KS M 3407"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 일반용 폴리에틸렌 관(KS M 3407) 수압시험 (PDF p.18)"
+    conditions: *pe
+  - test_type: "침지시험"
+    method: "KS M 3407"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 일반용 폴리에틸렌 관(KS M 3407) 침지시험 (PDF p.18)"
+    conditions: *pe
+  - test_type: "회분 시험"
+    method: "KS M 3407"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 일반용 폴리에틸렌 관(KS M 3407) 회분 시험 (PDF p.18)"
+    conditions: *pe

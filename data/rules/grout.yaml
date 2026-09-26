@@ -1,0 +1,41 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 나. 철근콘크리트공사 > 그라우트 (PDF p.9)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 이름에 괄호 KS가 없다 → 시험 면제 대상 아님(ks_mark false). 시험마다 빈도가 달라 시험마다 행을 쓴다.
+# 수경성시멘트 무수축 그라우트(KS F 4044, PDF p.9)는 별도 종별 → '무수축'은 뺀다.
+# 내역서 관행: 앵커 그라우트는 '어스앵커 그라우팅'(㎥) 같은 공사 행으로만 온다(재료 포함). 장비 조립·해체·천공 행은 뺀다.
+# 해석 필요: 빈도가 작업일·배합 단위(당일 작업개시 전 1회/일 이상 등)라 내역서로 일수를 알 수 없다 → 1회로 적고
+#   작업 일수·배합 수에 맞춰 품질관리자가 늘린다. 현장/외부 구분은 원문에 없다 — 컨시스턴시·블리딩·팽창은 현장,
+#   압축강도는 외부 공시체 시험으로 적었다(해석).
+material: grout
+label: 그라우트
+work: 철근콘크리트공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [grout]
+match:
+  names: [그라우트, 그라우팅]
+  units: [m3, 공m3, m, 식, ton, kg]
+  exclude: [무수축, 수경성, 장비, 조립, 해체, 천공, 운반]
+ks_mark: false
+order: 26
+group_tests: false
+tests:
+  - test_type: 컨시스턴시
+    method: "KS F 2432"
+    where: 현장
+    frequency: &daily {per_qty: null, unit: null, text: "당일 작업개시전, 1회/일 이상, 품질변화가 인정될 때", minimum: 1}
+    basis: "별표2 1. 나. 그라우트 컨시스턴시 (PDF p.9)"
+    conditions: &dc "당일 작업개시 전 1회/일 이상, 품질 변화가 인정될 때. 해석 필요: 작업 일수를 내역서로 알 수 없어 1회로 적음 — 일수만큼 늘린다."
+  - {test_type: 압축강도, method: "KS F 2426", where: 외부, frequency: *daily, basis: "별표2 1. 나. 그라우트 압축강도 (PDF p.9)", conditions: *dc}
+  - test_type: 블리딩률 및 팽창률
+    method: "KS F 2433"
+    where: 현장
+    frequency: {per_qty: null, unit: null, text: "공종개시전 1회, 재료·배합의 변경시마다, 품질변화가 인정될 때", minimum: 1}
+    basis: "별표2 1. 나. 그라우트 블리딩률 및 팽창률 (PDF p.9)"
+    conditions: "공종 개시 전 1회, 재료·배합 변경 시마다, 품질 변화가 인정될 때. 비고: 비팽창성 타입은 팽창률 시험 생략."
+  - test_type: 염화물함유량
+    method: "KS F 4009 부속서 A 또는 KS F 2715"
+    where: 현장
+    optional: true
+    frequency: *daily
+    basis: "별표2 1. 나. 그라우트 염화물함유량 (PDF p.9)"
+    conditions: "비고: 염화물 함유량은 프리스트레스트 콘크리트(PSC)에 한한다. 해당 시 --include-optional."

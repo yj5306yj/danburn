@@ -1,0 +1,77 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       1. 공통 마. 기타 > 토목용 부직포 섬유(KS K 2630) (PDF p.16)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 토목섬유 매트·토목섬유(배수용)·드레인보드는 별도 종별(괄호 KS 없음).
+material: nonwoven_geotextile
+label: 토목용 부직포 섬유
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [nonwoven_geotextile]
+accept_install_rows: true                # 내역서에 시공 행(…설치)만 있을 때 그 물량으로(비고 “시공 행 추정”, L4-T3)
+match:
+  names: [토목용부직포, 부직포]
+  units: [m2]
+  exclude: [설치, 포설, 깔기, 하차, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS K 2630)
+ks_count: none                           # KS 인증품은 시험 없이 ◎(산출근거 'KS자재')
+order: 73
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격마다
+20,000제곱미터마다"
+  basis: "별표2 1. 공통 마. 기타 토목용 부직포 섬유(KS K 2630) (PDF p.16); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양"
+    method: "KS K 2630"
+    where: 외부
+    frequency: {per_qty: 20000, unit: m2, text: "제품규격마다 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 토목용 부직포 섬유(KS K 2630) 겉모양 (PDF p.16)"
+    conditions: "제조회사별·제품규격마다·20,000㎡마다(병합 빈도 칸). 비고: 시험방법은 국가기술표준원 개정 검토 중 — 개정 이후 개정된 시험방법에 따름."
+  - test_type: "무게"
+    method: "KS K ISO 9864"
+    where: 외부
+    frequency: {per_qty: 20000, unit: m2, text: "제품규격마다 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 토목용 부직포 섬유(KS K 2630) 무게 (PDF p.16)"
+    conditions: "제조회사별·제품규격마다·20,000㎡마다(병합 빈도 칸). 비고: 시험방법은 국가기술표준원 개정 검토 중 — 개정 이후 개정된 시험방법에 따름."
+  - test_type: "인장강도 및 신도"
+    method: "KS K 0743"
+    where: 외부
+    frequency: {per_qty: 20000, unit: m2, text: "제품규격마다 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 토목용 부직포 섬유(KS K 2630) 인장강도 및 신도 (PDF p.16)"
+    conditions: "제조회사별·제품규격마다·20,000㎡마다(병합 빈도 칸). 비고: 시험방법은 국가기술표준원 개정 검토 중 — 개정 이후 개정된 시험방법에 따름."
+  - test_type: "봉합강도"
+    method: "KS K ISO 13935-2"
+    where: 외부
+    frequency: {per_qty: 20000, unit: m2, text: "제품규격마다 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 토목용 부직포 섬유(KS K 2630) 봉합강도 (PDF p.16)"
+    conditions: "제조회사별·제품규격마다·20,000㎡마다(병합 빈도 칸). 비고: 시험방법은 국가기술표준원 개정 검토 중 — 개정 이후 개정된 시험방법에 따름."
+  - test_type: "투수계수"
+    method: "KS K ISO 11058"
+    where: 외부
+    frequency: {per_qty: 20000, unit: m2, text: "제품규격마다 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 토목용 부직포 섬유(KS K 2630) 투수계수 (PDF p.16)"
+    conditions: "제조회사별·제품규격마다·20,000㎡마다(병합 빈도 칸). 비고: 시험방법은 국가기술표준원 개정 검토 중 — 개정 이후 개정된 시험방법에 따름."
+  - test_type: "나비"
+    method: "KS K ISO 22198"
+    where: 외부
+    frequency: {per_qty: 20000, unit: m2, text: "제품규격마다 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 토목용 부직포 섬유(KS K 2630) 나비 (PDF p.16)"
+    conditions: "제조회사별·제품규격마다·20,000㎡마다(병합 빈도 칸). 비고: 시험방법은 국가기술표준원 개정 검토 중 — 개정 이후 개정된 시험방법에 따름."
+  - test_type: "길이"
+    method: "KS K ISO 22198"
+    where: 외부
+    frequency: {per_qty: 20000, unit: m2, text: "제품규격마다 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 토목용 부직포 섬유(KS K 2630) 길이 (PDF p.16)"
+    conditions: "제조회사별·제품규격마다·20,000㎡마다(병합 빈도 칸). 비고: 시험방법은 국가기술표준원 개정 검토 중 — 개정 이후 개정된 시험방법에 따름."
+  - test_type: "두께"
+    method: "KS K ISO 9863-1"
+    where: 외부
+    frequency: {per_qty: 20000, unit: m2, text: "제품규격마다 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 토목용 부직포 섬유(KS K 2630) 두께 (PDF p.16)"
+    conditions: "제조회사별·제품규격마다·20,000㎡마다(병합 빈도 칸). 비고: 시험방법은 국가기술표준원 개정 검토 중 — 개정 이후 개정된 시험방법에 따름."
+  - test_type: "조성섬유"
+    method: "KS K 0210"
+    where: 외부
+    frequency: {per_qty: 20000, unit: m2, text: "제품규격마다 20,000㎡마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 토목용 부직포 섬유(KS K 2630) 조성섬유 (PDF p.16)"
+    conditions: "제조회사별·제품규격마다·20,000㎡마다(병합 빈도 칸). 비고: 시험방법은 국가기술표준원 개정 검토 중 — 개정 이후 개정된 시험방법에 따름."

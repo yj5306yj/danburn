@@ -1,0 +1,142 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 사. 도장공사 > 조합페인트·목재 프라이머(KS M 5318) (PDF p.50~51)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 원문 종별 이름 그대로 '조합페인트·목재 프라이머'(KS M 5318) 한 종별.
+material: ready_mixed_paint
+label: 조합페인트·목재 프라이머
+work: 도장공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [ready_mixed_paint]
+match:
+  names: [조합페인트, 목재프라이머, 목재용프라이머]
+  units: [m2, l, ℓ, kg]
+  exclude: [인건, 노무, 운반, 할증]
+ks_mark: true                          # 종별 괄호에 KS M 5318 — KS 칸 ◎
+ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
+order: 61
+spec_group: all                          # 색·광택별 행을 한 행으로(L4-D2)
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) (PDF p.50~51); KS 제품은 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "점착성"
+    method: "KS M 5318"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 점착성 (PDF p.50)"
+
+  - test_type: "리프팅"
+    method: "KS M 5318"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 리프팅 (PDF p.50)"
+
+  - test_type: "실링성(충전성)"
+    method: "KS M 5318"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 실링성(충전성) (PDF p.50)"
+
+  - test_type: "내수성"
+    method: "KS M 5318"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 내수성 (PDF p.50)"
+
+  - test_type: "나이프시험"
+    method: "KS M 5318"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 나이프시험 (PDF p.50)"
+
+  - test_type: "안료분"
+    method: "KS M 5000-2111"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 안료분 (PDF p.50)"
+
+  - test_type: "불휘발 전색제분"
+    method: "KS M 5000-2112"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 불휘발 전색제분 (PDF p.50)"
+
+  - test_type: "확산 반사율"
+    method: "KS M 5000-3121"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 확산 반사율 (PDF p.50)"
+
+  - test_type: "주도"
+    method: "KS M 5000-2122"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 주도 (PDF p.50)"
+
+  - test_type: "건조 시간(지촉, 경화)"
+    method: "KS M 5000-2511"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 건조 시간(지촉, 경화) (PDF p.50)"
+
+  - test_type: "연화도"
+    method: "KS M ISO 1524"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 연화도 (PDF p.50)"
+
+  - test_type: "수분"
+    method: "KS M 5000-2261"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 수분 (PDF p.50)"
+
+  - test_type: "용기내 상태"
+    method: "KS M 5000-2011"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 용기내 상태 (PDF p.50)"
+
+  - test_type: "색상"
+    method: "KS M 5000-3011"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 색상 (PDF p.50)"
+
+  - test_type: "저장 안정성(용기에 찼을 때)"
+    method: "KS M 5000-2031"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 저장 안정성(용기에 찼을 때) (PDF p.50)"
+
+  - test_type: "저장 안정성(차지 않았을 때)"
+    method: "KS M 5000-2031, KS M 5000-2021"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 저장 안정성(차지 않았을 때) (PDF p.50)"
+
+  - test_type: "붓칠 작업성"
+    method: "KS M 5000-2411"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 붓칠 작업성 (PDF p.50)"
+
+  - test_type: "스프레이 작업성"
+    method: "KS M 5000-2412"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 스프레이 작업성 (PDF p.50)"
+
+  - test_type: "내굴곡성 시험"
+    method: "KS M 5000-3331"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 내굴곡성 시험 (PDF p.50)"
+
+  - test_type: "은폐율"
+    method: "KS M ISO 2814"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 조합페인트·목재 프라이머(KS M 5318) 은폐율 (PDF p.51)"
+    conditions: "쪽 경계(p.50→p.51) 행 — 종별 칸이 비어 있으나 표 구조상 이 종별에 속함."

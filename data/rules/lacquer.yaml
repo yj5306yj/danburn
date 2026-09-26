@@ -1,0 +1,207 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 사. 도장공사 > 래커도료(KS M 6040) (PDF p.48~49)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다. (L7-R5, 원문 표를 렌더해 칸 경계 확인)
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 원문은 1·2·3종(래커 프라이머·퍼티·서페이서), 4·5종(목재용 우드실러·샌딩실러), 6·7종(마감용 투명래커·상도마감용 래커 에나멜) 3묶음별 종목(p.48).
+# 6·7종 마지막 행 '용기내 상태'는 다음 쪽 첫 행(p.49, 바니시 칸 위)으로 이어진다.
+# 기본 행은 3묶음 공통 3종목(고화 건조 시간·비휘발분·용기내 상태). 묶음별 종목은 optional + conditions.
+# 이름: '락카'만 쓰지 않는다 — 내역서에서 '락카'는 사물함(탈의실 락카)으로도 쓰인다. 단위도 도료 단위로 제한.
+material: lacquer
+label: 래커도료
+work: 도장공사
+basis_version: 국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2
+index_keys:
+- lacquer
+match:
+  names:
+  - 래커도료
+  - 래커페인트
+  - 래커에나멜
+  - 투명래커
+  - 래커
+  - 락카도료
+  - 락카페인트
+  - 락카칠
+  units:
+  - m2
+  - l
+  - ℓ
+  - kg
+  - 통
+  - 캔
+  exclude:
+  - 인건
+  - 노무
+  - 운반
+  - 할증
+ks_mark: true
+ks_count: none
+order: 61
+spec_group: all
+group_tests: true
+group:
+  frequency: 제조회사별, 제품규격별
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) (PDF p.48~49); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외
+tests:
+- test_type: 고화 건조 시간
+  method: KS M 5000-2511(1·2·3종, 6·7종), KS M 5000-2412(4·5종)
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 3묶음 공통.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 고화 건조 시간 (PDF p.48)
+- test_type: 비휘발분
+  method: KS M ISO 3251
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 3묶음 공통.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 비휘발분 (PDF p.48)
+- test_type: 용기내 상태
+  method: KS M 5000-2011
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 3묶음 공통(6·7종은 p.49 첫 행).
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 용기내 상태 (PDF p.48)
+- test_type: 연마 용이성
+  method: KS M 6040
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 1·2·3종, 4·5종에 한함.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 연마 용이성 (PDF p.48)
+- test_type: 상도 적합성
+  method: KS M 6040
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 1·2·3종, 4·5종에 한함.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 상도 적합성 (PDF p.48)
+- test_type: 블리딩
+  method: KS M 6040
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 1·2·3종, 6·7종에 한함.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 블리딩 (PDF p.48)
+- test_type: 내충격성
+  method: KS M 6040, KS M ISO 6272-2
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 1·2·3종에 한함.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 내충격성 (PDF p.48)
+- test_type: 내수성
+  method: KS M 6040, KS M ISO 2812-1,2
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 1·2·3종에 한함.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 내수성 (PDF p.48)
+- test_type: 내굴곡성
+  method: KS M 5000-3331
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 1·2·3종에 한함.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 내굴곡성 (PDF p.48)
+- test_type: 내블로킹성
+  method: KS M 6040
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 6·7종에 한함.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 내블로킹성 (PDF p.48)
+- test_type: 내수성, 내휘발유성
+  method: KS M 6040, KS M ISO 2812-1,2
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 6·7종에 한함.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 내수성, 내휘발유성 (PDF p.48)
+- test_type: 가열 안정성
+  method: KS M 6040, KS M 5000-3021
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 6·7종에 한함.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 가열 안정성 (PDF p.48)
+- test_type: 투명성
+  method: KS M 5000-2051
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 6·7종에 한함.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 투명성 (PDF p.48)
+- test_type: 은폐율
+  method: KS M ISO 2814
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 6·7종에 한함.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 은폐율 (PDF p.48)
+- test_type: 광택
+  method: KS M ISO 2813
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 6·7종에 한함.
+  basis: 별표2 3. 건축 사. 도장공사 래커도료(KS M 6040) 광택 (PDF p.48)

@@ -1,0 +1,54 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       1. 공통 마. 기타 > 원심력 철근콘크리트관(KS F 4403) (PDF p.18~19)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 표가 p.18 끝에서 p.19 첫머리로 이어진다. 철근콘크리트관(KS F 4402, 비원심력)은 별도 종별.
+material: centrifugal_rc_pipe
+label: 원심력 철근콘크리트관
+work: 배수공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [centrifugal_rc_pipe]
+match:
+  names: [원심력철근콘크리트관, 흄관, 원심력관, 원심력콘크리트관, "철근콘크리트관(우수관)"]   # 우수관 철근콘크리트관 = 원심력 흄관(현장 품질관리 실무자 확인 2026-09-26)
+  units: [m, 본, ea, 개]
+  exclude: [부설, 접합, 설치, 절단, 하차, 기초, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS F 4403)
+ks_count: none                           # KS 인증품은 시험 없이 ◎(산출근거 'KS자재')
+order: 72
+group_tests: true
+group:
+  frequency: "모든 제품마다(겉모양), 제조회사별, 제품규격마다
+방균관은 12개월마다"
+  basis: "별표2 1. 공통 마. 기타 원심력 철근콘크리트관(KS F 4403) (PDF p.18~19); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양 및 모양"
+    method: "KS F 4403"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 원심력 철근콘크리트관(KS F 4403) 겉모양 및 모양 (PDF p.18~19)"
+    conditions: "빈도: 모든 제품마다. 하수도용관(비고)."
+  - test_type: "치수"
+    method: "KS F 4403"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 원심력 철근콘크리트관(KS F 4403) 치수 (PDF p.18~19)"
+    conditions: "빈도: 제조회사별, 제품규격마다. 하수도용관(비고)."
+  - test_type: "외압강도"
+    method: "KS F 4403"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 원심력 철근콘크리트관(KS F 4403) 외압강도 (PDF p.18~19)"
+    conditions: "빈도: 제조회사별, 제품규격마다. 하수도용관(비고)."
+  - test_type: "내압강도"
+    method: "KS F 4403"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 원심력 철근콘크리트관(KS F 4403) 내압강도 (PDF p.18~19)"
+    conditions: "빈도: 제조회사별, 제품규격마다. 하수도용관(비고)."
+  - test_type: "방균성능(방균관)"
+    method: "KS F 4403"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 원심력 철근콘크리트관(KS F 4403) 방균성능(방균관) (PDF p.18~19)"
+    conditions: "방균관에 한함. 빈도: 12개월마다. 하수도용관(비고)."

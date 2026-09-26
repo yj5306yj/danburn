@@ -1,0 +1,72 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       1. 공통 > 나. 철근콘크리트공사 > 철근콘크리트용 봉강(KS D 3504)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 재생봉강(KS D 3527)·에폭시 피복철근(KS D 3629)·아연도금 봉강(KS D 3613)·철근 이음은 별도 종별이라 이 파일에 넣지 않았다.
+# KS 제품 처리: 별표2 끝 ※주석(PDF p.52, 제2025-311호·제2026-360호 같은 문장)은 종별 괄호 안 KS 규격이
+#   「건설기술 진흥법 시행령」 제91조제1항에 따른 시험을 하지 않아도 되는 KS 규격이라는 뜻이라고 밝힌다.
+#   봉강 종별은 괄호에 (KS D 3504)가 있으므로 KS 인증품이면 이 표의 시험이 면제 대상이다.
+material: rebar
+label: 철근
+work: 철근콘크리트공사
+ks_mark: true                          # KS D 3504 인증 — KS 칸 ◎
+order: 10
+warn_if_missing: true                  # 입력에 없으면 경고(핵심 자재)
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2 — 레미콘·철근 행은 제2025-311호와 동일(R3 확인 2026-09-26)"
+match:
+  names: ["철근", "봉강"]
+  units: ["ton"]
+  exclude: ["가공", "조립", "하차", "선별", "시공도", "운반", "절단", "이음", "간격재", "고임대", "스페이서", "결속선"]   # 같은 TON 단위의 노무·부대 행(루프 2 실자료)
+# 현장 계획서는 규격(강종·지름)당 한 행으로 시험을 묶어 적는다 → calc.rebar_group_row
+group_tests: true
+group:
+  frequency: "1. KS제품은 제조회사 및 제품규격별마다\n2. 비KS제품은 제조회사별·제품규격별 50톤마다"
+  basis: "별표2 1. 나. 철근콘크리트용 봉강(KS D 3504) (PDF p.7); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: 겉모양, 치수, 무게
+    method: "KS D 3504"
+    where: KS
+    frequency: {per_qty: 50, unit: ton, text: "제조회사별·제품규격별 50톤마다", minimum: 1}
+    basis: "별표2 1. 나. 철근콘크리트용 봉강(KS D 3504) 겉모양, 치수, 무게 (PDF p.7); KS 제품은 ※주석 (PDF p.52)"
+    conditions: &ks_note "제조회사별·제품규격(강종·지름)별로 50톤마다. 별표2 ※주석(PDF p.52): 종별 괄호 안 KS 규격(KS D 3504) 제품은 시행령 제91조제1항 시험을 하지 않아도 됨 → KS 인증품은 where=KS, 비인증품은 50톤마다 외부 시험. 실무 관행(기준 아님): KS 제품도 계획서에는 제조회사 및 제품규격별 1회(외부)로 적음 — calc.rebar_group_row."
+
+  - test_type: 항복점 또는 항복강도
+    method: "KS D 3504"
+    where: KS
+    frequency: {per_qty: 50, unit: ton, text: "제조회사별·제품규격별 50톤마다", minimum: 1}
+    basis: "별표2 1. 나. 철근콘크리트용 봉강(KS D 3504) 항복점 또는 항복강도 (PDF p.7); KS 제품은 ※주석 (PDF p.52)"
+    conditions: *ks_note
+
+  - test_type: 인장강도
+    method: "KS D 3504"
+    where: KS
+    frequency: {per_qty: 50, unit: ton, text: "제조회사별·제품규격별 50톤마다", minimum: 1}
+    basis: "별표2 1. 나. 철근콘크리트용 봉강(KS D 3504) 인장강도 (PDF p.7); KS 제품은 ※주석 (PDF p.52)"
+    conditions: *ks_note
+
+  - test_type: 연신율
+    method: "KS D 3504"
+    where: KS
+    frequency: {per_qty: 50, unit: ton, text: "제조회사별·제품규격별 50톤마다", minimum: 1}
+    basis: "별표2 1. 나. 철근콘크리트용 봉강(KS D 3504) 연신율 (PDF p.7); KS 제품은 ※주석 (PDF p.52)"
+    conditions: *ks_note
+
+  - test_type: 굽힘성
+    method: "KS D 3504"
+    where: KS
+    frequency: {per_qty: 50, unit: ton, text: "제조회사별·제품규격별 50톤마다", minimum: 1}
+    basis: "별표2 1. 나. 철근콘크리트용 봉강(KS D 3504) 굽힘성 (PDF p.7); KS 제품은 ※주석 (PDF p.52)"
+    conditions: *ks_note
+
+  - test_type: 탄소당량(용접용)
+    method: "KS D 3504"
+    where: KS
+    frequency: {per_qty: 50, unit: ton, text: "제조회사별·제품규격별 50톤마다", minimum: 1}
+    basis: "별표2 1. 나. 철근콘크리트용 봉강(KS D 3504) 탄소당량 (PDF p.7); KS 제품은 ※주석 (PDF p.52)"
+    conditions: "비고: 용접용인 경우에만 적용. 해석 필요: 시험방법 칸이 비어 있어 위 행과 병합된 KS D 3504로 읽음. KS 제품 처리는 다른 항목과 같음(※주석, PDF p.52)."
+
+  - test_type: 화학성분
+    method: "KS D 3504"
+    where: KS
+    frequency: {per_qty: 50, unit: ton, text: "제조회사별·제품규격별 50톤마다", minimum: 1}
+    basis: "별표2 1. 나. 철근콘크리트용 봉강(KS D 3504) 화학성분 (PDF p.7); KS 제품은 ※주석 (PDF p.52)"
+    conditions: *ks_note

@@ -1,0 +1,63 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 아. 기타 > 도자기질타일용 접착제(KS L 1593) (PDF p.51)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+material: tile_adhesive
+label: 도자기질타일용 접착제
+work: 타일공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [tile_adhesive]
+match:
+  names: [타일용접착제, 타일접착제, 타일본드, 타일용본드]
+  units: [kg, l, ℓ, 통, 캔, m2]
+  exclude: [설치, 하차, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS L 1593)
+ks_count: none                           # KS 인증품은 시험 없이 ◎(산출근거 'KS자재')
+order: 56
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 아. 기타 도자기질타일용 접착제(KS L 1593) (PDF p.51); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양"
+    method: "KS L 1593"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 도자기질타일용 접착제(KS L 1593) 겉모양 (PDF p.51)"
+  - test_type: "저장 안정성"
+    method: "KS L 1593"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 도자기질타일용 접착제(KS L 1593) 저장 안정성 (PDF p.51)"
+  - test_type: "혼합 종결 확인 용이성"
+    method: "KS L 1593"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 도자기질타일용 접착제(KS L 1593) 혼합 종결 확인 용이성 (PDF p.51)"
+  - test_type: "접착강도"
+    method: "KS L 1593"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 도자기질타일용 접착제(KS L 1593) 접착강도 (PDF p.51)"
+  - test_type: "내열성"
+    method: "KS L 1593"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 도자기질타일용 접착제(KS L 1593) 내열성 (PDF p.51)"
+  - test_type: "미끄럼 저항성"
+    method: "KS L 1593"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 도자기질타일용 접착제(KS L 1593) 미끄럼 저항성 (PDF p.51)"
+  - test_type: "가사 시간 및 부착가능 시간"
+    method: "KS L 1593"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 도자기질타일용 접착제(KS L 1593) 가사 시간 및 부착가능 시간 (PDF p.51)"
+  - test_type: "실내공기 오염물질 방출량(총휘발성유기화합물, 톨루엔, 폼알데하이드)"
+    method: "KS M 1998 또는 실내공기질 공정시험기준(환경부고시)"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 도자기질타일용 접착제(KS L 1593) 실내공기 오염물질 방출량(총휘발성유기화합물, 톨루엔, 폼알데하이드) (PDF p.51)"
+    conditions: "비고: 실내에 시공되는 경우에 한함. 빈도 '필요시'."

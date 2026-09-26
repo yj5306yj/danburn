@@ -1,0 +1,55 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_ondol_mortar
+label: 온돌마감 모르타르
+work: 미장공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+extra_keys:
+- ondol_mortar
+match:
+  names:
+  - 온돌모르타르
+  - 온돌마감모르타르
+  - 방통모르타르
+  - 바닥미장모르타르
+  - 방바닥모르타르
+  units:
+  - m2
+  - m3
+  exclude:
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: false
+ks_count: makers
+order: 82
+group_tests: false
+tests:
+- test_type: 플로우
+  method: LHCS 41 53 02 10
+  where: 현장
+  frequency:
+    per_qty: null
+    unit: null
+    text: 공사 전 견본시공 1회, 공사 중 1일 2회
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.7 미장재 온돌마감 모르타르 플로우
+  conditions: 타설 일수를 알아야 횟수가 정해짐 — 최소 1회로 적음
+- test_type: 압축강도(7·28일)
+  method: LHCS 41 53 02 10
+  where: 현장
+  frequency:
+    per_qty: null
+    unit: null
+    text: 공사 전 견본시공 1회, 공사 중 1일 1회
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.7 미장재 온돌마감 모르타르 압축강도
+  conditions: 타설 일수를 알아야 횟수가 정해짐 — 최소 1회로 적음

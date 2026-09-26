@@ -1,0 +1,21 @@
+[project]
+name = "danburn"
+version = "0.0.1"
+description = "단번(Danburn) — 도급내역서로 품질관리계획서를 만드는 도구"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+dependencies = ["openpyxl>=3.1", "python-hwpx==6.5.0", "PyYAML>=6"]
+
+[project.scripts]
+danburn = "danburn.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["network: 실제 네트워크 호출(기본 건너뜀, DANBURN_NETWORK=1 로 실행)"]

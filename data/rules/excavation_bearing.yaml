@@ -1,0 +1,60 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 가. 토공사 및 기초공사 > 터파기 (PDF p.1)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 터파기 종별의 시험은 기초 지지력 확인(토질조사, 확대기초 평판재하, 말뚝기초 정재하·동재하·양방향재하)이다.
+# 터파기 물량(㎥)과 시험 횟수는 비례하지 않는다. 말뚝 재하시험은 말뚝 개수 기준이라 터파기 행으로는 셀 수 없어 optional —
+#   보고서의 엔진 제안(말뚝 규칙 물량으로 계산) 참조.
+# KS 처리: 공종(시공) 시험 → ks_mark false, 시험마다 행.
+material: excavation_bearing
+label: 터파기(지지력)
+work: 토공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [excavation_bearing]
+match:
+  names: [터파기]
+  units: [m3]
+  exclude: [되메우기, 운반, 상차, 잔토]
+ks_mark: false
+order: 30
+tests:
+  - test_type: 토질조사
+    method: "보링 등"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "필요시", minimum: 1}
+    basis: "별표2 1. 가. 터파기 토질조사 (PDF p.1)"
+    conditions: "필요시."
+
+  - test_type: 평판재하(확대기초 지지력)
+    display: 평판재하
+    method: "KS F 2444"
+    where: 현장
+    frequency: {per_qty: null, unit: null, text: "필요시", minimum: 1}
+    basis: "별표2 1. 가. 터파기 지지력 — 확대기초 KS F 2444 (PDF p.1)"
+    conditions: "원문 빈도 '필요시'. 해석 필요: 확대기초(직접기초) 공사에서 지지력 확인 1회를 기본으로 둔다(말뚝기초만 있으면 빼고 말뚝 재하시험을 넣는다)."
+
+  - test_type: 정재하시험(말뚝기초)
+    display: 정재하시험
+    method: "KS F 2445"
+    where: 외부
+    optional: true
+    frequency: {per_qty: 100, unit: ea, text: "전체 말뚝 수량의 1% 이상(최소 1개)", minimum: 1}
+    basis: "별표2 1. 가. 터파기 지지력 — 말뚝기초 정재하 KS F 2445 (PDF p.1)"
+    conditions: "전체 말뚝 수량의 1% 이상(100개 미만도 최소 1개). 교량하부구조는 말뚝 250개당 1회 또는 구조물별 1회. 건축구조기준을 따르는 경우 전체 말뚝 개수의 1% 이상(최소 1개) 또는 구조물별 1회. 비고: 동재하시험을 선택적으로 적용. 해석 필요: 말뚝 개수(ea)가 있어야 계산된다 — 터파기(㎥) 행으로는 계산하지 않음."
+
+  - test_type: 동재하시험(말뚝기초)
+    display: 동재하시험
+    method: "KS F 2591"
+    where: 외부
+    optional: true
+    frequency: {per_qty: 100, unit: ea, text: "전체 말뚝 개수의 1% 이상(최소 1개)", minimum: 1}
+    basis: "별표2 1. 가. 터파기 지지력 — 말뚝기초 동재하 KS F 2591 (PDF p.1)"
+    conditions: "전체 말뚝 개수의 1% 이상(100개 미만도 최소 1개). 정재하의 비고에 따라 동재하시험을 선택적으로 적용할 수 있음. 해석 필요: 말뚝 개수(ea)가 있어야 계산된다."
+
+  - test_type: 양방향재하시험(말뚝기초)
+    display: 양방향재하시험
+    method: "KS F 7003"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "공사시방서에 따름", minimum: 1}
+    basis: "별표2 1. 가. 터파기 지지력 — 말뚝기초 양방향재하 KS F 7003 (PDF p.1)"
+    conditions: "공사시방서에 따름."

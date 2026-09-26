@@ -1,0 +1,32 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 3. 건축 라. 유리공사 > 망판 유리(KS L 2006) (PDF p.38)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 내역서 관행: '망입유리끼우기'(㎡)처럼 끼우기 행에 유리가 들어 있다 — 다른 유리 규칙과 같이 받는다.
+material: wired_glass
+label: 망판유리
+work: 유리공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [wired_glass]
+match:
+  names: [망판유리, 망입유리, 철망유리]
+  units: [m2]
+  exclude: [인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS L 2006)
+ks_count: none
+order: 52
+spec_group: all                          # 두께별 행을 한 행으로
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 라. 유리공사 망판 유리(KS L 2006) (PDF p.38); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양 및 치수"
+    method: "KS L 2006"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 망판 유리(KS L 2006) 겉모양 및 치수 (PDF p.38)"
+  - test_type: "방화성"
+    method: "KS L 2006"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 망판 유리(KS L 2006) 방화성 (PDF p.38)"

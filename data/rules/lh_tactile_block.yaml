@@ -1,0 +1,74 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_tactile_block
+label: 시각장애인용 점자블록
+work: 포장공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+extra_keys:
+- tactile_block
+match:
+  names:
+  - 점자블록
+  - 점자블럭
+  - 시각장애인용블록
+  units:
+  - ea
+  - 개
+  - m2
+  exclude:
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: false
+ks_count: makers
+order: 80
+group_tests: true
+group:
+  frequency: 제조회사별, 제품규격별, 10,000개마다
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.2 토목 시각장애인용 점자블럭
+tests:
+- test_type: 모양·치수
+  method: KS F 4561
+  where: 외부
+  frequency:
+    per_qty: 10000
+    unit: ea
+    text: 제조회사별, 제품규격별, 10,000개마다
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.2 토목 점자블럭 공통 모양·치수
+- test_type: 겉모양
+  method: KS F 4561
+  where: 현장
+  frequency:
+    per_qty: null
+    unit: null
+    text: 전 수량
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.2 토목 점자블럭 공통 겉모양
+- test_type: 재질별 시험종목
+  method: KS M 6518, KS M 3006, KS M 3802, KS F 2530, KS F 4001, KS F 4419, KS F 4035, KS L 1001
+  where: 외부
+  frequency:
+    per_qty: 10000
+    unit: ea
+    text: 제조회사별, 제품규격별, 10,000개마다
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.2 토목 점자블럭 재질별(고무·플라스틱·석재·콘크리트·인조대리석·테라조·점토벽돌·도자기)
+  conditions: 재질에 따라 종목이 다름. 석재는 골재원마다·재질 변화시마다
+- test_type: 미끄럼저항
+  method: KS F 2375
+  where: 외부
+  frequency:
+    per_qty: 10000
+    unit: ea
+    text: 제조회사별, 제품규격별, 10,000개마다
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.2 토목 점자블럭 미끄럼저항

@@ -1,0 +1,52 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 2. 토목 > 가. 도로공사 > (1) 흙 및 혼합골재 > 노상 (PDF p.23)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 물량 빈도(1,000㎥마다)는 '폭이 넓은 광활한 지역의 성토작업시' 기준. 도로 연장 기준(층별 400m 등)은 내역서로 알 수 없어
+#   ㎥ 기준으로 계산하고 해석 필요로 표시한다.
+# KS 처리: 공종(시공) 시험 → ks_mark false, 시험마다 행.
+material: road_subgrade
+label: 노상
+work: 포장공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [road_subgrade]
+match:
+  names: [노상성토, 노상쌓기, 노상층, 노상토, 노상다짐]
+  units: [m3]
+  exclude: [운반, 상차]
+ks_mark: false
+order: 33
+tests:
+  - test_type: 다짐
+    method: "KS F 2312"
+    where: 현장
+    frequency: {per_qty: null, unit: null, text: "토질변화시마다", minimum: 1}
+    basis: "별표2 2. 가. (1) 노상 다짐 (PDF p.23)"
+    conditions: "토질변화시마다. 비고: 급속함수량측정기 사용 불가."
+
+  - test_type: 함수비
+    method: "KS F 2306 또는 급속함수량 측정방법"
+    where: 현장
+    frequency: {per_qty: 1000, unit: m3, text: "포설 후 다짐 전 1,000㎥마다", minimum: 1}
+    basis: "별표2 2. 가. (1) 노상 함수비 (PDF p.23)"
+    conditions: "포설 후 다짐 전 1,000㎥마다."
+
+  - test_type: 현장밀도
+    method: "KS F 2311"
+    where: 현장
+    frequency: {per_qty: 1000, unit: m3, text: "1,000㎥마다(광활한 지역), 층별 400m마다", minimum: 1}
+    basis: "별표2 2. 가. (1) 노상 현장밀도 (PDF p.23)"
+    conditions: "1,000㎥마다(폭이 넓은 광활한 지역의 성토작업시), 층별 400m마다. 비고: 급속함수량측정기 사용 가능. 해석 필요: 연장 기준(층별 400m)은 내역서로 알 수 없어 ㎥ 기준으로 계산 — 선형 도로는 층수·연장으로 다시 센다."
+
+  - test_type: 평판재하
+    method: "KS F 2310"
+    where: 현장
+    optional: true                    # 재료 최대치수 37.5mm 이상 또는 현장밀도시험 불가능시
+    frequency: {per_qty: 1000, unit: m3, text: "2층 포설 후 200m마다(2차로 기준), 1,000㎥마다(광활한 지역)", minimum: 1}
+    basis: "별표2 2. 가. (1) 노상 평판재하 (PDF p.23)"
+    conditions: "비고: 재료 최대치수 37.5mm 이상인 경우, 현장밀도시험 불가능시에 적용. 빈도 2층 포설 후 200m마다(층다짐시 2차로 기준) 또는 1,000㎥마다(광활한 지역)."
+
+  - test_type: 프루프롤링
+    method: "5톤 이상의 복륜하중(타이어 접지압 0.55MPa 이상) 통과"
+    where: 현장
+    frequency: {per_qty: null, unit: null, text: "노상완성 후 전구간에 걸쳐 3회 이상", minimum: 3}
+    basis: "별표2 2. 가. (1) 노상 프루프롤링(Proof rolling) (PDF p.23)"
+    conditions: "노상 완성 후 전 구간에 걸쳐 3회 이상."

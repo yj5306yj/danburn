@@ -1,0 +1,51 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 가. 토공사 및 기초공사 > 되메우기 및 구조물 뒷채움 (PDF p.2)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 공종(시공) 시험이라 KS 제품 면제 대상 아님 → ks_mark false, 시험마다 행(현장 시험).
+# 현장밀도 빈도는 층·개소·연장 기준이라 도급내역서 물량(㎥)으로 계산할 수 없다 → 최소 1회 + 해석 필요 표시.
+material: backfill
+label: 되메우기
+work: 토공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [backfill]
+match:
+  names: [되메우기, 되메움, 뒷채움]
+  units: [m3]
+  exclude: [운반, 상차]
+ks_mark: false
+order: 32
+tests:
+  - test_type: 다짐
+    method: "KS F 2312"
+    where: 현장
+    frequency: {per_qty: null, unit: null, text: "재질 변화시마다", minimum: 1}
+    basis: "별표2 1. 가. 되메우기 및 구조물 뒷채움 다짐 (PDF p.2)"
+    conditions: "재질(흙) 변화시마다. 재질 수를 모르면 1회."
+
+  - test_type: 현장밀도
+    method: "KS F 2311"
+    where: 현장
+    frequency: {per_qty: null, unit: null, text: "독립구조물 개소별 3층마다, 연속구조물 3층마다·50m마다, 관로매설물 3층마다·100m마다", minimum: 1}
+    basis: "별표2 1. 가. 되메우기 및 구조물 뒷채움 현장밀도 (PDF p.2)"
+    conditions: "해석 필요: 빈도가 구조물 형태별 층수·개소·연장 기준이다. 도급내역서 물량(㎥)으로는 층수·연장을 알 수 없어 최소 1회로 두고 계획 시 층수·연장으로 다시 센다."
+
+  - test_type: 평판재하
+    method: "KS F 2310"
+    where: 현장
+    optional: true                    # 현장밀도시험 불가능시
+    frequency: {per_qty: null, unit: null, text: "현장밀도시험 불가능시", minimum: 1}
+    basis: "별표2 1. 가. 되메우기 및 구조물 뒷채움 평판재하 (PDF p.2)"
+    conditions: "현장밀도시험이 불가능할 때만(현장밀도 대체)."
+
+  - test_type: 입도
+    method: "KS F 2302"
+    where: 현장
+    frequency: {per_qty: null, unit: null, text: "토질변화시마다", minimum: 1}
+    basis: "별표2 1. 가. 되메우기 및 구조물 뒷채움 입도 (PDF p.2)"
+    conditions: "토질 변화시마다. 토질 수를 모르면 1회."
+
+  - test_type: 함수비
+    method: "KS F 2306 또는 급속함수량 측정방법"
+    where: 현장
+    frequency: {per_qty: null, unit: null, text: "현장밀도시험의 빈도", minimum: 1}
+    basis: "별표2 1. 가. 되메우기 및 구조물 뒷채움 함수비 (PDF p.2)"
+    conditions: "현장밀도시험과 같은 빈도 — 현장밀도 횟수를 다시 세면 함께 고친다."

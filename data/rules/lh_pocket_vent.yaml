@@ -1,0 +1,84 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+# 참고: 레인지후드·흡출기는 부록에 없음 — extra_keys(ventilation) 주장하지 않음
+material: lh_pocket_vent
+label: 세대현관문 포켓환기구
+work: 창호공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+match:
+  names:
+  - 포켓환기구
+  exclude:
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: false
+ks_count: makers
+order: 86
+group_tests: true
+group:
+  frequency: 제조회사별
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 복도형 세대현관문 포켓환기구
+tests:
+- test_type: 환기량
+  method: KS F 2921
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 포켓환기구 환기량(LHCS 41 55 06 기준)
+- test_type: 내풍압·수밀성능
+  method: KS F 2296, KS F 2293
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 포켓환기구 내풍압·수밀성능(LHCS 41 55 06 기준)
+- test_type: 기밀성능
+  method: KS F 2292
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 포켓환기구 기밀성능(LHCS 41 55 06 기준)
+- test_type: 결로방지성능
+  method: KS F 2295
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 포켓환기구 결로방지성능(LHCS 41 55 06 기준)
+- test_type: 공기여과성능
+  method: ASHRAE 52.2
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 포켓환기구 공기여과성능(LHCS 41 55 06 기준)
+- test_type: 열관류율
+  method: KS F 2278
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 포켓환기구 열관류율(LHCS 41 55 06 기준)

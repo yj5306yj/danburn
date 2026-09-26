@@ -1,0 +1,64 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 마. 기타 > 일반용 경질폴리염화비닐관(KS M 3404) (PDF p.18)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 관 종류별 시험종목: 공통 겉모양·치수 / 경질(VG1·VG2) / 건물 내 배수용(IDVP) / 매설 하수·배수관용(ISVP) / 물 수송용(IWVP).
+#   기본 산출은 공통 + 경질(VG1·VG2). IDVP·ISVP·IWVP 종목은 optional(해당 관일 때 --include-optional).
+# 비고 칸: '하수도용관'. 수도용 경질폴리염화비닐관(KS M 3401, PDF p.17)은 별도 종별 → match.exclude '수도용'.
+# KS 제품 처리: 종별 괄호에 (KS M 3404) — ※주석(PDF p.52) 시행령 제91조제1항 시험 면제 → ks_mark true, ks_count none.
+material: general_pvc_pipe
+label: 경질폴리염화비닐관
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [general_pvc_pipe]
+match:
+  names: [PVC관, PVC파이프, PVC배관, 경질염화비닐관, 경질폴리염화비닐관, VG1, VG2, 염화비닐관]   # 'PVC 배관'(설비 내역 표기, L7-R2)
+  units: [m]
+  # '지급'·'지급자재': 발주처 지급 관을 까는 행 — 관 물량은 지급·재료 행에 있어 중복이다(L7-R2)
+  exclude: [보온, 수도용, 이중벽, 발포, 3층, 공압출, 접착제, 부설, 접합, 설치, 운반, 절단, 연결구, 이음관, 곡관, 소켓, 엘보, 지급]
+ks_mark: true
+ks_count: none
+order: 70
+spec_group:                              # 지름(D=35·40·50…)마다 행을 만들지 않고 관 종류(VG1·VG2·IDVP…)별로 묶는다(L4-D2)
+  pattern: "(VG1|VG2|IDVP|ISVP|IWVP)"
+  label: "{1}"
+  other: 규격별
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격마다"
+  basis: "별표2 1. 마. 일반용 경질폴리염화비닐관(KS M 3404) (PDF p.18); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: 겉모양, 치수
+    method: "KS M 3404"
+    where: 외부
+    frequency: &f {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
+    basis: "별표2 1. 마. 일반용 경질폴리염화비닐관(KS M 3404) 겉모양, 치수 (PDF p.18)"
+    conditions: &c "제조회사별·제품규격마다 1회(빈도 칸이 종별 전체에 병합). 비고: 하수도용관. KS M 3404 인증품은 ※주석(PDF p.52)에 따라 시험 면제."
+  # 경질(VG1, VG2)
+  - {test_type: 인장항복강도, method: "KS M 3404", where: 외부, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 경질(VG1, VG2) 인장항복강도 (PDF p.18)", conditions: *c}
+  - {test_type: 내수압성, method: "KS M 3404", where: 외부, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 경질(VG1, VG2) 내수압성 (PDF p.18)", conditions: *c}
+  - {test_type: 접합부 내수압성, method: "KS M 3404", where: 외부, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 경질(VG1, VG2) 접합부 내수압성 (PDF p.18)", conditions: *c}
+  - {test_type: 편평성, method: "KS M 3404", where: 외부, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 경질(VG1, VG2) 편평성 (PDF p.18)", conditions: *c}
+  - {test_type: 침지성, method: "KS M 3404", where: 외부, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 경질(VG1, VG2) 침지성 (PDF p.18)", conditions: *c}
+  - {test_type: 비카트연화온도, method: "KS M 3404", where: 외부, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 경질(VG1, VG2) 비카트연화온도 (PDF p.18)", conditions: *c}
+  - {test_type: 정량(납), method: "KS M 3211", where: 외부, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 경질(VG1, VG2) 정량(납) (PDF p.18)", conditions: *c}
+  # 건물 내 배수용 경질(IDVP) — 해당 관일 때만
+  - {test_type: "IDVP 비카트연화온도", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 건물 내 배수용 경질(IDVP) 비카트연화온도 (PDF p.18)", conditions: "건물 내 배수용 경질(IDVP) 관일 때만. 빈도 제조회사별·제품규격마다."}
+  - {test_type: "IDVP 수밀성", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 IDVP 수밀성 (PDF p.18)", conditions: "IDVP 관일 때만."}
+  - {test_type: "IDVP 기밀성", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 IDVP 기밀성 (PDF p.18)", conditions: "IDVP 관일 때만."}
+  - {test_type: "IDVP 냉열반복유하성", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 IDVP 냉열반복유하성 (PDF p.18)", conditions: "IDVP 관일 때만."}
+  - {test_type: "IDVP 외부충격내구성(회전법)", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 IDVP 외부충격내구성(회전법) (PDF p.18)", conditions: "IDVP 관일 때만."}
+  - {test_type: "IDVP 외부충격내구성(계단법)", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 IDVP 외부충격내구성(계단법) (PDF p.18)", conditions: "IDVP 관일 때만."}
+  - {test_type: "IDVP 종축복귀성", method: "KS M ISO 2505-1, KS M ISO 2505-2", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 IDVP 종축복귀성 (PDF p.18)", conditions: "IDVP 관일 때만."}
+  - {test_type: "IDVP 디클로로메탄 저항성", method: "KS M ISO 9852", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 IDVP 디클로로메탄 저항성 (PDF p.18)", conditions: "IDVP 관일 때만."}
+  # 매설 하수·배수관용 경질(ISVP) — 해당 관일 때만
+  - {test_type: "ISVP 비카트연화온도", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 매설 하수·배수관용 경질(ISVP) 비카트연화온도 (PDF p.18)", conditions: "매설 하수·배수관용 경질(ISVP) 관일 때만."}
+  - {test_type: "ISVP 편평 밀봉성", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 ISVP 편평 밀봉성 (PDF p.18)", conditions: "ISVP 관일 때만."}
+  - {test_type: "ISVP 곡관 밀봉성", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 ISVP 곡관 밀봉성 (PDF p.18)", conditions: "ISVP 관일 때만."}
+  - {test_type: "ISVP 열간 내압 내크리프성", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 ISVP 열간 내압 내크리프성 (PDF p.18)", conditions: "ISVP 관일 때만."}
+  - {test_type: "ISVP 외부충격내구성(회전법)", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 ISVP 외부충격내구성(회전법) (PDF p.18)", conditions: "ISVP 관일 때만."}
+  - {test_type: "ISVP 종축복귀성", method: "KS M ISO 2505-1, KS M ISO 2505-2", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 ISVP 종축복귀성 (PDF p.18)", conditions: "ISVP 관일 때만."}
+  - {test_type: "ISVP 디클로로메탄 저항성", method: "KS M ISO 9852", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 ISVP 디클로로메탄 저항성 (PDF p.18)", conditions: "ISVP 관일 때만."}
+  # 물 수송용 경질(IWVP) — 해당 관일 때만
+  - {test_type: "IWVP 비카트연화온도", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 물 수송용 경질(IWVP) 비카트연화온도 (PDF p.18)", conditions: "물 수송용 경질(IWVP) 관일 때만."}
+  - {test_type: "IWVP 열간 내압 내크리프성", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 IWVP 열간 내압 내크리프성 (PDF p.18)", conditions: "IWVP 관일 때만."}
+  - {test_type: "IWVP 외부충격내구성(회전법)", method: "KS M 3404", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 IWVP 외부충격내구성(회전법) (PDF p.18)", conditions: "IWVP 관일 때만."}
+  - {test_type: "IWVP 종축복귀성", method: "KS M ISO 2505-1, KS M ISO 2505-2", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 IWVP 종축복귀성 (PDF p.18)", conditions: "IWVP 관일 때만."}
+  - {test_type: "IWVP 파괴인성", method: "KS M ISO 11673", where: 외부, optional: true, frequency: *f, basis: "별표2 1. 마. 일반용 경질폴리염화비닐관 IWVP 파괴인성 (PDF p.18)", conditions: "IWVP 관일 때만."}

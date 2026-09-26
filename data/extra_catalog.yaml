@@ -1,0 +1,54 @@
+# 별표2(「건설공사 품질관리 업무지침」)에 종별이 없지만 공동주택 품질관리계획서 8.11에 흔히 오르는 자재·측정.
+# 이 자재의 시험 빈도는 발주처 전문시방서(예: LH 전문시방서 부록 「품질시험 및 검사 기준」)나 공사 시방에서 정한다.
+# danburn 은 도급내역서에서 이 이름을 찾으면 “발주처 기준 필요 — 시험계획 미작성”으로 알린다(조용히 빠뜨리지 않기).
+# 이름은 일반 명칭만(상표·현장 고유 표기 없음).
+materials:
+  - {key: sealant, label: 건축용 실링재, names: [실링재, 실란트, 코킹, 실링]}
+  - {key: door_hardware, label: 도어록·도어클로저·창호철물, names: [도어록, 디지털도어록, 도어클로저, 도어체크, 크레센트, 호차, 손끼임방지]}
+  - {key: furniture, label: 수납·주방·욕실 가구, names: [수납가구, 주방가구, 붙박이장, 신발장, 가구손잡이, 싱크대]}
+  - {key: wallpaper, label: 벽지·도배 재료, names: [벽지, 도배지, 도배풀, 도배용풀, 도배용퍼티]}
+  - {key: floor_cushion, label: 바닥 완충재, names: [바닥완충재, 층간소음완충재, 완충재, 측면완충재]}
+  - {key: wp_protection, label: 방수층 보호재, names: [방수보호재, 보호모르타르, 방수층보호]}
+  - {key: drain_board_bldg, label: 배수판·영구배수재, names: [배수판, 영구배수, 요철배수판]}
+  - {key: asphalt_primer, label: 아스팔트 프라이머, names: [아스팔트프라이머]}
+  - {key: special_paint, label: 탄성·아연도금면 도료, names: [탄성도료, 탄성퍼티, 아연도금면도료, 방청도료]}
+  - {key: phenolic_foam, label: 페놀폼 단열재, names: [페놀폼, 페놀폼단열재, PF단열재]}
+  - {key: float_glass, label: 판유리, names: [판유리, 투명유리, 플로트유리]}
+  - {key: railing, label: 난간, names: [난간, 핸드레일, 발코니난간]}
+  - {key: insect_screen, label: 방충망, names: [방충망]}
+  - {key: fire_shutter, label: 방화셔터·자동문, names: [방화셔터, 자동문, 방화문]}
+  - {key: tactile_block, label: 점자블록, names: [점자블록, 점자블럭]}
+  - {key: grating, label: 스틸 그레이팅·트렌치 덮개, names: [그레이팅, 트렌치덮개, 트렌치커버, PC트렌치]}
+  - {key: safety_net, label: 안전망, names: [안전망, 낙하물방지망, 추락방지망]}
+  - {key: balcony_drain, label: 발코니 드레인·선홈통, names: [발코니드레인, 루프드레인, 선홈통, 홈통받이]}
+  - {key: pvc_molding, label: PVC 몰딩·인방재, names: [PVC몰딩, 몰딩, 인방재, 압출성형인방]}
+  - {key: ondol_mortar, label: 온돌 모르타르(방바닥 마감), names: [온돌모르타르, 방통모르타르, 바닥미장모르타르]}
+  - {key: gypsum_bond, label: 석고본드·접착제류, names: [석고본드, 마루접착제, 목공용접착제]}
+  - {key: deco_sheet, label: 데커레이션 시트, names: [데코시트, 데커레이션시트, 인테리어필름]}
+  - {key: artificial_stone, label: 인조석(엔지니어드스톤 등), names: [인조석, 엔지니어드스톤, 인조대리석]}
+  - {key: sanitary_ware, label: 위생도기·욕실 부속, names: [위생도기, 양변기, 세면기, 욕실천장재]}
+  - {key: ventilation, label: 환기구·흡출기, names: [환기구, 흡출기, 레인지후드]}
+  - {key: manhole_cover, label: 맨홀뚜껑, names: [맨홀뚜껑, 주철뚜껑]}
+  - {key: spray_coating, label: 뿜칠재, names: [뿜칠재, 무기질뿜칠, 석재뿜칠]}
+  - {key: form_tie, label: 거푸집 긴결재·매립형 철망 거푸집, names: [폼타이, 긴결재, 매립형철망거푸집]}
+  - {key: mailbox, label: 우편함, names: [우편함]}
+  # 설비(기계) — LH 공동주택 계획서에 오르지만 LHCS 10 40 00 부록 Ⅲ 기계분야·별표2에 종별이 없다(L7-R1).
+  # 기계 전문시방 등 원문을 확인하기 전에는 시험종목·빈도를 적지 않는다.
+  # 욕실수납장은 설비 공종 품목이고 LH 수납가구 규칙(부록 Ⅱ.17)이 욕실을 빼므로 가구와 따로 둔다.
+  - {key: bath_cabinet, label: 욕실수납장, names: [욕실수납장, 욕실장, 슬라이딩형수납장]}
+  - {key: high_strength_pvc_pipe, label: 고강도 PVC관, names: [고강도PVC]}
+  - {key: refrigerant_fitting, label: 냉매배관·무용접 부속, names: [무용접부속, 무용접이음, 냉매배관]}
+  - {key: pressure_reducing_valve, label: 감압밸브, names: [감압밸브]}
+  # 별표2·LH 부록에 종별이 없는 건축 자재(L7-R3). 강섬유(KS F 2564)·보수용 폴리머시멘트모르타르(KS F 4042)는 별표2 규칙이 따로 있다.
+  - {key: fiber_reinforcement, label: 섬유보강재(셀룰로오스·나일론 등), names: [섬유보강재, 셀룰로오스섬유, 나일론섬유, 합성섬유보강재]}
+  - {key: wp_polymer_mortar, label: 방수용 폴리머 모르타르, names: [폴리머모르타르, 폴리머몰탈, 방수모르타르, 방수몰탈]}
+  # 토목 배수·오수관(L7-R7). 별표2 종별은 이중벽 고밀도 폴리에틸렌관(KS M 3500)뿐이다.
+  # PVC 이중벽관은 구조형 폴리염화비닐관(KS M 3600 이중벽관·리브관)으로 별표2에 없다.
+  # 고강도 PE 파형관(파상형·유공관)과 그 이음관은 KS M 3500(구조형 PE관 이중벽·다중벽 등)인지 품명으로 확정할 수 없다 —
+  #   제품 KS 번호가 KS M 3500 이면 double_wall_hdpe_pipe 규칙 이름에 더한다.
+  - {key: pvc_double_wall_pipe, label: PVC 이중벽관(구조형 PVC관), names: [PVC이중벽관, 폴리염화비닐이중벽관, PVC리브관]}
+  - {key: hs_pe_corrugated_pipe, label: 고강도 PE 파형관·이음관, names: [고강도폴리에틸렌파이프, 고강도폴리에틸렌관, 고강도PE관, 폴리에틸렌파형관, PE파형관]}
+# 도급내역서 물량과 무관하게 공동주택에서 법정으로 하는 현장 측정 — 계획서에 넣을지 사용자에게 확인한다.
+site_measurements:
+  - {key: indoor_air, label: 실내공기질 측정, basis: "「실내공기질 관리법」·공동주택 실내공기질 측정 — 넣을지 확인"}
+  - {key: floor_impact_sound, label: 바닥충격음 측정, basis: "공동주택 바닥충격음 차단구조 성능 확인(국토교통부 고시) — 넣을지 확인"}

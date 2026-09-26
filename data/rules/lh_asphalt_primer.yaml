@@ -1,0 +1,42 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_asphalt_primer
+label: 아스팔트 방수용 프라이머
+work: 방수공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+extra_keys:
+- asphalt_primer
+match:
+  names:
+  - 아스팔트프라이머
+  - 아스팔트방수용프라이머
+  exclude:
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: true
+ks_count: none
+order: 77
+group_tests: true
+group:
+  frequency: 제조회사별, 제품규격별
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.8 방수재 및 실링재 아스팔트방수용 프라이머; KS 표시자재는 LHCS 10 40 00 1.5.1(6)에 따라 시험 생략 가능(공종별 일반사항에 명시된 자재 제외)
+tests:
+- test_type: KS M 2270 규정 시험종목
+  method: KS M 2270
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.8 방수재 및 실링재 아스팔트방수용 프라이머
+  conditions: 시료 1조 1㎏

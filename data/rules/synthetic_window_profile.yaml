@@ -1,0 +1,94 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 마. 창호공사 > 합성수지 창호형형재(KS F 5602) (PDF p.39)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+material: synthetic_window_profile
+label: 합성수지 창호형형재
+work: 창호공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [synthetic_window_profile]
+match:
+  names: [합성수지창호형재, PVC창호형재, 창호형재, 합성수지형재, PVC형재]
+  units: [m, kg, ton, ea, 본]
+  exclude: [설치, 하차, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS F 5602)
+ks_count: none                           # KS 인증품은 시험 없이 ◎(산출근거 'KS자재')
+order: 59
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) (PDF p.39); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양, 치수 및 질량"
+    method: "KS F 5602"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 겉모양, 치수 및 질량 (PDF p.39)"
+  - test_type: "저온 추 낙하 강도"
+    method: "KS F 5602"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 저온 추 낙하 강도 (PDF p.39)"
+  - test_type: "가열 변형"
+    method: "KS F 5602"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 가열 변형 (PDF p.39)"
+  - test_type: "가열 신축성"
+    method: "KS F 5602"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 가열 신축성 (PDF p.39)"
+  - test_type: "냉열 반복"
+    method: "KS F 5602"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 냉열 반복 (PDF p.39)"
+  - test_type: "색차"
+    method: "KS M ISO 147282"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 색차 (PDF p.39)"
+    conditions: "시험방법 번호는 원문 표기 그대로."
+  - test_type: "경도"
+    method: "KS M ISO 2039-2"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 경도 (PDF p.39)"
+  - test_type: "인장강도 및 신장률"
+    method: "KS M ISO 527-1"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 인장강도 및 신장률 (PDF p.39)"
+  - test_type: "굴곡 탄성률"
+    method: "KS M ISO 178"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 굴곡 탄성률 (PDF p.39)"
+  - test_type: "충격 강도"
+    method: "KS M ISO 179-1"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 충격 강도 (PDF p.39)"
+  - test_type: "비카 연화 온도"
+    method: "KS M ISO 306"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 비카 연화 온도 (PDF p.39)"
+    conditions: "원문 표기 '비카 연화 연도'."
+  - test_type: "내연소성(흰색형재)"
+    method: "KS M 3015"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 내연소성(흰색형재) (PDF p.39)"
+    conditions: "흰색 형재에 한함(원문 괄호)."
+  - test_type: "내후성 — 샤르피 충격강도"
+    method: "KS F 2274, KS M ISO 179-1"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 내후성 — 샤르피 충격강도 (PDF p.39)"
+  - test_type: "내후성 — 변퇴색"
+    method: "KS F 2274, KS F 5602"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 내후성 — 변퇴색 (PDF p.39)"

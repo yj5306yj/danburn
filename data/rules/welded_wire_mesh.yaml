@@ -1,0 +1,73 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 나. 철근콘크리트공사 > 용접철망 및 철근격자 (PDF p.8)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 이름에 괄호 KS 규격이 없다(시험방법만 KS D 7017) → ※주석(PDF p.52)의 시험 면제 대상이 아님 → ks_mark false.
+# 묶음 행(group_tests)은 현재 엔진에서 KS 제품 전제 문구('KS자재')를 쓰므로, 비KS 자재인 이 규칙은 시험마다 행을 쓴다.
+# 매칭: '철근격자' TON 행은 철근 규칙(rebar.yaml, 파일 순서상 먼저)의 '철근' 이름에 먼저 걸린다 — 보고서 참조.
+material: welded_wire_mesh
+label: 용접철망
+work: 철근콘크리트공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [welded_wire_mesh]
+match:
+  names: [용접철망, 와이어메쉬, 와이어메시, 철근격자, WIREMESH]
+  units: [m2, ton]
+  exclude: [설치, 와이어메쉬깔기, 와이어메시깔기, 운반, 가공, 조립, 절단]   # 자재 행 없이 '구조용용접철망깔기'만 있는 내역 — 깔기 전체 제외를 좁힘(L4-T3)
+ks_mark: false
+order: 12
+tests:
+  - test_type: 겉모양, 치수, 무게
+    method: "KS D 7017"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}
+    basis: "별표2 1. 나. 용접철망 및 철근격자 겉모양, 치수, 무게 (PDF p.8)"
+    conditions: &maker "제조회사별 1회(시험방법·빈도 칸이 종별 전체에 병합). 해석 필요: 제조회사가 둘 이상이면 제조회사 수만큼 늘린다(엔진은 1곳 기준)."
+
+  - test_type: 항복점 또는 0.2% 항복강도
+    method: "KS D 7017"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}
+    basis: "별표2 1. 나. 용접철망 및 철근격자 항복점 또는 0.2%항복강도 (PDF p.8)"
+    conditions: *maker
+
+  - test_type: 인장강도
+    method: "KS D 7017"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}
+    basis: "별표2 1. 나. 용접철망 및 철근격자 인장강도 (PDF p.8)"
+    conditions: *maker
+
+  - test_type: 연신율
+    method: "KS D 7017"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}
+    basis: "별표2 1. 나. 용접철망 및 철근격자 연신율 (PDF p.8)"
+    conditions: *maker
+
+  - test_type: 단면수축율
+    method: "KS D 7017"
+    where: 외부
+    optional: true                    # 비고: 철근격자일 경우
+    frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}
+    basis: "별표2 1. 나. 용접철망 및 철근격자 단면수축율 (PDF p.8)"
+    conditions: "비고: 단면수축율은 철근격자일 경우에만. 용접철망이면 적용하지 않음."
+
+  - test_type: 굽힘성
+    method: "KS D 7017"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}
+    basis: "별표2 1. 나. 용접철망 및 철근격자 굽힘성 (PDF p.8)"
+    conditions: "원문 표기 '굽힙성'(오기로 보임)을 굽힘성으로 적음. 제조회사별 1회."
+
+  - test_type: 용접점 전단강도
+    method: "KS D 7017"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}
+    basis: "별표2 1. 나. 용접철망 및 철근격자 용접점 전단강도 (PDF p.8)"
+    conditions: *maker
+
+  - test_type: 용접점의 박리
+    method: "KS D 7017"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}
+    basis: "별표2 1. 나. 용접철망 및 철근격자 용접점의 박리 (PDF p.8)"
+    conditions: *maker

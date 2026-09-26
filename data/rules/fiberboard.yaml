@@ -1,0 +1,292 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 바. 마감공사(지붕·목공사 포함) > 섬유판(KS F 3200) (PDF p.40~41)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다. (L7-R5, 원문 표를 렌더해 칸 경계 확인)
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 원문은 연질판·중밀도판(p.40)·경질판(p.41) 3종류별로 종목이 다르다(비고: 용도 및 접착제 등에 따라 구분 적용).
+# 기본 행은 3종류 공통 4종목(겉모양·치수·직각도, 밀도, 함수율, 휨 강도). 종류별 종목은 optional + conditions.
+# 바탕·단판붙임·치장 판(p.41, KS F 3104)은 파티클보드 종별이라 여기 넣지 않는다.
+material: fiberboard
+label: 섬유판
+work: 수장공사
+basis_version: 국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2
+index_keys:
+- fiberboard
+match:
+  names:
+  - 중밀도섬유판
+  - 섬유판
+  - MDF
+  - HDF
+  - 하드보드
+  - 연질섬유판
+  - 경질섬유판
+  units:
+  - m2
+  - 매
+  - 장
+  exclude:
+  - 붙이기
+  - 설치
+  - 철거
+  - 인건
+  - 노무
+  - 운반
+  - 할증
+ks_mark: true
+ks_count: none
+order: 57
+spec_group: all
+group_tests: true
+group:
+  frequency: 제조회사별, 제품규격별
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) (PDF p.40~41); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외
+tests:
+- test_type: 겉모양, 치수, 직각도
+  method: KS F 3200
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 3종류 공통.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 겉모양, 치수, 직각도 (PDF p.40)
+- test_type: 밀도
+  method: KS F 3200
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 3종류 공통.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 밀도 (PDF p.40)
+- test_type: 함수율
+  method: KS F 3200
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 3종류 공통.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 함수율 (PDF p.40)
+- test_type: 휨 강도
+  method: KS F 3200
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 3종류 공통.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 휨 강도 (PDF p.40)
+- test_type: 흡수 두께 팽창률
+  method: KS F 3200
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 연질판·중밀도판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 흡수 두께 팽창률 (PDF p.40)
+- test_type: 단열성(열저항)
+  method: KS F 2277
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 연질판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 단열성(열저항) (PDF p.40)
+- test_type: 습윤시 휨강도
+  method: KS F 3200
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 중밀도판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 습윤시 휨강도 (PDF p.40)
+- test_type: 박리 강도
+  method: KS F 3200
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 중밀도판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 박리 강도 (PDF p.40)
+- test_type: 나사못 유지력
+  method: KS F 3200
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 중밀도판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 나사못 유지력 (PDF p.40)
+- test_type: 폼알데하이드방산량
+  method: KS M 1998
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 중밀도판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 폼알데하이드방산량 (PDF p.40)
+- test_type: 휨파괴 하중
+  method: KS F 2263
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 경질판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 휨파괴 하중 (PDF p.41)
+- test_type: 흡수율, 흡수 길이 변화율
+  method: KS F 3200
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 경질판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 흡수율, 흡수 길이 변화율 (PDF p.41)
+- test_type: 못 역인발 저항
+  method: KS F 3200
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 경질판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 못 역인발 저항 (PDF p.41)
+- test_type: 평면 인장 강도
+  method: KS F 3200
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 경질판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 평면 인장 강도 (PDF p.41)
+- test_type: 내충격성
+  method: KS F 3200
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 경질판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 내충격성 (PDF p.41)
+- test_type: 내산성, 내알칼리성
+  method: KS F 3200
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 경질판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 내산성, 내알칼리성 (PDF p.41)
+- test_type: 내오염성
+  method: KS F 3200
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 경질판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 내오염성 (PDF p.41)
+- test_type: 내변퇴색성
+  method: KS M 3072
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 경질판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 내변퇴색성 (PDF p.41)
+- test_type: 내긁힘성
+  method: KS F 3200
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 경질판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 내긁힘성 (PDF p.41)
+- test_type: 도막부착성
+  method: KS F 3200
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 경질판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 도막부착성 (PDF p.41)
+- test_type: 내세척성
+  method: KS F 3200
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 경질판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 내세척성 (PDF p.41)
+- test_type: 내후성
+  method: KS F 2274
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격별
+    minimum: 1
+  conditions: 경질판에 한함.
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 내후성 (PDF p.41)
+- test_type: 난연성
+  method: KS F 2271
+  where: 외부
+  optional: true
+  frequency:
+    per_qty: null
+    unit: null
+    text: 필요시
+    minimum: 1
+  conditions: 3종류 모두 원문 빈도 '필요시'(p.40~41).
+  basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 난연성 (PDF p.40)

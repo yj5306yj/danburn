@@ -1,0 +1,62 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 라. 유리공사 > 복층유리(KS L 2003) (PDF p.37~38)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 강화복층유리처럼 두 이름이 함께 있는 품명은 이 규칙(복층)으로 잡힌다(규칙 순회가 파일명 순).
+material: insulated_glass
+label: 복층유리
+work: 유리공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [insulated_glass]
+match:
+  names: [복층유리, 페어글라스, 삼중유리, 로이복층유리, 가스주입단열유리, 단열유리, 복층강화유리, 복층로이유리, 강화복층유리]
+  units: [m2]
+  exclude: [인건, 노무, 운반, 할증]
+ks_mark: true                          # 종별 괄호에 KS L 2003 — KS 칸 ◎
+ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
+order: 50
+spec_group: all                          # 구성(5+12A+5 등)별 행을 한 행으로(L4-D2)
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 라. 유리공사 복층유리(KS L 2003) (PDF p.37~38); KS 제품은 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양 및 치수"
+    method: "KS L 2003"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 복층유리(KS L 2003) 겉모양 및 치수 (PDF p.37)"
+
+  - test_type: "이슬점"
+    method: "KS L 2003"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 복층유리(KS L 2003) 이슬점 (PDF p.37)"
+
+  - test_type: "봉착의 가속 내구성"
+    method: "KS L 2003"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 복층유리(KS L 2003) 봉착의 가속 내구성 (PDF p.37)"
+
+  - test_type: "광학박막성능의 가속내구성"
+    method: "KS L 2003"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 복층유리(KS L 2003) 광학박막성능의 가속내구성 (PDF p.37)"
+    conditions: "해석 필요: 비고 '단열, 태양열 차폐 복층유리' — 코팅(광학박막)이 있는 단열·태양열 차폐 복층유리에 적용하는 것으로 읽어 기본 산출에서 뺌."
+
+  - test_type: "열 관류 저항(단열성)"
+    method: "KS L 2525"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 복층유리(KS L 2003) 열 관류 저항(단열성) (PDF p.37)"
+    conditions: "비고: 단열·태양열 차폐 복층유리. 해석 필요: 공동주택 창호용 복층유리는 대부분 단열 복층유리라 기본 포함."
+
+  - test_type: "태양열 제거율(차폐성)"
+    method: "KS L 2514"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 복층유리(KS L 2003) 태양열 제거율(차폐성) (PDF p.38)"
+    conditions: "비고: 태양열 차폐 복층유리에 한함."

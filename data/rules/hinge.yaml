@@ -1,0 +1,37 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 마. 창호공사 > 경첩(KS F 4519) (PDF p.39)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 별표2 창호공사에서 창호철물로는 경첩만 종별이 있다(도어록·도어클로저·플로어힌지 등은 없음).
+material: hinge
+label: 경첩
+work: 창호공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [hinge]
+match:
+  names: [경첩, 도어힌지, 힌지]
+  units: [ea, 개, 조, set, 쌍]
+  exclude: [플로어힌지, 피벗힌지, 설치, 하차, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS F 4519)
+ks_count: none                           # KS 인증품은 시험 없이 ◎(산출근거 'KS자재')
+order: 59
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 마. 창호공사 경첩(KS F 4519) (PDF p.39); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양"
+    method: "KS F 4519"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 경첩(KS F 4519) 겉모양 (PDF p.39)"
+  - test_type: "인장 내구성"
+    method: "KS F 4519"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 경첩(KS F 4519) 인장 내구성 (PDF p.39)"
+  - test_type: "내구성"
+    method: "KS F 2275"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 마. 창호공사 경첩(KS F 4519) 내구성 (PDF p.39)"

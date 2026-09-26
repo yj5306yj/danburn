@@ -1,0 +1,106 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 바. 마감공사(지붕·목공사 포함) > 석고보드(KS F 3504) (PDF p.41~42)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 원문은 석고보드를 GB-R(일반)·GB-S(방수)·GB-F(방화)·GB-L(라스)·GB-D(치장)으로 나눠 시험종목을 따로 적는다.
+# 묶음 행은 규격 구분 없이 한 규칙이라 일반(GB-R) 종목을 기본으로 두고, 종류별 추가 종목은 optional + 조건으로 남겼다.
+material: gypsum_board
+label: 석고보드
+work: 수장공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [gypsum_board]
+match:
+  names: [석고보드, 방수석고보드, 방화석고보드, 석고판]
+  units: [m2, 매, 장]
+  exclude: [슬래그석고, 인건, 노무, 운반, 할증]
+ks_mark: true                          # 종별 괄호에 KS F 3504 — KS 칸 ◎
+ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
+order: 55
+spec_group:                              # 두께별 행 대신 종류(방수·방화·차음·일반)별 — 원문도 종류별로 종목이 다르다(L4-D2)
+  pattern: "(방수|방화|차음|라스|치장)"
+  label: "{1}"
+  other: 일반
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 석고보드(KS F 3504) (PDF p.41~42); KS 제품은 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양, 치수"
+    method: "KS F 3504"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 석고보드(KS F 3504) 겉모양, 치수 (PDF p.41)"
+
+  - test_type: "함수율"
+    method: "KS F 3504"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 석고보드(KS F 3504) 함수율 (PDF p.41)"
+
+  - test_type: "휨 파괴 하중"
+    method: "KS F 3504"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 석고보드(KS F 3504) 휨 파괴 하중 (PDF p.42)"
+    conditions: "해석 필요: p.42 첫 행 시험방법 칸이 비어 p.41 의 KS F 3504 병합 칸에 속하는 것으로 읽음."
+
+  - test_type: "연소성능"
+    method: "KS F 3504"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 석고보드(KS F 3504) 연소성능 (PDF p.42)"
+    conditions: "석고라스보드(GB-L)에는 없음."
+
+  - test_type: "단열성"
+    method: "KS F 2277 부속서 B"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 석고보드(KS F 3504) 단열성 (PDF p.42)"
+    conditions: "석고라스보드(GB-L)에는 없음."
+
+  - test_type: "흡수성, 흡수시 내박리성"
+    method: "KS F 3504"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 석고보드(KS F 3504) 흡수성, 흡수시 내박리성 (PDF p.42)"
+    conditions: "방수석고보드(GB-S)에 한함."
+
+  - test_type: "내충격성"
+    method: "KS F 3504"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 석고보드(KS F 3504) 내충격성 (PDF p.42)"
+    conditions: "방화석고보드(GB-F)·치장석고보드(GB-D)에 한함."
+
+  - test_type: "내화염성"
+    method: "KS F 3504"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 석고보드(KS F 3504) 내화염성 (PDF p.42)"
+    conditions: "방화석고보드(GB-F)에 한함."
+
+  - test_type: "단위면적당 질량"
+    method: "KS F 3504"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 석고보드(KS F 3504) 단위면적당 질량 (PDF p.42)"
+    conditions: "방화석고보드(GB-F)에 한함."
+
+  - test_type: "내변퇴색성"
+    method: "KS M 3072, KS F 3504"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 석고보드(KS F 3504) 내변퇴색성 (PDF p.42)"
+    conditions: "치장석고보드(GB-D)에 한함."
+
+  - test_type: "실내공기 오염물질 방출량(총휘발성유기화합물, 톨루엔, 폼알데하이드)"
+    method: "KS M 1998 또는 실내공기질 공정시험기준(환경부고시)"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 석고보드(KS F 3504) 실내공기 오염물질 방출량(총휘발성유기화합물, 톨루엔, 폼알데하이드) (PDF p.42)"
+    conditions: "빈도: 필요시(모든 종류 공통)."

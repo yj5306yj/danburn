@@ -1,0 +1,55 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_galvanized_paint
+label: 아연도금 바탕면용 아크릴우레탄페인트
+work: 도장공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+extra_keys:
+- special_paint
+match:
+  names:
+  - 아연도금면도료
+  - 아연도금면페인트
+  - 아연도금바탕면용
+  - 아연도금면용도료
+  - 아크릴우레탄페인트
+  exclude:
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: false
+ks_count: makers
+order: 78
+group_tests: true
+group:
+  frequency: 제조회사별
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.13 도장재 아연도금 바탕면용 아크릴우레탄페인트(중상도용)
+tests:
+- test_type: LHCS 41 47 00 규정 시험종목
+  method: LHCS 41 47 00
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.13 도장재 아연도금 바탕면용 아크릴우레탄페인트
+  conditions: 시료 1조 1ℓ×2통
+- test_type: 친환경(TVOC·폼알데하이드·톨루엔·중금속)
+  method: 환경부 실내공기질 공정시험방법
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅴ 친환경시험 자재부문 / Ⅱ.13 도장재 아연도금 바탕면용 아크릴우레탄페인트
+  conditions: 공인시험기관(KOLAS 등) 성적서. 부위별 10% 미만 사용 자재 제외 규정 있음(Ⅴ)

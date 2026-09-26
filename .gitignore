@@ -1,0 +1,29 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# 로컬 환경
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 원본 참조(비공개 저장소 복제본, 읽기 전용). 절대 공개 저장소에 넣지 않는다.
+/_reference/
+
+# 작업자 계약·보고·잠금
+/.cache/
+/.tools/
+
+# 실제 현장 원본자료(윈도우에서 복사). 로컬 전용 — 커밋·외부 전송 금지
+/_private/
+*.egg-info/
+
+# 예제 산출물(합성 내역서·계획서) — 생성물이라 추적하지 않음
+/examples/out/
+danburn-out/
+/.claude/
+/.wrangler/

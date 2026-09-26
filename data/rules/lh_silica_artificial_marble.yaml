@@ -1,0 +1,96 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_silica_artificial_marble
+label: 실리카 인조대리석판
+work: 석공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+extra_keys:
+- artificial_stone
+match:
+  names:
+  - 인조대리석
+  - 엔지니어드스톤
+  - 엔지니어스톤
+  - 인조석판
+  - 실리카인조대리석
+  exclude:
+  - 걸레받이
+  - 마루귀틀
+  - 재료분리대
+  - 종석
+  - 바름
+  - 물갈기
+  - 점자
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: true
+ks_count: none
+order: 85
+group_tests: true
+group:
+  frequency: 제조회사별
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.12 타일 및 석재류 실리카 인조대리석판; KS 표시자재는 LHCS 10 40 00 1.5.1(6)에 따라 시험 생략 가능(공종별 일반사항에 명시된 자재 제외)
+tests:
+- test_type: 비중 및 흡수율
+  method: KS F 4739
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.12 타일 및 석재류 실리카 인조대리석판 비중 및 흡수율
+- test_type: 국부압축강도
+  method: KS F 4739
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.12 타일 및 석재류 실리카 인조대리석판 국부압축강도
+- test_type: 휨강도
+  method: KS F 4739
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.12 타일 및 석재류 실리카 인조대리석판 휨강도
+- test_type: 충격강도
+  method: KS F 4739
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.12 타일 및 석재류 실리카 인조대리석판 충격강도
+- test_type: 내마모성
+  method: KS F 4739
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.12 타일 및 석재류 실리카 인조대리석판 내마모성
+- test_type: 내오염성
+  method: KS F 4739
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.12 타일 및 석재류 실리카 인조대리석판 내오염성

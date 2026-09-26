@@ -1,0 +1,51 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+# 참고: 방화셔터·자동문은 부록에 없음 — extra_keys(fire_shutter) 주장하지 않음
+material: lh_refuge_fire_door
+label: 대피공간 방화문
+work: 창호공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+match:
+  names:
+  - 대피공간방화문
+  - 대피공간문
+  - 대피공간방화도어
+  exclude:
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: false
+ks_count: makers
+order: 79
+group_tests: true
+group:
+  frequency: 제조회사별, 문짝 종류별
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 대피공간방화문
+tests:
+- test_type: 차열성능(LHCS 41 55 06 기준)
+  method: KS F 2268-1, KS F 2257-1
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 문짝 종류별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 대피공간방화문
+  conditions: 동일 구성·재질이면 최대 규격, 시료 2SET
+- test_type: 절단(분해) 확인
+  method: 육안
+  where: 현장
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 문짝 종류별
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.11 창호재 및 유리 대피공간방화문 현장시험

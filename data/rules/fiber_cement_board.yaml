@@ -1,0 +1,76 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 바. 마감공사(지붕·목공사 포함) > 섬유강화 시멘트판(KS L 5114) (PDF p.43)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 원문 25행(종류별)을 종목 8개로 합치고 종류는 conditions 에 적었다. 기본 행은 평판 4종류 공통 3종목.
+# 석고보드(KS F 3504)는 별도 종별(gypsum_board). 슬래그석고판은 이 종별.
+material: fiber_cement_board
+label: 섬유강화 시멘트판
+work: 수장공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [fiber_cement_board]
+match:
+  names: [섬유강화시멘트판, 시멘트보드, 규산칼슘판, 평형슬레이트, 슬래그석고판, 섬유시멘트판, 펄라이트판, 칼슘실리케이트, 규산칼슘보드]
+  units: [m2, 매, 장]
+  exclude: [석면, 철거, 붙임, 설치, 하차, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS L 5114)
+ks_count: none                           # KS 인증품은 시험 없이 ◎(산출근거 'KS자재')
+order: 55
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유강화 시멘트판(KS L 5114) (PDF p.43); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양 및 치수"
+    method: "KS L 5114"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유강화 시멘트판(KS L 5114) 겉모양 및 치수 (PDF p.43)"
+    conditions: "5종류 공통. 해석 필요: 원문은 파형 시멘트판·평형 슬레이트·펄라이트판·규산칼슘판·슬래그석고판 5종류별로 종목이 다르다(비고: 종류에 따라 구분 적용)."
+  - test_type: "휨강도"
+    method: "KS F 2263"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유강화 시멘트판(KS L 5114) 휨강도 (PDF p.43)"
+    conditions: "평형 슬레이트·펄라이트판·규산칼슘판·슬래그석고판. 해석 필요: 원문은 파형 시멘트판·평형 슬레이트·펄라이트판·규산칼슘판·슬래그석고판 5종류별로 종목이 다르다(비고: 종류에 따라 구분 적용)."
+  - test_type: "흡수에 의한 길이 변화율"
+    method: "KS L 5114"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유강화 시멘트판(KS L 5114) 흡수에 의한 길이 변화율 (PDF p.43)"
+    conditions: "평형 슬레이트·펄라이트판·규산칼슘판·슬래그석고판. 해석 필요: 원문은 파형 시멘트판·평형 슬레이트·펄라이트판·규산칼슘판·슬래그석고판 5종류별로 종목이 다르다(비고: 종류에 따라 구분 적용)."
+  - test_type: "휨파괴하중"
+    method: "KS L 5114"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유강화 시멘트판(KS L 5114) 휨파괴하중 (PDF p.43)"
+    conditions: "파형 시멘트판에 한함. 해석 필요: 원문은 파형 시멘트판·평형 슬레이트·펄라이트판·규산칼슘판·슬래그석고판 5종류별로 종목이 다르다(비고: 종류에 따라 구분 적용)."
+  - test_type: "흡수율"
+    method: "KS L 5114"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유강화 시멘트판(KS L 5114) 흡수율 (PDF p.43)"
+    conditions: "파형 시멘트판·평형 슬레이트에 한함. 해석 필요: 원문은 파형 시멘트판·평형 슬레이트·펄라이트판·규산칼슘판·슬래그석고판 5종류별로 종목이 다르다(비고: 종류에 따라 구분 적용)."
+  - test_type: "투수성"
+    method: "KS L 5114"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유강화 시멘트판(KS L 5114) 투수성 (PDF p.43)"
+    conditions: "파형 시멘트판·평형 슬레이트·펄라이트판·슬래그석고판에 한함. 해석 필요: 원문은 파형 시멘트판·평형 슬레이트·펄라이트판·규산칼슘판·슬래그석고판 5종류별로 종목이 다르다(비고: 종류에 따라 구분 적용)."
+  - test_type: "부피 비중"
+    method: "KS L 5114"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유강화 시멘트판(KS L 5114) 부피 비중 (PDF p.43)"
+    conditions: "펄라이트판·규산칼슘판·슬래그석고판에 한함. 해석 필요: 원문은 파형 시멘트판·평형 슬레이트·펄라이트판·규산칼슘판·슬래그석고판 5종류별로 종목이 다르다(비고: 종류에 따라 구분 적용)."
+  - test_type: "열전도율"
+    method: "KS L 9016"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유강화 시멘트판(KS L 5114) 열전도율 (PDF p.43)"
+    conditions: "펄라이트판·규산칼슘판에 한함. 해석 필요: 원문은 파형 시멘트판·평형 슬레이트·펄라이트판·규산칼슘판·슬래그석고판 5종류별로 종목이 다르다(비고: 종류에 따라 구분 적용)."

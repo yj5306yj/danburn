@@ -1,0 +1,68 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 다. 철강구조물공사 > 일반 구조용 압연 강재(KS D 3503) (PDF p.11)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 가설기자재의 '일반 구조용 압연 강재(흙막이용 자재로 제한)'(PDF p.15, 색인 temp_rolled_steel_general)는 시험종목·빈도가 달라
+# 이 파일에 넣지 않았다 — 흙막이 행은 match.exclude 로 뺀다.
+# KS 제품 처리: 종별 괄호에 (KS D 3503) — 별표2 끝 ※주석(PDF p.52): 괄호 안 KS 규격 제품은 「건설기술 진흥법 시행령」
+#   제91조제1항 시험을 하지 않아도 된다 → ks_mark true, ks_count none(시험 없이 ◎).
+material: rolled_steel_general
+label: 일반구조용압연강재
+work: 철골공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [rolled_steel_general]
+match:
+  names: [일반구조용압연강재, SS275, SS400, H형강, 형강, 강판, ㄱ형강, 앵글, 채널]
+  units: [ton]
+  exclude: [흙막이, 띠장, 버팀보, 사보강, 말뚝, 파일, 경량, 용접구조, 건축구조, 교량구조, 내후성, 강관, 가공, 조립, 설치, 운반, 절단, 하차]
+ks_mark: true
+ks_count: none
+order: 14
+spec_group:                              # 형강 치수(H-300X300 등)별 행 대신 강종별로 묶는다 — 비KS 50톤 빈도는 강종 합계로 계산(L4-D2)
+  pattern: "(SS\\d{3}|SM\\d{3}[A-C]?|SN\\d{3}[A-C]?|SHN\\d{3})"
+  label: "{1}"
+  other: 규격별
+group_tests: true
+group:
+  frequency: "1. KS제품은 KS자재(시험 면제)\n2. 비KS제품은 제조회사별·제품규격별 50톤마다"
+  basis: "별표2 1. 다. 일반 구조용 압연 강재(KS D 3503) (PDF p.11); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: 모양, 치수, 무게, 겉모양
+    method: "KS D 3051, KS D 3052, KS D 3500, KS D 3502"
+    where: 외부
+    frequency: {per_qty: 50, unit: ton, text: "제조회사별·제품규격별 50톤마다", minimum: 1}
+    basis: "별표2 1. 다. 일반 구조용 압연 강재(KS D 3503) 모양, 치수, 무게, 겉모양 (PDF p.11)"
+    conditions: &ks_note "제조회사별·제품규격별 50톤마다. 종별 괄호 안 KS 규격(KS D 3503) 인증품은 ※주석(PDF p.52)에 따라 시험 면제 → KS자재 ◎. 비KS는 50톤마다 외부 시험."
+
+  - test_type: 화학성분
+    method: "KS D 3503"
+    where: 외부
+    frequency: {per_qty: 50, unit: ton, text: "제조회사별·제품규격별 50톤마다", minimum: 1}
+    basis: "별표2 1. 다. 일반 구조용 압연 강재(KS D 3503) 화학성분 (PDF p.11)"
+    conditions: *ks_note
+
+  - test_type: 항복점 또는 항복강도
+    method: "KS D 3503"
+    where: 외부
+    frequency: {per_qty: 50, unit: ton, text: "제조회사별·제품규격별 50톤마다", minimum: 1}
+    basis: "별표2 1. 다. 일반 구조용 압연 강재(KS D 3503) 항복점 또는 항복강도 (PDF p.11)"
+    conditions: *ks_note
+
+  - test_type: 인장강도
+    method: "KS D 3503"
+    where: 외부
+    frequency: {per_qty: 50, unit: ton, text: "제조회사별·제품규격별 50톤마다", minimum: 1}
+    basis: "별표2 1. 다. 일반 구조용 압연 강재(KS D 3503) 인장강도 (PDF p.11)"
+    conditions: *ks_note
+
+  - test_type: 연신율
+    method: "KS D 3503"
+    where: 외부
+    frequency: {per_qty: 50, unit: ton, text: "제조회사별·제품규격별 50톤마다", minimum: 1}
+    basis: "별표2 1. 다. 일반 구조용 압연 강재(KS D 3503) 연신율 (PDF p.11)"
+    conditions: *ks_note
+
+  - test_type: 굽힘성
+    method: "KS D 3503"
+    where: 외부
+    frequency: {per_qty: 50, unit: ton, text: "제조회사별·제품규격별 50톤마다", minimum: 1}
+    basis: "별표2 1. 다. 일반 구조용 압연 강재(KS D 3503) 굽힘성 (PDF p.11)"
+    conditions: *ks_note

@@ -1,0 +1,97 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+# 참고: 신발장 전도 안전성(3회)은 물량과 무관한 고정 횟수라 optional(--include-optional)로 둠
+material: lh_storage_furniture
+label: 수납가구
+work: 가구공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+extra_keys:
+- furniture
+match:
+  names:
+  - 수납가구
+  - 신발장
+  - 반침가구
+  - 반침수납장
+  - 붙박이장
+  - 거실장
+  - 현관장
+  exclude:
+  - 욕실
+  - 손잡이
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: false
+ks_count: makers
+order: 74
+group_tests: true
+group:
+  frequency: 제조회사별(공구별·품목별 1회)
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.17 가구류 수납가구(신발장·반침가구 등) — 시험종목은 LHCS 41 57 01 2.2·3.3
+tests:
+- test_type: 제품성능시험(단체표준·KS G 2020)
+  method: KS G 2020
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별(공구별·품목별 1회)
+    minimum: 1
+  basis: LHCS 41 57 01:2020(부록 Ⅱ.17이 위임) 2.2(1) 수납가구 제품성능시험
+- test_type: 주요 원·부자재 시험
+  method: KS F 3101, KS F 3200, KS F 3104, KS M 3332, KS D 9502
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별(공구별·품목별 1회)
+    minimum: 1
+  basis: LHCS 41 57 01:2020(부록 Ⅱ.17이 위임) 2.2(2) 주요 원·부자재(합판·섬유판·파티클보드·HPL·도금 손잡이·경첩)
+- test_type: 도막시험(광택·도막두께·밀착성·내열성·촉진내후성)
+  method: KS M ISO 2813, KS M ISO 2808, KS M ISO 2409
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별(공구별·품목별 1회)
+    minimum: 1
+  basis: LHCS 41 57 01:2020(부록 Ⅱ.17이 위임) 2.2(3) 도료의 도막 시험
+- test_type: 데커레이션시트 상온 박리성
+  method: LHCS 41 57 01
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별(공구별·품목별 1회)
+    minimum: 1
+  basis: LHCS 41 57 01:2020(부록 Ⅱ.17이 위임) 2.2(4) 데커레이션시트·엣지 상온 박리성
+- test_type: 친환경(TVOC·폼알데하이드·톨루엔)
+  method: 환경부 실내공기질 공정시험방법
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별(공구별·품목별 1회)
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅴ 친환경시험 자재부문 / Ⅱ.17 가구류 수납가구 / LHCS 41 57 01:2020(부록 Ⅱ.17이 위임) 2.2(5)
+  conditions: 공인시험기관(KOLAS 등) 성적서. 부위별 10% 미만 사용 자재 제외 규정 있음(Ⅴ)
+- test_type: 신발장 전도 안전성
+  method: LHCS 41 57 01 3.3
+  where: 현장
+  frequency:
+    per_qty: null
+    unit: null
+    text: 3회(시공방법이 다르면 추가)
+    minimum: 1
+  basis: LHCS 41 57 01:2020(부록 Ⅱ.17이 위임) 3.3 현장 품질관리 신발장 전도 안전성
+  conditions: 설치 후 감독자 지정 취약부위
+  optional: true

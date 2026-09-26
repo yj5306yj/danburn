@@ -1,0 +1,211 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 사. 도장공사 > 수성도료(KS M 6010) (PDF p.45~46)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 원문은 1종·1,2종 공통·2종·3종으로 시험종목을 나눈다. 기본(비 optional) = 1,2종 공통 9종목.
+material: water_paint
+label: 수성도료
+work: 도장공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [water_paint]
+match:
+  names: [수성도료, 수성페인트, 에멀션페인트, 에멀젼페인트, 합성수지에멀전페인트, 합성수지에멀션페인트]
+  units: [m2, l, ℓ, kg]
+  exclude: [인건, 노무, 운반, 할증]
+ks_mark: true                          # 종별 괄호에 KS M 6010 — KS 칸 ◎
+ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
+order: 60
+spec_group: all                          # 색·용도별 행을 한 행으로(L4-D2)
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) (PDF p.45~46); KS 제품은 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "냉동 안정성"
+    method: "KS M 6010"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 냉동 안정성 (PDF p.45)"
+
+  - test_type: "주도"
+    method: "KS M 5000-2122"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 주도 (PDF p.45)"
+
+  - test_type: "비휘발분"
+    method: "KS M ISO 3251"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 비휘발분 (PDF p.45)"
+
+  - test_type: "건조시간"
+    method: "KS M 5000-2511"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 건조시간 (PDF p.45)"
+
+  - test_type: "확산 반사율(45°, 0°)"
+    method: "KS M 5000-3121"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 확산 반사율(45°, 0°) (PDF p.45)"
+
+  - test_type: "은폐율"
+    method: "KS M ISO 2814"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 은폐율 (PDF p.45)"
+
+  - test_type: "내세척성"
+    method: "KS M 5000-3351"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 내세척성 (PDF p.45)"
+
+  - test_type: "내알칼리성"
+    method: "KS M 6010, KS M ISO 2812-1"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 내알칼리성 (PDF p.45)"
+
+  - test_type: "용기내 상태"
+    method: "KS M 5000-2011"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 용기내 상태 (PDF p.45)"
+
+  - test_type: "열 안정성(1종)"
+    method: "KS M 6010"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 열 안정성(1종) (PDF p.45)"
+    conditions: "1종에 한함. 해석 필요: 수성도료 종류(1종·2종·3종)는 규격으로 가려야 하나 묶음 행은 1·2종 공통 종목만 기본으로 적는다."
+
+  - test_type: "적신 도막 은폐율(1종)"
+    method: "KS M 6010"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 적신 도막 은폐율(1종) (PDF p.45)"
+    conditions: "1종에 한함. 해석 필요: 수성도료 종류(1종·2종·3종)는 규격으로 가려야 하나 묶음 행은 1·2종 공통 종목만 기본으로 적는다."
+
+  - test_type: "안료분(1종)"
+    method: "KS M 5000-2111"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 안료분(1종) (PDF p.45)"
+    conditions: "1종에 한함. 해석 필요: 수성도료 종류(1종·2종·3종)는 규격으로 가려야 하나 묶음 행은 1·2종 공통 종목만 기본으로 적는다."
+
+  - test_type: "촉진내후성(1종)"
+    method: "KS M 5000-3231"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 촉진내후성(1종) (PDF p.45)"
+    conditions: "1종에 한함. 해석 필요: 수성도료 종류(1종·2종·3종)는 규격으로 가려야 하나 묶음 행은 1·2종 공통 종목만 기본으로 적는다."
+
+  - test_type: "광택(2종)"
+    method: "KS M ISO 2813"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 광택(2종) (PDF p.46)"
+    conditions: "2종에 한함."
+
+  - test_type: "저장 안정성(2종)"
+    method: "KS M 5000-2021, 2031"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 저장 안정성(2종) (PDF p.46)"
+    conditions: "2종에 한함."
+
+  - test_type: "냄새(2종)"
+    method: "KS M 5000-2041"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 냄새(2종) (PDF p.46)"
+    conditions: "2종에 한함."
+
+  - test_type: "내곰팡이성(2종)"
+    method: "KS M 5000-3431"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 내곰팡이성(2종) (PDF p.46)"
+    conditions: "2종에 한함."
+
+  - test_type: "연마용이성(3종)"
+    method: "KS M 6010"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 연마용이성(3종) (PDF p.46)"
+    conditions: "3종에 한함(3종은 1·2종 공통 종목을 적용하지 않고 이 종목들만 적용)."
+
+  - test_type: "부착강도(3종)"
+    method: "KS M 6010"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 부착강도(3종) (PDF p.46)"
+    conditions: "3종에 한함(3종은 1·2종 공통 종목을 적용하지 않고 이 종목들만 적용)."
+
+  - test_type: "저온 안정성(3종)"
+    method: "KS M 6010"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 저온 안정성(3종) (PDF p.46)"
+    conditions: "3종에 한함(3종은 1·2종 공통 종목을 적용하지 않고 이 종목들만 적용)."
+
+  - test_type: "상도 적합성(3종)"
+    method: "KS M 6010"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 상도 적합성(3종) (PDF p.46)"
+    conditions: "3종에 한함(3종은 1·2종 공통 종목을 적용하지 않고 이 종목들만 적용)."
+
+  - test_type: "비휘발분(3종)"
+    method: "KS M ISO 3251"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 비휘발분(3종) (PDF p.46)"
+    conditions: "3종에 한함(3종은 1·2종 공통 종목을 적용하지 않고 이 종목들만 적용)."
+
+  - test_type: "건조시간(3종)"
+    method: "KS M 5000-2511"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 건조시간(3종) (PDF p.46)"
+    conditions: "3종에 한함(3종은 1·2종 공통 종목을 적용하지 않고 이 종목들만 적용)."
+
+  - test_type: "용기내 상태(3종)"
+    method: "KS M 5000-2011"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 용기내 상태(3종) (PDF p.46)"
+    conditions: "3종에 한함(3종은 1·2종 공통 종목을 적용하지 않고 이 종목들만 적용)."
+
+  - test_type: "내수성(3종)"
+    method: "KS M 6010"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 내수성(3종) (PDF p.46)"
+    conditions: "3종에 한함(3종은 1·2종 공통 종목을 적용하지 않고 이 종목들만 적용)."
+
+  - test_type: "내알칼리성(3종)"
+    method: "KS M ISO 2812-1, 2"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 사. 도장공사 수성도료(KS M 6010) 내알칼리성(3종) (PDF p.46)"
+    conditions: "3종에 한함(3종은 1·2종 공통 종목을 적용하지 않고 이 종목들만 적용)."

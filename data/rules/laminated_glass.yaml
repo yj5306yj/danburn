@@ -1,0 +1,83 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 라. 유리공사 > 접합유리(KS L 2004) (PDF p.38)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 원문은 평면접합유리·곡면접합유리 두 묶음. 곡면 종목은 optional(기본 행은 평면 5종목).
+material: laminated_glass
+label: 접합유리
+work: 유리공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [laminated_glass]
+accept_install_rows: true                # 내역서에 시공 행(…설치)만 있을 때 그 물량으로(비고 “시공 행 추정”, L4-T3)
+install_units: [개소, ea, set]
+match:
+  names: [접합유리, 접합안전유리, 접합강화유리]
+  units: [m2]
+  exclude: [반강화, 배강도, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS L 2004)
+ks_count: none                           # KS 인증품은 시험 없이 ◎(산출근거 'KS자재')
+order: 52
+spec_group: all                          # 구성별 행을 한 행으로(L4-D2)
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 라. 유리공사 접합유리(KS L 2004) (PDF p.38); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양 및 치수"
+    method: "KS L 2004"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 접합유리(KS L 2004) 겉모양 및 치수 (PDF p.38)"
+    conditions: "평면접합유리."
+  - test_type: "만곡, 내열성"
+    method: "KS L 2004"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 접합유리(KS L 2004) 만곡, 내열성 (PDF p.38)"
+    conditions: "평면접합유리."
+  - test_type: "낙구 충격시험"
+    method: "KS L 2004"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 접합유리(KS L 2004) 낙구 충격시험 (PDF p.38)"
+    conditions: "평면접합유리."
+  - test_type: "쇼트백 충격 특성"
+    method: "KS L 2004"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 접합유리(KS L 2004) 쇼트백 충격 특성 (PDF p.38)"
+    conditions: "평면접합유리."
+  - test_type: "내광성"
+    method: "KS L 2007"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 접합유리(KS L 2004) 내광성 (PDF p.38)"
+    conditions: "평면접합유리."
+  - test_type: "(곡면) 겉모양"
+    method: "KS L 2004"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 접합유리(KS L 2004) (곡면) 겉모양 (PDF p.38)"
+    conditions: "곡면접합유리에 한함."
+  - test_type: "(곡면) 내열성"
+    method: "KS L 2004"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 접합유리(KS L 2004) (곡면) 내열성 (PDF p.38)"
+    conditions: "곡면접합유리에 한함."
+  - test_type: "(곡면) 쇼트백 충격특성"
+    method: "KS L 2004"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 접합유리(KS L 2004) (곡면) 쇼트백 충격특성 (PDF p.38)"
+    conditions: "곡면접합유리에 한함."
+  - test_type: "(곡면) 내광성"
+    method: "KS L 2007"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 라. 유리공사 접합유리(KS L 2004) (곡면) 내광성 (PDF p.38)"
+    conditions: "곡면접합유리에 한함."

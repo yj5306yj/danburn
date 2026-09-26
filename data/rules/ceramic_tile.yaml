@@ -1,0 +1,93 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 바. 마감공사(지붕·목공사 포함) > 도자기질 타일(KS L 1001) (PDF p.44)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 타일시멘트(1. 공통)·타일용 접착제(3. 아. 기타)·비닐타일(PVC계 바닥재)은 별도 종별이라 match.exclude 로 뺐다.
+material: ceramic_tile
+label: 도자기질 타일
+work: 타일공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [ceramic_tile]
+match:
+  names: [도자기질타일, 자기질타일, 도기질타일, 포세린타일, 타일, 포셀린타일, 포셀린, 폴리싱타일]
+  units: [m2, 매, ea]
+  exclude: [덕타일, 닥타일, 타일시멘트, 압착시멘트, 타일붙임시멘트, 타일용접착제, 타일접착제, 타일본드, 비닐타일, 줄눈, 인건, 노무, 운반, 할증]
+ks_mark: true                          # 종별 괄호에 KS L 1001 — KS 칸 ◎
+ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
+order: 56
+spec_group:                              # 치수(300X600 등)별 행 대신 소지 종류별로 묶는다(L4-D2)
+  pattern: "(자기질|석기질|도기질)"
+  label: "{1}"
+  other: 규격별
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) (PDF p.44); KS 제품은 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양 및 치수"
+    method: "KS L 1001"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) 겉모양 및 치수 (PDF p.44)"
+    conditions: "원문 괄호: 모자이크 타일 제외."
+
+  - test_type: "뒤틀림"
+    method: "KS L 1001"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) 뒤틀림 (PDF p.44)"
+
+  - test_type: "치수의 불규칙도"
+    method: "KS L 1001"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) 치수의 불규칙도 (PDF p.44)"
+
+  - test_type: "흡수율"
+    method: "KS L 1001"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) 흡수율 (PDF p.44)"
+
+  - test_type: "꺽임 강도"
+    method: "KS L 1001"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) 꺽임 강도 (PDF p.44)"
+
+  - test_type: "내약품성"
+    method: "KS L 1001"
+    where: KS
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) 내약품성 (PDF p.44)"
+
+  - test_type: "내균열성(시유타일)"
+    method: "KS L 1001"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) 내균열성(시유타일) (PDF p.44)"
+    conditions: "시유(유약) 타일에 한함. 비고: 종류 및 용도에 따라 구분적용."
+
+  - test_type: "내마모성(바닥타일)"
+    method: "KS L 1001"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) 내마모성(바닥타일) (PDF p.44)"
+    conditions: "바닥타일에 한함. 비고: 종류 및 용도에 따라 구분적용."
+
+  - test_type: "동결 융해(외장, 바닥타일)"
+    method: "KS L 1001"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) 동결 융해(외장, 바닥타일) (PDF p.44)"
+    conditions: "외장·바닥타일에 한함. 비고: 종류 및 용도에 따라 구분적용."
+
+  - test_type: "첨지의 접착성, 박리성, 재질 및 개구율(구성타일)"
+    method: "KS L 1001"
+    where: KS
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) 첨지의 접착성, 박리성, 재질 및 개구율(구성타일) (PDF p.44)"
+    conditions: "구성타일에 한함."

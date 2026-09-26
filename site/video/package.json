@@ -1,0 +1,30 @@
+{
+  "name": "qcplan-hero-video",
+  "private": true,
+  "description": "qcplan 랜딩 히어로 영상(Remotion) — 합성 예제 계획서가 작성되는 그림",
+  "scripts": {
+    "assets": "cd ../.. && .venv/bin/python site/video/scripts/make_assets.py",
+    "studio": "remotion studio",
+    "stills": "remotion still Hero storyboard/01-boq.png --frame=100 && remotion still Hero storyboard/02-pages-811.png --frame=400 && remotion still Hero storyboard/03-end.png --frame=530",
+    "stills-v1": "remotion still HeroV1 storyboard/v1-01-boq.png --frame=165 && remotion still HeroV1 storyboard/v1-02-zoom-811.png --frame=400 && remotion still HeroV1 storyboard/v1-03-end.png --frame=525",
+    "render-v1": "remotion render HeroV1 out/hero-v1.mp4 --codec=h264 --muted --crf=24",
+    "stills-v2": "remotion still HeroV2 storyboard/v2-01-boq-chips.png --frame=170 && remotion still HeroV2 storyboard/v2-02-compare.png --frame=530 && remotion still HeroV2 storyboard/v2-03-end.png --frame=650 && remotion still HeroV2x45 storyboard/v2-45-01-boq.png --frame=250 && remotion still HeroV2x45 storyboard/v2-45-02-compare.png --frame=530 && remotion still HeroV2x45 storyboard/v2-45-03-end.png --frame=650",
+    "render-v2": "remotion render HeroV2 out/hero-v2.mp4 --codec=h264 --muted --crf=24 && remotion render HeroV2x45 out/hero-v2-45.mp4 --codec=h264 --muted --crf=24",
+    "stills-v3": "remotion still HeroV3 storyboard/v3-01-boq.png --frame=50 && remotion still HeroV3 storyboard/v3-02-chips.png --frame=170 && remotion still HeroV3 storyboard/v3-03-compare.png --frame=530 && remotion still HeroV3 storyboard/v3-04-end.png --frame=650 && remotion still HeroV3x45 storyboard/v3-45-01-match.png --frame=200 && remotion still HeroV3x45 storyboard/v3-45-02-compare.png --frame=530 && remotion still HeroV3x45 storyboard/v3-45-03-end.png --frame=650",
+    "render-v3": "remotion render HeroV3 out/hero-v3.mp4 --codec=h264 --muted --crf=24 && remotion render HeroV3x45 out/hero-v3-45.mp4 --codec=h264 --muted --crf=24",
+    "stills-v4": "remotion still HeroV4 storyboard/v4-01-start.png --frame=30 && remotion still HeroV4 storyboard/v4-02-chips.png --frame=100 && remotion still HeroV4 storyboard/v4-03-rewritten.png --frame=165 && remotion still HeroV4 storyboard/v4-04-compare.png --frame=340 && remotion still HeroV4 storyboard/v4-05-end.png --frame=445 && remotion still HeroV4x45 storyboard/v4-45-01-match.png --frame=100 && remotion still HeroV4x45 storyboard/v4-45-02-compare.png --frame=340 && remotion still HeroV4x45 storyboard/v4-45-03-end.png --frame=445",
+    "render-v4": "remotion render HeroV4 out/hero-v4.mp4 --codec=h264 --muted --crf=24 && remotion render HeroV4x45 out/hero-v4-45.mp4 --codec=h264 --muted --crf=24"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "@remotion/cli": "4.0.529",
+    "pretendard": "1.3.9",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.529"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.2",
+    "typescript": "5.9.3"
+  }
+}

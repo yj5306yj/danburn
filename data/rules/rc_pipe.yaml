@@ -1,0 +1,57 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 마. 기타 > 철근콘크리트관(KS F 4402) (PDF p.18)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 빈도: 겉모양 및 모양은 '모든 제품마다', 나머지 네 종목은 '제조회사별, 종류 및 호칭별 200개 또는 그 단수마다'(병합 칸, 좌표로 확인).
+#   내역서는 m 단위라 개수 빈도와 단위가 다르다 — KS ◎에는 영향 없고, 비KS면 '단위 확인'(본 수로 바꿔 입력).
+# 원심력 철근콘크리트관(흄관, KS F 4403)은 별도 종별(centrifugal_rc_pipe) — '원심력'·'흄관' 행은 뺀다.
+material: rc_pipe
+label: 철근콘크리트관
+work: 배수공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [rc_pipe]
+match:
+  names: [철근콘크리트관, 콘크리트관]
+  units: [m, 본, ea, 개]
+  exclude: [원심력, 우수관, 흄관, 고무링, 부설, 접합, 설치, 절단, 하차, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS F 4402)
+ks_count: none
+order: 72
+spec_group:                              # 기초 형식(모래·콘크리트)별 행 대신 호칭지름별로 묶는다(빈도가 종류 및 호칭별)
+  pattern: "D\\s*-?\\s*(\\d{3,4})"
+  label: "D{1}"
+  other: 규격별
+group_tests: true
+group:
+  frequency: "모든 제품마다(겉모양 및 모양), 제조회사별, 종류 및 호칭별 200개 또는 그 단수마다"
+  basis: "별표2 1. 공통 마. 기타 철근콘크리트관(KS F 4402) (PDF p.18); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양 및 모양"
+    method: "KS F 4402"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "모든 제품마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 철근콘크리트관(KS F 4402) 겉모양 및 모양 (PDF p.18)"
+    conditions: "빈도: 모든 제품마다. 하수도용관(비고)."
+  - test_type: "치수"
+    method: "KS F 4402"
+    where: 외부
+    frequency: {per_qty: 200, unit: ea, text: "제조회사별, 종류 및 호칭별 200개 또는 그 단수마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 철근콘크리트관(KS F 4402) 치수 (PDF p.18)"
+    conditions: &rc "하수도용관(비고). 해석 필요: 내역 m 단위는 관 1본 길이로 나누어 개수로 바꿔야 비KS 횟수가 맞음."
+  - test_type: "외압강도"
+    method: "KS F 4402"
+    where: 외부
+    frequency: {per_qty: 200, unit: ea, text: "제조회사별, 종류 및 호칭별 200개 또는 그 단수마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 철근콘크리트관(KS F 4402) 외압강도 (PDF p.18)"
+    conditions: *rc
+  - test_type: "내압강도"
+    method: "KS F 4402"
+    where: 외부
+    frequency: {per_qty: 200, unit: ea, text: "제조회사별, 종류 및 호칭별 200개 또는 그 단수마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 철근콘크리트관(KS F 4402) 내압강도 (PDF p.18)"
+    conditions: *rc
+  - test_type: "수밀성"
+    method: "KS F 4402"
+    where: 외부
+    frequency: {per_qty: 200, unit: ea, text: "제조회사별, 종류 및 호칭별 200개 또는 그 단수마다", minimum: 1}
+    basis: "별표2 1. 공통 마. 기타 철근콘크리트관(KS F 4402) 수밀성 (PDF p.18)"
+    conditions: *rc

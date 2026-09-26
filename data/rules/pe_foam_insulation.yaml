@@ -1,0 +1,51 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 다. 단열·보온공사 > 발포폴리에틸렌보온재(KS M 3862) (PDF p.37)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 해석 필요: 배관 보온(단위 m) 행도 잡히지만 원문 빈도는 면적·매수 기준이라 비KS 계산은 m 물량에 맞지 않는다.
+material: pe_foam_insulation
+label: 발포폴리에틸렌보온재
+work: 단열공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [pe_foam_insulation]
+match:
+  names: [발포폴리에틸렌, 폴리에틸렌보온재, PE보온재]
+  units: [m2, 매, 장, m]
+  exclude: [인건, 노무, 운반, 할증]
+ks_mark: true                          # 종별 괄호에 KS M 3862 — KS 칸 ◎
+ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
+order: 46
+spec_group: all                          # 두께·관경별 행을 한 행으로(단위가 다르면 ㎡·m 행으로 나뉜다, L4-D2)
+group_tests: true
+group:
+  frequency: "시공면적 1,000㎡마다, 1,000매마다"
+  basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리에틸렌보온재(KS M 3862) (PDF p.37); KS 제품은 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양 및 치수"
+    method: "KS M 3862"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리에틸렌보온재(KS M 3862) 겉모양 및 치수 (PDF p.37)"
+
+  - test_type: "인장 강도"
+    method: "KS M 3862"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리에틸렌보온재(KS M 3862) 인장 강도 (PDF p.37)"
+
+  - test_type: "흡수량"
+    method: "KS M 3862"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리에틸렌보온재(KS M 3862) 흡수량 (PDF p.37)"
+
+  - test_type: "두께 수축률"
+    method: "KS M 3862"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리에틸렌보온재(KS M 3862) 두께 수축률 (PDF p.37)"
+
+  - test_type: "열전도율"
+    method: "KS L 9016"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리에틸렌보온재(KS M 3862) 열전도율 (PDF p.37)"

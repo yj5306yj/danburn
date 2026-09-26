@@ -1,0 +1,67 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) > 이중바닥재(KS F 4760) (PDF p.42~43)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다. 표가 p.42 끝에서 p.43 첫머리(내연소성~방식성능)로 이어진다.
+# KS 처리: 종별 괄호 안 KS 규격 제품은 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# '마구리면' 행은 끝막음 마감 부재라 뺀다.
+material: raised_floor
+label: 이중바닥재
+work: 수장공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [raised_floor]
+match:
+  names: [이중바닥재, 이중바닥, 액세스플로어, 억세스플로어, ACCESSFLOOR, 억세스플로아]
+  units: [m2]
+  exclude: [마구리, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS F 4760)
+ks_count: none
+order: 55
+spec_group: all                          # 높이·마감별 행을 한 행으로
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 이중바닥재(KS F 4760) (PDF p.42~43); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양 및 치수"
+    method: "KS F 4760"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 이중바닥재(KS F 4760) 겉모양 및 치수 (PDF p.42)"
+  - test_type: "직각도, 평탄도"
+    method: "KS F 4760"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 이중바닥재(KS F 4760) 직각도, 평탄도 (PDF p.42)"
+  - test_type: "국부 압축 저항성"
+    method: "KS F 4760"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 이중바닥재(KS F 4760) 국부 압축 저항성 (PDF p.42)"
+  - test_type: "내충격성"
+    method: "KS F 4760"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 이중바닥재(KS F 4760) 내충격성 (PDF p.42)"
+  - test_type: "내연소성"
+    method: "KS F 4760"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 이중바닥재(KS F 4760) 내연소성 (PDF p.43)"
+  - test_type: "대전성"
+    method: "KS F 4760"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 이중바닥재(KS F 4760) 대전성 (PDF p.43)"
+  - test_type: "누설 저항성"
+    method: "KS F 4760"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 이중바닥재(KS F 4760) 누설 저항성 (PDF p.43)"
+  - test_type: "방식 성능 — 도막 밀착성"
+    method: "KS F 4760"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 이중바닥재(KS F 4760) 방식 성능 — 도막 밀착성 (PDF p.43)"
+  - test_type: "방식 성능 — 도막 내식성"
+    method: "KS D 9502"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 이중바닥재(KS F 4760) 방식 성능 — 도막 내식성 (PDF p.43)"

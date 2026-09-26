@@ -1,0 +1,68 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       3. 건축 > 다. 단열·보온공사 > 발포폴리스티렌단열재(KS M 3808) (PDF p.36~37)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS M 3808 은 비드법·압출법 보온판을 함께 다룬다(계약의 '압출법 보온판 등 단열재').
+# 빈도 '시공면적 1,000㎡마다, 1,000매마다' → per_qty 1000 m2(비KS 계산용). 매 단위 행은 1,000매로 같은 숫자를 쓴다.
+material: eps_insulation
+label: 발포폴리스티렌단열재
+work: 단열공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [eps_insulation]
+match:
+  names: [발포폴리스티렌, 스티로폼, 비드법, 압출법단열재, EPS단열재, 압출법보온판, 비드법보온판, XPS, 스치로폴, 스티로폴, 경질발포플라스틱단열재, 결로방지용발포폴리스티렌]
+  units: [m2, 매, 장]
+  exclude: [PUR, PIR, 우레탄, 페놀, 인건, 노무, 운반, 할증]
+ks_mark: true                          # 종별 괄호에 KS M 3808 — KS 칸 ◎
+ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
+order: 45
+spec_group:                              # 두께별 행 대신 비드법(종)·압출법별로 묶는다 — KS ◎·면적 빈도라 두께가 시험을 바꾸지 않는다(L4-D2)
+  pattern: "(비드법[12]종|비드법|압출법)"
+  label: "{1}"
+  other: 규격별
+group_tests: true
+group:
+  frequency: "시공면적 1,000㎡마다, 1,000매마다"
+  basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리스티렌단열재(KS M 3808) (PDF p.36~37); KS 제품은 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "겉모양, 치수, 밀도"
+    method: "KS M 3808"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리스티렌단열재(KS M 3808) 겉모양, 치수, 밀도 (PDF p.36)"
+
+  - test_type: "굴곡 강도"
+    method: "KS M 3808"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리스티렌단열재(KS M 3808) 굴곡 강도 (PDF p.36)"
+
+  - test_type: "흡수량"
+    method: "KS M 3808"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리스티렌단열재(KS M 3808) 흡수량 (PDF p.36)"
+
+  - test_type: "연소성"
+    method: "KS M 3808"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리스티렌단열재(KS M 3808) 연소성 (PDF p.36)"
+
+  - test_type: "초기 열전도율"
+    method: "KS L 9016"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리스티렌단열재(KS M 3808) 초기 열전도율 (PDF p.37)"
+
+  - test_type: "장기 열전도율"
+    method: "KS M ISO 11561"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리스티렌단열재(KS M 3808) 장기 열전도율 (PDF p.37)"
+    conditions: "해석 필요: 쪽 경계(p.36→p.37) 행이라 종별 칸이 비어 있으나 표 구조상 발포폴리스티렌단열재에 속함. 장기 열전도율은 발포가스를 쓰는 압출법 제품에 주로 해당하는 것으로 보이나 원문에 한정 문구 없음."
+
+  - test_type: "압축 강도"
+    method: "KS M ISO 844"
+    where: KS
+    frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
+    basis: "별표2 3. 건축 다. 단열·보온공사 발포폴리스티렌단열재(KS M 3808) 압축 강도 (PDF p.37)"

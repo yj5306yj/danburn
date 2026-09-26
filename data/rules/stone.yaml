@@ -1,0 +1,34 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 건설공사 품질시험기준(제8조제1항 관련)
+#       1. 공통 > 마. 기타 > 석재
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 종별 괄호에 KS 규격이 없다 → ※주석(PDF p.52) 면제 대상 아님, KS 칸 비움, 시험은 외부 의뢰.
+# 묶음 행(규격당 한 행): 엔진이 ks_mark false 를 ◎ 경로로 보내지 않고, 문구형 빈도는 '제조사 수×1회'로 센다(L4-G1b).
+#   석재의 '골재원마다'는 이 제조사 수 자리에 골재원(채석원) 수를 넣는 것으로 읽는다 — --makers 로 준다(없으면 1곳, '제조사 수 확인').
+material: stone
+label: 석재
+work: 석공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [stone]
+match:
+  names: [석재, 화강석, 대리석, 사고석, 자연석]
+  units: [m2, m3, m, ea, 개, 매, ton]    # 판재 ㎡, 경계석 m, 쌓기석 ㎥·TON 등 여러 관행
+  exclude: [붙임, 붙이기, 설치, 시공, 운반, 하차, 줄눈, 코킹, 물씻기, 청소, 보양, 가공, 인조, 뿜칠]
+ks_mark: false                           # 종별 괄호에 KS 없음 → ※주석(PDF p.52) 면제 대상 아님
+order: 60
+group_tests: true
+group:
+  frequency: "골재원마다, 재질 변화시마다"
+  basis: "별표2 1. 공통 마. 기타 석재 (PDF p.16) — KS 규격 없음(※주석 면제 대상 아님)"
+tests:
+  - test_type: 밀도 및 흡수율
+    method: "KS F 2518"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "골재원마다, 재질 변화시마다", minimum: 1}
+    basis: "별표2 1. 마. 석재 밀도 및 흡수율 (PDF p.16)"
+    conditions: &st "골재원(채석원)마다, 재질 변화시마다(병합 빈도 칸). 해석 필요: 도급내역서로는 골재원 수를 알 수 없어 기본 1곳(1회, 비고 '제조사 수 확인') — 석종·산지가 여럿이면 --makers 로 골재원 수를 준다. 원문 셋째 행은 <삭제>."
+  - test_type: 압축강도
+    method: "KS F 2519"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "골재원마다, 재질 변화시마다", minimum: 1}
+    basis: "별표2 1. 마. 석재 압축강도 (PDF p.16)"
+    conditions: *st

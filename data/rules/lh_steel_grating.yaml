@@ -1,0 +1,70 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_steel_grating
+label: 스틸 그레이팅
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+extra_keys:
+- grating
+match:
+  names:
+  - 그레이팅
+  - 스틸그레이팅
+  - 트렌치덮개
+  - 트렌치커버
+  units:
+  - ea
+  - 개
+  - 매
+  - set
+  exclude:
+  - PC트렌치
+  - 콘크리트
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: false
+ks_count: makers
+order: 80
+group_tests: true
+group:
+  frequency: 제조회사별, 규격별 200개마다
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.2 토목 스틸그레이팅
+tests:
+- test_type: 겉모양·치수·무게
+  method: KS D 0201
+  where: 외부
+  frequency:
+    per_qty: 200
+    unit: ea
+    text: 제조회사별, 규격별 200개마다
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.2 토목 스틸그레이팅 겉모양·치수·무게
+  conditions: 교통하중이 가해지는 곳(우수받이 등) 설치 수량만
+- test_type: 압축변형하중(5mm)
+  method: KS D 0201
+  where: 외부
+  frequency:
+    per_qty: 200
+    unit: ea
+    text: 제조회사별, 규격별 200개마다
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.2 토목 스틸그레이팅 압축변형하중(5mm)
+  conditions: 교통하중이 가해지는 곳(우수받이 등) 설치 수량만
+- test_type: 용융아연도금
+  method: KS D 0201
+  where: 외부
+  frequency:
+    per_qty: 200
+    unit: ea
+    text: 제조회사별, 규격별 200개마다
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.2 토목 스틸그레이팅 용융아연도금
+  conditions: 교통하중이 가해지는 곳(우수받이 등) 설치 수량만; 아연부착량시험만

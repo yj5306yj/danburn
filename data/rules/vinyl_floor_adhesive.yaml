@@ -1,0 +1,48 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 3. 건축 > 아. 기타 > 비닐계 바닥재용 접착제(KS F 3218) (PDF p.51~52)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 종목: p.51 도포성·인장 접착 강도(바닥 타일)·90도 박리 접착 강도(바닥 시트), p.52 첫머리 비중·실내공기 오염물질 방출량(쪽 경계에 걸친 칸).
+# KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
+# 이름 주의: '비닐타일접착제'·'데코타일접착제'는 도자기질타일용 접착제 규칙 이름('타일접착제')과 겹쳐 그쪽이 먼저 잡는다(파일 순서) — 보고서 제안 참고.
+#   마루(목질) 바닥재 접착제는 별표2 이 종별이 아니므로 뺀다(LH 규칙 lh_floor_wood_adhesive).
+material: vinyl_floor_adhesive
+label: 비닐계 바닥재용 접착제
+work: 수장공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [vinyl_floor_adhesive]
+match:
+  names: [비닐계바닥재용접착제, 비닐바닥재접착제, 비닐바닥재용접착제, 바닥재용접착제, 바닥재접착제, 장판접착제, 륨카펫접착제, 시트바닥재접착제, 비닐타일접착제, 데코타일접착제]
+  units: [kg, l, ℓ, 통, 캔, m2]
+  exclude: [마루, 목질, 원목, 설치, 하차, 인건, 노무, 운반, 할증]
+ks_mark: true                            # 종별 괄호 (KS F 3218)
+ks_count: none                           # KS 인증품은 시험 없이 ◎(산출근거 'KS자재')
+order: 57
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "별표2 3. 건축 아. 기타 비닐계 바닥재용 접착제(KS F 3218) (PDF p.51~52); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: "도포성"
+    method: "KS F 3218"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 비닐계 바닥재용 접착제(KS F 3218) 도포성 (PDF p.51)"
+  - test_type: "인장 접착 강도(바닥 타일)"
+    method: "KS F 3218"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 비닐계 바닥재용 접착제(KS F 3218) 인장 접착 강도(바닥 타일) (PDF p.51)"
+  - test_type: "90도 박리 접착 강도(바닥 시트)"
+    method: "KS F 3218"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 비닐계 바닥재용 접착제(KS F 3218) 90도 박리 접착 강도(바닥 시트) (PDF p.51)"
+  - test_type: "비중"
+    method: "KS M 3705"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 비닐계 바닥재용 접착제(KS F 3218) 비중 (PDF p.52)"
+  - test_type: "실내공기 오염물질 방출량"
+    method: "KS F 3218, KS M 1998"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "별표2 3. 건축 아. 기타 비닐계 바닥재용 접착제(KS F 3218) 실내공기 오염물질 방출량 (PDF p.52)"

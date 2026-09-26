@@ -1,0 +1,53 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 라. 가설기자재 > 비계용 강관 부재(강관·조인트) (PDF p.15)
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# KS 처리: 종별 이름에 괄호 KS 규격이 없다 → ※주석(PDF p.52) 시험 면제 대상 아님 → ks_mark false. 묶음 행(비KS: 공급자 수×1회).
+# 도급내역서 관행: 강관비계는 '설치 및 해체'(㎡)·'손료' 행이 대부분이다. 손료·운반 행은 자재가 아니므로 빼고,
+#   자재 행(m·개·본·ton)이 없을 때만 시공 행 물량으로 받는다(accept_install_rows, 비고 '시공 행 추정').
+#   빈도가 물량 비례가 아니므로(제품규격마다·공급자마다) 시공 행 물량은 횟수에 영향이 없다.
+# 시스템(조립형) 비계는 별도 종별(temp_system_scaffold) — '시스템'·'조립형' 행은 뺀다.
+material: temp_scaffold_pipe
+label: 비계용강관
+work: 가설공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [temp_scaffold_pipe]
+match:
+  names: [비계용강관, 강관비계, 비계파이프, 비계용파이프, 비계클램프, 비계용클램프, 비계조인트, 비계용조인트, 강관조인트]
+  units: [m, ea, 개, 본, ton, kg]
+  exclude: [설치, 시공, 손료, 임대, 운반, 인건, 노무, 할증, 시스템, 조립형]
+accept_install_rows: true                # 내역서에 시공 행(…설치 및 해체)만 있을 때 그 물량으로(비고 “시공 행 추정”)
+install_units: [m2, m3, 공m3, 공㎥]
+ks_mark: false
+makers_label: 공급자                     # 빈도 '공급자마다' — 묶음 행 횟수 = 공급자 수(기본 1, --makers)×1회
+order: 61
+group_tests: true                        # 규격당 한 행(시공 행 추정 비고가 묶음 행에 붙는다)
+group:
+  frequency: "제품규격마다(3개), 공급자마다"
+  basis: "별표2 1. 라. 가설기자재 비계용 강관 부재(강관·조인트) (PDF p.15)"
+tests:
+  - test_type: 강관 인장하중
+    method: "KS F 8002"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제품규격마다(3개), 공급자마다", minimum: 1}
+    basis: "별표2 1. 라. 비계용 강관 부재 — 강관 인장 하중 (PDF p.15)"
+    conditions: &sup "제품규격마다 시험체 3개, 공급자마다. 해석 필요: 공급자·제품규격 수를 내역서로 알 수 없어 규격(행)당 1회로 적는다."
+
+  - test_type: 강관 휨하중
+    method: "KS F 8002"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제품규격마다(3개), 공급자마다", minimum: 1}
+    basis: "별표2 1. 라. 비계용 강관 부재 — 강관 휨 하중 (PDF p.15)"
+    conditions: *sup
+
+  - test_type: 조인트 인장하중
+    method: "KS F 8002"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제품규격마다(3개), 공급자마다", minimum: 1}
+    basis: "별표2 1. 라. 비계용 강관 부재 — 조인트 인장 하중 (PDF p.15)"
+    conditions: *sup
+
+  - test_type: 조인트 압축하중
+    method: "KS F 8002"
+    where: 외부
+    frequency: {per_qty: null, unit: null, text: "제품규격마다(3개), 공급자마다", minimum: 1}
+    basis: "별표2 1. 라. 비계용 강관 부재 — 조인트 압축 하중 (PDF p.15)"
+    conditions: *sup

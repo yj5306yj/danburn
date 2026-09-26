@@ -1,0 +1,67 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 규칙과 섞지 않는다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+# 참고: 보도용 콘크리트 칼라맨홀 행은 '2015.6월 이전 발주 자재에 한함'이라 규칙에 넣지 않음
+material: lh_manhole_cover
+label: 주철 맨홀뚜껑
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+extra_keys:
+- manhole_cover
+match:
+  names:
+  - 맨홀뚜껑
+  - 주철뚜껑
+  - 주철맨홀뚜껑
+  - 조화맨홀뚜껑
+  - 주철제뚜껑                 # '원형맨홀(…),주철제뚜껑(…)' 맨홀 세트 행(L4-T4)
+  - 주철재뚜껑
+  exclude:
+  - 칼라맨홀
+  - 콘크리트
+  - 설치
+  - 시공
+  - 인건
+  - 노무
+  - 운반
+  - 하차
+  - 할증
+  - 철거
+ks_mark: false
+ks_count: makers
+order: 80
+group_tests: true
+group:
+  frequency: 제조회사별, 제품규격마다
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.1 공통 주철맨홀 뚜껑 및 조화맨홀 뚜껑
+tests:
+- test_type: 겉모양·치수·무게·정하중
+  method: SPS-KFCA-M201-1639
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격마다
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.1 공통 주철맨홀 뚜껑 겉모양·치수·무게·정하중
+  conditions: '현장시험: 겉모양·치수. 시료 겉모양·치수 3개, 정하중 1개'
+- test_type: 흑연구상화율·화학분석·기계적성질
+  method: SPS-KFCA-M201-1639, SPS-KFCA-D4301-5015, SPS-KFCA-D4302-5016
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 단체표준 인증업체 공인기관 성적서 확인으로 갈음
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.1 공통 주철맨홀 뚜껑 재질
+- test_type: 미끄럼 마찰저항
+  method: KS F 2375
+  where: 외부
+  frequency:
+    per_qty: null
+    unit: null
+    text: 단체표준 인증업체 공인기관 성적서 확인으로 갈음
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.1 공통 주철맨홀 뚜껑 미끄럼 마찰저항
+  conditions: 보도용 맨홀뚜껑에만

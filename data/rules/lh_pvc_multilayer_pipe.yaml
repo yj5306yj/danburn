@@ -1,0 +1,39 @@
+# 출처: LHCS 10 40 00:2020 「시험」(2020-12-09 제정, 한국토지주택공사) 부록 「품질시험 및 검사기준」 Ⅲ. 기계분야
+#       국가건설기준센터(KCSC) 공개본. 공공데이터포털 「한국토지주택공사_전문시방서_20201209」 이용허락범위 제한 없음.
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다.
+# 원문 문장·표를 옮기지 않고 종별·시험종목·시험방법 번호·빈도 사실만 적는다.
+# 부록 종별: PVC 복층관(규격1·규격2)·PVC 삼중관. 시험종목은 같고 규격1만 촉진내후성이 더해진다(최근 1년 이내 공인기관
+#   성적서로 대체 가능) → optional. 침지시험은 관을 분리해 경질층에 대해 할 수 있다(부록 ※).
+# 별표2 「발포 중심층을 갖는 공압출 염화비닐관」(KS M 3413, 색인 foam_core_pvc_pipe: 3층PVC관·공압출 등)은 별표2 종별이므로
+#   그 이름은 여기서 쓰지 않는다(별표2 우선).
+# 매칭: 내역서의 ‘저소음 PVC 배관’은 오배수용 PVC 삼중(복층) 저소음관이다(현장 품질관리 실무자 확인, 2026-09-26).
+material: lh_pvc_multilayer_pipe
+label: PVC 복층관·삼중관
+work: 위생설비공사
+owner: LH
+basis_version: LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」
+match:
+  names: [PVC삼중관, 삼중관, PVC복층관, 복층관, 저소음PVC관, 저소음PVC배관, 저소음PVC파이프]
+  units: [m]
+  exclude: [보온, 엘보, 곡관, 트랩, Y관, YT관, 슬리브, 도장, 소켓, 리듀서]
+ks_mark: false
+ks_count: makers
+order: 73
+spec_group: {label: 오배수용}
+group_tests: true
+group:
+  frequency: 공구마다 1회
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅲ. 기계분야 PVC 복층관(규격1·규격2)·PVC 삼중관
+tests:
+- test_type: 수압시험
+  method: KS M 3404(VG2 이상)
+  where: 외부
+  frequency: &f {per_qty: null, unit: null, text: 공구마다 1회, minimum: 1}
+  basis: LHCS 10 40 00:2020 부록 Ⅲ. 기계분야 PVC 복층관·삼중관 수압시험
+  conditions: &c 옥내기계 공구마다 1회. 비고 중앙·지역·개별난방.
+- {test_type: 편평시험, method: KS M 3404(VG2 이상), where: 외부, frequency: *f, basis: LHCS 10 40 00:2020 부록 Ⅲ. 기계분야 PVC 복층관·삼중관 편평시험, conditions: *c}
+- {test_type: 침지시험, method: KS M 3404(VG2 이상), where: 외부, frequency: *f, basis: LHCS 10 40 00:2020 부록 Ⅲ. 기계분야 PVC 복층관·삼중관 침지시험, conditions: "관을 분리해 경질층에 대해 할 수 있다(부록 ※). 공구마다 1회."}
+- {test_type: 충격시험, method: KS M 3404, where: 외부, frequency: *f, basis: LHCS 10 40 00:2020 부록 Ⅲ. 기계분야 PVC 복층관·삼중관 충격시험, conditions: *c}
+- {test_type: 내연성시험, method: KS C 8437, where: 외부, frequency: *f, basis: LHCS 10 40 00:2020 부록 Ⅲ. 기계분야 PVC 복층관·삼중관 내연성시험, conditions: *c}
+- {test_type: 납 정량시험, method: KS M 3404, where: 외부, frequency: *f, basis: LHCS 10 40 00:2020 부록 Ⅲ. 기계분야 PVC 복층관·삼중관 납 정량시험, conditions: *c}
+- {test_type: 촉진내후성시험, method: KS F 2274, where: 외부, optional: true, frequency: *f, basis: LHCS 10 40 00:2020 부록 Ⅲ. 기계분야 PVC 복층관(규격1) 촉진내후성시험, conditions: "PVC 복층관 규격1만. 최근 1년 이내 공인기관 성적서로 대체 가능."}
