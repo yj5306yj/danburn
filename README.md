@@ -209,6 +209,16 @@ uv pip install --python .venv\Scripts\python.exe -e .
 
 구조만 빠르게 보려면 `.venv/bin/hwpx-validate out/품질관리계획서.hwpx`(Windows는 `.venv\Scripts\hwpx-validate.exe`, python-hwpx 동봉 검증기)를 씁니다.
 
+## 어디서 쓸 수 있나 — 확인한 환경
+
+| 환경 | 쓰는 방법 | 확인 상태 |
+|---|---|---|
+| macOS 터미널 | `uv tool install …` → `danburn start` / `danburn check` | 확인(개발 환경) |
+| Windows PowerShell(한국어 기본 설정) | 같은 명령 | 확인 — 기존 Windows PC의 새 설치 환경에서 설치·질문 응답·계획서 생성, 한글에서 열기(2026-09-27). 아무것도 없는 새 Windows(uv 처음 설치)·회사 프록시 환경은 미확인 |
+| Claude Code(CLI, macOS) | 플러그인 `/danburn:start` · `/danburn:check` | 확인 — 공개 저장소에서 플러그인 설치 후 `/danburn:check` 실행. Windows의 Claude Code는 미확인 |
+| Codex 등 다른 AI 코딩 에이전트 | `skills/start/SKILL.md` · `skills/check/SKILL.md` 를 작업 지침으로 | 에이전트가 쓰는 한 줄 중계 방식(`start --plain --input`)만 확인. 에이전트가 지침을 스스로 따르는 품질은 미확인 |
+| 데스크톱 AI 앱(대화창) | — | 미확인. 앱이 **내 컴퓨터의 파일을 읽고 명령을 실행**할 수 있어야 합니다. 그런 기능이 없는 대화창은 주소를 붙여 넣어도 계획서를 만들 수 없으니 위 터미널 방법을 쓰세요 |
+
 ## 에이전트 스킬로 쓰기 — Claude Code·Codex 같은 AI 코딩 에이전트를 쓰는 분께
 
 기능 두 개를 에이전트 명령으로 부릅니다. 에이전트가 도구를 대신 돌리고 결과를 대화로 전하므로 명령줄을 몰라도 됩니다.
