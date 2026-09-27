@@ -215,7 +215,7 @@ uv pip install --python .venv\Scripts\python.exe -e .
 
 | 명령 | 하는 일 | 지침 파일 |
 |---|---|---|
-| `/danburn:start` | 도급내역서(xlsx)로 새로 만들기. `danburn start`의 질문(내역서 먼저 읽기 → 모호한 것만 묻기 → 판정 확인 → 계획서 → 현장 확인)을 한 번에 하나씩 **그대로 중계** | `skills/start/SKILL.md` |
+| `/danburn:start` | 도급내역서(xlsx)로 새로 만들기. `danburn start`의 질문(내역서 먼저 읽기 → 모호한 것만 묻기(주요 자재 KS 인증 여부 포함) → 판정 확인 → 계획서 → 현장 확인)을 한 번에 하나씩 **그대로 중계** | `skills/start/SKILL.md` |
 | `/danburn:check 계획서.hwp` | 기존 계획서(hwp·hwpx·pdf)의 인용 기준이 현행인지 검사(아래 절). 파일을 안 주면 한 번 묻습니다 | `skills/check/SKILL.md` |
 
 에이전트는 질문을 새로 만들거나 판정을 다시 계산하지 않고, 증빙 파일 이름은 대화에 남기지 않습니다(개수만).
@@ -346,7 +346,8 @@ danburn start   --plain --input 답목록.txt  # 에이전트 중계: 답 목록
 
 ## 랜딩·소개 영상·배포
 
-준비 중입니다.
+- 랜딩: https://danburn.kr — 소스 `site/landing/`, 배포 `site/deploy/deploy.sh`(Cloudflare Workers, 영상은 바이트 범위 응답).
+- 소개 영상: `site/video/`(Remotion). 화면의 글자는 도구의 실제 출력(합성 예제)에서 뽑습니다 — `site/video/scripts/make_assets.py`(히어로), `make_cmd_assets.py`(두 가지 일).
 
 ## 기여
 

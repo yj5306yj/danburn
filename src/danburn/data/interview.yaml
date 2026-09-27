@@ -76,6 +76,20 @@ questions:
   - value: 철거
     label: 철거 공사만
   from_boq: 공사종류
+- id: 3-1
+  key: KS_인증
+  type: choice
+  text: 철근 등 주요 자재를 KS 인증 제품으로 받나요?
+  help: 별표2 ※주석 — 종별 괄호 안 KS 규격의 인증 제품은 시행령 제91조제1항 시험을 하지 않아도 됩니다(KS 칸 ◎, 철근은 제조회사·규격별 1회). 비KS 가 섞이면 철근 50톤마다 등 별표2 빈도로 외부 시험을 적습니다. 모르면 KS 로 계산하고 확인할 것에 남깁니다.
+  when: ks_materials
+  choices:
+  - value: 예
+    label: 예 — KS 인증품
+  - value: 아니오
+    label: 아니오 — 비KS 포함
+  - value: 모름
+    label: 모름(확인 전)
+  default: 모름
 - id: 4-1
   key: 총공사비_억원
   type: number

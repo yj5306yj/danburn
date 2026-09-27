@@ -173,6 +173,7 @@ def read_boq_info(path: str) -> dict:
     kind = "건축+토목" if {"건축", "토목"} <= disc else "토목" if disc == {"토목"} else "건축"
     cover = read_cover(path)
     cand = {"공사종류": kind}
+    ks = ks_lines(lines)
     if cover.get("공사명"):
         cand["공사명"] = cover["공사명"]
     if cover.get("발주자"):
@@ -181,7 +182,17 @@ def read_boq_info(path: str) -> dict:
             cand["발주자_구분"] = "발주청"
     if cover.get("총액"):
         cand["총공사비_억원"] = round(cover["총액"] / 1e8, 1)
-    return {"blocks": blocks, "kind": kind, "lines": len(lines), "disciplines": sorted(disc), "cand": cand}
+    return {"blocks": blocks, "kind": kind, "lines": len(lines), "disciplines": sorted(disc), "cand": cand,
+            "ks_lines": ks}
+
+
+def ks_lines(lines) -> int:
+    """KS 인증 여부로 계산이 갈리는 내역 행 수(KS 종별 묶음 규칙 — calc.plan_rows 의 non_ks 가 바꾸는 행)."""
+    from .calc import match_rule
+    from .paths import RULES_DIR
+    from .rules import load_rules
+    rules = {k: r for k, r in load_rules(RULES_DIR).items() if r.group_tests and r.ks_mark}
+    return sum(1 for ln in lines if match_rule(ln, rules) is not None)
 
 
 def read_lines(info: dict) -> list[str]:
@@ -245,6 +256,8 @@ class Interview:
             return len(self.info.get("blocks", [])) > 1
         if name == "owner_is_lh":
             return bool(re.search(r"LH|한국토지주택공사", str(a.get("발주자") or "")))
+        if name == "ks_materials":                       # 내역서에 KS 여부로 계산이 갈리는 자재가 있을 때만
+            return self.info.get("ks_lines", 1) > 0
         if name == "fill_now":                           # 사람·회사 칸: 지금 적기를 골랐거나 답 파일 모드
             return self.mode == "answers" or a.get("사람_회사_지금") == "지금"
         raise ValueError(f"알 수 없는 조건: {name}")
@@ -293,6 +306,8 @@ class Interview:
             self.asked += 1
         if self.mode == "answers":
             v = self.given.get(key)
+            if isinstance(v, bool) and kind == "choice":        # yaml 의 yes/no·true/false
+                v = "예" if v else "아니오"
             if v in (None, ""):
                 if dflt is None and self.yes and any(c["value"] == "모름" for c in chs):
                     dflt = "모름"
@@ -629,6 +644,7 @@ def build_project(ans: dict, r: dict, today: str, base_path: Path = EXAMPLE) -> 
     files = ans.get("첨부") or []
     p["첨부"] = {"방식": "목록만", "파일": files}
     p["첨부_개수"] = len(files)
+    p["KS_인증"] = ans.get("KS_인증") or "모름"                   # plan 이 읽는다: 아니오 = 비KS 계산, 모름 = KS 로 계산 + 경고
     return p, todo
 
 

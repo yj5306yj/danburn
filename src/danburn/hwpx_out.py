@@ -12,6 +12,7 @@
 from __future__ import annotations
 
 import itertools
+import math
 import re
 from copy import deepcopy
 from pathlib import Path
@@ -54,6 +55,16 @@ PT = dict(company=8, doc_title=15, title=13.5, meta=9, section=10, discipline=10
 LOGO_COL_MM = 17.2                   # 본문 왼끝(16.5)에서 쪽 머리 선 시작(33.7)까지
 LOGO_BOX_MM = (13.2, 12.1)           # 그림이 들어갈 최대 폭·높이(비율 유지로 줄인다)
 COMPANY_LINE_MM = 3.5                # 회사명 한 줄(8pt 굵게) 높이 — 회사명이 있으면 그림 상자 높이에서 뺀다
+# 회사명은 로고 칸 폭(16.2)에 맞춘다(L13-H1). 글은 바꾸거나 자르지 않고 크기·줄 수·장평만 바꾼다.
+#  1) 한 줄: 8pt 에서 0.5pt 씩 6pt 까지. 하한 6pt = 8.11 표의 가장 작은 글(6.5pt)보다 한 단계 아래,
+#     정본 긴 시험항목 최소(6.3pt) 근처 — 굵은 글 한 줄 이름이라 이보다 작으면 A4 인쇄에서 획이 뭉친다.
+#  2) 두 줄(어절 경계): 8pt→6pt, 그래도 넘치면 6pt 에서 장평 90·80·70%. 장평 하한 70% 도 같은 이유(인쇄 획 뭉침).
+#  3) 두 줄(글자 경계, 어절이 칸보다 길 때): 2)와 같은 순서. 두 줄 높이만큼 로고 그림 상자를 줄인다
+#     → 로고 칸·쪽 머리 표 높이와 선 위치는 그대로.
+COMPANY_PT_STEPS = (8, 7.5, 7, 6.5, 6)
+COMPANY_RATIO_STEPS = (100, 90, 80, 70)
+COMPANY_MAX_LINES = 2
+COMPANY_SLACK = 1.05                 # 한글 밖 글자(영숫자·기호·빈칸)의 굵은 글·대체 글꼴 여유. 한글은 전각 1em 그대로
 HEADER_ROWS_MM = (7.0, 8.0)          # 쪽 머리 1줄(문서명)·2줄(절 제목) 높이
 HEADER_PAD_MM = dict(doc=(2.3, 0.5, 0.3, 1.1), title=(2.3, 0.5, 0.3, 1.8), meta=(0.5, 0.5, 0.3, 2.5))  # 정본 글 자리
 HEADER_META_MM = 42.0                # 쪽 머리 오른쪽 칸(개정일·Rev·쪽). 정본 글 158.5~196.8(38.3), 우리 글 34.2(두 자리 쪽 ~36)
@@ -123,12 +134,16 @@ class _Styles:
         self.part.mark_dirty()
         return new_id
 
-    def char(self, pt: float, bold: bool = False) -> str:
-        key = ("char", pt, bold)
+    def char(self, pt: float, bold: bool = False, ratio: int = 100) -> str:
+        """글자 모양. ratio = 장평(%, 100 이 기본 — 좁은 칸에 긴 이름을 한 글자도 안 바꾸고 넣을 때만 줄인다)."""
+        key = ("char", pt, bold) if ratio == 100 else ("char", pt, bold, ratio)
         if key not in self._cache:
             base = self._container("charProperties").find(f"{HH}charPr[@id='0']")
             el = deepcopy(base)
             el.set("height", str(int(round(pt * 100))))
+            if ratio != 100:
+                for k in el.find(f"{HH}ratio").attrib:
+                    el.find(f"{HH}ratio").set(k, str(ratio))
             for k in el.find(f"{HH}fontRef").attrib:
                 el.find(f"{HH}fontRef").set(k, "0")          # 함초롬돋움
             if bold:
@@ -584,23 +599,68 @@ def page_header(doc: HwpxDocument, sec, *, doc_title: str = "품질관리계획�
     logo_run = None
     if logo is not None:
         box = (min(LOGO_BOX_MM[0], LOGO_COL_MM - CELL_PAD_MM[0] - CELL_PAD_MM[1]),
-               LOGO_BOX_MM[1] - (COMPANY_LINE_MM if company else 0))
+               LOGO_BOX_MM[1] - (company_fit(company)["height_mm"] if company else 0))
         logo_run = _logo_run(doc, sec, logo, box)
     doc.page.set_header(text=" ", section=sec)
     _fill_story(sec, "header", [_page_header(st, doc_title, title, _meta_text(date, revision), body_w_mm,
                                              logo_run=logo_run, company=company)])
 
 
-def _fit_pt(text: str, width_mm: float, pt: float, min_pt: float = 9) -> float:
-    """한 줄에 들어가게 글자 크기를 줄인다(쪽 머리 절 제목이 두 줄로 접히면 선과 겹친다). 0.5pt 단위.
+def _text_w_mm(text: str, pt: float, ratio: int = 100) -> float:
+    """한 줄 글 폭 추정(mm): 한글 1em, 빈칸 0.35em, 그 밖 0.55em(rhwp 렌더 실측보다 약 1.5% 넉넉하다) × 장평."""
+    em = pt * 25.4 / 72 * ratio / 100
+    return sum(em * (1.0 if ord(c) > 0x2E80 else 0.35 if c == " " else 0.55) for c in text)
 
-    폭 추정: 한글 1em, 빈칸 0.35em, 그 밖 0.55em(rhwp 렌더 실측보다 약 1.5% 넉넉하다)."""
-    def width(p):
-        em = p * 25.4 / 72
-        return sum(em * (1.0 if ord(c) > 0x2E80 else 0.35 if c == " " else 0.55) for c in text)
-    while pt > min_pt and width(pt) > width_mm:
+
+def _fit_pt(text: str, width_mm: float, pt: float, min_pt: float = 9) -> float:
+    """한 줄에 들어가게 글자 크기를 줄인다(쪽 머리 절 제목이 두 줄로 접히면 선과 겹친다). 0.5pt 단위."""
+    while pt > min_pt and _text_w_mm(text, pt) > width_mm:
         pt -= 0.5
     return pt
+
+
+def _two_lines(text: str, pt: float, ratio: int, by_word: bool) -> tuple[str, str]:
+    """두 줄로 나눈 (윗줄, 아랫줄) 중 넓은 줄이 가장 좁은 것. 이어 붙이면 원래 글 그대로(빈칸은 윗줄 끝에 남긴다)."""
+    if by_word:
+        toks = re.findall(r"\S+\s*", text)
+        cuts = [len("".join(toks[:i])) for i in range(1, len(toks))]
+    else:
+        cuts = [k for k in range(1, len(text)) if text[:k].strip() and text[k:].strip() and not text[k].isspace()]
+    if not cuts:
+        return text, ""
+    k = min(cuts, key=lambda k: max(_text_w_mm(text[:k].rstrip(), pt, ratio), _text_w_mm(text[k:], pt, ratio)))
+    return text[:k], text[k:]
+
+
+def company_fit(company: str, width_mm: float | None = None) -> dict:
+    """쪽 머리 로고 칸 회사명의 글자 크기·장평·줄(COMPANY_* 설명 순서). height_mm = 회사명 칸 높이.
+
+    어느 단계에도 안 들어가면(아주 긴 이름) 하한(6pt·장평 70%·글자 경계 두 줄)으로 두고 fits=False.
+    """
+    width_mm = LOGO_COL_MM - CELL_PAD_MM[0] - CELL_PAD_MM[1] if width_mm is None else width_mm
+
+    def ok(lines, pt, ratio):
+        def w(x):
+            han = "".join(c for c in x if ord(c) > 0x2E80)
+            return _text_w_mm(han, pt, ratio) + (_text_w_mm(x, pt, ratio) - _text_w_mm(han, pt, ratio)) * COMPANY_SLACK
+        return all(w(x.rstrip()) <= width_mm for x in lines)
+
+    def result(lines, pt, ratio, fits=True):
+        em = pt * 25.4 / 72
+        h = max(COMPANY_LINE_MM, math.ceil((len(lines) * em * 1.2 + 0.1) * 10) / 10)   # 문단 줄 간격 120%
+        return dict(pt=pt, ratio=ratio, lines=lines, height_mm=h, fits=fits)
+
+    for pt in COMPANY_PT_STEPS:
+        if ok([company], pt, 100):
+            return result([company], pt, 100)
+    steps = [(pt, 100) for pt in COMPANY_PT_STEPS] + [(COMPANY_PT_STEPS[-1], r) for r in COMPANY_RATIO_STEPS[1:]]
+    for by_word in (True, False):
+        for pt, ratio in steps:
+            lines = [x for x in _two_lines(company, pt, ratio, by_word) if x]
+            if ok(lines, pt, ratio):
+                return result(lines, pt, ratio)
+    pt, ratio = steps[-1]
+    return result([x for x in _two_lines(company, pt, ratio, False) if x], pt, ratio, fits=False)
 
 
 def _page_header(st: _Styles, doc_title: str, title: str, meta: str, body_w_mm: float, *,
@@ -628,11 +688,13 @@ def _page_header(st: _Styles, doc_title: str, title: str, meta: str, body_w_mm: 
     if logo_run is not None or company:
         # 그림과 회사명은 로고 칸 안의 1열 표 두 줄에 따로 둔다(한 셀에 그림 문단+글 문단을 쌓으면 rhwp가 겹쳐 그렸다)
         inner_w = logo_w - _hu(CELL_PAD_MM[0] + CELL_PAD_MM[1])
+        fit = company_fit(company) if company else None
+        name_h = _hu(fit["height_mm"]) if fit else 0
         parts = []
         if logo_run is not None:
-            parts.append(("pic", h0 + h1 - (_hu(COMPANY_LINE_MM) if company else 0) - _hu(1.0)))
+            parts.append(("pic", h0 + h1 - name_h - _hu(1.0)))
         if company:
-            parts.append(("name", _hu(COMPANY_LINE_MM)))
+            parts.append(("name", name_h))
         inner = etree.Element(f"{HP}tbl", id=str(next(_ids)), zOrder="0", numberingType="TABLE",
                               textWrap="TOP_AND_BOTTOM", textFlow="BOTH_SIDES", lock="0", dropcapstyle="None",
                               pageBreak="NONE", repeatHeader="0", rowCnt=str(len(parts)), colCnt="1", cellSpacing="0",
@@ -645,8 +707,12 @@ def _page_header(st: _Styles, doc_title: str, title: str, meta: str, body_w_mm: 
         etree.SubElement(inner, f"{HP}outMargin", left="0", right="0", top="0", bottom="0")
         etree.SubElement(inner, f"{HP}inMargin", left="0", right="0", top="0", bottom="0")
         for i, (kind, h) in enumerate(parts):
-            tc = _cell(st, company if kind == "name" else "", col=0, row=i, colspan=1, rowspan=1, width=inner_w,
-                       height=h, border=none, align="CENTER", pt=PT["company"], bold=True)
+            name_lines = None
+            if kind == "name":
+                cid = st.char(fit["pt"], True, fit["ratio"])
+                name_lines = [([(x, cid)], st.para("CENTER", 120)) for x in fit["lines"]]
+            tc = _cell(st, "", col=0, row=i, colspan=1, rowspan=1, width=inner_w,
+                       height=h, border=none, align="CENTER", pt=PT["company"], bold=True, lines=name_lines)
             for m in ("left", "right", "top", "bottom"):
                 tc.find(f"{HP}cellMargin").set(m, "0")
             if kind == "pic":

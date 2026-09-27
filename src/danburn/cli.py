@@ -192,6 +192,36 @@ def _confirmations(a: argparse.Namespace) -> dict[str, bool | str]:
     return out
 
 
+def _ks_answer(a: argparse.Namespace) -> str | None:
+    """project.yaml 'KS_인증: 예|아니오|모름'(danburn start 3-1 질문) → '예'·'아니오'·'모름'. --project 가 없으면 None.
+    키가 없거나 비었으면 '모름'(확인 전). 읽을 수 없는 값은 ValueError."""
+    if not getattr(a, "project", None):
+        return None
+    v = _project(a).get("KS_인증")
+    if v is None or str(v).strip() in ("", "모름", "-"):
+        return "모름"
+    t = ("yes" if v else "no") if isinstance(v, bool) else str(v).strip().lower()
+    if t in YES:
+        return "예"
+    if t in NO:
+        return "아니오"
+    raise ValueError(f"project.yaml 의 KS_인증 '{v}' 을 읽을 수 없습니다. 예·아니오·모름 중 하나로 적으세요.")
+
+
+def _ks_warning(rows, rules) -> str | None:
+    """KS 인증 확인 전(모름)인데 KS 여부로 계산이 갈리는 행(KS 종별 묶음 행)이 있으면 경고 한 줄."""
+    labels = list(dict.fromkeys(rules[r.material].label for r in rows
+                                if r.material in rules and rules[r.material].group_tests and rules[r.material].ks_mark))
+    if not labels:
+        return None
+    shown = "·".join(labels[:3]) + (f" 외 {len(labels) - 3}종" if len(labels) > 3 else "")
+    rebar = "rebar" in {r.material for r in rows}
+    return (f"KS 인증 확인 전 — {shown}을(를) KS 인증 제품으로 보고 KS 칸 ◎(시험 면제"
+            + (", 철근은 제조회사·규격별 1회" if rebar else "") + ")로 계산했습니다. "
+            "비KS 가 섞였으면 project.yaml 의 KS_인증 을 아니오 로 바꿔(또는 --non-ks) 다시 만드세요 — "
+            + ("철근은 50톤마다, 그 밖은 " if rebar else "") + "별표2 빈도·제조회사별 외부 시험 횟수로 바뀝니다.")
+
+
 def _name_groups(items: list[dict]) -> list[dict]:
     """품명 확인 항목을 (설치 행 여부, 추정 종별 목록)이 같은 것끼리 한 질문으로 묶는다(L7-E9).
     묶음 key = 'name:<첫 품명>' — 이 key 로 답하면 묶음의 모든 품명에 같은 답."""
@@ -251,6 +281,7 @@ def cmd_build(a: argparse.Namespace) -> int:
     all_blocks_for = frozenset({"토목"}) if a.civil_scope == "공구" else frozenset()
     try:
         confirm = _confirmations(a)
+        ks_answer = _ks_answer(a)
     except ValueError as e:
         print(str(e), file=sys.stderr)
         return 2
@@ -357,8 +388,12 @@ def cmd_build(a: argparse.Namespace) -> int:
         from .member import infer_members, to_formwork_arg
         member_inferred = infer_members(lines, a.block)
         formwork_arg = to_formwork_arg(member_inferred)
+    non_ks = a.non_ks or ks_answer == "아니오"                 # --non-ks 가 project.yaml KS_인증 보다 우선
     rows = plan_rows(mats, rules, parse_sets(a.sets_per_lot), parse_sets(formwork_arg), a.include_optional,
-                     parse_sets(a.makers), a.non_ks)
+                     parse_sets(a.makers), non_ks)
+    ks_warn = _ks_warning(rows, rules) if ks_answer == "모름" and not a.non_ks else None
+    if ks_warn:
+        warnings.insert(0, ks_warn)                             # start '확인할 것' 맨 앞에
     from .calc import added_spec_rows, missing_common_specs
     missing_common = missing_common_specs(mats)
     if a.add_spec:
@@ -431,7 +466,8 @@ def cmd_build(a: argparse.Namespace) -> int:
                "uncovered_materials": [{k: u.get(k) for k in ("key", "label", "page", "lines", "examples")} for u in uncovered],
                "unmatched_in_covered": [{k: u.get(k) for k in ("key", "label", "page", "lines", "examples", "produced")}
                                         for u in cov["unmatched_in_covered"]],
-               "basis_check": {k: basis_check.get(k) for k in ("status", "message", "checked_at")}, "civil_scope": a.civil_scope, "missing_common_specs": missing_common, "member_inferred": member_inferred, "formwork_sets_used": formwork_arg, "basis_version": versions, "warnings": warnings, "optional_tests_excluded": optional_tests(rules),
+               "basis_check": {k: basis_check.get(k) for k in ("status", "message", "checked_at")}, "civil_scope": a.civil_scope, "missing_common_specs": missing_common, "member_inferred": member_inferred, "formwork_sets_used": formwork_arg, "basis_version": versions, "warnings": warnings,
+               "ks": {"KS_인증": ks_answer, "non_ks": non_ks, "warned": bool(ks_warn)}, "optional_tests_excluded": optional_tests(rules),
                "boq_lines_used": len(used), "spec_groups": len(mats), "plan_rows": len(rows), "work_missing": sum(1 for r in rows if not r.work), "earthwork_moved": earthwork_moved,
                "ask": ask, "confirmed_included": [{"key": k, "rule": m, "lines": sum(1 for ln in used if id(ln) in forced and forced[id(ln)][0].material == m
                                                                 and (ln.name == k[5:] if k.startswith("name:") else f"name:{ln.name}" not in confirm))}
@@ -552,7 +588,7 @@ def _add_calc_args(b: argparse.ArgumentParser) -> None:
                    help="토목 물량 범위. 원칙은 블록별, 한 업체가 두 공구 토목을 함께 맡으면 '공구'(모든 블록 합계)")
     b.add_argument("--add-spec", default="", help="도급내역서에 빠진 흔한 규격을 수량 없이 넣는다. 예: '건축:rebar:SD400 D10,건축:rebar:SD400 D13'")
     b.add_argument("--makers", default="", help="철근 제조회사 수(규격별). 예: 'SD400 D13=2,*=1'. 없으면 1곳+확인 필요")
-    b.add_argument("--non-ks", action="store_true", help="철근이 KS 인증품이 아니면(50톤마다 외부 시험)")
+    b.add_argument("--non-ks", action="store_true", help="KS 인증품이 아니면(철근 50톤마다 등 외부 시험). plan 의 project.yaml KS_인증 보다 우선")
     b.add_argument("--no-infer", action="store_true", help="부위 자동 추정을 끈다(거푸집 해체용 조를 더하지 않음)")
     b.add_argument("--include-optional", action="store_true", help="조건부·실무 생략 시험(휨강도, 온도·배합설계·현장배합수정)도 넣는다")
     b.add_argument("--formwork-sets", default="", help="거푸집 해체용 조를 규격별로 더한다. 부위로: 기둥·기초는 수직+예비, 슬래브·보까지면 수직+수평+예비. 예: '25-24-150=수직+수평+예비,25-24-80=수직+예비'")

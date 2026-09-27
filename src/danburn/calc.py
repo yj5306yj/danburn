@@ -438,7 +438,7 @@ def plan_rows(mats: list[MaterialQty], rules: dict[str, Rule], sets_per_lot: dic
                           qty=m.qty, unit=ul, frequency=f.text, calc_basis=basis, note=note,
                           basis=t.basis, material=m.material, spec=m.spec, sources=list(m.sources),
                           detail=detail if f.lot else "")
-            if rule.ks_mark:
+            if rule.ks_mark and not non_ks:           # 비KS 로 답했으면 KS 표시(◎)를 붙이지 않는다(시험 횟수는 같음)
                 row.count_ks = "◎"
             if t.where == "외부":
                 row.count_external = count

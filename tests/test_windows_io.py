@@ -105,7 +105,7 @@ def test_w01_start_plain_eof_and_cp949_answers(boq, tmp_path):
     out = r.stdout.decode("utf-8")
     assert r.returncode == 2 and out.startswith("Q") and "멈춤:" in out
 
-    answers = [str(boq), "3", "합성 검증 공동주택", "합성발주", "1", "Y", "850", "42000", "22", "", "합성건설", ""]
+    answers = [str(boq), "3", "합성 검증 공동주택", "합성발주", "1", "Y", "", "850", "42000", "22", "", "합성건설", ""]
     r = _cp949_run(plain, tmp_path / "h1", ("\r\n".join(answers) + "\r\n").encode("cp949"))
     out = r.stdout.decode("utf-8")
     assert r.returncode == 2 and "JUDGE" in out, out

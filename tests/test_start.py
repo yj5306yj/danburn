@@ -156,9 +156,9 @@ def test_plan_file_given_as_boq_points_to_check(boq, tmp_path):
 def _lines(boq, *extra, now=False, floors="22", logo=""):
     """질문 순서대로의 답(대화형·한 줄 모드 공통, L7-I3 흐름: 내역서 먼저 → 모호한 것만).
 
-    내역서 → 동 → 공사명 → 발주자 → 발주청 여부 → 공사종류(읽은 값 확인 Y) → 총공사비·연면적·층수 → (조건부는 판정이
-    갈릴 때만 — 22층·4.2만㎡면 없음) → 로고 → 회사명(시공사) → 사람 칸 묶음(기본 나중에)."""
-    head = [str(boq), "3", "합성 예시 공동주택", "합성발주", "1", "Y", "850", "42000", floors, logo, "합성건설"]
+    내역서 → 동 → 공사명 → 발주자 → 발주청 여부 → 공사종류(읽은 값 확인 Y) → KS 인증(Enter = 모름) → 총공사비·연면적·층수
+    → (조건부는 판정이 갈릴 때만 — 22층·4.2만㎡면 없음) → 로고 → 회사명(시공사) → 사람 칸 묶음(기본 나중에)."""
+    head = [str(boq), "3", "합성 예시 공동주택", "합성발주", "1", "Y", "", "850", "42000", floors, logo, "합성건설"]
     later = ["1", "", "", "합성 갑", "합성 을", "", ""] if now else [""]
     return [*head, *later, *extra]
 
@@ -356,12 +356,12 @@ def test_decided_case_skips_conditional_questions(boq, tmp_path):
     assert r.returncode == 0, r.stdout + r.stderr
     ids = _qids(r.stdout)
     assert not any(i.startswith("5-") for i in ids)
-    assert ids == ["1", "1-1", "6-1", "2-1", "2", "3", "4-1", "4-2", "4-3", "7", "6-4", "6"]
-    assert "READ " in r.stdout and "ASKED 10 CONFIRMED 1" in r.stdout      # 첫 내역서 질문 빼고 10, 공사종류는 확인만
+    assert ids == ["1", "1-1", "6-1", "2-1", "2", "3", "3-1", "4-1", "4-2", "4-3", "7", "6-4", "6"]
+    assert "READ " in r.stdout and "ASKED 11 CONFIRMED 1" in r.stdout      # 첫 내역서 질문 빼고 11, 공사종류는 확인만
 
 
 def test_split_case_asks_deciding_questions(boq, tmp_path):
-    stdin = "\n".join(_lines(boq, floors="10")[:9] + ["2", "-", "1", "", "합성건설", "", "Y"]) + "\n"
+    stdin = "\n".join(_lines(boq, floors="10")[:10] + ["2", "-", "1", "", "합성건설", "", "Y"]) + "\n"
     r = _plain(tmp_path, stdin)                                          # 10층 → 건설사업관리·계약·용도가 결과를 가른다
     assert r.returncode == 0, r.stdout + r.stderr
     ids = _qids(r.stdout)
@@ -379,10 +379,10 @@ def test_cover_values_read_and_confirmed(boq, tmp_path):
     wb.save(cover)
     assert start.read_cover(str(cover)) == {"공사명": "합성 표지 공동주택 신축공사", "발주자": "합성토지주택공사",
                                             "총액": 85_000_000_000.0}
-    stdin = "\n".join([str(cover), "3", "Y", "Y", "Y", "Y", "Y", "42000", "22", "", "", "", "Y"]) + "\n"
+    stdin = "\n".join([str(cover), "3", "Y", "Y", "Y", "Y", "", "Y", "42000", "22", "", "", "", "Y"]) + "\n"
     r = _plain(tmp_path, stdin)
     assert r.returncode == 0, r.stdout + r.stderr
-    assert "ASKED 6 CONFIRMED 5" in r.stdout and "관급자재가 빠졌을 수 있습니다" in r.stdout   # 동·연면적·층수·로고·회사명·묶음만 물음
+    assert "ASKED 7 CONFIRMED 5" in r.stdout and "관급자재가 빠졌을 수 있습니다" in r.stdout   # 동·KS·연면적·층수·로고·회사명·묶음만 물음
     proj = yaml.safe_load((tmp_path / "o" / "project.yaml").read_text(encoding="utf-8"))
     assert (proj["공사명"], proj["발주자"], proj["발주자_구분"], proj["총공사비_억원"]) == \
         ("합성 표지 공동주택 신축공사", "합성토지주택공사", "발주청", 850.0)
