@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>두 가지 일 미리보기</title>
+<style>
+  /* 흑백 스케치 톤 미리보기: two-paths.html 의 "두 가지 일" 카드 두 장 + 카드마다 오른쪽 터미널 영상(site/video/out).
+     영상은 로컬 렌더 산출물(out/ 은 git 밖) — 먼저 site/video 에서 npm run render-cmd. 랜딩 통합은 사용자 확인 뒤. */
+  :root { --ink: #111; --muted: #555; --line: #111; --bg: #fff; }
+  body { font-family: -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; margin: 0; background: var(--bg); color: var(--ink); line-height: 1.6; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 24px 16px 80px; }
+  .note { font-size: 13px; color: var(--muted); }
+  h2 { margin: 8px 0 16px; }
+  .card { border: 1px solid var(--line); padding: 16px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 540px); gap: 24px; align-items: start; margin-bottom: 16px; }
+  .card h3 { margin: 0 0 8px; }
+  dl { margin: 0; } dt { font-size: 13px; color: var(--muted); margin-top: 8px; } dd { margin: 0; }
+  code { font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+  .cmd { border: 1px solid var(--line); padding: 6px 8px; display: block; overflow-wrap: anywhere; }
+  figure { margin: 0; min-width: 0; }
+  video { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; background: #16181c; border: 1px solid var(--line); }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .toggle { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: inherit; font-size: 13px; cursor: pointer; }
+  .toggle[aria-pressed="true"] { background: var(--ink); color: #fff; }
+  @media (max-width: 760px) { .card { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="note">미리보기 — 랜딩 ② "단번이 하는 두 가지 일" 카드에 터미널 영상을 붙인 모습(흑백 스케치 톤). 영상 속 줄은 합성 예제로 돌린 도구의 실제 출력입니다.</p>
+<h2>단번이 하는 두 가지 일</h2>
+
+<div class="card">
+  <div>
+    <h3>새로 만들기</h3>
+    <dl>
+      <dt>맡기는 것</dt><dd>도급내역서(xlsx)와 질문 몇 개</dd>
+      <dt>받는 것</dt><dd>품질관리계획서 초안(.hwpx)과 사람이 확인할 것 목록</dd>
+      <dt>명령</dt><dd><code class="cmd">… danburn start</code></dd>
+    </dl>
+  </div>
+  <figure>
+    <video autoplay muted loop playsinline preload="metadata" poster="../../video/out/cmd-start-poster.jpg"
+      aria-label="터미널에 /danburn:start 를 치면 도구가 내역서와 동을 묻고, 품질관리계획으로 판정한 뒤 품질관리계획서.hwpx 를 만드는 영상">
+      <source src="../../video/out/cmd-start-m.mp4" type="video/mp4" media="(max-width: 760px)">
+      <source src="../../video/out/cmd-start.mp4" type="video/mp4">
+    </video>
+    <figcaption><span>Claude Code 등 AI 에이전트에서 · 터미널에서는 <code>danburn start</code></span>
+      <button class="toggle" type="button" aria-pressed="false">일시정지</button></figcaption>
+  </figure>
+</div>
+
+<div class="card" id="check">
+  <div>
+    <h3>기존 계획서 검사</h3>
+    <dl>
+      <dt>맡기는 것</dt><dd>가지고 있는 계획서 파일 하나(hwp·hwpx·pdf, 남이 만든 것도)</dd>
+      <dt>받는 것</dt><dd>개정·폐지된 기준 목록 — 계획서의 어디인지, 무엇을 고칠지, 공식 확인 링크</dd>
+      <dt>명령</dt><dd><code class="cmd">… danburn check 계획서.hwp</code></dd>
+      <dt>왜</dt><dd>업무지침이 개정되면 기존 계획서는 다시 세워야 할 수 있습니다.</dd>
+    </dl>
+  </div>
+  <figure>
+    <video autoplay muted loop playsinline preload="metadata" poster="../../video/out/cmd-check-poster.jpg"
+      aria-label="터미널에 /danburn:check 옛기준 계획서.hwpx 를 치면 개정·폐지된 기준 5건이 개정됨 항목으로 하나씩 나오는 영상">
+      <source src="../../video/out/cmd-check-m.mp4" type="video/mp4" media="(max-width: 760px)">
+      <source src="../../video/out/cmd-check.mp4" type="video/mp4">
+    </video>
+    <figcaption><span>Claude Code 등 AI 에이전트에서 · 터미널에서는 <code>danburn check</code></span>
+      <button class="toggle" type="button" aria-pressed="false">일시정지</button></figcaption>
+  </figure>
+</div>
+</div>
+<script>
+  // 움직임 줄이기 설정이면 멈춘 poster(마지막 결과 화면)만. 일시정지 단추(WCAG 2.2.2) — 눌린 동안 멈춤
+  const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('figure').forEach((f) => {
+    const v = f.querySelector('video');
+    const b = f.querySelector('.toggle');
+    if (still) { v.removeAttribute('autoplay'); v.pause(); b.setAttribute('aria-pressed', 'true'); }
+    b.addEventListener('click', () => {
+      const stop = b.getAttribute('aria-pressed') !== 'true';
+      b.setAttribute('aria-pressed', String(stop));
+      stop ? v.pause() : v.play();
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "danburn",
+  "version": "0.0.1",
+  "description": "단번(Danburn) — 도급내역서로 품질관리계획서 HWPX를 만들고(/danburn:start), 기존 계획서의 인용 기준이 현행인지 검사한다(/danburn:check).",
+  "author": {
+    "name": "danburn contributors"
+  },
+  "homepage": "https://github.com/yj5306yj/danburn",
+  "repository": "https://github.com/yj5306yj/danburn",
+  "license": "Apache-2.0",
+  "keywords": ["construction", "quality-plan", "hwpx", "korean"]
+}

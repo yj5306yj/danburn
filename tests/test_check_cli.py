@@ -45,7 +45,9 @@ def _make_old_plan(src: Path, dst: Path) -> None:
         for item in zin.infolist():
             data = zin.read(item.filename)
             if item.filename.startswith("Contents/section"):
-                xml = data.decode("utf-8").replace("제2026-360호", "제2022-30호").replace("2026. 01. 05.", "2023. 03. 02.")
+                xml = (data.decode("utf-8").replace("제2026-360호", "제2022-30호")
+                       .replace("2026. 01. 05.", "2023. 03. 02.").replace("2026.01.05", "2023.03.02")     # 본문·쪽 머리 표기 둘 다
+                       .replace("2026-07-08 시행", "2022-01-27 시행"))                                    # 옛 번호 옆 시행일도 옛것으로
                 if item.filename == "Contents/section0.xml":                 # 첫 글자 칸 뒤에 옛 인용 문장을 붙인다
                     xml = re.sub(r"(<hp:t>[^<]*)(</hp:t>)", lambda m: f"{m.group(1)} {OLD_REFS}{m.group(2)}", xml, count=1)
                 data = xml.encode("utf-8")

@@ -1,0 +1,14 @@
+{
+  "name": "danburn",
+  "owner": {
+    "name": "danburn contributors"
+  },
+  "description": "단번(Danburn) 품질관리계획서 도구 플러그인",
+  "plugins": [
+    {
+      "name": "danburn",
+      "source": "./",
+      "description": "도급내역서로 품질관리계획서 만들기(/danburn:start)와 기존 계획서 기준 검사(/danburn:check)."
+    }
+  ]
+}

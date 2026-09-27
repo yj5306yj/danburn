@@ -219,6 +219,46 @@ footer .small { flex-basis: 100%; }
   .grid3 > * + * { border-left: 0; border-top: 1px solid var(--rule); }
 }
 
+/* ② 두 가지 일: 카드 = 표의 한 줄. 왼쪽 글(맡기는 것·받는 것·명령) · 오른쪽 터미널 영상(4:3) */
+.job {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 540px); gap: 20px 40px; align-items: start;
+  padding: 28px 0; border-top: 1px solid var(--line);
+}
+.job:first-of-type { border-top: 2px solid var(--ink); }
+.job:last-child { border-bottom: 1px solid var(--ink); }
+.job > * { min-width: 0; }
+.job h3 { font-size: 1.12rem; }
+.job-dl { margin: 0; }
+.job-dl dt { font-size: 0.8rem; letter-spacing: 0.02em; color: var(--muted); margin-top: 14px; }
+.job-dl dt:first-child { margin-top: 0; }
+.job-dl dd { margin: 2px 0 0; color: var(--ink-2); }
+.cmd-kind { font-size: 0.8rem; color: var(--muted); margin: 8px 0 0; }
+.job .cmd { margin: 4px 0 0; }
+.job-media { margin: 0; }
+/* 바탕은 영상 첫 화면과 같은 터미널 색(명령 상자 색) — 로드 전 빈 칸이 번쩍이지 않게 */
+.job-media video { display: block; width: 100%; aspect-ratio: 4 / 3; background: #16181c; border: 1px solid var(--rule); border-radius: 3px; }
+.job-media figcaption { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 6px; font-size: 0.8rem; }
+.job-table { grid-column: 1 / -1; border-collapse: collapse; width: 100%; font-size: 0.92rem; color: var(--ink-2); }
+.job-table th, .job-table td { border: 1px solid var(--rule); padding: 10px 16px; text-align: left; vertical-align: top; }
+.job-table th { background: var(--head); color: var(--ink); font-weight: 650; white-space: nowrap; width: 1%; }
+/* 히어로: 기존 계획서 검사로 가는 한 줄 */
+.check-link { margin: 4px 0 14px; font-size: 0.95rem; color: var(--ink-2); }
+.check-link a { white-space: nowrap; }
+/* 에이전트 명령은 $ 대신 영상과 같은 › */
+.cmd.agent code::before { content: "› "; }
+#agent .cmd { margin: 10px 0 0; }
+#agent .cmd + p { margin-top: 14px; }
+
+/* 설치 ⓪ 처음이면 3단계: 흐름 표(flow3) 모양. 마지막 칸은 '나오는 것'이 아니라 파랑 머리칸을 쓰지 않는다 */
+#first-title { margin: 0 0 12px; }
+.first3 { margin-bottom: 40px; }
+.first3 li:last-child .step { background: var(--head); color: var(--ink-2); border-bottom-color: var(--line); }
+.first3 .cmd { margin: 4px 0 0; }
+.first3 .cmd code { font-size: 0.8rem; }
+kbd { font-family: var(--mono); font-size: 0.8em; padding: 0 5px; border: 1px solid var(--line); border-radius: 2px; background: var(--head); }
+.file-hint { margin: 6px 0 0; }
+.nav-break { display: none; }
+
 /* 모바일: 종이는 거의 화면 폭, 칸은 쌓는다 */
 @media (max-width: 760px) {
   :root { --pad: 16px; }
@@ -247,11 +287,18 @@ footer .small { flex-basis: 100%; }
   main section#maker { padding-top: 28px; padding-bottom: 28px; }
   #maker h2 { margin-bottom: 16px; }
   .cmd code { font-size: 0.76rem; }
+  /* 두 가지 일: 글 위 · 영상 아래. 영상은 화면 가장자리 16px 까지 넓힌다
+     (main 8px + 종이 테두리 1px + 종이 안쪽 16px = 25px → 16px 이 되게 −9px). 휴대폰 판(4:5)이라 글자가 커짐 */
+  .job { grid-template-columns: 1fr; padding: 22px 0; }
+  .job-media { margin: 0 -9px; }
+  .job-media video { aspect-ratio: 4 / 5; }
+  .job-table th, .job-table td { padding: 8px 10px; }
+  .job-table th { white-space: normal; width: 5.5em; }
   footer { padding: 16px 16px 32px; }
 }
 
 /* 히어로 명령은 잘라 숨기지 않고 줄을 바꿔 끝(danburn start)까지 보인다. 설치 절 상자는 한 줄 그대로 */
-.hero .cmd code { white-space: normal; overflow-x: visible; overflow-wrap: anywhere; }
+.hero .cmd code { white-space: normal; overflow-x: visible; overflow-wrap: normal; word-break: normal; }
 
 /* 설치 명령 상자 — 어두운 터미널 창 + 노란 명령 글자(사용자 09-27). 모든 .cmd 에 적용 */
 .cmd { background: #16181c; border-color: #16181c; }
@@ -260,3 +307,12 @@ footer .small { flex-basis: 100%; }
 .cmd button { background: #23262c; color: #e8e9eb; border-left-color: #33363d; }
 .cmd button:hover { background: #f5c542; color: #16181c; }
 .cmd button:focus-visible { outline: 2px solid #f5c542; outline-offset: -3px; }
+/* 두 가지 일의 명령은 히어로처럼 줄을 바꿔 끝까지 보인다(글 칸이 좁음) */
+.job .cmd code, .first3 .cmd code { white-space: normal; overflow-x: visible; overflow-wrap: normal; word-break: normal; }
+/* 좁은 화면: 모든 명령 상자를 줄바꿈(공백·<wbr> 에서만 — 주소는 / 뒤). 복사는 code 의 글자라 <wbr> 은 들어가지 않는다 */
+@media (max-width: 760px) {
+  .cmd code { white-space: normal; overflow-x: visible; overflow-wrap: normal; word-break: normal; }
+  /* 머리 메뉴: 셋 · 둘 두 줄(한 항목만 남는 줄이 없게) */
+  .top nav { font-size: 0.9rem; gap: 0 16px; }
+  .nav-break { display: block; flex-basis: 100%; height: 0; }
+}

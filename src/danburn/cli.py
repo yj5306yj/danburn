@@ -477,7 +477,7 @@ def _plan_report_text(path: str, doc, res: dict) -> str:
     n_info = sum((f.get("count") or 1) for f in fnd if f.get("status") == "info")
     lines = [f"단번 기준 검사 — {Path(path).name} ({doc.format.upper()})",
              f"결과: {head}  (개정됨 {n['outdated']} · 확인 필요 {n['unknown']} · 현행 {n['current']}"
-             + (f" · 판 표시 없어 판정 안 함 {n_info}곳)" if n_info else ")"),
+             + (f" · 연도·번호 표기가 없어 확인 못 한 곳 {n_info})" if n_info else ")"),
              f"기준표 확인일 {res.get('snapshot_checked_at') or '-'} · 검사일 {res.get('checked_at') or '-'}"]
     if res.get("message"):
         lines.append(res["message"])
@@ -496,7 +496,7 @@ def _plan_report_text(path: str, doc, res: dict) -> str:
     if info:
         names = ", ".join(f"{f.get('cited') or f.get('norm')}" + (f"({f['count']}곳)" if (f.get("count") or 1) > 1 else "")
                           for f in info)
-        lines.append(f"\n참고: 판(연도·번호) 표시 없이 이름만 인용해 판정하지 않음 — {names}")
+        lines.append(f"\n참고: 연도·번호 표기 없이 이름만 적혀 확인 못 한 곳 — {names}")
     if ks:
         lines.append(f"참고: KS 번호 {len(ks)}개는 개정·폐지를 판정하지 않았습니다 — e-나라표준인증(standard.go.kr)에서 확인하세요.")
     for w in getattr(doc, "warnings", []) or []:
