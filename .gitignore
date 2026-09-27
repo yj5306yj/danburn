@@ -29,3 +29,7 @@ danburn-out/
 /.wrangler/
 /build/
 /dist/
+
+# 배포 조립 폴더·wrangler 캐시(site/deploy/deploy.sh)
+/site/deploy/public/
+/site/deploy/.wrangler/

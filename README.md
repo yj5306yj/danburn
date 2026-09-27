@@ -16,7 +16,7 @@
 
 `danburn` 만 치면 둘 중 하나를 고르라고 묻습니다. **이미 계획서가 있다면** 새로 만들기 전에 `check` 로 옛 기준을 인용하는지부터 보세요 — 업무지침이 개정되면 기존 계획서는 다시 세워야 할 수 있습니다([기존 계획서 검사](#기존-계획서-검사--danburn-check)).
 
-**설치**: [uv](https://docs.astral.sh/uv/)가 있으면 설치 없이 바로 `uvx --from git+https://github.com/yj5306yj/danburn danburn start`(검사는 끝의 `start` 대신 `check 계획서.hwp`). 저장소를 받아 쓰는 방법은 [처음 한 번 준비](#처음-한-번-준비-3단계)(맥)·[Windows에서 쓰기](#windows에서-쓰기)에 있습니다.
+**설치**([uv](https://docs.astral.sh/uv/) 필요): `uv tool install git+https://github.com/yj5306yj/danburn` 한 번 → 그다음 `danburn start`(새로 만들기) · `danburn check 계획서.hwp`(기존 계획서 검사). 새 기준 받기는 `uv tool upgrade danburn`(`danburn` 명령을 못 찾으면 `uv tool update-shell` 뒤 창을 다시 엽니다). Claude Code 사용자는 [플러그인](#에이전트-스킬로-쓰기--claude-codecodex-같은-ai-코딩-에이전트를-쓰는-분께)으로 `/danburn:start`·`/danburn:check`. 저장소를 받아 개발용으로 쓰는 방법은 [처음 한 번 준비](#처음-한-번-준비-3단계)(맥)·[Windows에서 쓰기](#windows에서-쓰기)에 있습니다.
 
 - **danburn** 은 터미널(명령 창)에서 실행하는 프로그램 이름입니다. 명령 몇 줄로 돌립니다.
 - **현장 정보 파일(yaml)** 은 공사명·회사·사람을 적는 설정 파일입니다. 예시 파일을 복사해 메모장 같은 편집기로 값만 고칩니다([만드는 법](#현장-정보-파일-만들기)).
@@ -350,7 +350,7 @@ danburn start   --plain --input 답목록.txt  # 에이전트 중계: 답 목록
 
 ## 기여
 
-규칙 추가·테스트 방법은 [`CONTRIBUTING.md`](CONTRIBUTING.md)를 보세요.
+규칙 추가·테스트 방법은 [`CONTRIBUTING.md`](CONTRIBUTING.md)를 보세요. 질문·오류 제보·현장 의견은 GitHub 이슈나 contact@danburn.kr 로 보내 주세요.
 
 ## 라이선스
 

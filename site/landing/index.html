@@ -53,10 +53,12 @@
         <li>8.11 시험계획 자동 계산</li>
         <li>한글(.hwpx) 파일</li>
       </ul>
+      <p class="cmd-kind">설치 한 줄(터미널)</p>
       <div class="cmd">
-        <code id="cmd-hero">uvx --from git+https://<wbr>github.com/<wbr>yj5306yj/<wbr>danburn danburn start</code>
+        <code id="cmd-hero">uv tool install git+https://<wbr>github.com/<wbr>yj5306yj/<wbr>danburn</code>
         <button type="button" data-copy="cmd-hero">복사</button>
       </div>
+      <p class="small">설치 뒤 <code>danburn start</code>(새로 만들기) · <code>danburn check 계획서.hwp</code>(기존 계획서 검사) — <a href="#jobs">두 가지 일</a></p>
       <p class="check-link"><strong>이미 계획서가 있나요?</strong> <a href="#check">기준이 현행인지 먼저 검사하세요 →</a></p>
       <p class="small hint">처음이면 <a href="#first">uv 설치부터(1분)</a> · 터미널이 낯설면 <a href="#agent">AI 에이전트에게 맡기기</a></p>
       <p class="small"><a href="https://github.com/yj5306yj/danburn">https://github.com/yj5306yj/danburn</a></p>
@@ -87,10 +89,10 @@
           <dt>받는 것</dt><dd>품질관리계획서 초안(.hwpx)과 사람이 확인할 것 목록</dd>
           <dt>명령</dt>
           <dd>
-            <p class="cmd-kind">AI 에이전트</p>
+            <p class="cmd-kind">터미널에 입력 — 맨 위 <a href="#top">설치 한 줄</a> 뒤</p>
+            <div class="cmd"><code id="cmd-start-uvx">danburn start</code><button type="button" data-copy="cmd-start-uvx">복사</button></div>
+            <p class="cmd-kind">Claude Code 대화창에 입력 — 처음 한 번 <a href="#agent">플러그인 설치</a> 뒤</p>
             <div class="cmd agent"><code id="cmd-start-agent">/danburn:start</code><button type="button" data-copy="cmd-start-agent">복사</button></div>
-            <p class="cmd-kind">터미널</p>
-            <div class="cmd"><code id="cmd-start-uvx">uvx --from git+https://<wbr>github.com/<wbr>yj5306yj/<wbr>danburn danburn start</code><button type="button" data-copy="cmd-start-uvx">복사</button></div>
           </dd>
         </dl>
       </div>
@@ -115,10 +117,10 @@
           <dt>받는 것</dt><dd>개정·폐지된 기준 목록 — 계획서의 어디인지, 무엇을 고칠지, 공식 확인 링크</dd>
           <dt>명령</dt>
           <dd>
-            <p class="cmd-kind">AI 에이전트</p>
+            <p class="cmd-kind">터미널에 입력 — 맨 위 <a href="#top">설치 한 줄</a> 뒤</p>
+            <div class="cmd"><code id="cmd-check-uvx">danburn check 계획서.hwp</code><button type="button" data-copy="cmd-check-uvx">복사</button></div>
+            <p class="cmd-kind">Claude Code 대화창에 입력 — 처음 한 번 <a href="#agent">플러그인 설치</a> 뒤</p>
             <div class="cmd agent"><code id="cmd-check-agent">/danburn:check 계획서.hwp</code><button type="button" data-copy="cmd-check-agent">복사</button></div>
-            <p class="cmd-kind">터미널</p>
-            <div class="cmd"><code id="cmd-check-uvx">uvx --from git+https://<wbr>github.com/<wbr>yj5306yj/<wbr>danburn danburn check 계획서.hwp</code><button type="button" data-copy="cmd-check-uvx">복사</button></div>
             <p class="small file-hint"><code>계획서.hwp</code> 자리에 내 파일 — 파일을 창에 끌어다 놓으면 경로가 들어갑니다</p>
           </dd>
           <dt>왜</dt><dd>업무지침이 개정되면 기존 계획서는 다시 세워야 할 수 있습니다.</dd>
@@ -188,7 +190,7 @@
   <!-- ⑤ 설치 -->
   <section id="install">
     <h2>설치와 실행</h2>
-    <h3 id="first-title">처음이면 3단계</h3>
+    <h3 id="first-title">처음이면 3단계 — 터미널로</h3>
     <ol class="flow3 first3" id="first" aria-labelledby="first-title">
       <li>
         <p class="step"><span class="mono">1</span> · 터미널 열기</p>
@@ -203,28 +205,33 @@
         <p class="small">끝나면 창을 닫았다 다시 엽니다.</p>
       </li>
       <li>
-        <p class="step"><span class="mono">3</span> · 명령 붙여넣기</p>
-        <p><a href="#jobs">두 가지 일</a> 카드의 터미널 명령을 복사해 붙여 넣고 Enter. 질문에 답하면 됩니다.</p>
+        <p class="step"><span class="mono">3</span> · 단번 설치 한 줄</p>
+        <div class="cmd"><code id="cmd-install-3">uv tool install git+https://<wbr>github.com/<wbr>yj5306yj/<wbr>danburn</code><button type="button" data-copy="cmd-install-3">복사</button></div>
+        <p>그다음 <code>danburn start</code> 를 치고 질문에 답하면 됩니다(<a href="#jobs">두 가지 일</a>).</p>
       </li>
     </ol>
     <div class="grid2">
       <div>
-        <h3>터미널에서 한 줄</h3>
+        <h3>터미널에서</h3>
+        <p class="cmd-kind">설치(한 번)</p>
         <div class="cmd">
-          <code id="cmd-uvx">uvx --from git+https://<wbr>github.com/<wbr>yj5306yj/<wbr>danburn danburn start</code>
+          <code id="cmd-uvx">uv tool install git+https://<wbr>github.com/<wbr>yj5306yj/<wbr>danburn</code>
           <button type="button" data-copy="cmd-uvx">복사</button>
         </div>
-        <p class="small">기존 계획서 검사는 끝의 <code>start</code> 대신 <code>check 계획서.hwp</code>.</p>
+        <p class="cmd-kind">쓰기</p>
+        <p><code>danburn start</code> 새로 만들기 · <code>danburn check 계획서.hwp</code> 기존 계획서 검사 · <code>danburn</code> 만 치면 둘 중 고르기</p>
         <p class="small file-hint"><code>계획서.hwp</code> 자리에 내 파일 — 파일을 창에 끌어다 놓으면 경로가 들어갑니다</p>
-        <p class="small"><a href="https://docs.astral.sh/uv/">uv</a>가 있어야 합니다. 계속 쓸 거라면 <code>pipx install git+https://github.com/yj5306yj/danburn</code> 후 <code>danburn start</code>.</p>
+        <p class="cmd-kind">새 기준 받기</p>
+        <div class="cmd"><code id="cmd-upgrade">uv tool upgrade danburn</code><button type="button" data-copy="cmd-upgrade">복사</button></div>
+        <p class="small">최신 법령·기준으로 갱신한 판을 받습니다. <code>danburn</code> 명령을 못 찾으면 <code>uv tool update-shell</code> 뒤 창을 다시 엽니다. <a href="https://docs.astral.sh/uv/">uv</a>가 있어야 합니다(위 2단계).</p>
       </div>
       <div id="agent">
-        <h3>AI 에이전트에게 맡기기</h3>
-        <p>Claude Code에서는 플러그인으로 설치합니다(터미널에서 두 줄, 한 번만).</p>
+        <h3>AI 에이전트에게 맡기기 — Claude Code</h3>
+        <p><strong>① 처음 한 번 플러그인 설치</strong> — 터미널에서 두 줄(uv 도 필요, 위 2단계).</p>
         <div class="cmd"><code id="cmd-plugin-add">claude plugin marketplace add https://<wbr>github.com/<wbr>yj5306yj/<wbr>danburn</code><button type="button" data-copy="cmd-plugin-add">복사</button></div>
         <div class="cmd"><code id="cmd-plugin-install">claude plugin install danburn@<wbr>danburn</code><button type="button" data-copy="cmd-plugin-install">복사</button></div>
-        <p>그다음 <code>/danburn:start</code>(새로 만들기) 또는 <code>/danburn:check 계획서.hwp</code>(기존 계획서 검사)를 칩니다. 에이전트가 도구의 질문을 한 번에 하나씩 그대로 묻고 결과를 전합니다.</p>
-        <p class="small">도구 실행에는 <a href="https://docs.astral.sh/uv/">uv</a>가 필요합니다. Codex 같은 다른 에이전트는 작업 지침에 저장소의 <code>skills/start/SKILL.md</code>(새로 만들기)나 <code>skills/check/SKILL.md</code>(검사)를 읽으라고 적고 “이 폴더의 도급내역서로 품질관리계획서 만들어 줘”처럼 말합니다.</p>
+        <p><strong>② 그다음부터 Claude Code 대화창에</strong> <code>/danburn:start</code>(새로 만들기) 또는 <code>/danburn:check 계획서.hwp</code>(기존 계획서 검사). 에이전트가 도구의 질문을 한 번에 하나씩 그대로 묻고 결과를 전합니다.</p>
+        <p class="small">Codex 같은 다른 에이전트는 작업 지침에 저장소의 <code>skills/start/SKILL.md</code>(새로 만들기)나 <code>skills/check/SKILL.md</code>(검사)를 읽으라고 적고 “이 폴더의 도급내역서로 품질관리계획서 만들어 줘”처럼 말합니다.</p>
       </div>
     </div>
   </section>
@@ -236,6 +243,7 @@
     <p>착공 전에 품질관리계획서를 쓰고, 공사 내내 고쳐 냈습니다. 기준을 찾고, 바뀌는 내역서로 수량을 다시 셈하고, 긴 한글 문서를 손보는 데 한 번에 한두 달씩 걸렸습니다.</p>
     <p>그 일을 내역서 한 번 넣는 것으로 줄이려고 만든 도구입니다. 가장 공들인 곳은 8.11 검사 및 시험, 모니터링입니다.</p>
     <p class="small">개인이 만든 오픈소스 · Apache-2.0 · <a href="https://github.com/yj5306yj/danburn">GitHub</a></p>
+    <p class="small">연락: <a href="mailto:contact@danburn.kr">contact@danburn.kr</a> — 질문·오류 제보·현장 의견을 받습니다.</p>
   </section>
 
   <!-- ⑦ 감사와 출처 -->
@@ -277,6 +285,7 @@
   <span>단번 (Danburn)</span>
   <a href="https://danburn.kr/">danburn.kr</a>
   <a href="https://github.com/yj5306yj/danburn">GitHub</a>
+  <a href="mailto:contact@danburn.kr">contact@danburn.kr</a>
   <span>Apache License 2.0</span>
   <span class="small">화면과 영상의 계획서는 합성 예제로 만든 것입니다.</span>
 </footer>
