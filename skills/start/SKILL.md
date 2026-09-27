@@ -15,6 +15,7 @@ argument-hint: "[도급내역서.xlsx 또는 폴더]"
 ## 준비 — 실행 파일 `<danburn>` 찾기 (먼저 OS·셸 확인)
 - 이 스킬은 **로컬 파일을 읽고 명령을 실행할 수 있는 에이전트**에서만 동작한다. 그런 도구가 없는 대화 창이면 처음에 그 사실을 알리고, 명령 실행이 되는 환경(CLI 에이전트 등)을 안내한다. 글만 읽고 설치됐다고 말하지 않는다.
 - 아래 순서로 처음 되는 것 하나를 `<danburn>` 으로 쓴다. `<danburn> --help` 가 나오면 된다.
+  0. **이미 설치됨** — `danburn --help` 가 되면 그대로 `danburn`(랜딩·README 의 `uv tool install git+https://github.com/yj5306yj/danburn` 으로 설치한 경우). 새 기준은 `uv tool upgrade danburn` 으로 받는다.
   1. **플러그인으로 설치됨** — 플러그인 폴더가 `${CLAUDE_PLUGIN_ROOT}` 이다(Claude Code 가 실제 경로로 바꿔 넣는다. 글자 그대로 `${…}` 로 보이면 플러그인이 아니니 건너뛴다). 설치된 플러그인 판과 같은 코드를 쓴다:
      `uvx --from "${CLAUDE_PLUGIN_ROOT}" danburn`
   2. **저장소 안** — `pyproject.toml` 과 `src/danburn/` 이 있는 폴더(`<저장소>`)에 가상환경이 있으면:

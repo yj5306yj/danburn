@@ -209,9 +209,11 @@ def test_w04_clean_path_table(raw, want):
 
 
 def test_w04_windows_keeps_every_backslash(monkeypatch):
-    """Windows 에서 실행 중이면 모양과 상관없이 역슬래시는 구분자(맥 이스케이프 해제를 하지 않는다)."""
+    """Windows 에서 실행 중이면 역슬래시는 구분자(맥 이스케이프 해제를 하지 않는다).
+    단 '/' 로 시작하는 맥식 경로는 Windows 경로일 수 없어 이스케이프를 푼다(Windows 재검증 R2)."""
     monkeypatch.setattr(os, "name", "nt")
     assert clean_path("내 폴더\\내역서 (1).xlsx") == "내 폴더\\내역서 (1).xlsx"
+    assert clean_path("/Users/a/내\\ 파일\\(1\\).xlsx") == "/Users/a/내 파일(1).xlsx"
     assert clean_path("file://server/share/boq.xlsx") == "\\\\server\\share\\boq.xlsx"
 
 

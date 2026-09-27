@@ -51,7 +51,7 @@ def _answers(boq, **kw):
 
 def _run(args, env_home, stdin=None):
     env = {**__import__("os").environ, "DANBURN_HOME": str(env_home)}
-    return subprocess.run([str(DANBURN), *args], input=stdin, capture_output=True, text=True, env=env, timeout=300)
+    return subprocess.run([str(DANBURN), *args], input=stdin, capture_output=True, text=True, encoding="utf-8", env=env, timeout=300)
 
 
 # ── 경로 정리 ─────────────────────────────────────────────────────────

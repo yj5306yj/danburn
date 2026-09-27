@@ -35,13 +35,13 @@ def _start(boq, tmp_path, **kw):
     out = tmp_path / "o"
     env = {**os.environ, "DANBURN_HOME": str(tmp_path / "h")}
     r = subprocess.run([str(DANBURN), "start", "--answers", str(ans), "--out-dir", str(out), "--offline", "--yes"],
-                       capture_output=True, text=True, env=env, timeout=300)
+                       capture_output=True, text=True, encoding="utf-8", env=env, timeout=300)
     assert r.returncode == 0, r.stdout + r.stderr
     return sorted(p.name for p in out.iterdir())
 
 
 def test_command_name():
-    r = subprocess.run([str(DANBURN), "--help"], capture_output=True, text=True)
+    r = subprocess.run([str(DANBURN), "--help"], capture_output=True, text=True, encoding="utf-8")
     assert r.returncode == 0 and r.stdout.startswith("usage: danburn")
 
 
@@ -59,7 +59,7 @@ def test_offline_env_names(var, boq, tmp_path):
     env = {k: v for k, v in os.environ.items() if k not in ("DANBURN_OFFLINE", "QCPLAN_OFFLINE")}
     env[var] = "1"
     r = subprocess.run([str(DANBURN), "build", "--boq", str(boq), "--block", "나동", "--out", str(tmp_path / "o.hwpx")],
-                       capture_output=True, text=True, env=env, timeout=300)
+                       capture_output=True, text=True, encoding="utf-8", env=env, timeout=300)
     assert r.returncode == 0, r.stderr
     summary = __import__("json").loads(r.stdout.strip().splitlines()[-1])
     assert summary["basis_check"]["status"] == "unknown" and "offline" in summary["basis_check"]["message"]

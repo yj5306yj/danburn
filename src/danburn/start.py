@@ -65,7 +65,8 @@ def clean_path(s: str) -> str:
         else:                                                  # file://server/share/x → UNC
             s = "\\\\" + rest.replace("/", "\\") if os.name == "nt" else "//" + rest
         return s
-    if os.name != "nt" and not WIN_SHAPE.match(s):
+    # 맥·리눅스, 또는 Windows 에서도 '/' 로 시작하는 경로(Windows 경로일 수 없음 — 맥식 끌어다 놓기)는 이스케이프를 푼다
+    if not WIN_SHAPE.match(s) and (os.name != "nt" or s.startswith("/")):
         s = SHELL_ESCAPED.sub(r"\1", s)
     return os.path.expanduser(s)
 
