@@ -14,10 +14,10 @@ import yaml
 
 from danburn import start
 from danburn.start import Interview, StartError, clean_path, tracked_in_repo
+from conftest import VALIDATE, run_hwpx_validate
 
 ROOT = Path(__file__).resolve().parents[1]
 DANBURN = Path(sys.executable).parent / "danburn"
-VALIDATE = Path(sys.executable).parent / "hwpx-validate"
 
 
 @pytest.fixture(scope="module")
@@ -89,8 +89,8 @@ def test_answers_to_plan_end_to_end(boq, tmp_path):
     assert proj["승인절차_문장"].endswith(".") and "인·허가기관" in proj["승인절차_문장"]    # 민간
     assert proj["시험실"] == "50㎡ 이상" and proj["품질관리_대상등급"] == "고급"
     assert proj["판정"]["계획종류"] == "품질관리계획"
-    if VALIDATE.exists():
-        assert subprocess.run([str(VALIDATE), str(out / "품질관리계획서.hwpx")], capture_output=True).returncode == 0
+    if VALIDATE is not None:
+        run_hwpx_validate(out / "품질관리계획서.hwpx")
     with zipfile.ZipFile(out / "품질관리계획서.hwpx") as z:
         text = "".join(z.read(n).decode("utf-8") for n in z.namelist() if n.startswith("Contents/section"))
     assert "시행령 제89조제1항제2호" in text and "인·허가기관의 장에게 제출" in text
@@ -124,17 +124,31 @@ def test_tracked_in_repo(tmp_path):
     repo.mkdir()
     subprocess.run(["git", "init", "-q", str(repo)], check=True)
     (repo / ".gitignore").write_text("danburn-out/\n")
-    assert tracked_in_repo(repo / "산출") == str(repo.resolve())
+    got = tracked_in_repo(repo / "산출")                                          # Windows: Git 은 C:/…, Path 는 C:\…
+    assert got is not None and Path(got).resolve() == repo.resolve()
     assert tracked_in_repo(repo / "danburn-out" / "현장") is None                   # 무시되는 곳은 허용
     assert tracked_in_repo(tmp_path / "밖") is None
 
 
 def test_out_dir_inside_repo_is_refused(boq, tmp_path):
+    repo = tmp_path / "repo"                                  # 테스트 전용 저장소 — .git 없는 ZIP 배포본에서도 같은 뜻
+    repo.mkdir()
+    subprocess.run(["git", "init", "-q", str(repo)], check=True)
     ans = tmp_path / "a.yaml"
     ans.write_text(yaml.safe_dump(_answers(boq), allow_unicode=True), encoding="utf-8")
-    r = _run(["start", "--answers", str(ans), "--out-dir", str(ROOT / "합성_산출_테스트"), "--no-plan"], tmp_path / "h")
+    r = _run(["start", "--answers", str(ans), "--out-dir", str(repo / "합성_산출_테스트"), "--no-plan"], tmp_path / "h")
     assert r.returncode == 2 and "저장소" in r.stdout
-    assert not (ROOT / "합성_산출_테스트").exists()
+    assert not (repo / "합성_산출_테스트").exists()
+
+
+def test_plan_file_given_as_boq_points_to_check(boq, tmp_path):
+    """새로 만들기(start)에 계획서(hwp·hwpx·pdf)를 주면 기존 계획서 검사(danburn check)로 안내한다."""
+    plan = tmp_path / "기존 계획서.hwpx"
+    plan.write_bytes(b"PK")
+    ans = tmp_path / "a.yaml"
+    ans.write_text(yaml.safe_dump(_answers(boq, 내역서=str(plan)), allow_unicode=True), encoding="utf-8")
+    r = _run(["start", "--answers", str(ans), "--no-plan", "--out-dir", str(tmp_path / "out")], tmp_path / "h")
+    assert r.returncode == 2 and "danburn check" in r.stdout + r.stderr
 
 
 # ── 한 줄 모드·대화형·이어 하기 ─────────────────────────────────────────
@@ -156,6 +170,28 @@ def test_plain_mode_one_line_questions(boq, tmp_path):
     qlines = [ln for ln in r.stdout.splitlines() if ln.startswith("Q")]
     assert qlines[0].startswith("Q1 내역서 |") and any(ln.startswith("Q2 발주자_구분 | ") and "1=예" in ln for ln in qlines)
     assert "JUDGE" in r.stdout and (tmp_path / "o" / "project.yaml").exists()
+
+
+@pytest.mark.parametrize("enc", ["utf-8", "utf-8-sig", "cp949"])
+def test_plain_input_file_replay_without_redirect(boq, tmp_path, enc):
+    """--input: 답 목록 파일을 매번 처음부터 다시 돌리는 중계(셸 리다이렉션 없이 맥·Windows 같은 명령).
+    빈 파일 → 첫 질문에서 대기(종료 2), 답을 쌓으면 다음 질문, 이어 하기 초안은 끼어들지 않는다."""
+    home = tmp_path / "h"                                     # 같은 home 을 계속 써도 초안이 끼어들면 안 된다
+    ans = tmp_path / "answers.txt"
+    ans.write_bytes(b"")
+    args = ["start", "--plain", "--input", str(ans), "--out-dir", str(tmp_path / "o"), "--folder", str(tmp_path)]
+    r = _run(args, home)
+    assert r.returncode == 2 and [ln for ln in r.stdout.splitlines() if ln.startswith("Q")][-1].startswith("Q1 내역서 |")
+    assert "--input" in r.stdout and "초안에 저장" not in r.stdout          # 이 모드엔 초안이 없다 — 사실대로 안내
+    ans.write_bytes((str(boq) + "\r\n").encode(enc))           # Windows 메모장식 줄끝·인코딩
+    r = _run(args, home)
+    assert r.returncode == 2 and "이어서" not in r.stdout      # 이어 하기 질문이 끼어들지 않는다
+    assert [ln for ln in r.stdout.splitlines() if ln.startswith("Q")][-1].split(" | ")[0] != "Q1 내역서"
+    ans.write_bytes(("\n".join(_lines(boq, "Y", "n")) + "\n").encode(enc))
+    r = _run(args, home)
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert (tmp_path / "o" / "project.yaml").exists() and not (home / "start-draft.yaml").exists()
+    assert yaml.safe_load((tmp_path / "o" / "project.yaml").read_text(encoding="utf-8"))["공사명"] == "합성 예시 공동주택"
 
 
 def test_interactive_help_unknown_and_resume(boq, tmp_path, monkeypatch):

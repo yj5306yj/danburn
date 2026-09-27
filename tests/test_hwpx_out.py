@@ -1,7 +1,5 @@
 """8.11 HWPX 모양(L3-T1, docs/design/8.11-layout.md) — 합성 행만 쓴다."""
 import re
-import subprocess
-import sys
 import zipfile
 from pathlib import Path
 
@@ -11,8 +9,8 @@ from hwpx import HwpxDocument
 from danburn.hwpx_out import (LOGO_COL_MM, UNLISTED_WIDTHS_MM, WIDTHS_MM, add_811_tables, add_unlisted_table, build_811, merge_plan,
                              unlisted_items)
 from danburn.model import PlanRow
+from conftest import VALIDATE, find_hwpx_validate, run_hwpx_validate
 
-VALIDATE = Path(sys.executable).parent / "hwpx-validate"
 REBAR_TEST = "겉모양, 치수, 무게, 인장강도"
 REBAR_FREQ = "KS제품: 제조회사 및 제품규격별"
 
@@ -131,10 +129,24 @@ def test_add_811_tables_fills_given_section(tmp_path):
     assert "<hp:tbl" in _xml(out, "Contents/section1.xml") and "<hp:tbl" not in _xml(out)
 
 
-@pytest.mark.skipif(not VALIDATE.exists(), reason="hwpx-validate 없음")
+@pytest.mark.skipif(VALIDATE is None, reason="hwpx-validate 없음")
 def test_hwpx_validate_passes(built):
-    r = subprocess.run([str(VALIDATE), str(built)], capture_output=True, text=True)
-    assert r.returncode == 0, r.stdout + r.stderr
+    run_hwpx_validate(built)
+
+
+def test_validator_is_found_when_python_hwpx_installed():
+    """python-hwpx 는 런타임 의존성이라 검사기가 설치돼 있다 — 못 찾으면 건너뛰지 말고 실패(W08)."""
+    pytest.importorskip("hwpx.tools.validator")
+    assert VALIDATE is not None, "python-hwpx 는 있는데 hwpx-validate 실행 파일을 못 찾음"
+
+
+@pytest.mark.parametrize("name", ["hwpx-validate", "hwpx-validate.exe"])
+def test_find_validator_in_venv_scripts(tmp_path, monkeypatch, name):
+    """맥·리눅스 bin/hwpx-validate, Windows Scripts\\hwpx-validate.exe 모두 찾는다."""
+    monkeypatch.setenv("PATH", "")
+    (tmp_path / name).write_text("")
+    assert find_hwpx_validate(tmp_path) == tmp_path / name
+    assert find_hwpx_validate(tmp_path / "없음") is None
 
 
 # ── L3-T4 로고·회사명 칸 ─────────────────────────────────────────────
@@ -185,9 +197,8 @@ def test_logo_and_company_are_placed(tmp_path, logo_png, built):
     with zipfile.ZipFile(out) as z:
         assert [n for n in z.namelist() if n.startswith("BinData/")] == ["BinData/BIN0001.png"]
     assert _header_rule_rows(out) == _header_rule_rows(built)    # 로고가 있어도 쪽 머리 칸·선 위치 그대로
-    if VALIDATE.exists():
-        r = subprocess.run([str(VALIDATE), str(out)], capture_output=True, text=True)
-        assert r.returncode == 0, r.stdout + r.stderr
+    if VALIDATE is not None:
+        run_hwpx_validate(out)
 
 
 def test_company_without_logo(tmp_path):
@@ -243,9 +254,8 @@ def test_unlisted_table_after_811_tables(tmp_path):
         assert t in texts
     widths = [int(w) for w in re.findall(r'<hp:cellSz width="(\d+)"', tbl.split("</hp:tr>", 1)[0])]
     assert widths == [round(x * 7200 / 25.4) for x in UNLISTED_WIDTHS_MM]
-    if VALIDATE.exists():
-        r = subprocess.run([str(VALIDATE), str(out)], capture_output=True, text=True)
-        assert r.returncode == 0, r.stdout + r.stderr
+    if VALIDATE is not None:
+        run_hwpx_validate(out)
 
 
 def test_no_unlisted_items_no_table(tmp_path, built):

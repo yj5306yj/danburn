@@ -1,7 +1,5 @@
 """서식 부품 P2 분장표 · P3 흐름표 · P4 양식(L7-D1): 합성 템플릿(qplan.yaml 에 의존하지 않음)."""
 import re
-import subprocess
-import sys
 import zipfile
 from pathlib import Path
 
@@ -11,10 +9,10 @@ import yaml
 from danburn.model import PlanRow
 from danburn.plan_doc import build_plan
 from danburn.plan_parts import FLOW_COLS_MM, PAGE_BODY_MM, PartError, form_numbers, form_ref, form_rows
+from conftest import VALIDATE, run_hwpx_validate
 
 ROOT = Path(__file__).resolve().parents[1]
 EXAMPLE = ROOT / "src" / "danburn" / "data" / "templates" / "project.example.yaml"
-VALIDATE = Path(sys.executable).parent / "hwpx-validate"
 TEAMS = [{"key": "품질", "name": "품질팀"}, {"key": "안전", "name": "안전팀"}, {"key": "공사", "name": "공사팀"},
          {"key": "공무", "name": "공무팀"}, {"key": "대리인", "name": "현장대리인"}]
 
@@ -154,10 +152,9 @@ def test_default_teams_from_template(tmp_path):
     assert "현장대리인" in _text(_sec42(_build(tmp_path, tpl)))
 
 
-@pytest.mark.skipif(not VALIDATE.exists(), reason="hwpx-validate 없음")
+@pytest.mark.skipif(VALIDATE is None, reason="hwpx-validate 없음")
 def test_hwpx_validate(built):
-    r = subprocess.run([str(VALIDATE), str(built)], capture_output=True, text=True)
-    assert r.returncode == 0, r.stdout + r.stderr
+    run_hwpx_validate(built)
 
 
 # ── L7-D2: P5 부표 · P7 공사개요 · 품질관리자 목록 ───────────────────────

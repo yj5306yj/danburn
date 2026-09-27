@@ -42,12 +42,15 @@ danburn은 아래 패키지를 설치 시 받아 쓴다(저장소에 소스를 �
 | openpyxl | ≥ 3.1 (확인 3.1.5) | MIT | 도급내역서 xlsx 읽기 |
 | et-xmlfile | 2.0.0 (openpyxl 의존) | MIT | (openpyxl 의존) |
 | PyYAML | ≥ 6 (확인 6.0.3) | MIT | 규칙·현장 정보 yaml 읽기 |
+| olefile | ≥ 0.47 | BSD-3-Clause | HWP 5.x OLE 컨테이너 읽기 |
+| pypdf | ≥ 5 | BSD-3-Clause | PDF 본문 추출 |
 
 ### 개발·테스트 도구 (배포물에 포함하지 않음)
 
 | 소프트웨어 | 라이선스 | 용도 |
 |---|---|---|
 | pytest (+ pluggy, iniconfig, packaging, Pygments) | MIT (packaging: Apache-2.0 OR BSD-2-Clause, Pygments: BSD-2-Clause) | 테스트 |
+| Pillow | MIT-CMU (HPND) | 디자인 비교 스크립트·테스트(`scripts/dev/design_diff.py`) |
 | uv | Apache-2.0 OR MIT | 가상환경·설치 |
 | rhwp (선택) | MIT | 개발 중 HWPX 렌더 확인 |
 

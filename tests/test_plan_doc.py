@@ -1,8 +1,6 @@
 """품질관리계획서 전체(L3-T2·L3-T5): 합성 project + 합성 8.11 행 → HWPX 한 권, 전부 A4 세로."""
 import re
 import struct
-import subprocess
-import sys
 import zipfile
 import zlib
 from pathlib import Path
@@ -12,10 +10,10 @@ import yaml
 
 from danburn.model import PlanRow
 from danburn.plan_doc import PlaceholderError, build_plan, load_template, placeholders, toc_entries
+from conftest import VALIDATE, run_hwpx_validate
 
 ROOT = Path(__file__).resolve().parents[1]
 EXAMPLE = ROOT / "src" / "danburn" / "data" / "templates" / "project.example.yaml"
-VALIDATE = Path(sys.executable).parent / "hwpx-validate"
 
 
 def _project(**kw):
@@ -70,8 +68,7 @@ def _build(tmp, **kw):
 
 
 def _validate(path):
-    r = subprocess.run([str(VALIDATE), str(path)], capture_output=True, text=True)
-    assert r.returncode == 0, r.stdout + r.stderr
+    run_hwpx_validate(path)
 
 
 @pytest.fixture(scope="module")
@@ -209,7 +206,7 @@ def test_with_synthetic_logo(tmp_path):
     secs = _sections(out)
     assert "<hp:pic" in secs[0]                                  # 표지
     assert all("<hp:pic" in x for x in secs[1:])                 # 모든 쪽 머리 로고 칸
-    if VALIDATE.exists():
+    if VALIDATE is not None:
         _validate(out)
 
 
@@ -221,7 +218,7 @@ def test_missing_logo_file_fails_loudly(tmp_path):
     assert not out.exists()
 
 
-@pytest.mark.skipif(not VALIDATE.exists(), reason="hwpx-validate 없음")
+@pytest.mark.skipif(VALIDATE is None, reason="hwpx-validate 없음")
 def test_hwpx_validate_passes(built):
     _validate(built)
 

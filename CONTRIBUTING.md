@@ -4,15 +4,30 @@ danburn에 가장 도움이 되는 기여는 **자재 규칙 추가**와 **읽�
 
 ## 개발 환경
 
+맥·리눅스(bash·zsh):
+
 ```bash
 uv venv --python 3.12 .venv
-uv pip install --python .venv/bin/python -e . pytest
+uv pip install --python .venv/bin/python -e ".[dev]"
 .venv/bin/python -m pytest -q                  # 전체 테스트(네트워크 없이)
 DANBURN_NETWORK=1 .venv/bin/python -m pytest -q -m network   # 공개 법령 조회 테스트(선택)
 scripts/check_wheel.sh                         # 설치본 검사: 휠 → 새 가상환경 → 저장소 밖에서 start·plan·check-basis(데이터 파일을 옮기거나 더하면)
 ```
 
-파일은 UTF-8, LF 줄바꿈입니다. Windows에서는 `.venv/bin/python` 대신 `.venv\Scripts\python`을 씁니다(Windows 환경은 아직 검증 전 — 결과를 알려 주시면 도움이 됩니다).
+Windows(PowerShell — 명령을 한 줄씩 실행합니다. PowerShell 5.1은 `&&`를 받지 않습니다):
+
+```powershell
+uv venv --python 3.12 .venv
+uv pip install --python .venv\Scripts\python.exe -e ".[dev]"
+.venv\Scripts\python.exe -m pytest -q
+$env:DANBURN_NETWORK = "1"; .venv\Scripts\python.exe -m pytest -q -m network; Remove-Item Env:DANBURN_NETWORK
+```
+
+`scripts/check_wheel.sh`는 bash 스크립트라 Windows에서는 Git Bash 등에서 실행합니다.
+
+**선택 도구와 건너뜀.** `pillow`와 Poppler(`pdftoppm`·`pdftotext`)는 개발용 디자인 대조 검사(`scripts/dev/design_diff.py`)에만 씁니다. 없으면 테스트는 멈추지 않고 그 검사만 이유를 보이며 건너뜁니다(`pytest -rs`로 이유 확인). HWPX 스키마 검사기 `hwpx-validate`(Windows는 `hwpx-validate.exe`)는 런타임 의존성 python-hwpx에 들어 있어 따로 설치하지 않습니다 — 찾지 못하면 건너뛰지 않고 실패합니다.
+
+파일은 UTF-8, LF 줄바꿈입니다. Windows 결과는 아직 부분 검증입니다 — 결과를 알려 주시면 도움이 됩니다.
 
 ## 자재 규칙 추가
 
@@ -27,7 +42,7 @@ scripts/check_wheel.sh                         # 설치본 검사: 휠 → 새 �
 
 ## 올리기 전에 확인
 
-- [ ] `.venv/bin/python -m pytest -q` 전체 통과
+- [ ] `.venv/bin/python -m pytest -q`(Windows `.venv\Scripts\python.exe -m pytest -q`) 전체 통과
 - [ ] 새 의존성이 있으면 `NOTICE.md` 표에 추가
 - [ ] **식별어 검사**: 실제 현장명·시공사·사람 이름이 없는지. 저장소의 `scripts/check-names.sh`는 로컬 전용 목록 `_private/blocklist.txt`(한 줄에 한 단어, git 무시)를 읽어 추적·새 파일을 검사합니다. 내가 다룬 실자료의 식별어로 목록을 만들고 `scripts/check-names.sh`가 `0 hits`인지 확인하세요.
 

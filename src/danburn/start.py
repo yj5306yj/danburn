@@ -41,15 +41,32 @@ class StartError(Exception):
 
 # ── 경로 ──────────────────────────────────────────────────────────────
 
+WIN_SHAPE = re.compile(r"^(?:[A-Za-z]:[\\/]|\\\\[^\\\s]|\.{1,2}\\)")   # C:\ · C:/ · \\server · .\ · ..\
+SHELL_ESCAPED = re.compile(r"\\([ \t!\"#$&'()*,;<=>?\[\\\]^`{|}~])")      # 맥 터미널이 끌어다 놓을 때 붙이는 이스케이프
+
+
 def clean_path(s: str) -> str:
-    """끌어다 놓은 경로 정리: 앞뒤 빈칸·따옴표, file://, 맥 터미널의 역슬래시 이스케이프(\\ 공백), ~."""
+    """끌어다 놓은 경로 정리: 앞뒤 빈칸·따옴표, file:// URI, 맥 터미널의 역슬래시 이스케이프(\\ 공백), ~.
+
+    Windows 모양(드라이브 문자·UNC 공유 경로·점-역슬래시 상대 경로)이거나 Windows 에서 실행 중이면 역슬래시는 구분자라
+    그대로 둔다(WIN_SHAPE).
+    맥·리눅스에서는 셸 특수문자 앞의 역슬래시만 푼다(한글·영문 앞 역슬래시는 남긴다)."""
     s = (s or "").strip()
     if len(s) >= 2 and s[0] == s[-1] and s[0] in "\"'":
         s = s[1:-1]
-    if s.startswith("file://"):
-        s = unquote(s[len("file://"):])
-    if not re.match(r"^[A-Za-z]:\\", s):              # 윈도 경로(C:\…)는 역슬래시가 구분자
-        s = re.sub(r"\\(.)", r"\1", s)
+    if s.lower().startswith("file://"):
+        rest = unquote(s[len("file://"):])
+        if rest.lower().startswith("localhost/"):
+            rest = rest[len("localhost"):]
+        if re.match(r"^/[A-Za-z]:[\\/]", rest):               # file:///C:/x → C:/x
+            s = rest[1:]
+        elif rest.startswith("/"):                             # file:///Users/x → /Users/x
+            s = rest
+        else:                                                  # file://server/share/x → UNC
+            s = "\\\\" + rest.replace("/", "\\") if os.name == "nt" else "//" + rest
+        return s
+    if os.name != "nt" and not WIN_SHAPE.match(s):
+        s = SHELL_ESCAPED.sub(r"\1", s)
     return os.path.expanduser(s)
 
 
@@ -70,16 +87,21 @@ def tracked_in_repo(path: Path) -> str | None:
     probe = p if p.is_dir() else p.parent
     while not probe.exists() and probe != probe.parent:
         probe = probe.parent
+    # Git 출력은 UTF-8(한국어 Windows 기본 cp949 로 읽으면 한글 경로가 깨진다 — W01). 루트 경로는 보여 주기용이고
+    # 무시 여부는 probe 폴더에서 바로 묻는다(출력 해석에 판정을 기대지 않음).
+    git = ["git", "-c", "core.quotepath=off", "-C", str(probe)]
     try:
-        top = subprocess.run(["git", "-C", str(probe), "rev-parse", "--show-toplevel"], capture_output=True,
-                             text=True, timeout=10)
+        top = subprocess.run([*git, "rev-parse", "--show-toplevel"], capture_output=True, text=True,
+                             encoding="utf-8", errors="replace", timeout=10)
+        if top.returncode != 0:
+            return None
+        ign = subprocess.run([*git, "check-ignore", "-q", str(p)], capture_output=True, timeout=10)
     except (OSError, subprocess.TimeoutExpired):
         return None
-    if top.returncode != 0:
+    if ign.returncode == 0:
         return None
-    root = top.stdout.strip()
-    ign = subprocess.run(["git", "-C", root, "check-ignore", "-q", str(p)], capture_output=True, timeout=10)
-    return None if ign.returncode == 0 else root
+    root = (top.stdout or "").strip()
+    return str(Path(root)) if root else str(probe)
 
 
 def scan_folder(folder: Path) -> dict:
@@ -192,6 +214,7 @@ class Interview:
         self.folder = folder or Path.cwd()
         self.out = out or sys.stdout
         self.inp = inp or sys.stdin
+        self.replay = False                                  # --input: 답 목록 파일을 처음부터 다시 돌리는 중계(초안 없음)
         self.ans: dict = {}
         self.info: dict = {}
         self.asked = self.confirmed = 0                      # 물은 질문·확인만 한 값 수(끝 문구)
@@ -204,6 +227,8 @@ class Interview:
 
     def read(self) -> str:
         line = self.inp.readline()
+        if line == "" and self.replay:
+            raise StartError("입력이 끝났습니다 — 위 질문의 답을 답 목록 파일(--input)에 한 줄 더해 다시 실행하세요.")
         if line == "":
             raise StartError("입력이 끝났습니다(중간 답은 초안에 저장됨 — 다시 실행하면 이어서 합니다).")
         return line.rstrip("\n")
@@ -358,6 +383,9 @@ class Interview:
             p = Path(str(cands[int(raw) - 1])) if raw.isdigit() and 1 <= int(raw) <= len(cands) else Path(clean_path(raw))
             if not p.is_file():
                 raise StartError("그 파일을 찾을 수 없습니다.")
+            if q["key"] == "내역서" and p.suffix.lower() in (".hwp", ".hwpx", ".pdf"):
+                raise StartError("그 파일은 계획서입니다. 새로 만들기에는 도급내역서(.xlsx)가 필요합니다. "
+                                 f"가진 계획서의 기준이 현행인지 보려면: danburn check \"{p}\"")
             if p.suffix.lower() not in q.get("exts", [p.suffix.lower()]):
                 raise StartError(f"{'·'.join(q['exts'])} 파일이어야 합니다.")
             if q["key"] == "로고" and tracked_in_repo(p):
@@ -633,20 +661,42 @@ def today_text() -> str:
     return f"{d.year}. {d.month:02d}. {d.day:02d}."
 
 
+def _answer_lines(path: str):
+    """--input 답 목록 파일(한 줄에 답 하나) → 줄 스트림. UTF-8(BOM 포함) 우선, 안 되면 cp949(한국어 Windows 메모장)."""
+    import io
+    p = Path(clean_path(path))
+    if not p.is_file():
+        raise StartError(f"답 목록 파일이 없습니다: {p} — --input 경로를 확인하세요(처음엔 빈 파일을 만들어 주면 됩니다).")
+    raw = p.read_bytes()
+    try:
+        text = raw.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        text = raw.decode("cp949", errors="replace")
+    return io.StringIO(text.replace("\r\n", "\n").replace("\r", "\n"))
+
+
 def main(a) -> int:
     """cli 의 `start` 하위 명령 본체."""
     out = sys.stdout
     try:
         if a.answers:
-            given = yaml.safe_load(Path(a.answers).read_text(encoding="utf-8")) or {}
+            from .cli import InputError, read_yaml
+            try:
+                given = read_yaml(a.answers, "답(--answers)", "--answers")
+            except InputError as e:
+                raise StartError(str(e)) from None
             iv = Interview(mode="answers", answers=given, folder=Path(a.folder), yes=a.yes)
+        elif getattr(a, "input", None):
+            iv = Interview(mode="plain", folder=Path(a.folder), inp=_answer_lines(a.input))
+            iv.replay = True
         else:
             iv = Interview(mode="plain" if a.plain else "tty", folder=Path(a.folder))
             if not a.plain:
                 iv.say("danburn start — 도급내역서를 먼저 읽고, 정해지지 않았거나 모호한 것만 여쭙니다. "
                        "사람·회사 칸은 나중에 적어도 됩니다. "
                        "(Enter = 기본값, ? = 도움말, - = 모름, 중간에 멈춰도 이어서 할 수 있습니다)")
-        draft = home_dir() / "start-draft.yaml"
+        # --input 은 답 목록 전체를 매번 다시 돌리는 중계라서 이어 하기 초안을 읽지도 쓰지도 않는다
+        draft = None if getattr(a, "input", None) else home_dir() / "start-draft.yaml"
         ans = iv.run(draft=draft)
         today = today_text()
         while True:
@@ -676,7 +726,7 @@ def main(a) -> int:
         proj_path.write_text("# danburn start 로 만든 현장 정보(직접 고쳐도 됩니다). 첨부는 경로만 적습니다.\n"
                              + yaml.safe_dump(project, allow_unicode=True, sort_keys=False), encoding="utf-8")
         iv.say(f"\n현장 정보 저장: {proj_path}")
-        if draft.exists():
+        if draft and draft.exists():
             draft.unlink()
         if a.no_plan:
             return 0

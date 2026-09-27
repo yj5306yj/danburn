@@ -54,4 +54,8 @@ case "$example" in "$root"/*) fail "설치본이 저장소 파일을 가리킴: 
 set +e; "$bin" check-basis --offline >"$work/run/basis.json"; rc=$?; set -e
 [ "$rc" = 4 ] || fail "check-basis --offline 종료 ${rc}(4 기대)"
 grep -q '"number": "2026-360"' "$work/run/basis.json" || fail "check-basis 가 규칙 데이터를 못 읽음"
-echo "OK: 휠 설치본으로 start·plan·check-basis --offline 통과 (저장소 밖 폴더)"
+# 기존 계획서 검사(L9, danburn check): 방금 만든 계획서를 설치본으로 읽어 기준표와 대조한다(0·3·4 중 하나, 2=못 읽음은 실패)
+set +e; "$bin" check "$work/run/plan/품질관리계획서.hwpx" --offline --json >"$work/run/plan.json"; rc=$?; set -e
+case "$rc" in 0|3|4) ;; *) fail "check 종료 ${rc}";; esac
+grep -q '"snapshot_checked_at": "20' "$work/run/plan.json" || fail "check 가 기준표를 못 읽음"
+echo "OK: 휠 설치본으로 start·plan·check-basis·check --offline 통과 (저장소 밖 폴더)"

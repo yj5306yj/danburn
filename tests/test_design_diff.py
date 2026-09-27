@@ -9,8 +9,10 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-pytestmark = pytest.mark.skipif(not (shutil.which("pdftoppm") and shutil.which("pdftotext")),
-                                reason="poppler(pdftoppm·pdftotext) 없음")
+# 선택 도구 판단을 스크립트 import 보다 먼저 한다 — 없으면 수집을 멈추지 않고 이유를 보이며 건너뛴다(W07).
+if not (shutil.which("pdftoppm") and shutil.which("pdftotext")):
+    pytest.skip("poppler(pdftoppm·pdftotext) 없음", allow_module_level=True)
+pytest.importorskip("PIL", reason="Pillow 없음 — 개발 전용 의존성(CONTRIBUTING.md 개발 환경)")
 
 spec = importlib.util.spec_from_file_location("design_diff", ROOT / "scripts/dev/design_diff.py")
 dd = importlib.util.module_from_spec(spec)

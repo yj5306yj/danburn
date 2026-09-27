@@ -28,7 +28,10 @@ import sys
 import tempfile
 from pathlib import Path
 
-from PIL import Image, ImageChops
+try:
+    from PIL import Image, ImageChops
+except ImportError as e:  # 개발 전용 도구 — Pillow 는 런타임 의존성이 아니다
+    raise ImportError("design_diff 는 Pillow 가 필요합니다(개발 전용): pip install pillow") from e
 
 PT_MM = 25.4 / 72
 TOL_MM = 1.0

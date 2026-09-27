@@ -1,17 +1,15 @@
 """공개용 예제(L5-P2): 합성 도급내역서 → danburn plan 이 끝까지 돈다."""
 import importlib.util
 import json
-import subprocess
-import sys
 from pathlib import Path
 
 import pytest
 
 from danburn.cli import main
+from conftest import VALIDATE, run_hwpx_validate
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT = ROOT / "src" / "danburn" / "data" / "templates" / "project.example.yaml"
-VALIDATE = Path(sys.executable).parent / "hwpx-validate"
 
 
 def _make_example():
@@ -68,8 +66,7 @@ def test_plan_warns_uncovered_materials(planned):
     assert any(w.startswith("발주처 기준 필요 — 시험계획 미작성") for w in summary["warnings"])
 
 
-@pytest.mark.skipif(not VALIDATE.exists(), reason="hwpx-validate 없음")
+@pytest.mark.skipif(VALIDATE is None, reason="hwpx-validate 없음")
 def test_example_plan_validates(planned):
     _, out, _ = planned
-    r = subprocess.run([str(VALIDATE), str(out)], capture_output=True, text=True)
-    assert r.returncode == 0, r.stdout + r.stderr
+    run_hwpx_validate(out)

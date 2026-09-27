@@ -50,11 +50,21 @@ def _parse_front_matter(text: str) -> dict:
     return meta
 
 
-def _number_key(number: str) -> tuple[int, int]:
+def number_key(number: str) -> tuple[int, int]:
     m = _BARE_NUMBER_RE.match(number)
     if not m:
         raise ValueError(f"고시 번호 형식이 아님: {number!r}")
     return int(m.group(1)), int(m.group(2))
+
+
+def read_current_guideline(fetch: Callable[[str], str] | None = None) -> dict:
+    """미러 머리말에서 현행 업무지침 {number, effective_date, in_force} 를 읽는다. 네트워크·형식 문제는 예외로 올린다."""
+    meta = _parse_front_matter((fetch or _default_fetch)(MIRROR_URL))
+    number = str(meta.get("발령번호") or "").strip()
+    number_key(number)
+    effective = meta.get("시행일자")
+    effective = effective.isoformat() if isinstance(effective, date) else (str(effective) if effective else None)
+    return {"number": number, "effective_date": effective, "in_force": str(meta.get("현행여부") or "").strip()}
 
 
 def _ours(rules: dict[str, Rule]) -> list[dict]:
@@ -80,13 +90,9 @@ def check_basis(rules: dict[str, Rule], *, fetch: Callable[[str], str] | None = 
     }
 
     try:
-        text = (fetch or _default_fetch)(MIRROR_URL)
-        meta = _parse_front_matter(text)
-        number = str(meta.get("발령번호") or "").strip()
-        current_key = _number_key(number)
-        effective = meta.get("시행일자")
-        effective = effective.isoformat() if isinstance(effective, date) else (str(effective) if effective else None)
-        in_force = str(meta.get("현행여부") or "").strip()
+        cur = read_current_guideline(fetch)
+        number, effective, in_force = cur["number"], cur["effective_date"], cur["in_force"]
+        current_key = number_key(number)
     except Exception as exc:  # 네트워크 실패·시간 초과·형식 이상 모두 unknown
         result["message"] = f"현행 판을 확인하지 못함({type(exc).__name__}: {exc}). 공식 페이지에서 직접 확인: {OFFICIAL_URL}"
         return result
@@ -102,8 +108,8 @@ def check_basis(rules: dict[str, Rule], *, fetch: Callable[[str], str] | None = 
         result["message"] = f"basis_version 에서 고시 번호를 찾지 못한 규칙: {missing or '(규칙 없음)'}"
         return result
 
-    older = [o for o in ours if _number_key(o["number"]) < current_key]
-    newer = [o for o in ours if _number_key(o["number"]) > current_key]
+    older = [o for o in ours if number_key(o["number"]) < current_key]
+    newer = [o for o in ours if number_key(o["number"]) > current_key]
     current_label = f"제{number}호(시행 {effective})"
     if older:
         names = ", ".join(f"{o['material']}(제{o['number']}호)" for o in older)

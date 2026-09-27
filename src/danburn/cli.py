@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import re
 import os
@@ -15,6 +16,159 @@ from .paths import RULES_DIR
 DEFAULT_RULES = RULES_DIR
 
 
+class InputError(Exception):
+    """사용자가 고칠 입력 문제(파일 없음·YAML 구문 등). 메시지 한 줄 = 어느 파일을 어떻게 고칠지. 종료 2."""
+
+
+class OutputLocked(Exception):
+    """기존 산출 파일을 바꾸지 못했다(Windows 에서 한글이 열어 둔 경우 등). 기존 파일은 그대로. 종료 2."""
+
+
+# ── 입출력 인코딩(W01) ─────────────────────────────────────────────────
+
+class _Utf8OrCp949Lines(io.TextIOBase):
+    """파이프 stdin: 줄마다 UTF-8 로 읽고, 안 되면 cp949(한국어 Windows 실행기가 로캘 인코딩으로 보낸 답)로 읽는다."""
+
+    def __init__(self, raw, keep=None):
+        self._raw = raw
+        self._keep = keep                                       # 바꾼 원래 stdin — 버려지면 buffer 까지 닫힌다
+
+    def readable(self) -> bool:
+        return True
+
+    def isatty(self) -> bool:
+        return False
+
+    def readline(self, size: int = -1) -> str:
+        b = self._raw.readline()
+        if not b:
+            return ""
+        try:
+            s = b.decode("utf-8")
+        except UnicodeDecodeError:
+            s = b.decode("cp949", errors="replace")
+        s = s.lstrip("﻿")                                    # PowerShell 등이 붙이는 BOM
+        return s[:-2] + "\n" if s.endswith("\r\n") else s
+
+    def read(self, size: int = -1) -> str:
+        return "".join(iter(self.readline, ""))
+
+
+def _setup_stdio() -> None:
+    """명령행 진입 때만: 파이프로 받는 stdout/stderr 는 UTF-8 로 쓴다(한국어 Windows 기본 cp949 는 '—' 등을 못 씀).
+    TTY 콘솔은 파이썬이 이미 유니코드로 쓰고, PYTHONIOENCODING 을 명시했으면 그 설정을 따른다."""
+    if os.environ.get("PYTHONIOENCODING"):
+        return
+    for name in ("stdout", "stderr"):
+        s = getattr(sys, name)
+        try:
+            if not s.isatty() and (s.encoding or "").lower().replace("_", "-") not in ("utf-8", "utf8"):
+                s.reconfigure(encoding="utf-8")
+        except (AttributeError, ValueError, OSError):            # 테스트 캡처·닫힌 스트림 등은 그대로
+            pass
+    try:
+        if not sys.stdin.isatty() and hasattr(sys.stdin, "buffer"):
+            sys.stdin = _Utf8OrCp949Lines(sys.stdin.buffer, keep=sys.stdin)
+    except (AttributeError, ValueError, OSError):
+        pass
+
+
+# ── 입력 확인(W06) ────────────────────────────────────────────────────
+
+def read_yaml(path: str | Path, what: str, flag: str) -> dict:
+    """YAML 파일 → dict. 없거나 구문이 깨졌으면 어느 파일 몇째 줄을 고칠지 InputError 로."""
+    import yaml
+    p = Path(path)
+    if not p.is_file():
+        raise InputError(f"{what} 파일이 없습니다: {p} — {flag} 경로를 확인하세요(공백이 있으면 따옴표로 감싸기).")
+    data = p.read_bytes()
+    try:
+        text = data.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        text = data.decode("cp949", errors="replace")            # 메모장 ANSI(한국어 Windows) 저장본
+    try:
+        doc = yaml.safe_load(text)
+    except yaml.YAMLError as e:
+        mark = getattr(e, "problem_mark", None)
+        where = f" {mark.line + 1}째 줄" if mark is not None else ""
+        why = getattr(e, "problem", None) or type(e).__name__
+        raise InputError(f"{what} 파일의 YAML 구문이 깨졌습니다: {p}{where} ({why}) — 그 줄의 괄호·따옴표·콜론을 고친 뒤 "
+                         "다시 실행하세요.") from None
+    if doc is None:
+        return {}
+    if not isinstance(doc, dict):
+        raise InputError(f"{what} 파일은 '키: 값' 목록이어야 합니다: {p} — 예제 파일 형식을 따라 고치세요.")
+    return doc
+
+
+def _check_boq_paths(paths) -> None:
+    for s in paths or []:
+        p = Path(s)
+        if not p.exists():
+            raise InputError(f"내역서 파일이 없습니다: {p} — --boq 경로를 확인하거나 내역서를 다시 고르세요"
+                             "(공백이 있으면 따옴표로 감싸기).")
+        if not p.is_file():
+            raise InputError(f"내역서 경로가 파일이 아닙니다: {p} — 폴더가 아니라 .xlsx 파일을 고르세요.")
+        if p.suffix.lower() == ".xls":
+            raise InputError(f"옛 엑셀 형식(.xls)은 읽지 못합니다: {p.name} — 엑셀에서 'Excel 통합 문서(.xlsx)'로 저장해 다시 고르세요.")
+        if p.suffix.lower() not in (".xlsx", ".xlsm"):
+            raise InputError(f"내역서는 엑셀 .xlsx 파일이어야 합니다: {p.name} — 도급내역서 .xlsx 를 고르세요.")
+
+
+def _read_boq(p):
+    """read_boq + 사용자 말 오류(손상·암호·잠금 파일)."""
+    from .boq import read_boq
+    try:
+        return read_boq(p)
+    except Exception as e:
+        raise InputError(f"내역서를 읽지 못했습니다: {Path(p).name} ({type(e).__name__}) — 엑셀에서 열리는지, 암호가 걸려 "
+                         "있지 않은지 확인하고 다시 저장해 고르세요.") from e
+
+
+def _project(a: argparse.Namespace) -> dict | None:
+    """--project YAML(한 번만 읽는다)."""
+    if not getattr(a, "project", None):
+        return None
+    if getattr(a, "_project_doc", None) is None:
+        a._project_doc = read_yaml(a.project, "현장 정보(--project)", "--project")
+    return a._project_doc
+
+
+# ── 산출 파일 교체(W03) ────────────────────────────────────────────────
+
+def _tmp_for(dst: Path) -> Path:
+    return dst.with_name(f".{dst.stem}.tmp{os.getpid()}{dst.suffix}")
+
+
+def _commit(pairs: list[tuple[Path, Path]]) -> None:
+    """임시 파일들을 제자리로 한꺼번에 옮긴다. 기존 파일을 먼저 옆으로 치워 두고, 하나라도 실패하면 모두 되돌린다
+    (Windows 에서 한글이 열어 둔 파일은 이름을 바꿀 수 없다 → OutputLocked, 기존 파일 그대로)."""
+    moved: list[tuple[Path, Path]] = []
+    placed: list[Path] = []
+    try:
+        for _, dst in pairs:
+            if dst.exists():
+                bak = dst.with_name(f".{dst.name}.{os.getpid()}.bak")
+                os.replace(dst, bak)
+                moved.append((dst, bak))
+        for tmp, dst in pairs:
+            os.replace(tmp, dst)
+            placed.append(dst)
+    except OSError as e:
+        for dst in placed:
+            dst.unlink(missing_ok=True)
+        for dst, bak in reversed(moved):
+            os.replace(bak, dst)
+        busy = next((dst for _, dst in pairs if dst not in placed), pairs[0][1])
+        raise OutputLocked(f"출력 파일을 바꾸지 못했습니다: {busy} ({type(e).__name__}) — 한글·엑셀 등에서 열려 있으면 "
+                           "파일을 닫고 다시 실행하세요. 기존 파일은 그대로 두었습니다.") from None
+    for _, bak in moved:
+        try:
+            bak.unlink()
+        except OSError:
+            pass
+
+
 YES, NO = ("예", "네", "yes", "y", "true", "1", "o"), ("아니오", "아니요", "no", "n", "false", "0", "x")
 
 
@@ -23,8 +177,7 @@ def _confirmations(a: argparse.Namespace) -> dict[str, bool | str]:
     out: dict[str, bool | str] = {}
     items: list[tuple[str, object]] = []
     if getattr(a, "project", None):
-        import yaml
-        items += list(((yaml.safe_load(Path(a.project).read_text(encoding="utf-8")) or {}).get("현장_확인") or {}).items())
+        items += list((_project(a).get("현장_확인") or {}).items())
     for part in filter(None, (x.strip() for x in (getattr(a, "confirm", "") or "").split(","))):
         k, _, v = part.partition("=")
         items.append((k.strip(), v.strip()))
@@ -62,17 +215,23 @@ def _name_groups(items: list[dict]) -> list[dict]:
 
 
 def cmd_build(a: argparse.Namespace) -> int:
-    from .boq import read_boq
     from .calc import aggregate, plan_rows, rows_to_json
     from .hwpx_out import build_811
     from .rules import load_rules
 
+    if getattr(a, "project", None):                       # 쓰기 전에 현장 정보·개정 일자를 검사(W03 — 실패해도 기존 파일 그대로)
+        from .plan_doc import _revisions
+        try:
+            _revisions(_project(a), a.revision, a.date)
+        except (ValueError, TypeError, KeyError) as e:
+            print(f"계획서를 만들지 않았습니다: {e}", file=sys.stderr)
+            return 2
     rules = load_rules(a.rules)
     owner = (a.owner or "").upper()
     rules = {k: r for k, r in rules.items() if not r.owner or r.owner.upper() == owner}   # 발주처 전용 규칙은 --owner 일 때만
     lines = []
     for p in a.boq:
-        lines += read_boq(p)
+        lines += _read_boq(p)
     if not lines:
         import openpyxl
         sheets = {str(p): openpyxl.load_workbook(p, read_only=True).sheetnames for p in a.boq}
@@ -215,36 +374,44 @@ def cmd_build(a: argparse.Namespace) -> int:
     versions = sorted({r.basis_version for r in rules.values()})
     json_path = out.with_suffix(".json")
     json_path.parent.mkdir(parents=True, exist_ok=True)
-    json_path.write_text(json.dumps(rows_to_json(rows), ensure_ascii=False, indent=1), encoding="utf-8")
+    tmp_out, tmp_json = _tmp_for(out), _tmp_for(json_path)   # 둘 다 만든 뒤에만 교체(W03)
     from .hwpx_out import unlisted_items
     unlisted = unlisted_items(uncovered, extras["owner_standard_needed"], extras["site_measurements"], rule_miss=rule_miss)
     unlisted += [{"kind": "owner_standard", "label": u["name"], "basis": "현장 확인", "lines": u["lines"]}
                  for u in name_unknown_confirmed]
     unlisted += [{"kind": "품명 확인 필요", "label": g["label"], "basis": f"규격에 '{'·'.join(g['spec_words'])}'", "lines": g["lines"],
                   "action": "품명으로 자재를 확인한 뒤 시험 대상이면 시험계획 작성"} for g in open_groups]
-    if getattr(a, "project", None):
-        import yaml
-        from .plan_doc import build_plan
-        project = yaml.safe_load(Path(a.project).read_text(encoding="utf-8"))
-        if a.logo:
-            project["로고"] = a.logo          # CLI 가 YAML 보다 우선
-        if a.company:
-            project["회사명"] = a.company
-        try:
-            build_plan(rows, project, out, basis_version=", ".join(versions), revision=a.revision, date=a.date,
-                       unlisted=unlisted, notice_footer=a.notice_footer, notes=warnings)
-        except (ValueError, FileNotFoundError) as e:      # 개정 모순·로고 파일 없음·자리표시 누락 등 — 파일을 만들지 않음
-            print(f"계획서를 만들지 않았습니다: {e}", file=sys.stderr)
-            return 2
-    else:
-        build_811(rows, out, basis_version=", ".join(versions), logo=a.logo, company=a.company, unlisted=unlisted, notice_footer=a.notice_footer,
-                  generated_note=f"자동 산출 초안 — 품질관리자가 현장 조건을 확인한 뒤 확정한다. 규격 미판독 행 {len(unread)}건."
-                                 + "".join(f" [누락 경고] {w}" for w in warnings
-                                           if not w.startswith(("규칙 없음", "규칙 밖 행", "발주처 기준 필요", "품명으로 자재를 알 수 없음"))))   # 표로 싣는다
+    try:
+        tmp_json.write_text(json.dumps(rows_to_json(rows), ensure_ascii=False, indent=1), encoding="utf-8")
+        if getattr(a, "project", None):
+            from .plan_doc import build_plan
+            project = dict(_project(a))
+            if a.logo:
+                project["로고"] = a.logo          # CLI 가 YAML 보다 우선
+            if a.company:
+                project["회사명"] = a.company
+            try:
+                build_plan(rows, project, tmp_out, basis_version=", ".join(versions), revision=a.revision, date=a.date,
+                           unlisted=unlisted, notice_footer=a.notice_footer, notes=warnings)
+            except (ValueError, FileNotFoundError) as e:      # 개정 모순·로고 파일 없음·자리표시 누락 등 — 파일을 만들지 않음
+                print(f"계획서를 만들지 않았습니다: {e}", file=sys.stderr)
+                return 2
+        else:
+            build_811(rows, tmp_out, basis_version=", ".join(versions), logo=a.logo, company=a.company, unlisted=unlisted,
+                      notice_footer=a.notice_footer,
+                      generated_note=f"자동 산출 초안 — 품질관리자가 현장 조건을 확인한 뒤 확정한다. 규격 미판독 행 {len(unread)}건."
+                                     + "".join(f" [누락 경고] {w}" for w in warnings
+                                               if not w.startswith(("규칙 없음", "규칙 밖 행", "발주처 기준 필요", "품명으로 자재를 알 수 없음"))))   # 표로 싣는다
+        os.chmod(tmp_out, 0o644)
+        os.chmod(tmp_json, 0o644)
+        _commit([(tmp_out, out), (tmp_json, json_path)])
+    except OutputLocked as e:
+        print(str(e), file=sys.stderr)
+        return 2
+    finally:
+        tmp_out.unlink(missing_ok=True)
+        tmp_json.unlink(missing_ok=True)
     from .calc import optional_tests
-    import os
-    os.chmod(out, 0o644)
-    os.chmod(json_path, 0o644)
     if a.offline or "1" in (os.environ.get("DANBURN_OFFLINE"), os.environ.get("QCPLAN_OFFLINE")):   # 옛 이름 호환(L7-N1)
         basis_check = {"status": "unknown", "message": "--offline: 기준 최신 여부를 확인하지 않음"}
     else:
@@ -294,14 +461,77 @@ def cmd_check_basis(a: argparse.Namespace) -> int:
     return {"current": 0, "outdated": 3}.get(res["status"], 4)
 
 
+_PLAN_STATUS = {"outdated": "개정됨", "unknown": "확인 필요", "current": "현행", "info": "참고"}
+
+
+def _plan_report_text(path: str, doc, res: dict) -> str:
+    """check 결과를 사람이 바로 읽는 요약으로: 개정됨 → 확인 필요 → 현행 순, 항목마다 계획서 위치와 할 일.
+    판정하지 않은 참고(판 표시 없는 인용)는 한 줄로 묶는다."""
+    fnd = [f for f in res.get("findings", []) if f.get("kind") != "ks"]
+    ks = [f for f in res.get("findings", []) if f.get("kind") == "ks"]
+    n = {s: sum(1 for f in fnd if f.get("status") == s) for s in ("outdated", "unknown", "current")}
+    head = {"outdated": f"개정·폐지된 기준 {n['outdated']}건이 있습니다",
+            "current": ("판정한 인용은 모두 현행입니다 — 단, 도구가 판정하지 못한 인용 "
+                        f"{n['unknown']}건은 직접 확인하세요" if n["unknown"] else "찾은 기준 인용이 모두 현행입니다"),
+            "unknown": "현행 여부를 판정하지 못했습니다"}.get(res.get("status"), "현행 여부를 판정하지 못했습니다")
+    n_info = sum((f.get("count") or 1) for f in fnd if f.get("status") == "info")
+    lines = [f"단번 기준 검사 — {Path(path).name} ({doc.format.upper()})",
+             f"결과: {head}  (개정됨 {n['outdated']} · 확인 필요 {n['unknown']} · 현행 {n['current']}"
+             + (f" · 판 표시 없어 판정 안 함 {n_info}곳)" if n_info else ")"),
+             f"기준표 확인일 {res.get('snapshot_checked_at') or '-'} · 검사일 {res.get('checked_at') or '-'}"]
+    if res.get("message"):
+        lines.append(res["message"])
+    for status in ("outdated", "unknown", "current"):
+        for f in (x for x in fnd if x.get("status") == status):
+            cur = f" → 현행 {f['current']}" if f.get("current") and status != "current" else ""
+            cnt = f" ({f['count']}곳)" if (f.get("count") or 1) > 1 else ""
+            lines.append(f"\n[{_PLAN_STATUS[status]}] {f.get('cited') or f.get('norm')}{cur}{cnt}")
+            if status in ("outdated", "unknown") and f.get("where"):
+                lines.append(f"  계획서: “{f['where']}”")
+            if status in ("outdated", "unknown") and f.get("advice"):
+                lines.append(f"  할 일: {f['advice']}")
+            elif status == "current" and f.get("advice"):             # 현행으로 본 이유(예: 시행일 전 날짜지만 현행 번호 인용)
+                lines.append(f"  ({f['advice']})")
+    info = [f for f in fnd if f.get("status") == "info"]
+    if info:
+        names = ", ".join(f"{f.get('cited') or f.get('norm')}" + (f"({f['count']}곳)" if (f.get("count") or 1) > 1 else "")
+                          for f in info)
+        lines.append(f"\n참고: 판(연도·번호) 표시 없이 이름만 인용해 판정하지 않음 — {names}")
+    if ks:
+        lines.append(f"참고: KS 번호 {len(ks)}개는 개정·폐지를 판정하지 않았습니다 — e-나라표준인증(standard.go.kr)에서 확인하세요.")
+    for w in getattr(doc, "warnings", []) or []:
+        lines.append(f"주의(파일 읽기): {w}")
+    lines.append("\n이 결과는 알림입니다. 계획서를 고치기 전에 공식 원문(법제처·국가건설기준센터)으로 확인하세요.")
+    return "\n".join(lines)
+
+
+def cmd_check(a: argparse.Namespace) -> int:
+    """완성된 품질관리계획서(HWP·HWPX·PDF)가 인용한 기준의 판이 현행인지 본다. 계획서 내용은 네트워크로 보내지 않는다."""
+    from .plancheck import check_plan, load_snapshot
+    from .readdoc import UnreadableDocument, read_document
+    try:
+        doc = read_document(a.file)
+    except (UnreadableDocument, FileNotFoundError) as exc:
+        print(json.dumps({"status": "unreadable", "message": str(exc)}, ensure_ascii=False) if a.json
+              else f"계획서를 읽지 못했습니다: {exc}")
+        return 2
+    fetch = None
+    if a.offline or "1" in (os.environ.get("DANBURN_OFFLINE"), os.environ.get("QCPLAN_OFFLINE")):
+        def fetch(url):                                       # 업무지침 현행은 동봉 기준표로 판정
+            raise OSError("offline")
+    res = check_plan(doc.text, snapshot=load_snapshot(), fetch=fetch)
+    res["file"] = {"name": Path(a.file).name, "format": doc.format, "warnings": list(doc.warnings)}
+    print(json.dumps(res, ensure_ascii=False) if a.json else _plan_report_text(a.file, doc, res))
+    return {"current": 0, "outdated": 3}.get(res.get("status"), 4)
+
+
 def cmd_inspect(a: argparse.Namespace) -> int:
     """입력 확인: 시트, 읽힌 행 수, 블록 목록. 스킬 2·3단계용."""
     import openpyxl
     from collections import Counter
-    from .boq import read_boq
     for p in a.boq:
+        lines = _read_boq(p)
         sheets = openpyxl.load_workbook(p, read_only=True).sheetnames
-        lines = read_boq(p)
         print(json.dumps({"file": str(p), "sheets": sheets, "readable_lines": len(lines),
                           "by_sheet": dict(Counter(ln.sheet for ln in lines)),
                           "blocks": dict(Counter(ln.block or "(공통)" for ln in lines)),
@@ -347,22 +577,42 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--rules", default=str(DEFAULT_RULES))
     c.add_argument("--offline", action="store_true", help="공개 법령 미러를 조회하지 않고 규칙 데이터의 기준 판만 보인다(종료 4)")
     c.set_defaults(func=cmd_check_basis)
+    cp = sub.add_parser("check", help="기존 계획서 검사: 이미 있는 품질관리계획서(HWP·HWPX·PDF)가 인용한 기준이 현행인지 본다. 종료 0=현행, 3=개정됨, 4=판정 못 함, 2=파일을 못 읽음")
+    cp.add_argument("file", help="검사할 계획서 파일(.hwp .hwpx .pdf)")
+    cp.add_argument("--json", action="store_true", help="사람용 요약 대신 JSON 으로 출력(에이전트·스크립트용)")
+    cp.add_argument("--offline", action="store_true", help="공개 법령 미러를 조회하지 않고 동봉 기준표로만 판정")
+    cp.set_defaults(func=cmd_check)
     i = sub.add_parser("inspect", help="도급내역서를 읽을 수 있는지, 어떤 블록이 있는지 확인한다")
     i.add_argument("--boq", nargs="+", required=True)
     i.set_defaults(func=cmd_inspect)
-    st = sub.add_parser("start", help="처음이면 여기부터: 몇 가지 질문으로 현장 정보를 만들고 계획서까지 만든다")
+    st = sub.add_parser("start", help="새로 만들기: 도급내역서와 몇 가지 질문으로 품질관리계획서 초안을 만든다(처음이면 여기부터)")
     st.add_argument("--answers", default=None, help="질문 답을 담은 yaml(비대화형). 키는 src/danburn/data/interview.yaml 의 key")
     st.add_argument("--plain", action="store_true", help="한 줄 질문·번호 응답(에이전트·스크린리더용)")
+    st.add_argument("--input", default=None, help="한 줄 모드 답을 표준입력 대신 이 파일(한 줄에 답 하나)에서 읽는다. "
+                    "에이전트 중계용 — 셸 리다이렉션(<) 없이 맥·Windows 같은 명령. 이어 하기 초안은 쓰지 않는다")
     st.add_argument("--yes", action="store_true", help="--answers 에 없는 답은 기본값(없으면 모름)으로")
     st.add_argument("--folder", default=".", help="내역서·로고 후보를 찾을 폴더(기본: 지금 폴더)")
     st.add_argument("--out-dir", default=None, help="산출 폴더(기본: ~/Documents/danburn/<공사명>/, 저장소 밖)")
     st.add_argument("--no-plan", action="store_true", help="project.yaml 만 만들고 계획서는 만들지 않는다")
     st.add_argument("--offline", action="store_true", help="기준 최신 여부 확인(공개 법령 미러 조회)을 건너뛴다")
     st.set_defaults(func=cmd_start)
+    if argv is None:
+        _setup_stdio()                                   # 명령행 진입만(같은 프로세스 호출·테스트 캡처는 건드리지 않음)
     if argv is None and len(sys.argv) == 1 or argv == []:
         return _no_args(ap)
     a = ap.parse_args(argv)
-    return a.func(a)
+    try:
+        _check_boq_paths(getattr(a, "boq", None))
+        return a.func(a)
+    except InputError as e:
+        print(f"입력 오류: {e}", file=sys.stderr)
+        return 2
+    except Exception as e:                               # 예상 못 한 오류: 한 줄로(상세는 DANBURN_DEBUG=1)
+        if os.environ.get("DANBURN_DEBUG") == "1":
+            raise
+        print(f"예상하지 못한 오류로 멈췄습니다: {type(e).__name__}: {e} — 자세한 내용은 DANBURN_DEBUG=1 로 다시 실행해 "
+              "보고해 주세요.", file=sys.stderr)
+        return 1
 
 
 def cmd_start(a: argparse.Namespace) -> int:
@@ -371,15 +621,21 @@ def cmd_start(a: argparse.Namespace) -> int:
 
 
 def _no_args(ap: argparse.ArgumentParser) -> int:
-    """인자 없이 실행: 터미널이면 start 로 바로 시작할지 묻고, 아니면 도움말."""
+    """인자 없이 실행: 터미널이면 두 갈래(새로 만들기 start / 기존 계획서 검사 check) 중 고르게 하고, 아니면 도움말."""
     if not sys.stdin.isatty():
         ap.print_help()
         return 0
-    print("danburn — 도급내역서와 몇 가지 답으로 품질관리계획서를 만듭니다.")
-    print("처음이면 질문에 답하며 시작하는 'danburn start' 를 권합니다. 지금 시작할까요? [Y/n]")
-    if input("> ").strip().lower() in ("n", "no", "아니오"):
+    print("danburn — 품질관리계획서")
+    print("  1) 새로 만들기     도급내역서(xlsx)로 초안부터       danburn start")
+    print("  2) 기존 계획서 검사  가진 계획서(hwp·hwpx·pdf)의 기준이 현행인지   danburn check <파일>")
+    choice = input("번호를 고르세요 [1/2, Enter=1, q=그만] > ").strip().lower()
+    if choice in ("q", "n", "no", "아니오"):
         ap.print_help()
         return 0
+    if choice == "2":
+        from .start import clean_path
+        path = clean_path(input("검사할 계획서 파일을 끌어다 놓거나 경로를 적으세요 > "))
+        return main(["check", path]) if path else 2
     return main(["start"])
 
 
