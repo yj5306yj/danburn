@@ -19,6 +19,10 @@ unit_factors:                            # 합산 전 환산: 매·개=1개, m=1
 ks_mark: true                            # 종별 괄호 (KS F 4006)
 ks_count: none
 order: 70
+spec_group:                              # 곡선·직선·빗물받이부·A-TYPE·모따기는 시공 위치(L14-C3). 호칭(단면×길이)은 제품 규격이라 남긴다
+  pattern: "(\\d{3})X(\\d{3})X(\\d{3,4})"
+  label: "{1}X{2}X{3}"
+  other: "규격 미기재"   # L14-C7: 패턴에 안 걸린 행 — 뜻이 보이게
 group_tests: true
 group:
   frequency: "제조회사별, 호칭 및 길이별\n1,000매 또는 그 단수마다"
@@ -26,7 +30,7 @@ group:
 tests:
   - test_type: 겉모양, 모양 및 치수
     method: "KS F 4006"
-    where: 외부
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     frequency: {per_qty: 1000, unit: ea, text: "호칭·길이별 1,000매마다", minimum: 1}
     basis: "별표2 2. 가. (3) 콘크리트 경계블록(KS F 4006) 겉모양, 모양 및 치수 (PDF p.28)"
     conditions: &cb "제조회사별, 호칭 및 길이를 달리할 때 1,000매 또는 그 단수마다(병합 빈도 칸). KS 인증품은 ※주석(PDF p.52)으로 면제 → ◎. 내역 단위 m(연장)·매·개는 unit_factors 로 개(ea) 환산 — m 는 블록 길이 1,000mm(1m=1개) 가정. 해석 필요: 길이가 다른 블록(곡선·모서리용 등)이 섞이면 매수 확인 필요."

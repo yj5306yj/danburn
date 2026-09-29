@@ -8,7 +8,7 @@ work: 창호공사
 basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
 index_keys: [synthetic_window_profile]
 match:
-  names: [합성수지창호형재, PVC창호형재, 창호형재, 합성수지형재, PVC형재]
+  names: [합성수지창호형재, PVC창호형재, 창호형재, 합성수지형재, PVC형재, 창호형형재, 합성수지제창호형형재]   # 승인본 표기(L14-C4)
   units: [m, kg, ton, ea, 본]
   exclude: [설치, 하차, 인건, 노무, 운반, 할증]
 ks_mark: true                            # 종별 괄호 (KS F 5602)
@@ -21,7 +21,7 @@ group:
 tests:
   - test_type: "겉모양, 치수 및 질량"
     method: "KS F 5602"
-    where: 외부
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
     basis: "별표2 3. 건축 마. 창호공사 합성수지 창호형형재(KS F 5602) 겉모양, 치수 및 질량 (PDF p.39)"
   - test_type: "저온 추 낙하 강도"

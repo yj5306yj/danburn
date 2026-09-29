@@ -1,0 +1,24 @@
+# 출처: LHCS 10 40 00 V2026.04 「시험」 부록4 「품질시험 및 검사기준」 Ⅱ.8 나. 석고보드 및 시멘트판류 바탕 벽틀 > 단열재 지지핀 고정용 본드
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 색인에 이 종별이 없다(L14-C4, 승인본 '대응 없음' 보강).
+# 원문 문장·표를 옮기지 않고 시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_insulation_pin_bond
+label: 단열재 지지핀 고정용 본드
+owner: LH
+work: 수장공사
+basis_version: "LHCS 10 40 00 V2026.04 부록4 「품질시험 및 검사기준」"
+match:
+  names: [단열재고정용접착제, 지지핀고정용본드, 단열재지지핀본드, 단열재지지핀고정용본드]
+  exclude: [설치, 시공, 인건, 노무, 운반, 하차, 할증, 철거]
+ks_mark: false
+ks_count: none
+order: 54
+spec_group: all
+group_tests: true
+group:
+  frequency: "제조회사별"
+  basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.8 나. 석고보드 및 시멘트판류 바탕 벽틀 > 단열재 지지핀 고정용 본드"
+tests:
+  - {test_type: "증발찌꺼기", method: "KS M 3705", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.8 나. 석고보드 및 시멘트판류 바탕 벽틀 > 단열재 지지핀 고정용 본드 증발찌꺼기"}
+  - {test_type: "점도", method: "KS M 3705", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.8 나. 석고보드 및 시멘트판류 바탕 벽틀 > 단열재 지지핀 고정용 본드 점도"}
+  - {test_type: "압축전단접착강도", method: "LHCS 41 51 02 2.1.2", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.8 나. 석고보드 및 시멘트판류 바탕 벽틀 > 단열재 지지핀 고정용 본드 압축전단접착강도"}
+  - {test_type: "친환경(TVOC)", eco_substitute: true, method: "실내공기질 공정시험방법", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.8 나. 석고보드 및 시멘트판류 바탕 벽틀 > 단열재 지지핀 고정용 본드 친환경(TVOC)", conditions: "부록4 Ⅴ 친환경시험 자재(단열재 지지핀 고정용 본드). LHCS 1.5.1(9) 성적서·환경표지인증서 제출 시 면제"}

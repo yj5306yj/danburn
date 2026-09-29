@@ -13,6 +13,7 @@ match:
   exclude: [운반]
 ks_mark: false
 order: 61
+spec_group: {label: 전체}       # 10M이하·10M초과~20M이하·(3개월)은 설치 조건 — 시험은 부재에 걸린다(L14-C3). 단위(㎡ 비계·㎥ 동바리)는 환산 근거가 없어 따로 남는다
 tests:
   - test_type: 수직재 압축하중
     method: "KS F 8021 또는 산업안전보건법에 따른 안전인증기준"

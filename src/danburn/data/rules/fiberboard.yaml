@@ -20,10 +20,14 @@ match:
   - 하드보드
   - 연질섬유판
   - 경질섬유판
+  - 반자돌림   # LHCS 부록4 섬유판(반자돌림, 재료 분리대, 걸레받이)·승인본(L14-C4)
+  - 재료분리대   # LHCS 부록4 섬유판(반자돌림, 재료 분리대, 걸레받이)·승인본(L14-C4)
+  - 커튼박스   # LHCS 부록4 섬유판(반자돌림, 재료 분리대, 걸레받이)·승인본(L14-C4)
   units:
   - m2
   - 매
   - 장
+  - m   # 몰딩류는 길이(L14-C4)
   exclude:
   - 붙이기
   - 설치
@@ -32,6 +36,7 @@ match:
   - 노무
   - 운반
   - 할증
+  - PVC   # 강화PVC수지 몰딩은 섬유판이 아님(L14-C6)
 ks_mark: true
 ks_count: none
 order: 57
@@ -63,7 +68,7 @@ tests:
   basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 밀도 (PDF p.40)
 - test_type: 함수율
   method: KS F 3200
-  where: 외부
+  where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
   frequency:
     per_qty: null
     unit: null
@@ -137,6 +142,7 @@ tests:
   conditions: 중밀도판에 한함.
   basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 섬유판(KS F 3200) 나사못 유지력 (PDF p.40)
 - test_type: 폼알데하이드방산량
+  eco_substitute: true
   method: KS M 1998
   where: 외부
   optional: true

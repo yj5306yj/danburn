@@ -16,6 +16,10 @@ match:
 ks_mark: true
 ks_count: none
 order: 60
+spec_group:                              # 사용 횟수·간단/보통/복잡·높이는 품셈 조건(L14-C3). 승인본 관행: 일반 합판과 표면가공(코팅) 합판만 나눈다
+  pattern: "(코팅|제치장)"
+  label: 표면가공(코팅)합판
+  other: 합판
 group_tests: true
 group:
   frequency: "제품규격별"

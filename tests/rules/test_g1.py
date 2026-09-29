@@ -27,6 +27,15 @@ G1 = {
 }
 
 
+# L14-C5: LHCS 10 40 00 V2026.04 부록4 비고 '현장시험' 종목은 where 현장(병합 칸으로 범위 확인)
+LHCS_ONSITE = {("concrete_brick", "겉모양"), ("concrete_brick", "치수"), ("concrete_brick", "기건 비중"), ("concrete_brick", "압축 강도"),
+               ("concrete_brick", "흡수율"), ("hollow_concrete_block", "겉모양 및 치수"), ("hollow_concrete_block", "흡수율"),
+               ("clay_brick", "겉모양"), ("clay_brick", "치수"), ("clay_brick", "흡수율"), ("clay_brick", "압축강도"),
+               ("curb_block", "겉모양, 모양 및 치수"), ("fiberboard", "함수율"), ("ordinary_plywood", "함수율"),
+               ("mineral_wool", "겉모양, 치수, 밀도"), ("door_set", "치수"), ("window_set", "치수"),
+               ("synthetic_window_profile", "겉모양, 치수 및 질량")}
+
+
 @pytest.fixture(scope="module")
 def rules():
     return load_rules(RULES)
@@ -45,7 +54,7 @@ def test_rules_load_with_index_keys_and_basis(rules):
         assert len(rule.tests) == n_tests, material                     # 별표2 시험종목 빠짐없이
         for t in rule.tests:
             assert f"p.{entry.page}" in t.basis or f"p.{entry.page + 1}" in t.basis, (material, t.test_type)
-            assert t.where == "외부"
+            assert t.where == ("현장" if (material, t.test_type) in LHCS_ONSITE else "외부"), (material, t.test_type)
         assert rule.ks_mark == bool(entry.ks), material                  # 종별 괄호 KS 여부와 같다
         assert rule.group_tests, material                                # 모두 규격당 한 행
         if rule.ks_mark:
@@ -63,12 +72,13 @@ def test_synthetic_line_matches_and_ks_row(rules, material):
     rule = rules[material]
     assert len(rows) == 1
     row = rows[0]
-    assert row.item == f"{rule.label}(규격A)"
+    from danburn.calc import group_spec
+    assert row.item == f"{rule.label}({group_spec(rule, '규격A', name)})"   # spec_group 묶음 이름(L14-C3)
     if rule.ks_mark:
         assert row.count_ks == "◎" and row.calc_basis == "KS자재" and row.count_external == 0
     else:                                                               # 석재: KS 아님 → ◎ 없이 골재원(제조사 자리) 1곳×1회
         assert row.test_type == "밀도 및 흡수율,압축강도"
-        assert row.count_ks == "" and row.count_external == 1 and row.note == "제조사 수 확인"
+        assert row.count_ks == "" and row.count_external == 1 and row.note == "" and "1곳으로 계산" in row.detail
         assert row.calc_basis.startswith("골재원마다")
 
 

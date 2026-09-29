@@ -1,0 +1,23 @@
+# 출처: LHCS 10 40 00 V2026.04 「시험」 부록4 「품질시험 및 검사기준」 Ⅱ.9 단열·보온공사 충전용 발포우레탄폼
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 색인에 이 종별이 없다(L14-C4, 승인본 '대응 없음' 보강).
+# 원문 문장·표를 옮기지 않고 시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_filling_pu_foam
+label: 충전용 발포우레탄폼
+owner: LH
+work: 단열공사
+basis_version: "LHCS 10 40 00 V2026.04 부록4 「품질시험 및 검사기준」"
+match:
+  names: [충전용발포우레탄폼, 충진용발포우레탄폼, 충전용우레탄폼, 우레탄폼충전, 발포우레탄충전, 우레탄폼충진]
+  exclude: [인건, 노무, 운반, 할증]
+ks_mark: false
+ks_count: none
+order: 48
+spec_group: all
+group_tests: true
+group:
+  frequency: "제조회사별"
+  basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.9 단열·보온공사 충전용 발포우레탄폼"
+tests:
+  - {test_type: "밀도", method: "LHCS 41 46 20 2.2.2", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.9 단열·보온공사 충전용 발포우레탄폼 밀도"}
+  - {test_type: "열전도율", method: "LHCS 41 46 20 2.2.2", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.9 단열·보온공사 충전용 발포우레탄폼 열전도율"}
+  - {test_type: "연소성", method: "LHCS 41 46 20 2.2.2", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.9 단열·보온공사 충전용 발포우레탄폼 연소성"}

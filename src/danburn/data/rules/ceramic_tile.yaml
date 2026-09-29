@@ -2,6 +2,7 @@
 #       3. 건축 > 바. 마감공사(지붕·목공사 포함) > 도자기질 타일(KS L 1001) (PDF p.44)
 # 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
 # 타일시멘트(1. 공통)·타일용 접착제(3. 아. 기타)·비닐타일(PVC계 바닥재)은 별도 종별이라 match.exclude 로 뺐다.
+# KS 종목별 처리(ks_still_test): LHCS 10 40 00 V2026.04 부록4 해당 종별 비고 — KS 인증 제품이어도 시험하는 종목. LH 발주 기준(별표2 아님).
 material: ceramic_tile
 label: 도자기질 타일
 work: 타일공사
@@ -10,14 +11,14 @@ index_keys: [ceramic_tile]
 match:
   names: [도자기질타일, 자기질타일, 도기질타일, 포세린타일, 타일, 포셀린타일, 포셀린, 폴리싱타일]
   units: [m2, 매, ea]
-  exclude: [덕타일, 닥타일, 타일시멘트, 압착시멘트, 타일붙임시멘트, 타일용접착제, 타일접착제, 타일본드, 비닐타일, 줄눈, 인건, 노무, 운반, 할증]
+  exclude: [덕타일, 닥타일주철, 닥타일관, 닥타일이형, 타일시멘트, 압착시멘트, 타일붙임시멘트, 타일용접착제, 타일접착제, 타일본드, 비닐타일, 줄눈, 인건, 노무, 운반, 할증]   # 닥타일(주철관)만 뺀다 — "닥타일" 한 단어는 "바닥타일"도 빼 버림(L14-C2)
 ks_mark: true                          # 종별 괄호에 KS L 1001 — KS 칸 ◎
 ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
 order: 56
-spec_group:                              # 치수(300X600 등)별 행 대신 소지 종류별로 묶는다(L4-D2)
-  pattern: "(자기질|석기질|도기질)"
+spec_group:                              # L14-C6: 소지 종류별(승인본 건축!B1828·B1844·B1866 도기질·자기질·포셀린) — 포셀린 추가
+  pattern: "(자기질|석기질|도기질|포셀린|폴리싱)"
   label: "{1}"
-  other: 규격별
+  other: "규격 미기재"   # L14-C7: 패턴에 안 걸린 행 — 뜻이 보이게
 group_tests: true
 group:
   frequency: "제조회사별, 제품규격별"
@@ -25,7 +26,7 @@ group:
 tests:
   - test_type: "겉모양 및 치수"
     method: "KS L 1001"
-    where: KS
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
     basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) 겉모양 및 치수 (PDF p.44)"
     conditions: "원문 괄호: 모자이크 타일 제외."
@@ -44,11 +45,12 @@ tests:
 
   - test_type: "흡수율"
     method: "KS L 1001"
-    where: KS
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
     basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) 흡수율 (PDF p.44)"
 
   - test_type: "꺽임 강도"
+    ks_still_test: true
     method: "KS L 1001"
     where: KS
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
@@ -86,8 +88,17 @@ tests:
 
   - test_type: "첨지의 접착성, 박리성, 재질 및 개구율(구성타일)"
     method: "KS L 1001"
-    where: KS
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     optional: true
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
     basis: "별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 도자기질 타일(KS L 1001) 첨지의 접착성, 박리성, 재질 및 개구율(구성타일) (PDF p.44)"
     conditions: "구성타일에 한함."
+
+  - test_type: "미끄럼 저항성(바닥타일)"
+    ks_still_test: true
+    method: "KS L 1001"
+    where: 외부
+    optional: true
+    frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
+    basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.6 타일 및 석공사 도자기질 타일(KS L 1001) 미끄럼 저항성 — 별표2 같은 종별(PDF p.44)에는 없는 발주처(LH) 종목"
+    conditions: "LH 발주만. 도기질·자기질·석기질은 욕실·세탁기 전면 발코니 바닥타일(빈도에 5,000상자마다 추가), 포셀린은 계단실·복도·EV홀 등 공용공간 바닥타일에 적용. KS 인증 제품이어도 시험(부록4 비고)."

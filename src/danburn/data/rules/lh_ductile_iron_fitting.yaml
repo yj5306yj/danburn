@@ -4,6 +4,7 @@
 # 원문에는 이형관 칸이 따로 없고 '주철관'(KS D 4311) 칸뿐이다 — 이형관(덕타일 주철 이형관 KS 번호는 제품으로 확인)에는
 #   상수도용 관 공통 치수와 KS 성적서 갈음만 적는다. 관로 수압시험은 직관 규칙(lh_ductile_iron_pipe)에서 한 번 센다.
 # 표기: 실자료 '닥타일이형관(각종)(시멘트라이닝)'(KG). 규격 '시멘트라이닝'은 관 내면 라이닝이지 시멘트 자재가 아니다.
+# KS 종목별 처리(ks_substitute): LHCS 10 40 00 V2026.04 부록4 Ⅰ.1 마. 기타 상수도용 관 > 주철관 비고 — KS D 4311 규정 종목은 KS 인증업체 성적서로 갈음(L14-C2 대조).
 material: lh_ductile_iron_fitting
 label: 수도용 덕타일 주철 이형관
 work: 상수도공사
@@ -29,6 +30,7 @@ tests:
   basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.1 공통 마. 기타 상수도용 관(공통) 치수
   conditions: 상수도용 관 공통 종목.
 - test_type: KS 규정 시험종목
+  ks_substitute: certificate
   method: KS D 4311(원문 주철관 칸)
   where: KS
   frequency: {per_qty: null, unit: null, text: KS 인증업체 공인기관 시험성적서 확인으로 갈음, minimum: 1}

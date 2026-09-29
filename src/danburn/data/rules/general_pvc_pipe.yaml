@@ -16,10 +16,10 @@ match:
 ks_mark: true
 ks_count: none
 order: 70
-spec_group:                              # 지름(D=35·40·50…)마다 행을 만들지 않고 관 종류(VG1·VG2·IDVP…)별로 묶는다(L4-D2)
-  pattern: "(VG1|VG2|IDVP|ISVP|IWVP)"
-  label: "{1}"
-  other: 규격별
+spec_group:                              # L14-C6: 지름과 종류(VG1 등)는 제품 규격 — (컬러) 같은 표기만 뗀다
+  pattern: "(D=?\\d{2,4})(?:.*?(VG1|VG2|IDVP|ISVP|IWVP))?|(VG1|VG2|IDVP|ISVP|IWVP)"   # L14-C7: 지름 우선(규격 칸), 없으면 품명의 종류
+  label: "{1}{2}{3}"
+  other: "규격 미기재"   # L14-C7: 패턴에 안 걸린 행 — 뜻이 보이게
 group_tests: true
 group:
   frequency: "제조회사별, 제품규격마다"

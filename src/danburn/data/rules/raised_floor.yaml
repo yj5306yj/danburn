@@ -14,7 +14,7 @@ match:
 ks_mark: true                            # 종별 괄호 (KS F 4760)
 ks_count: none
 order: 55
-spec_group: all                          # 높이·마감별 행을 한 행으로
+# spec_group 없음(L14-C6): 빈도가 제품규격별인데 규격에 제품·조건이 섞여 안전한 추출이 어렵다 — 묶지 않는다(규격별 행)
 group_tests: true
 group:
   frequency: "제조회사별, 제품규격별"

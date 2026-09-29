@@ -51,14 +51,14 @@
       <ul class="facts" aria-label="나오는 것">
         <li>1~10장 서식</li>
         <li>8.11 시험계획 자동 계산</li>
-        <li>한글(.hwpx) 파일</li>
+        <li>한글·엑셀 파일</li>
       </ul>
       <p class="cmd-kind">설치 한 줄(터미널)</p>
       <div class="cmd">
         <code id="cmd-hero">uv tool install git+https://<wbr>github.com/<wbr>yj5306yj/<wbr>danburn</code>
         <button type="button" data-copy="cmd-hero">복사</button>
       </div>
-      <p class="small">설치 뒤 <code>danburn start</code>(새로 만들기) · <code>danburn check 계획서.hwp</code>(기존 계획서 검사) — <a href="#jobs">두 가지 일</a></p>
+      <p class="small">설치 뒤 <code>danburn start</code>(새로 만들기) · <code>danburn check 계획서.hwp</code>(기존 계획서 검사) · 새로 만들기 뒤 <a href="#testplan">시험계획서만 따로</a> — <a href="#jobs">세 가지 일</a></p>
       <p class="check-link"><strong>이미 계획서가 있나요?</strong> <a href="#check">기준이 현행인지 먼저 검사하세요 →</a></p>
       <p class="small hint">처음이면 <a href="#first">uv 설치부터(1분)</a> · 터미널이 낯설면 <a href="#agent">AI 에이전트에게 맡기기</a></p>
       <p class="small"><a href="https://github.com/yj5306yj/danburn">https://github.com/yj5306yj/danburn</a></p>
@@ -77,10 +77,10 @@
     </figure>
   </section>
 
-  <!-- ② 단번이 하는 두 가지 일: 카드마다 글 왼쪽 · 터미널 영상 오른쪽(좁은 화면은 글 위 · 영상 아래, 4:5 휴대폰 판).
+  <!-- ② 단번이 하는 세 가지 일(새로 만들기 → 그 산출 폴더로 시험계획서만 따로 → 따로 쓰는 기존 계획서 검사): 카드마다 글 왼쪽 · 터미널 영상 오른쪽(좁은 화면은 글 위 · 영상 아래, 4:5 휴대폰 판).
        영상 속 줄은 합성 예제로 돌린 도구의 실제 출력(site/video/scripts/make_cmd_assets.py) -->
   <section id="jobs">
-    <h2>단번이 하는 두 가지 일</h2>
+    <h2>단번이 하는 세 가지 일</h2>
     <article class="job" aria-labelledby="job-new">
       <div class="job-text">
         <h3 id="job-new">새로 만들기</h3>
@@ -106,6 +106,34 @@
         <figcaption class="small">
           <span>합성 예제로 만든 실제 출력 · Claude Code 등 AI 에이전트에서 — 터미널에서는 <code>danburn start</code></span>
           <button type="button" class="video-toggle" aria-controls="video-start" aria-pressed="false"><span class="ico" aria-hidden="true"></span>일시정지</button>
+        </figcaption>
+      </figure>
+    </article>
+    <article class="job" id="testplan" aria-labelledby="job-testplan">
+      <div class="job-text">
+        <h3 id="job-testplan">시험계획서만 따로</h3>
+        <dl class="job-dl">
+          <dt>맡기는 것</dt><dd>새로 만들기(start)가 만든 산출 폴더 — <strong>먼저 새로 만들기를 한 번</strong>(그다음 질문 없음)</dd>
+          <dt>받는 것</dt><dd>품질시험계획서 한글(.hwpx)·엑셀(.xlsx) — 개요·시험계획표·시험시설·품질관리자 배치 4부, 평면도·자격 증빙은 (스캔첨부) 빈칸</dd>
+          <dt>명령</dt>
+          <dd>
+            <p class="cmd-kind">터미널에 입력 — 새로 만들기 뒤</p>
+            <div class="cmd"><code id="cmd-testplan-uvx">danburn test-plan --project 산출폴더/project.yaml</code><button type="button" data-copy="cmd-testplan-uvx">복사</button></div>
+            <p class="cmd-kind">Claude Code 대화창에 입력 — 처음 한 번 <a href="#agent">플러그인 설치</a> 뒤</p>
+            <div class="cmd agent"><code id="cmd-testplan-agent">/danburn:test-plan 산출폴더</code><button type="button" data-copy="cmd-testplan-agent">복사</button></div>
+          </dd>
+          <dt>언제</dt><dd>시험계획서만 제출하거나 시험계획만 고쳐 다시 낼 때. 시험 행은 품질관리계획서 8.11 과 같은 계산입니다.</dd>
+        </dl>
+      </div>
+      <figure class="job-media">
+        <video id="video-testplan" autoplay muted loop playsinline preload="metadata" poster="media/cmd-testplan-poster.jpg" data-poster-narrow="media/cmd-testplan-m-poster.jpg"
+          aria-label="터미널에 /danburn:test-plan 산출 을 치면 결과 화면에 만든 품질시험계획서 한글·엑셀 파일, 시험 행 수와 분야, 확인할 것, 스캔첨부 빈칸 목록, 다음 할 일이 나오고 가로 시험계획표 쪽과 시험실 배치평면도 스캔첨부 쪽이 나타나는 10초 영상(합성 예제)">
+          <source src="media/cmd-testplan-m.mp4" type="video/mp4" media="(max-width: 760px)">
+          <source src="media/cmd-testplan.mp4" type="video/mp4">
+        </video>
+        <figcaption class="small">
+          <span>합성 예제로 만든 실제 출력 · Claude Code 등 AI 에이전트에서 — 터미널에서는 <code>danburn test-plan</code></span>
+          <button type="button" class="video-toggle" aria-controls="video-testplan" aria-pressed="false"><span class="ico" aria-hidden="true"></span>일시정지</button>
         </figcaption>
       </figure>
     </article>
@@ -207,7 +235,7 @@
       <li>
         <p class="step"><span class="mono">3</span> · 단번 설치 한 줄</p>
         <div class="cmd"><code id="cmd-install-3">uv tool install git+https://<wbr>github.com/<wbr>yj5306yj/<wbr>danburn</code><button type="button" data-copy="cmd-install-3">복사</button></div>
-        <p>그다음 <code>danburn start</code> 를 치고 질문에 답하면 됩니다(<a href="#jobs">두 가지 일</a>).</p>
+        <p>그다음 <code>danburn start</code> 를 치고 질문에 답하면 됩니다(<a href="#jobs">세 가지 일</a>).</p>
       </li>
     </ol>
     <div class="grid2">
@@ -219,7 +247,7 @@
           <button type="button" data-copy="cmd-uvx">복사</button>
         </div>
         <p class="cmd-kind">쓰기</p>
-        <p><code>danburn start</code> 새로 만들기 · <code>danburn check 계획서.hwp</code> 기존 계획서 검사 · <code>danburn</code> 만 치면 둘 중 고르기</p>
+        <p><code>danburn start</code> 새로 만들기 · <code>danburn test-plan --project 산출폴더/project.yaml</code> 시험계획서만 따로(한글·엑셀) · <code>danburn check 계획서.hwp</code> 기존 계획서 검사 · <code>danburn</code> 만 치면 셋 중 고르기</p>
         <p class="small file-hint"><code>계획서.hwp</code> 자리에 내 파일 — 파일을 창에 끌어다 놓으면 경로가 들어갑니다</p>
         <p class="cmd-kind">새 기준 받기</p>
         <div class="cmd"><code id="cmd-upgrade">uv tool upgrade danburn</code><button type="button" data-copy="cmd-upgrade">복사</button></div>
@@ -230,8 +258,8 @@
         <p><strong>① 처음 한 번 플러그인 설치</strong> — 터미널에서 두 줄(uv 도 필요, 위 2단계).</p>
         <div class="cmd"><code id="cmd-plugin-add">claude plugin marketplace add https://<wbr>github.com/<wbr>yj5306yj/<wbr>danburn</code><button type="button" data-copy="cmd-plugin-add">복사</button></div>
         <div class="cmd"><code id="cmd-plugin-install">claude plugin install danburn@<wbr>danburn</code><button type="button" data-copy="cmd-plugin-install">복사</button></div>
-        <p><strong>② 그다음부터 Claude Code 대화창에</strong> <code>/danburn:start</code>(새로 만들기) 또는 <code>/danburn:check 계획서.hwp</code>(기존 계획서 검사). 에이전트가 도구의 질문을 한 번에 하나씩 그대로 묻고 결과를 전합니다.</p>
-        <p class="small">Codex 같은 다른 에이전트는 작업 지침에 저장소의 <code>skills/start/SKILL.md</code>(새로 만들기)나 <code>skills/check/SKILL.md</code>(검사)를 읽으라고 적고 “이 폴더의 도급내역서로 품질관리계획서 만들어 줘”처럼 말합니다.</p>
+        <p><strong>② 그다음부터 Claude Code 대화창에</strong> <code>/danburn:start</code>(새로 만들기), <code>/danburn:test-plan 산출폴더</code>(시험계획서만 따로) 또는 <code>/danburn:check 계획서.hwp</code>(기존 계획서 검사). 에이전트가 도구의 질문을 한 번에 하나씩 그대로 묻고 결과를 전합니다.</p>
+        <p class="small">Codex 같은 다른 에이전트는 작업 지침에 저장소의 <code>skills/start/SKILL.md</code>(새로 만들기)·<code>skills/test-plan/SKILL.md</code>(시험계획서만)·<code>skills/check/SKILL.md</code>(검사)를 읽으라고 적고 “이 폴더의 도급내역서로 품질관리계획서 만들어 줘”처럼 말합니다.</p>
       </div>
     </div>
   </section>
@@ -293,7 +321,7 @@
 <p id="copy-status" class="sr-only" aria-live="polite"></p>
 
 <script>
-  // 영상(히어로·두 가지 일): 좁은 화면 poster 바꾸기, 움직임 줄이기 설정이면 멈추고 poster 만,
+  // 영상(히어로·세 가지 일): 좁은 화면 poster 바꾸기, 움직임 줄이기 설정이면 멈추고 poster 만,
   // 일시정지 단추(aria-controls 로 짝, aria-pressed = 멈춤 상태)
   (function () {
     var narrow = window.matchMedia && window.matchMedia('(max-width: 760px)').matches;

@@ -32,6 +32,7 @@ group:
   basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.14 석고보드 및 시멘트판류 석고본드 및 접착제
 tests:
 - test_type: 친환경(TVOC·폼알데하이드·톨루엔)
+  eco_substitute: true
   method: 환경부 실내공기질 공정시험방법
   where: 외부
   frequency:

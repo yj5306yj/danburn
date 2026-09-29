@@ -11,7 +11,7 @@ work: 흙막이공사
 basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
 index_keys: [temp_h_pile]
 match:
-  names: [엄지말뚝, 가시설H파일, 흙막이H파일, 흙막이H형강, 가시설H형강, H형강말뚝박기]
+  names: [엄지말뚝, 가시설H파일, 흙막이H파일, 흙막이H형강, 가시설H형강, H형강말뚝박기, H형강말뚝가설, H형강말뚝(가설)]   # 승인본 표기(L14-C4)
   units: [본, 개, ea, ton]
   exclude: [뽑기, 인발, 천공, 운반, 손료, 임대]
 ks_mark: true
@@ -21,7 +21,7 @@ order: 62
 spec_group:
   pattern: "H\\s*[=-]?\\s*(\\d{3})"
   label: "H-{1}"
-  other: 규격별
+  other: "규격 미기재"   # L14-C7: 패턴에 안 걸린 행 — 뜻이 보이게
 group_tests: true
 group:
   frequency: "제품규격마다, 공급자마다"

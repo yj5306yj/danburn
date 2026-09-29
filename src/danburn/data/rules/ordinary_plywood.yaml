@@ -68,7 +68,7 @@ tests:
   basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 보통합판(KS F 3101) 접착력(침지박리) (PDF p.39)
 - test_type: 함수율
   method: KS F 3101
-  where: 외부
+  where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
   frequency:
     per_qty: null
     unit: null

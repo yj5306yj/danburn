@@ -14,6 +14,10 @@ match:
   exclude: [운반, 상하차, 상차비, 다짐]   # '상차'는 재료 행 '혼합골재(채취상차도…)'까지 막았다. '다짐'은 같은 골재의 시공 행(L4-T4)
 ks_mark: false
 order: 34
+spec_group:                              # 인력시공·소규모 장비·T-75CM은 시공 방법(L14-C3). 기층용 골재만 따로(승인본은 '보조기층 및 동상방지층' 한 줄)
+  pattern: "(?<!보조)(기층)"
+  label: 기층용
+  other: 보조기층·동상방지층
 tests:
   - {test_type: 골재의 0.08mm체 통과량, method: "KS F 2511", where: 현장, frequency: &src {per_qty: null, unit: null, text: "골재원마다, 재질변화시마다", minimum: 1},
      basis: "별표2 2. 가. (1) 동상방지층 및 보조기층 골재의 0.08밀리미터체 통과량 (PDF p.23)", conditions: &c "골재원마다·재질변화시마다. 골재원 수를 모르면 1회."}

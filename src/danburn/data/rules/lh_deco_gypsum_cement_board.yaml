@@ -1,0 +1,29 @@
+# 출처: LHCS 10 40 00 V2026.04 「시험」 부록4 「품질시험 및 검사기준」 Ⅱ.8 나. 석고보드 및 시멘트판류 석고 시멘트판(KS L 5509) > 치장 석고 시멘트판
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 색인에 이 종별이 없다(L14-C4, 승인본 '대응 없음' 보강).
+# 원문 문장·표를 옮기지 않고 시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_deco_gypsum_cement_board
+label: 치장 석고 시멘트판
+owner: LH
+work: 수장공사
+basis_version: "LHCS 10 40 00 V2026.04 부록4 「품질시험 및 검사기준」"
+match:
+  names: [치장석고시멘트판, 석고시멘트판]
+  exclude: [설치, 시공, 인건, 노무, 운반, 하차, 할증, 철거]
+ks_mark: true
+ks_count: none
+order: 54
+spec_group:                              # L14-C6: 두께는 제품 규격(빈도 제품규격별·규격별) — 두께별 행
+  pattern: "(?:T=?(\\d{1,3}(?:\\.\\d)?)(?![0-9])|(?<![0-9.X])(\\d{1,3}(?:\\.\\d)?)(?:MM|T)(?![0-9]))"
+  label: "{1}{2}T"
+  other: "두께 미기재"   # L14-C7: 패턴에 안 걸린 행 — 뜻이 보이게
+group_tests: true
+group:
+  frequency: "제조회사별, 규격별, 5,000매마다"
+  basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.8 나. 석고보드 및 시멘트판류 석고 시멘트판(KS L 5509) > 치장 석고 시멘트판"
+tests:
+  - {test_type: "부피비중", method: "KS L 5509", where: 외부, frequency: {per_qty: 5000, unit: 매, text: "제조회사별, 규격별, 5,000매마다", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.8 나. 석고보드 및 시멘트판류 석고 시멘트판(KS L 5509) > 치장 석고 시멘트판 부피비중"}
+  - {test_type: "휨파괴하중", method: "KS L 5509", where: 외부, frequency: {per_qty: 5000, unit: 매, text: "제조회사별, 규격별, 5,000매마다", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.8 나. 석고보드 및 시멘트판류 석고 시멘트판(KS L 5509) > 치장 석고 시멘트판 휨파괴하중"}
+  - {test_type: "흡수에 따른 길이 변화율", method: "KS L 5509", where: 외부, frequency: {per_qty: 5000, unit: 매, text: "제조회사별, 규격별, 5,000매마다", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.8 나. 석고보드 및 시멘트판류 석고 시멘트판(KS L 5509) > 치장 석고 시멘트판 흡수에 따른 길이 변화율"}
+  - {test_type: "내오염성", method: "KS L 5509", where: 외부, frequency: {per_qty: 5000, unit: 매, text: "제조회사별, 규격별, 5,000매마다", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.8 나. 석고보드 및 시멘트판류 석고 시멘트판(KS L 5509) > 치장 석고 시멘트판 내오염성"}
+  - {test_type: "내변퇴성", method: "KS L 5509", where: 외부, frequency: {per_qty: 5000, unit: 매, text: "제조회사별, 규격별, 5,000매마다", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.8 나. 석고보드 및 시멘트판류 석고 시멘트판(KS L 5509) > 치장 석고 시멘트판 내변퇴성"}
+  - {test_type: "내긁힘성", method: "KS L 5509", where: 외부, frequency: {per_qty: 5000, unit: 매, text: "제조회사별, 규격별, 5,000매마다", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.8 나. 석고보드 및 시멘트판류 석고 시멘트판(KS L 5509) > 치장 석고 시멘트판 내긁힘성"}

@@ -4,6 +4,7 @@
 # KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
 # 색인 동의어의 맨 '시멘트' 는 다른 시멘트 제품(벽돌·모르타르·타일시멘트·백시멘트 등)에도 들어 있어
 #   단위(ton·포·kg)와 exclude 로 좁힌다.
+# KS 종목별 처리(ks_substitute): LHCS 10 40 00 V2026.04 부록4 해당 종별 비고 — KS 인증업체 공인기관 성적서 확인으로 갈음하는 종목. LH 발주 기준(별표2 아님).
 material: portland_cement
 label: 시멘트
 work: 철근콘크리트공사
@@ -13,49 +14,59 @@ match:
   names: [포틀랜드시멘트, 보통시멘트, 조강시멘트, 시멘트]
   units: [ton, 포, kg]                   # 도급내역서 관행: 벌크 TON, 포대 포(40kg)
   exclude: [벽돌, 블록, 블럭, 모르타르, 몰탈, 몰타르, 보드, 시멘트판, 방수, 백시멘트, 백색, 화이트, 타일, 압착,
-            기와, 그라우트, 안정처리, 슬래그, 플라이, 포졸란, 메이슨리, 페인트, 운반, 하차]
+            기와, 그라우트, 안정처리, 슬래그, 플라이, 포졸란, 메이슨리, 페인트, 운반, 하차, 수송, 혼화용]   # 수송: "시멘트 수송비" 행이 자재 수량과 겹쳐 잡히던 것(L14-C3)
 unit_factors:                            # 합산 전 환산: kg=0.001톤(정의), 포=40kg 포대 가정(0.04톤) — 다른 포대면 확인 필요
   kg: [ton, 0.001]
   포: [ton, 0.04]
 ks_mark: true                            # 종별 괄호 (KS L 5201)
 ks_count: none
 order: 30
+spec_group:                              # L14-C6: 시멘트 종류(1종·조강 등)는 제품 — 포대 단위만 뗀다
+  pattern: "([1-5]종|조강|중용열|저열|내황산염)"
+  label: "{1}"
+  other: "전체"
 group_tests: true
 group:
   frequency: "제조회사별, 300톤마다\n제조일부터 3월이 되어 재질 변화가 있다고 인정되는 때"
   basis: "별표2 1. 공통 나. 철근콘크리트공사 포틀랜드 시멘트(KS L 5201) (PDF p.4); KS 제품은 별표2 ※주석(PDF p.52) — 시행령 제91조제1항 시험 제외"
 tests:
   - test_type: 화학성분
+    ks_substitute: certificate
     method: "KS L 5120"
     where: 외부
     frequency: {per_qty: 300, unit: ton, text: "제조회사별 300톤마다", minimum: 1}
     basis: "별표2 1. 나. 포틀랜드 시멘트(KS L 5201) 화학성분 (PDF p.4)"
     conditions: &pc "제조회사별·300톤마다, 제조일부터 3월 경과해 재질 변화가 인정되면 추가(병합 빈도 칸). KS 인증품은 ※주석(PDF p.52)으로 면제 → ◎. 내역 단위 kg·포는 unit_factors 로 톤 환산(kg=0.001톤 정의; 포=40kg 가정). 해석 필요: 포 중량은 제품마다 다를 수 있음(40kg 외 포대면 확인 필요)."
   - test_type: 분말도
+    ks_substitute: certificate
     method: "KS L 5106"
     where: 외부
     frequency: {per_qty: 300, unit: ton, text: "제조회사별 300톤마다", minimum: 1}
     basis: "별표2 1. 나. 포틀랜드 시멘트(KS L 5201) 분말도 (PDF p.4)"
     conditions: *pc
   - test_type: 안정도
+    ks_substitute: certificate
     method: "KS L 5107"
     where: 외부
     frequency: {per_qty: 300, unit: ton, text: "제조회사별 300톤마다", minimum: 1}
     basis: "별표2 1. 나. 포틀랜드 시멘트(KS L 5201) 안정도 (PDF p.4)"
     conditions: *pc
   - test_type: 응결 시간
+    ks_substitute: certificate
     method: "KS L 5108"
     where: 외부
     frequency: {per_qty: 300, unit: ton, text: "제조회사별 300톤마다", minimum: 1}
     basis: "별표2 1. 나. 포틀랜드 시멘트(KS L 5201) 응결 시간 (PDF p.4)"
     conditions: *pc
   - test_type: 압축강도
+    ks_substitute: certificate
     method: "KS L 5105"
     where: 외부
     frequency: {per_qty: 300, unit: ton, text: "제조회사별 300톤마다", minimum: 1}
     basis: "별표2 1. 나. 포틀랜드 시멘트(KS L 5201) 압축강도 (PDF p.4)"
     conditions: *pc
   - test_type: 수화열
+    ks_substitute: certificate
     method: "KS L 5121"
     where: 외부
     optional: true                       # 비고: 1·3·5종은 제외 — 2·4종(중용열·저열)일 때만

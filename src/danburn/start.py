@@ -167,7 +167,9 @@ def read_boq_info(path: str) -> dict:
     except Exception as e:                                   # openpyxl·양식 오류를 사용자 말로
         raise StartError(f"내역서를 읽지 못했습니다: {type(e).__name__}") from None
     if not lines:
-        raise StartError("이 파일에서 읽을 수 있는 내역 행이 없습니다(지급(건)·내역(건) 같은 시트가 있는 양식인지 확인).")
+        from .boq import diagnose
+        reasons = diagnose(path)
+        raise StartError("내역서를 읽을 수 없습니다 — " + " / ".join(reasons))
     blocks = sorted({ln.block for ln in lines if ln.block})
     disc = {ln.discipline for ln in lines}
     kind = "건축+토목" if {"건축", "토목"} <= disc else "토목" if disc == {"토목"} else "건축"
@@ -402,6 +404,9 @@ class Interview:
             if q["key"] == "내역서" and p.suffix.lower() in (".hwp", ".hwpx", ".pdf"):
                 raise StartError("그 파일은 계획서입니다. 새로 만들기에는 도급내역서(.xlsx)가 필요합니다. "
                                  f"가진 계획서의 기준이 현행인지 보려면: danburn check \"{p}\"")
+            if q["key"] == "내역서" and p.suffix.lower() == ".xls":
+                from .boq import diagnose
+                raise StartError("내역서를 읽을 수 없습니다 — " + " / ".join(diagnose(p)))
             if p.suffix.lower() not in q.get("exts", [p.suffix.lower()]):
                 raise StartError(f"{'·'.join(q['exts'])} 파일이어야 합니다.")
             if q["key"] == "로고" and tracked_in_repo(p):
@@ -777,6 +782,7 @@ def main(a) -> int:
         (out_dir / "요약.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
         iv.say(f"\n계획서: {hwpx}")
         iv.say(f"요약  : {out_dir / '요약.json'}")
+        iv.say(f"시험계획서만 따로(엑셀 포함): danburn test-plan --project \"{proj_path}\"")
         iv.say("\n확인할 것")
         n = 0
         for item in r["확인필요"]:

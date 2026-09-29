@@ -14,7 +14,7 @@ match:
   exclude: [설치, 시공, 인건, 노무, 운반, 하차, 할증]
 ks_mark: false
 order: 73
-spec_group: all                          # 두께·용도별 행을 한 행으로(시험 종목 같음, 면적은 합계로 계산)
+# spec_group 없음(L14-C6): 빈도가 제품규격별인데 규격에 제품·조건이 섞여 안전한 추출이 어렵다 — 묶지 않는다(규격별 행)
 group_tests: true
 group:
   frequency: "제조회사별, 제품규격마다, 20,000㎡마다"

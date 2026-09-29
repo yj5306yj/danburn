@@ -622,8 +622,10 @@ def _register_bin_items(path: Path) -> None:
     tmp.replace(path)
 
 
-def _cover(w: _Writer, project: dict, revision, date: str, logo_path: str | None, title: str = DOC_TITLE):
+def _cover(w: _Writer, project: dict, revision, date: str, logo_path: str | None, title: str = DOC_TITLE,
+           subtitle: str = COVER_SUBTITLE):
     """표지(정본 §2): 공사명 24 · 문서명 44 · 영문 18 · 정보 상자(79.1 폭, 10.7 × 4줄, 12pt) · 로고 · 회사명.
+    subtitle = 영문 부제(품질시험계획서 단독본은 "Quality Test Plan").
 
     쪽 전체를 선 없는 3칸 표 하나로 두고 행 높이로 자리를 고정한다. 로고·회사명은 사용자 입력만 쓴다(없으면 빈 칸).
     """
@@ -633,7 +635,7 @@ def _cover(w: _Writer, project: dict, revision, date: str, logo_path: str | None
     none = (None,) * 4
     cells = [dict(r=r, c=0, cs=3, text="", pt=2, border=none) for r in (0, 2, 5, 10)]
     for r, text, pt in ((1, project["공사명"], COVER_PT["site"]), (3, title, COVER_PT["title"]),
-                        (4, COVER_SUBTITLE, COVER_PT["sub"]), (12, str(project.get("회사명") or ""), COVER_PT["company"])):
+                        (4, subtitle, COVER_PT["sub"]), (12, str(project.get("회사명") or ""), COVER_PT["company"])):
         cells.append(dict(r=r, c=0, cs=3, text=text, pt=pt, bold=r == 12, border=none, pad=(0, 0, 0, 0)))
     info = [("문서번호", project.get("문서번호", "")), ("제정일자", project.get("제정일자", "")),
             ("개정번호", f"Rev.{revision}"), ("개정일자", date)]

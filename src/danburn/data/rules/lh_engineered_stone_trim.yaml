@@ -37,6 +37,7 @@ group:
   basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.9 목재류 등 BMC·입체성형 인조대리석·엔지니어스톤 마루귀틀/재료분리대/걸레받이
 tests:
 - test_type: 친환경(TVOC·폼알데하이드·톨루엔)
+  eco_substitute: true
   method: 환경부 실내공기질 공정시험방법
   where: 외부
   frequency:

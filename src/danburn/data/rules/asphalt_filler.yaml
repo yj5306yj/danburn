@@ -3,6 +3,7 @@
 # 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
 # KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
 # '스크리닝스'라는 이름은 별표2에 없다. 석분이 광물질 채움재로 쓰일 때만 이 종별.
+# KS 종목별 처리(ks_substitute): LHCS 10 40 00 V2026.04 부록4 해당 종별 비고 — KS 인증업체 공인기관 성적서 확인으로 갈음하는 종목. LH 발주 기준(별표2 아님).
 material: asphalt_filler
 label: 아스팔트 포장용 채움재
 work: 포장공사
@@ -21,36 +22,42 @@ group:
   basis: "별표2 2. 토목 가. 도로공사 (2) 아스팔트 포장 아스팔트 포장용 채움재(KS F 3501) (PDF p.25); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
 tests:
   - test_type: "수분 함량"
+    ks_substitute: certificate
     method: "KS F 3501"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사마다, 반입시마다", minimum: 1}
     basis: "별표2 2. 토목 가. 도로공사 (2) 아스팔트 포장 아스팔트 포장용 채움재(KS F 3501) 수분 함량 (PDF p.25)"
     conditions: "제조회사마다, 반입시마다(병합 빈도 칸). 해석 필요: 비KS 횟수는 반입 횟수에 따르므로 엔진은 제조사 수×1회로만 센다."
   - test_type: "입도"
+    ks_substitute: certificate
     method: "KS F 3501"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사마다, 반입시마다", minimum: 1}
     basis: "별표2 2. 토목 가. 도로공사 (2) 아스팔트 포장 아스팔트 포장용 채움재(KS F 3501) 입도 (PDF p.25)"
     conditions: "제조회사마다, 반입시마다(병합 빈도 칸). 해석 필요: 비KS 횟수는 반입 횟수에 따르므로 엔진은 제조사 수×1회로만 센다."
   - test_type: "소성지수"
+    ks_substitute: certificate
     method: "KS F 2303"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사마다, 반입시마다", minimum: 1}
     basis: "별표2 2. 토목 가. 도로공사 (2) 아스팔트 포장 아스팔트 포장용 채움재(KS F 3501) 소성지수 (PDF p.25)"
     conditions: "제조회사마다, 반입시마다(병합 빈도 칸). 해석 필요: 비KS 횟수는 반입 횟수에 따르므로 엔진은 제조사 수×1회로만 센다."
   - test_type: "흐름시험"
+    ks_substitute: certificate
     method: "KS F 3501"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사마다, 반입시마다", minimum: 1}
     basis: "별표2 2. 토목 가. 도로공사 (2) 아스팔트 포장 아스팔트 포장용 채움재(KS F 3501) 흐름시험 (PDF p.25)"
     conditions: "제조회사마다, 반입시마다(병합 빈도 칸). 해석 필요: 비KS 횟수는 반입 횟수에 따르므로 엔진은 제조사 수×1회로만 센다."
   - test_type: "침수팽창"
+    ks_substitute: certificate
     method: "KS F 3501"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사마다, 반입시마다", minimum: 1}
     basis: "별표2 2. 토목 가. 도로공사 (2) 아스팔트 포장 아스팔트 포장용 채움재(KS F 3501) 침수팽창 (PDF p.25)"
     conditions: "제조회사마다, 반입시마다(병합 빈도 칸). 해석 필요: 비KS 횟수는 반입 횟수에 따르므로 엔진은 제조사 수×1회로만 센다."
   - test_type: "박리 저항성"
+    ks_substitute: certificate
     method: "KS F 3501"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사마다, 반입시마다", minimum: 1}

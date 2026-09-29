@@ -219,7 +219,7 @@ footer .small { flex-basis: 100%; }
   .grid3 > * + * { border-left: 0; border-top: 1px solid var(--rule); }
 }
 
-/* ② 두 가지 일: 카드 = 표의 한 줄. 왼쪽 글(맡기는 것·받는 것·명령) · 오른쪽 터미널 영상(4:3) */
+/* ② 세 가지 일: 카드 = 표의 한 줄. 왼쪽 글(맡기는 것·받는 것·명령) · 오른쪽 터미널 영상(4:3) */
 .job {
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 540px); gap: 20px 40px; align-items: start;
   padding: 28px 0; border-top: 1px solid var(--line);
@@ -287,7 +287,7 @@ kbd { font-family: var(--mono); font-size: 0.8em; padding: 0 5px; border: 1px so
   main section#maker { padding-top: 28px; padding-bottom: 28px; }
   #maker h2 { margin-bottom: 16px; }
   .cmd code { font-size: 0.76rem; }
-  /* 두 가지 일: 글 위 · 영상 아래. 영상은 화면 가장자리 16px 까지 넓힌다
+  /* 세 가지 일: 글 위 · 영상 아래. 영상은 화면 가장자리 16px 까지 넓힌다
      (main 8px + 종이 테두리 1px + 종이 안쪽 16px = 25px → 16px 이 되게 −9px). 휴대폰 판(4:5)이라 글자가 커짐 */
   .job { grid-template-columns: 1fr; padding: 22px 0; }
   .job-media { margin: 0 -9px; }
@@ -307,7 +307,7 @@ kbd { font-family: var(--mono); font-size: 0.8em; padding: 0 5px; border: 1px so
 .cmd button { background: #23262c; color: #e8e9eb; border-left-color: #33363d; }
 .cmd button:hover { background: #f5c542; color: #16181c; }
 .cmd button:focus-visible { outline: 2px solid #f5c542; outline-offset: -3px; }
-/* 두 가지 일의 명령은 히어로처럼 줄을 바꿔 끝까지 보인다(글 칸이 좁음) */
+/* 세 가지 일의 명령은 히어로처럼 줄을 바꿔 끝까지 보인다(글 칸이 좁음) */
 .job .cmd code, .first3 .cmd code { white-space: normal; overflow-x: visible; overflow-wrap: normal; word-break: normal; }
 /* 좁은 화면: 모든 명령 상자를 줄바꿈(공백·<wbr> 에서만 — 주소는 / 뒤). 복사는 code 의 글자라 <wbr> 은 들어가지 않는다 */
 @media (max-width: 760px) {

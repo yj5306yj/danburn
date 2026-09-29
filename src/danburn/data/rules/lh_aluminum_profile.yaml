@@ -1,0 +1,26 @@
+# 출처: LHCS 10 40 00 V2026.04 「시험」 부록4 「품질시험 및 검사기준」 Ⅱ.5 가. 알루미늄합금제 창호 알루미늄 형재(KS D 6759)
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 색인에 이 종별이 없다(L14-C4, 승인본 '대응 없음' 보강).
+# 원문 문장·표를 옮기지 않고 시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_aluminum_profile
+label: 알루미늄 창호 형재
+owner: LH
+work: 창호공사
+basis_version: "LHCS 10 40 00 V2026.04 부록4 「품질시험 및 검사기준」"
+match:
+  names: [알루미늄창호용형재, 창호용알루미늄형재, 알루미늄창호형재, 알루미늄창호프레임]
+  exclude: [설치, 시공, 인건, 노무, 운반, 하차, 할증, 철거]
+ks_mark: true
+ks_count: none
+order: 65
+spec_group: all
+group_tests: true
+group:
+  frequency: "제조회사별"
+  basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.5 가. 알루미늄합금제 창호 알루미늄 형재(KS D 6759)"
+tests:
+  - {test_type: "치수, 중량", method: "KS D 6759", where: 현장, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.5 가. 알루미늄합금제 창호 알루미늄 형재(KS D 6759) 치수, 중량", conditions: "현장시험"}
+  - {test_type: "화학성분, 기계적 성질", method: "KS D 6759", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.5 가. 알루미늄합금제 창호 알루미늄 형재(KS D 6759) 화학성분, 기계적 성질"}
+  - {test_type: "두께, 단면치수의 허용차", method: "KS D 6759", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.5 가. 알루미늄합금제 창호 알루미늄 형재(KS D 6759) 두께, 단면치수의 허용차"}
+  - {test_type: "내식성, 내마모성", method: "KS D 8301", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.5 가. 알루미늄합금제 창호 알루미늄 형재(KS D 6759) 내식성, 내마모성"}
+  - {test_type: "피막(투명계·착색계·불소수지도장)", method: "LHCS 41 55 02 2.1.2", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.5 가. 알루미늄합금제 창호 알루미늄 형재(KS D 6759) 피막(투명계·착색계·불소수지도장)"}
+  - {test_type: "인장강도, 내력 및 연신율", method: "KS D 6759", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.5 가. 알루미늄합금제 창호 알루미늄 형재(KS D 6759) 인장강도, 내력 및 연신율"}

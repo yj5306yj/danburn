@@ -1,0 +1,41 @@
+# 출처: LHCS 10 40 00 V2026.04 「시험」 부록4 「품질시험 및 검사기준」 Ⅱ 건축 9. 단열·보온공사 경질 발포 플라스틱-건축물 단열재 "PUR"(KS M ISO 4898)
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 현장은 옛 KS 규칙(eps_insulation KS M 3808 / pur_foam_insulation KS M 3809)이 받는다.
+#   같은 길이로 맞으면 켜진 발주처 규칙이 먼저라 LH 현장에서는 이 규칙으로 간다(L14-C5, 근거 L14-D3 §1-3 — 승인본도 ISO 4898 종목).
+# 원문 문장·표를 옮기지 않고 시험종목·시험방법 번호·빈도 사실만 적는다.
+# KS 종목별 처리: 연소성·초기 열전도도 = ks_still_test(부록4 비고), 선형치수·밀도 = 현장시험, 실내 단열재 VOC 3종 = eco_substitute(1.5.1(9)).
+# 등급 조건(표 주): 압축 크리프 PUR Ⅱ(A,B,C)·Ⅲ(A,B,C), 연소성 PUR Ⅰ(A,B,C)·Ⅱ(A,B,C)·Ⅲ(A,B,C), 난연성 PUR Ⅰ(D,E) — 해당 등급만(optional; 연소성은 still 이라 기본 산출에 둔다).
+material: lh_pur_insulation
+label: 경질우레탄 단열재(PUR)
+owner: LH
+work: 단열공사
+basis_version: "LHCS 10 40 00 V2026.04 부록4 「품질시험 및 검사기준」"
+match:
+  names: [건축물단열재-PUR, 건축물단열재PUR, 건축물단열재(PUR), 경질폴리우레탄폼, 폴리우레탄폼, 경질우레탄, 우레탄보드, 폴리우레탄단열재, 경질발포플라스틱단열재PUR, 단열재(PUR), 단열재PUR, 우레탄폼]
+  units: [m2, 매, 장]
+  exclude: [충전, 인건, 노무, 운반, 할증, 충진]   # L14-C4
+ks_mark: true                          # 종별 괄호에 KS M ISO 4898 — KS 칸 ◎
+ks_count: none
+order: 47
+spec_group:                              # L14-C6: 두께·종호는 제품 규격 — 두께별 행(승인본 건축!B906~B1170 EPS·PUR·PF 두께별 행). 부위·붙임 방법만 뗀다
+  pattern: "((?:비드법|압출법)?[1-4]종[1-4]호|특호|[1-4]호)?[^0-9+]*?(\\d{2,3})MM"
+  label: "{1}{2}MM"
+  other: "두께 미기재"
+group_tests: true
+group:
+  frequency: "시공면적 1,000㎡마다, 1,000매마다"
+  basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.9 단열·보온공사 경질 발포 플라스틱-건축물 단열재 PUR(KS M ISO 4898)"
+tests:
+  - {test_type: 선형치수, method: "KS M ISO 1923", where: 현장, frequency: &f {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}, basis: &b "LHCS 10 40 00 V2026.04 부록4 Ⅱ.9 경질 발포 플라스틱-건축물 단열재 PUR(KS M ISO 4898)", conditions: "현장시험"}
+  - {test_type: 밀도, method: "KS M ISO 845", where: 현장, frequency: *f, basis: *b, conditions: "현장시험"}
+  - {test_type: 압축강도, method: "KS M ISO 844", where: 외부, frequency: *f, basis: *b}
+  - {test_type: 초기 열전도도, ks_still_test: true, method: "KS L ISO 8301 또는 8302", where: 외부, frequency: *f, basis: *b, conditions: &s "KS 인증 제품이어도 제조회사·제품규격마다 시험(부록4 비고)."}
+  - {test_type: 치수 안정성, method: "KS M ISO 2796", where: 외부, frequency: *f, basis: *b}
+  - {test_type: 압축 크리프, optional: true, method: "KS M ISO 7616 또는 7850", where: 외부, frequency: *f, basis: *b, conditions: "PUR Ⅱ(A,B,C)·Ⅲ(A,B,C) 등급만"}
+  - {test_type: 수증기 투과도, method: "KS M ISO 1663", where: 외부, frequency: *f, basis: *b}
+  - {test_type: 흡수성, method: "KS M ISO 2896", where: 외부, frequency: *f, basis: *b}
+  - {test_type: 굴곡 파괴하중, method: "KS M ISO 1209-1", where: 외부, frequency: *f, basis: *b}
+  - {test_type: 연소성, ks_still_test: true, method: "KS M ISO 9772", where: 외부, frequency: *f, basis: *b, conditions: "PUR Ⅰ(A,B,C)·Ⅱ(A,B,C)·Ⅲ(A,B,C) 등급에 해당(표 주). KS 인증 제품이어도 시험(부록4 비고)."}
+  - {test_type: 난연성, optional: true, method: "KS F ISO 5660-1, KS F 2271", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}, basis: *b, conditions: "PUR Ⅰ(D,E) 등급만. 「건축자재등 품질인정 및 관리기준」에 따른 최근 1년 이내 성적서로 대체 가능(부록4 비고)."}
+  - {test_type: 폼알데하이드, eco_substitute: true, optional: true, method: "KS M 1998", where: 외부, frequency: &fv {per_qty: null, unit: null, text: "제조회사별, 제품규격별(범주별)", minimum: 1}, basis: *b, conditions: &v "실내 단열재에 한함. 친환경 항목 — LHCS 1.5.1(9) 성적서·환경표지인증서 제출 시 면제."}
+  - {test_type: 톨루엔, eco_substitute: true, optional: true, method: "KS M 1998", where: 외부, frequency: *fv, basis: *b, conditions: *v}
+  - {test_type: 총휘발성유기화합물, eco_substitute: true, optional: true, method: "KS M 1998", where: 외부, frequency: *fv, basis: *b, conditions: *v}

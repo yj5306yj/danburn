@@ -24,9 +24,9 @@ ks_mark: false
 ks_count: makers
 order: 71
 spec_group:
-  pattern: "D\\s*-?\\s*(\\d{3,4})"
+  pattern: "D\\s*[-=]?\\s*(\\d{3,4})"
   label: "D{1}"
-  other: 규격별
+  other: "규격 미기재"   # L14-C7: 패턴에 안 걸린 행 — 뜻이 보이게
 group_tests: true
 group:
   frequency: 제조회사별, 제품규격별 300개마다(6m 기준)

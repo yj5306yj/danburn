@@ -14,7 +14,10 @@ match:
 ks_mark: true                          # 종별 괄호에 KS M 5318 — KS 칸 ◎
 ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
 order: 61
-spec_group: all                          # 색·광택별 행을 한 행으로(L4-D2)
+spec_group:                              # L14-C6: 종·급·상도/중도는 제품(승인본 건축!B1980~B2110). 벽/천장·롤러/뿜칠·회수는 시공 조건이라 뗀다
+  pattern: "([1-3]종(?:[1-3]급)?|상도|중도|하도)"
+  label: "{1}"
+  other: "전체"
 group_tests: true
 group:
   frequency: "제조회사별, 제품규격별"

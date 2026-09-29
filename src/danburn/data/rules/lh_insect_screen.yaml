@@ -12,6 +12,8 @@ extra_keys:
 match:
   names:
   - 방충망
+  - 창호용망창   # 승인본 표기(L14-C4)
+  - 망창   # 승인본 표기(L14-C4)
   exclude:
   - 설치
   - 시공

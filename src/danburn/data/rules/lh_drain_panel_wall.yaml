@@ -1,0 +1,27 @@
+# 출처: LHCS 10 40 00 V2026.04 「시험」 부록4 「품질시험 및 검사기준」 Ⅱ.11 기타공사 벽체용 배수판
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 색인에 이 종별이 없다(L14-C4, 승인본 '대응 없음' 보강).
+# 원문 문장·표를 옮기지 않고 시험종목·시험방법 번호·빈도 사실만 적는다.
+# 품명이 그냥 "배수판"이면 벽체용으로 받는다(바닥용은 품명에 "바닥"이 붙는 관례) — 현장 확인.
+material: lh_drain_panel_wall
+label: 벽체용 배수판
+owner: LH
+work: 방수공사
+basis_version: "LHCS 10 40 00 V2026.04 부록4 「품질시험 및 검사기준」"
+extra_keys: [drain_board_bldg]
+match:
+  names: [벽체용배수판, 벽체배수판, 요철배수판, 배수판]
+  exclude: [설치, 시공, 인건, 노무, 운반, 하차, 할증, 철거, 드레인보드, 바닥용, 바닥배수]
+ks_mark: false
+ks_count: none
+order: 43
+spec_group:                              # L14-C6: 두께는 제품 규격(빈도 제품규격별·규격별) — 두께별 행
+  pattern: "(?:T=?(\\d{1,3}(?:\\.\\d)?)(?![0-9])|(?<![0-9.X])(\\d{1,3}(?:\\.\\d)?)(?:MM|T)(?![0-9]))"
+  label: "{1}{2}T"
+  other: "두께 미기재"   # L14-C7: 패턴에 안 걸린 행 — 뜻이 보이게
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.11 기타공사 벽체용 배수판"
+tests:
+  - {test_type: "냉열반복시험", method: "LHCS 41 80 03 05", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.11 기타공사 벽체용 배수판 냉열반복시험"}
+  - {test_type: "낙구충격시험", method: "LHCS 41 80 03 05", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.11 기타공사 벽체용 배수판 낙구충격시험"}

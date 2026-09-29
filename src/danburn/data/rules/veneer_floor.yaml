@@ -39,7 +39,7 @@ match:
 ks_mark: true
 ks_count: none
 order: 57
-spec_group: all
+# spec_group 없음(L14-C6): 빈도가 제품규격별인데 규격에 제품·조건이 섞여 안전한 추출이 어렵다 — 묶지 않는다(규격별 행)
 group_tests: true
 group:
   frequency: 제조회사별, 제품규격별
@@ -199,6 +199,7 @@ tests:
     minimum: 1
   basis: 별표2 3. 건축 바. 마감공사(지붕·목공사 포함) 천연무늬목 치장마루판(KS F 3111) 평면 인장 강도 (PDF p.40)
 - test_type: 실내공기 오염물질 방출량(총휘발성유기화합물, 톨루엔, 폼알데하이드)
+  eco_substitute: true
   method: KS M 1998 또는 실내공기질 공정시험기준(환경부고시)
   where: 외부
   optional: true

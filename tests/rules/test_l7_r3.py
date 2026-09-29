@@ -48,7 +48,7 @@ def test_shape_and_index(rules):
     ("콘크리트 섬유보강재(투입비포함)-복수적용", "M3", None),        # 섬유 종류 불명(규격에만 강섬유)
     ("어스앵커 그라우팅(토목)", "M3", "grout"),
     ("천공그라우팅 장비 조립,해체(토목)", "회", None),
-    ("무수축그라우트", "M3", None),                              # KS F 4044 별도 종별
+    ("무수축그라우트", "M3", "nonshrink_grout"),                              # KS F 4044 별도 종별
     ("경량형강", "TON", "light_gauge_section"),
     ("C형강", "KG", "light_gauge_section"),
     ("경량철골천장틀", "TON", None),                             # KS D 3609 천장틀 — 다른 종별

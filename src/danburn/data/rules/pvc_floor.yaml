@@ -41,7 +41,10 @@ accept_install_rows: true
 ks_mark: true
 ks_count: none
 order: 58
-spec_group: all
+spec_group:                              # L14-C6: 두께는 제품 규격(빈도 제품규격별·규격별) — 두께별 행
+  pattern: "(?:T=?(\\d{1,3}(?:\\.\\d)?)(?![0-9])|(?<![0-9.X])(\\d{1,3}(?:\\.\\d)?)(?:MM|T)(?![0-9]))"
+  label: "{1}{2}T"
+  other: "두께 미기재"   # L14-C7: 패턴에 안 걸린 행 — 뜻이 보이게
 group_tests: true
 group:
   frequency: 제조회사별, 제품규격별

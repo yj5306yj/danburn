@@ -137,6 +137,66 @@ def _find_header(grid: _Grid, max_scan: int = 30):
     return None
 
 
+def diagnose(path: str | Path) -> list[str]:
+    """읽힌 내역 행이 없을 때, 합성·현장 양식의 흔한 원인을 사용자 말로 설명한다.
+
+    ``read_boq``의 판독 결과나 규칙은 바꾸지 않는다. 이 함수는 실패한 파일을
+    별도로 열어 현재 판독기가 찾지 못한 첫 구조적 원인과 다음 조치를 돌려준다.
+    """
+    path = Path(path)
+    if path.suffix.lower() == ".xls":
+        return ["구형 .xls 파일이라 읽지 못함 → 엑셀에서 .xlsx로 다른 이름 저장"]
+    try:
+        wb_values = openpyxl.load_workbook(path, data_only=True)
+        wb_formulas = openpyxl.load_workbook(path, data_only=False)
+    except Exception:
+        return ["엑셀 파일을 열 수 없음 → 엑셀에서 열리는지 확인하고 .xlsx로 다시 저장"]
+
+    candidates = [ws for ws in wb_values.worksheets
+                  if any(pattern.match(ws.title) for pattern, _ in _SHEETS)]
+    if not candidates:
+        found = ", ".join(ws.title for ws in wb_values.worksheets) or "없음"
+        return [f"시트 이름이 달라요(찾은 시트: {found}) → 지급(건)·내역(건) 같은 시트 이름을 확인"]
+
+    reasons: list[str] = []
+    for ws in candidates:
+        values = [[ws.cell(r, c).value for c in range(1, ws.max_column + 1)]
+                  for r in range(1, min(ws.max_row, 30) + 1)]
+        exact_qty = [(r, c) for r, row in enumerate(values, 1)
+                     for c, value in enumerate(row, 1) if _norm(value) == "수량"]
+        if not exact_qty:
+            near = next((str(value).strip() for row in values for value in row
+                         if value is not None and "수량" in _norm(value)), None)
+            if near:
+                reasons.append(f"수량 칸 이름이 '{near}' → 머리 칸을 '수량'으로 고치기")
+            else:
+                reasons.append("머리행을 30행 안에서 못 찾음 → 30행 안에 품명·규격·단위·수량 머리를 두기")
+            continue
+
+        header_row = exact_qty[0][0]
+        headers = {_norm(ws.cell(r, c).value)
+                   for r in range(1, header_row + 1)
+                   for c in range(1, ws.max_column + 1)}
+        if "품명" not in headers:
+            reasons.append("품명 칸 없음 → 품명 머리 칸을 추가")
+            continue
+
+        qty_cols = [c for r, c in exact_qty if r == header_row]
+        formula_ws = wb_formulas[ws.title]
+        raw_qty = [formula_ws.cell(r, c).value
+                   for r in range(header_row + 1, ws.max_row + 1)
+                   for c in qty_cols]
+        if any(isinstance(value, str) and value.startswith("=") for value in raw_qty):
+            reasons.append("수식 결과가 저장 안 됨 → 엑셀에서 열고 저장")
+            continue
+        if not any(_qty(value) for value in
+                   (ws.cell(r, c).value for r in range(header_row + 1, ws.max_row + 1)
+                    for c in qty_cols)):
+            reasons.append("수량이 전부 빈칸/0 → 수량 열에 0보다 큰 값을 입력")
+
+    return list(dict.fromkeys(reasons)) or ["읽을 수 있는 내역 행이 없음 → 품명과 수량이 있는 자재 행을 확인"]
+
+
 def _is_total(label) -> bool:
     """합계 열·행 머리: '합 계', '⑥ 합 계 [④+⑤]', '계' 등."""
     text = _norm(label)

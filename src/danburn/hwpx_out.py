@@ -38,11 +38,20 @@ MM = 7200 / 25.4                     # mm → HWPUNIT
 PAGE = dict(paper_size="A4", margin_left_mm=16.5, margin_right_mm=12.5,
             margin_top_mm=16.5, margin_bottom_mm=10, header_margin_mm=21, footer_margin_mm=9.2)
 A4_MM = (210, 297)
-HEAD = ["공종", "시험항목", "시험종류", "수량", "단위", "시험빈도", "산출근거", "현장", "외부", "KS", "비고"]
-# 정본 폭 그대로(L6 메인 결정, plan-layout.md §8). 비고가 길면 좁은 칸 안에서 줄을 바꾼다(행이 늘어난다)
-WIDTHS_MM = [7.6, 22.9, 42.1, 13.6, 9.6, 21.4, 32.3, 7.7, 8.3, 7.9, 7.6]    # 합 181.0 = 세로 A4 본문폭
-ALIGN = ["CENTER", "CENTER", "LEFT", "RIGHT", "CENTER", "LEFT", "LEFT", "CENTER", "CENTER", "CENTER", "LEFT"]
-SMALL_COLS = {2, 5, 6, 10}           # 7pt 칸(긴 문장). 나머지는 8pt
+# 8.11 표 칸(hwpx·xlsx 공용 — testplan_xlsx 도 이 상수를 쓴다). 칸 이름은 LH 품질관리 지침 별지 「품질시험계획서」
+# 서식의 보편 용어(시험품목·시험종목·계획물량·계획시험횟수 현장/의뢰/KS)에 LHCS 10 40 00 부록 표의 '시험방법'을 더했다(L14-E).
+HEAD = ["공종", "시험품목", "시험종목", "시험방법", "계획물량", "단위", "시험빈도", "산출근거", "현장", "의뢰", "KS", "비고"]
+# 칸 번호(병합 규칙·머리 조립·xlsx 가 같이 쓴다)
+C_WORK, C_ITEM, C_TEST, C_METHOD, C_QTY, C_UNIT, C_FREQ, C_BASIS, C_SITE, C_EXT, C_KS, C_NOTE = range(12)
+# 2줄 머리: (행, 칸, 행 병합, 칸 병합, 글). 시험빈도는 빈도·산출근거 두 칸 위에 걸치고(아래 줄 왼칸 비움), 계획시험횟수는 세 칸
+HEAD_CELLS = ([(0, c, 2, 1, HEAD[c]) for c in range(C_FREQ)]
+              + [(0, C_FREQ, 1, 2, "시험빈도"), (1, C_FREQ, 1, 1, ""), (1, C_BASIS, 1, 1, HEAD[C_BASIS]),
+                 (0, C_SITE, 1, 3, "계획시험횟수"), (1, C_SITE, 1, 1, HEAD[C_SITE]), (1, C_EXT, 1, 1, HEAD[C_EXT]),
+                 (1, C_KS, 1, 1, HEAD[C_KS]), (0, C_NOTE, 2, 1, HEAD[C_NOTE])])
+# 정본 폭(L6, plan-layout.md §8)에서 시험방법 18.0 을 시험종목(42.1→30.1)·산출근거(32.3→26.3)에서 뺐다
+WIDTHS_MM = [7.6, 22.9, 30.1, 18.0, 13.6, 9.6, 21.4, 26.3, 7.7, 8.3, 7.9, 7.6]    # 합 181.0 = 세로 A4 본문폭
+ALIGN = ["CENTER", "CENTER", "LEFT", "LEFT", "RIGHT", "CENTER", "LEFT", "LEFT", "CENTER", "CENTER", "CENTER", "LEFT"]
+SMALL_COLS = {C_TEST, C_METHOD, C_FREQ, C_BASIS, C_NOTE}   # 7pt 칸(긴 문장). 나머지는 8pt
 HEAD_ROW_MM = 6.3                    # 머리행 2줄 각각
 BODY_ROW_MM = 4.8                    # 본문 행 최소 높이(내용이 길면 늘어난다)
 CELL_PAD_MM = (0.5, 0.5, 0.3, 0.3)   # 좌·우·위·아래
@@ -245,22 +254,27 @@ def _item_text(item: str) -> str:
     return item
 
 
-def _cell_texts(r: PlanRow) -> list[str]:
-    return [r.work or WORK_BY_MATERIAL.get(r.material, ""), _item_text(r.item), r.test_type, _q(r.qty) if r.qty else "-",
+def cell_texts(r: PlanRow) -> list[str]:
+    """8.11 한 행의 칸 글(HEAD 순서). 시험방법은 PlanRow.method 가 있을 때만(없으면 빈칸)."""
+    return [r.work or WORK_BY_MATERIAL.get(r.material, ""), _item_text(r.item), r.test_type,
+            str(getattr(r, "method", "") or ""), _q(r.qty) if r.qty else "-",
             r.unit, r.frequency, r.calc_basis,
             str(r.count_site) if r.count_site else "", str(r.count_external) if r.count_external else "",
             r.count_ks, r.note]
+
+
+_cell_texts = cell_texts
 
 
 def merge_plan(rows: list[PlanRow]) -> dict[int, list[tuple[int, int]]]:
     """열 번호 → 세로 병합 구간 목록(본문 행 기준 0부터). 1행짜리 구간도 포함한다.
 
     - 공종(0): 공종이 같으면 병합.
-    - 시험항목(1)·수량(3): 같은 공종 안에서 같은 자재·규격(시험항목)과 수량이면 병합.
-    - 시험종류(2)·시험빈도(5)·산출근거(6): 같은 자재·같은 시험종류의 연속 행(철근 규격 묶음 등)이 글이 같으면 병합.
-    - 단위(4): 같은 시험항목이거나 위 묶음이면 병합.
-    - 비고(10): 비어 있지 않고 글이 같으며 같은 시험항목이거나 위 묶음이면 병합.
-    - 계획횟수(7~9)는 행마다 따로 적는다(병합하지 않는다).
+    - 시험품목(1)·계획물량(4): 같은 공종 안에서 같은 자재·규격(시험품목)과 수량이면 병합.
+    - 시험종목(2)·시험방법(3)·시험빈도(6)·산출근거(7): 같은 자재·같은 시험종목의 연속 행(철근 규격 묶음 등)이 글이 같으면 병합.
+    - 단위(5): 같은 시험품목이거나 위 묶음이면 병합.
+    - 비고(11): 비어 있지 않고 글이 같으며 같은 시험품목이거나 위 묶음이면 병합.
+    - 계획시험횟수(8~10)는 행마다 따로 적는다(병합하지 않는다).
     """
     t = [_cell_texts(r) for r in rows]
     n = len(rows)
@@ -274,14 +288,15 @@ def merge_plan(rows: list[PlanRow]) -> dict[int, list[tuple[int, int]]]:
     def same_test(a, b):
         return same_work(a, b) and rows[a].material == rows[b].material and rows[a].test_type == rows[b].test_type
 
-    plan = {0: _runs(n, same_work)}
-    for c in (1, 3):
+    plan = {C_WORK: _runs(n, same_work)}
+    for c in (C_ITEM, C_QTY):
         plan[c] = _runs(n, lambda a, b, c=c: same_item(a, b) and t[a][c] == t[b][c])
-    for c in (2, 5, 6):
+    for c in (C_TEST, C_METHOD, C_FREQ, C_BASIS):
         plan[c] = _runs(n, lambda a, b, c=c: same_test(a, b) and t[a][c] == t[b][c])
-    plan[4] = _runs(n, lambda a, b: t[a][4] == t[b][4] and (same_item(a, b) or same_test(a, b)))
-    plan[10] = _runs(n, lambda a, b: bool(t[a][10]) and t[a][10] == t[b][10] and (same_item(a, b) or same_test(a, b)))
-    for c in (7, 8, 9):
+    plan[C_UNIT] = _runs(n, lambda a, b: t[a][C_UNIT] == t[b][C_UNIT] and (same_item(a, b) or same_test(a, b)))
+    plan[C_NOTE] = _runs(n, lambda a, b: bool(t[a][C_NOTE]) and t[a][C_NOTE] == t[b][C_NOTE]
+                         and (same_item(a, b) or same_test(a, b)))
+    for c in (C_SITE, C_EXT, C_KS):
         plan[c] = [(i, i) for i in range(n)]
     return plan
 
@@ -388,13 +403,8 @@ def _table(st: _Styles, rows: list[PlanRow], widths: list[float]) -> etree._Elem
                                header=header, vertical=vertical))
 
     hp = PT["head"]
-    for c, h in enumerate(HEAD[:5]):
-        put(0, c, 2, 1, h, height=2 * hh, align="CENTER", pt=hp, header=True)
-    put(0, 5, 1, 2, "시험빈도", height=hh, align="CENTER", pt=hp, header=True)
-    put(0, 7, 1, 3, "계획횟수", height=hh, align="CENTER", pt=hp, header=True)
-    put(0, 10, 2, 1, HEAD[10], height=2 * hh, align="CENTER", pt=hp, header=True)
-    for c in range(5, 10):
-        put(1, c, 1, 1, "" if c == 5 else HEAD[c], height=hh, align="CENTER", pt=hp, header=True)
+    for r0, c0, rs, cs, h in HEAD_CELLS:
+        put(r0, c0, rs, cs, h, height=rs * hh, align="CENTER", pt=hp, header=True)
 
     texts = [_cell_texts(r) for r in rows]
     plan = merge_plan(rows)

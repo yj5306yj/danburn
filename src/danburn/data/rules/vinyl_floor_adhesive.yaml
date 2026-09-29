@@ -42,6 +42,7 @@ tests:
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
     basis: "별표2 3. 건축 아. 기타 비닐계 바닥재용 접착제(KS F 3218) 비중 (PDF p.52)"
   - test_type: "실내공기 오염물질 방출량"
+    eco_substitute: true
     method: "KS F 3218, KS M 1998"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}

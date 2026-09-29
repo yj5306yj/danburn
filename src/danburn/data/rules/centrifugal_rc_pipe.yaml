@@ -3,6 +3,8 @@
 # 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
 # KS 처리: 종별 괄호 안 KS 규격 제품은 별표2 끝 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
 # 표가 p.18 끝에서 p.19 첫머리로 이어진다. 철근콘크리트관(KS F 4402, 비원심력)은 별도 종별.
+# KS 종목별 처리(ks_substitute): LHCS 10 40 00 V2026.04 부록4 해당 종별 비고 — KS 인증업체 공인기관 성적서 확인으로 갈음하는 종목. LH 발주 기준(별표2 아님).
+# KS 종목별 처리(ks_substitute_below, L14-C5): LHCS 10 40 00 V2026.04 부록4 Ⅰ.1 마. 하수도용 관 비고 — 10개 미만 소량 규격만 KS 성적서 갈음 가능 → 보통 수량은 시험.
 material: centrifugal_rc_pipe
 label: 원심력 철근콘크리트관
 work: 배수공사
@@ -22,30 +24,35 @@ group:
   basis: "별표2 1. 공통 마. 기타 원심력 철근콘크리트관(KS F 4403) (PDF p.18~19); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
 tests:
   - test_type: "겉모양 및 모양"
+    ks_substitute_below: 10   # L14-C5: LHCS 부록4 하수도용 관 — 규격 수량 10개 미만이면 KS 성적서로 갈음, 그 이상은 시험
     method: "KS F 4403"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
     basis: "별표2 1. 공통 마. 기타 원심력 철근콘크리트관(KS F 4403) 겉모양 및 모양 (PDF p.18~19)"
     conditions: "빈도: 모든 제품마다. 하수도용관(비고)."
   - test_type: "치수"
+    ks_substitute_below: 10   # L14-C5: LHCS 부록4 하수도용 관 — 규격 수량 10개 미만이면 KS 성적서로 갈음, 그 이상은 시험
     method: "KS F 4403"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
     basis: "별표2 1. 공통 마. 기타 원심력 철근콘크리트관(KS F 4403) 치수 (PDF p.18~19)"
     conditions: "빈도: 제조회사별, 제품규격마다. 하수도용관(비고)."
   - test_type: "외압강도"
+    ks_substitute_below: 10   # L14-C5: LHCS 부록4 하수도용 관 — 규격 수량 10개 미만이면 KS 성적서로 갈음, 그 이상은 시험
     method: "KS F 4403"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
     basis: "별표2 1. 공통 마. 기타 원심력 철근콘크리트관(KS F 4403) 외압강도 (PDF p.18~19)"
     conditions: "빈도: 제조회사별, 제품규격마다. 하수도용관(비고)."
   - test_type: "내압강도"
+    ks_substitute_below: 10   # L14-C5: LHCS 부록4 하수도용 관 — 규격 수량 10개 미만이면 KS 성적서로 갈음, 그 이상은 시험
     method: "KS F 4403"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
     basis: "별표2 1. 공통 마. 기타 원심력 철근콘크리트관(KS F 4403) 내압강도 (PDF p.18~19)"
     conditions: "빈도: 제조회사별, 제품규격마다. 하수도용관(비고)."
   - test_type: "방균성능(방균관)"
+    ks_substitute: certificate
     method: "KS F 4403"
     where: 외부
     optional: true

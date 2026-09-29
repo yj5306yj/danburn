@@ -46,6 +46,28 @@ export DANBURN_HOME="$work/home"
 for f in 품질관리계획서.hwpx 품질관리계획서.json 요약.json project.yaml; do
   [ -s "$work/run/out/$f" ] || fail "start 산출 없음: $f"
 done
+# 품질시험계획서 단독본(L14-G): start 산출 폴더의 project.yaml 하나로(질문 없음) 한글·엑셀·JSON.
+# 수록본(품질관리계획서.json)과 단독본(품질시험계획서.json)의 8.11 행이 같아야 한다(같은 compute)
+"$bin" test-plan --project "$work/run/out/project.yaml" --offline --json >"$work/run/tp.json" || fail "test-plan"
+"$bin" test-plan --project "$work/run/out/project.yaml" --offline --format xlsx --out-dir "$work/run/tp2" >"$work/run/tp.txt" || fail "test-plan 결과 화면"
+grep -q '^단번 품질시험계획서' "$work/run/tp.txt" && grep -q '^다음 할 일' "$work/run/tp.txt" || fail "test-plan 결과 화면 모양"
+for f in 품질시험계획서.hwpx 품질시험계획서.xlsx 품질시험계획서.json; do
+  [ -s "$work/run/out/$f" ] || fail "test-plan 산출 없음: $f"
+done
+"$work/venv/bin/hwpx-validate" "$work/run/out/품질시험계획서.hwpx" >/dev/null || fail "test-plan hwpx 스키마"
+"$work/venv/bin/python" - "$work/run/out" "$work/run/tp.json" <<'PY' || fail "test-plan 행·엑셀 대조"
+import json, sys
+from pathlib import Path
+import openpyxl
+out = Path(sys.argv[1])
+plan = json.loads((out / "품질관리계획서.json").read_text(encoding="utf-8"))
+tp = json.loads((out / "품질시험계획서.json").read_text(encoding="utf-8"))
+summary = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8"))
+assert plan == tp and summary["test_plan"]["rows"] == len(tp) > 0, "수록본·단독본 행이 다름"
+assert summary["xlsx"] and Path(summary["xlsx"]).name == "품질시험계획서.xlsx"
+wb = openpyxl.load_workbook(out / "품질시험계획서.xlsx")
+assert any(n.startswith("2.시험계획-") for n in wb.sheetnames), wb.sheetnames
+PY
 example="$("$work/venv/bin/python" -c 'from danburn.paths import TEMPLATES_DIR; print(TEMPLATES_DIR / "project.example.yaml")')"
 case "$example" in "$root"/*) fail "설치본이 저장소 파일을 가리킴: $example";; esac
 "$bin" plan --boq boq.xlsx --block 나동 --project "$example" --revision 0 --date "2026. 01. 05." \
@@ -58,4 +80,4 @@ grep -q '"number": "2026-360"' "$work/run/basis.json" || fail "check-basis 가 �
 set +e; "$bin" check "$work/run/plan/품질관리계획서.hwpx" --offline --json >"$work/run/plan.json"; rc=$?; set -e
 case "$rc" in 0|3|4) ;; *) fail "check 종료 ${rc}";; esac
 grep -q '"snapshot_checked_at": "20' "$work/run/plan.json" || fail "check 가 기준표를 못 읽음"
-echo "OK: 휠 설치본으로 start·plan·check-basis·check --offline 통과 (저장소 밖 폴더)"
+echo "OK: 휠 설치본으로 start·test-plan·plan·check-basis·check --offline 통과 (저장소 밖 폴더)"

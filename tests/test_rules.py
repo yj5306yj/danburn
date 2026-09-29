@@ -123,7 +123,7 @@ def test_rebar_group_row_ks_and_non_ks():
     assert row.test_type.split(",")[0] == "겉모양" and "화학성분" in row.test_type and "탄소당량(용접용)" in row.test_type
     assert row.count_external == 1 and row.count_site == 0
     assert row.calc_basis == "KS자재 - 제조회사 및 제품규격별 1회"
-    assert row.note == "제조사 수 확인"
+    assert row.note == "" and "1곳으로 계산" in row.detail          # 행 비고 대신 detail → 요약 한 줄(L14-D4)
     assert "KS제품" in row.frequency and "비KS제품" in row.frequency and "50톤" in row.frequency
     assert "p.52" in row.basis and "제91조제1항" in row.basis
     assert row.item == "철근(SD400 D13)"

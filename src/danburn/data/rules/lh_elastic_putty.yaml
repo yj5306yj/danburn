@@ -52,6 +52,7 @@ tests:
     minimum: 1
   basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.13 도장재 탄성퍼티 인장강도·신장율
 - test_type: 친환경(TVOC·폼알데하이드·톨루엔·중금속)
+  eco_substitute: true
   method: 환경부 실내공기질 공정시험방법
   where: 외부
   frequency:

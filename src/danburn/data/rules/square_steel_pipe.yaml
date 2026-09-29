@@ -3,6 +3,7 @@
 # 가설기자재의 '일반구조용 각형강관(거푸집·동바리 멍에·장선용으로 제한)'(PDF p.15, 색인 temp_square_pipe)은
 # 시험종목·빈도가 달라 이 파일에 넣지 않았다 — 멍에·장선 행은 match.exclude 로 뺀다.
 # KS 제품 처리: 종별 괄호에 (KS D 3568) — 별표2 끝 ※주석(PDF p.52) → ks_mark true, ks_count none(시험 없이 ◎).
+# KS 종목별 처리(ks_substitute): LHCS 10 40 00 V2026.04 부록4 해당 종별 비고 — KS 인증업체 공인기관 성적서 확인으로 갈음하는 종목. LH 발주 기준(별표2 아님).
 material: square_steel_pipe
 label: 일반구조용각형강관
 work: 철골공사
@@ -20,13 +21,14 @@ order: 15
 spec_group:                              # 치수(□-100×100×3.2 등)별 행 대신 강종별로 묶는다 — 비KS 100톤 빈도는 강종 합계로 계산
   pattern: "(SPSR\\d{3})"
   label: "{1}"
-  other: 규격별
+  other: "규격 미기재"   # L14-C7: 패턴에 안 걸린 행 — 뜻이 보이게
 group_tests: true
 group:
   frequency: "1. KS제품은 KS자재(시험 면제)\n2. 비KS제품은 제조회사별·제품규격별 100톤마다"
   basis: "별표2 1. 다. 일반구조용 각형강관(KS D 3568) (PDF p.12); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
 tests:
   - test_type: 겉모양, 치수, 무게
+    ks_substitute: certificate
     method: "KS D 3568"
     where: 외부
     frequency: {per_qty: 100, unit: ton, text: "제조회사별·제품규격별 100톤마다", minimum: 1}
@@ -34,6 +36,7 @@ tests:
     conditions: &ks_note "제조회사별·제품규격별 100톤마다 또는 KS D 3568. 종별 괄호 안 KS 규격(KS D 3568) 인증품은 ※주석(PDF p.52)에 따라 시험 면제 → KS자재 ◎. 비KS는 100톤마다 외부 시험. 해석 필요: m 단위 내역은 규격별 단위중량으로 톤 환산해야 비KS 횟수가 맞음(자동 환산 안 함 — '단위 확인')."
 
   - test_type: 화학성분
+    ks_substitute: certificate
     method: "KS D 3568"
     where: 외부
     frequency: {per_qty: 100, unit: ton, text: "제조회사별·제품규격별 100톤마다", minimum: 1}
@@ -41,6 +44,7 @@ tests:
     conditions: *ks_note
 
   - test_type: 인장강도
+    ks_substitute: certificate
     method: "KS D 3568"
     where: 외부
     frequency: {per_qty: 100, unit: ton, text: "제조회사별·제품규격별 100톤마다", minimum: 1}
@@ -48,6 +52,7 @@ tests:
     conditions: *ks_note
 
   - test_type: 항복점 또는 항복강도
+    ks_substitute: certificate
     method: "KS D 3568"
     where: 외부
     frequency: {per_qty: 100, unit: ton, text: "제조회사별·제품규격별 100톤마다", minimum: 1}
@@ -55,6 +60,7 @@ tests:
     conditions: *ks_note
 
   - test_type: 연신율
+    ks_substitute: certificate
     method: "KS D 3568"
     where: 외부
     frequency: {per_qty: 100, unit: ton, text: "제조회사별·제품규격별 100톤마다", minimum: 1}
@@ -62,6 +68,7 @@ tests:
     conditions: *ks_note
 
   - test_type: 굽힘성
+    ks_substitute: certificate
     method: "KS D 3568"
     where: 외부
     optional: true

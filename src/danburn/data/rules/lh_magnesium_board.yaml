@@ -1,0 +1,24 @@
+# 출처: LHCS 10 40 00 V2026.04 「시험」 부록4 「품질시험 및 검사기준」 Ⅱ.9 단열·보온공사 결로 방지용 복합 단열재 > 마그네슘보드
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 색인에 이 종별이 없다(L14-C4, 승인본 '대응 없음' 보강).
+# 원문 문장·표를 옮기지 않고 시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_magnesium_board
+label: 마그네슘보드(결로방지용 복합단열재)
+owner: LH
+work: 단열공사
+basis_version: "LHCS 10 40 00 V2026.04 부록4 「품질시험 및 검사기준」"
+match:
+  names: [마그네슘보드, MgO보드, 산화마그네슘보드]
+  exclude: [설치, 시공, 인건, 노무, 운반, 하차, 할증, 철거]
+ks_mark: false
+ks_count: none
+order: 49
+spec_group: all
+group_tests: true
+group:
+  frequency: "5,000매마다(난연성은 공구당 1회)"
+  basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.9 단열·보온공사 결로 방지용 복합 단열재 > 마그네슘보드"
+tests:
+  - {test_type: "흡수율", method: "KS L 5114", where: 외부, frequency: {per_qty: 5000, unit: 매, text: "5,000매마다(난연성은 공구당 1회)", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.9 단열·보온공사 결로 방지용 복합 단열재 > 마그네슘보드 흡수율"}
+  - {test_type: "흡수에 의한 길이 변화율", method: "KS L 5114", where: 외부, frequency: {per_qty: 5000, unit: 매, text: "5,000매마다(난연성은 공구당 1회)", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.9 단열·보온공사 결로 방지용 복합 단열재 > 마그네슘보드 흡수에 의한 길이 변화율"}
+  - {test_type: "꺾임강도", method: "KS L 5114", where: 외부, frequency: {per_qty: 5000, unit: 매, text: "5,000매마다(난연성은 공구당 1회)", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.9 단열·보온공사 결로 방지용 복합 단열재 > 마그네슘보드 꺾임강도"}
+  - {test_type: "난연성", method: "KS F 2271", where: 외부, frequency: {per_qty: null, unit: null, text: "공구당 1회", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.9 단열·보온공사 결로 방지용 복합 단열재 > 마그네슘보드 난연성"}

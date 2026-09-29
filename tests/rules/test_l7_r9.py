@@ -35,7 +35,8 @@ def test_shape(all_rules):
     pipe, fit = all_rules["lh_ductile_iron_pipe"], all_rules["lh_ductile_iron_fitting"]
     assert pipe.owner == fit.owner == "LH" and not pipe.index_keys and not fit.index_keys
     assert [t.test_type for t in pipe.tests] == ["치수", "KS D 4311에 규정된 시험종목", "수압시험"]
-    assert [t.where for t in pipe.tests] == ["현장", "KS", "현장"] and not pipe.group_tests
+    assert [t.where for t in pipe.tests] == ["현장", "KS", "현장"] and pipe.group_tests and pipe.ks_mark   # L14-C3: LH·KS 경로에서 종목별 행
+    assert [t.ks_substitute for t in pipe.tests] == ["", "certificate", ""]
     assert "수압시험" not in [t.test_type for t in fit.tests] and fit.ks_mark and fit.group_tests
 
 
@@ -67,9 +68,9 @@ def test_owner_off(all_rules):
 
 def test_rows(active):
     lines = [_line("수도용 닥타일 주철직관(KP식 2종)"), _line("닥타일이형관(각종)(시멘트라이닝)", "D250MM이하(공장도)", "KG", 900)]
-    rows = plan_rows(aggregate(lines, active)[0], active)
+    rows = plan_rows(aggregate(lines, active)[0], active, owner="LH")
     pipe = [r for r in rows if r.material == "lh_ductile_iron_pipe"]
     assert [(r.spec, r.test_type, r.count_site, r.count_ks) for r in pipe] == [
-        ("D150", "치수", 1, ""), ("D150", "KS D 4311에 규정된 시험종목", 0, "KS"), ("D150", "수압시험", 1, "")]
+        ("D150", "치수", 1, "◎"), ("D150", "KS D 4311에 규정된 시험종목", 0, "◎"), ("D150", "수압시험", 1, "◎")]
     fit = [r for r in rows if r.material == "lh_ductile_iron_fitting"]
-    assert len(fit) == 1 and fit[0].count_ks == "◎" and fit[0].calc_basis == "KS자재"
+    assert [(r.test_type, r.count_site + r.count_external, r.note) for r in fit if r.note == "성적서대체"] == [("KS 규정 시험종목", 0, "성적서대체")]   # LH·KS: 종목별 행, 갈음 종목 0회(L14-C3)

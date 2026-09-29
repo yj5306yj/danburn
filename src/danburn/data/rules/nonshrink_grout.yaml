@@ -1,0 +1,36 @@
+# 출처: 「건설공사 품질관리 업무지침」 별표2 1. 공통 > 나. 철근콘크리트공사 > 수경성시멘트 무수축 그라우트(KS F 4044) (PDF p.9)
+#       KS 종목별 처리: LHCS 10 40 00 V2026.04 부록4 Ⅰ.1 공통 나. 철근콘크리트 공사 같은 종별 비고(L14-C2).
+# 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
+# 일반 그라우트(grout.yaml)는 종별이 달라 '무수축'을 뺀다 — 여기서 받는다.
+# KS 처리: 종별 괄호에 KS F 4044 → ks_mark true. 별표2 현장은 ※주석(PDF p.52)대로 KS 면제(ks_count none).
+#   LH 현장: 유하시간·플로·응결시간·블리딩률·팽창 높이는 KS 인증업체 성적서로 갈음(ks_substitute), 압축 강도·염화물 함유량은 비고 없음.
+material: nonshrink_grout
+label: 무수축 그라우트
+work: 철근콘크리트공사
+basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
+index_keys: [nonshrink_grout]
+match:
+  names: [무수축그라우트, 무수축그라우팅, 무수축모르타르, 무수축몰탈, 무수축몰타르, 수경성시멘트무수축]
+  exclude: [인건, 노무, 운반, 할증, 장비]
+ks_mark: true                          # 종별 괄호에 KS F 4044 — KS 칸 ◎
+ks_count: none                         # 별표2 현장 KS 인증품은 시험 없이 ◎(시행령 91조 면제)
+order: 27
+spec_group: all                          # 제품 규격(포장 단위 등)이 시험을 바꾸지 않는다 — 제조회사별
+group_tests: true
+group:
+  frequency: "제조회사별"
+  basis: "별표2 1. 나. 수경성시멘트 무수축 그라우트(KS F 4044) (PDF p.9); KS 제품은 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
+tests:
+  - test_type: 유하시간
+    ks_substitute: certificate
+    method: "KS F 4044"
+    where: 외부
+    frequency: &f {per_qty: null, unit: null, text: "제조회사별", minimum: 1}
+    basis: "별표2 1. 나. 수경성시멘트 무수축 그라우트(KS F 4044) 유하시간 (PDF p.9)"
+    conditions: &sub "LH(LHCS 10 40 00 V2026.04 부록4): KS 인증업체 공인기관 성적서 확인으로 갈음하는 종목."
+  - {test_type: 플로, ks_substitute: certificate, method: "KS F 4044", where: 외부, frequency: *f, basis: "별표2 1. 나. 수경성시멘트 무수축 그라우트(KS F 4044) 플로 (PDF p.9)", conditions: *sub}
+  - {test_type: 응결시간, ks_substitute: certificate, method: "KS F 4044", where: 외부, frequency: *f, basis: "별표2 1. 나. 수경성시멘트 무수축 그라우트(KS F 4044) 응결시간 (PDF p.9)", conditions: *sub}
+  - {test_type: 블리딩률, ks_substitute: certificate, method: "KS F 4044", where: 외부, frequency: *f, basis: "별표2 1. 나. 수경성시멘트 무수축 그라우트(KS F 4044) 블리딩률 (PDF p.9)", conditions: *sub}
+  - {test_type: 팽창 높이, ks_substitute: certificate, method: "KS F 4044", where: 외부, frequency: *f, basis: "별표2 1. 나. 수경성시멘트 무수축 그라우트(KS F 4044) 팽창 높이 (PDF p.9)", conditions: *sub}
+  - {test_type: 압축 강도, method: "KS F 4044", where: 외부, frequency: *f, basis: "별표2 1. 나. 수경성시멘트 무수축 그라우트(KS F 4044) 압축 강도 (PDF p.9)"}
+  - {test_type: 염화물 함유량, method: "KS F 4044", where: 외부, frequency: *f, basis: "별표2 1. 나. 수경성시멘트 무수축 그라우트(KS F 4044) 염화물 함유량 (PDF p.9)"}

@@ -44,6 +44,7 @@ tests:
   basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.9 목재류 등 온돌마루재용 접착제
   conditions: 시료 1ℓ
 - test_type: 친환경(TVOC·폼알데하이드·톨루엔)
+  eco_substitute: true
   method: 환경부 실내공기질 공정시험방법
   where: 외부
   frequency:

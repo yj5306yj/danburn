@@ -15,10 +15,11 @@ from danburn.rules import load_rules
 
 RULES = Path(__file__).resolve().parents[2] / "src" / "danburn" / "data" / "rules"
 BV = "LHCS 10 40 00:2020(2020-12-09) 부록 「품질시험 및 검사기준」"
+BV_2026 = "LHCS 10 40 00 V2026.04 부록4 「품질시험 및 검사기준」"   # L14-C2 새 LH 규칙
 # 부록에 종별이 일부만 있는 목록 항목 — 경고를 지우지 않는다(extra_keys 로 주장하지 않음)
 PARTIAL = {"fire_shutter", "balcony_drain", "pvc_molding", "ventilation", "spray_coating"}
 # 부록에 종별이 없는 목록 항목
-ABSENT = {"drain_board_bldg", "phenolic_foam", "railing", "safety_net", "sanitary_ware", "form_tie", "mailbox",
+ABSENT = {"railing", "safety_net", "sanitary_ware", "form_tie", "mailbox",
           "bath_cabinet", "high_strength_pvc_pipe", "refrigerant_fitting", "pressure_reducing_valve",   # 설비(부록 Ⅲ에 없음)
           "fiber_reinforcement", "wp_polymer_mortar", "hs_pe_corrugated_pipe"}   # L7-R6·R7(부록에 없음). pvc_double_wall_pipe 는 lh_sewer_pvc_pipe 가 주장(L7-R8)
 # 별표2 문세트(door_set) 동의어 '방화문'에 먼저 걸리는 이름 — door_set.match.exclude 보강 제안(보고서)
@@ -51,7 +52,7 @@ def test_lh_rules_shape(lh):
     claimed = set()
     for key, r in lh.items():
         assert key.startswith("lh_") and r.material == key
-        assert r.basis_version == BV
+        assert r.basis_version in (BV, BV_2026)
         assert r.match_names and r.tests and not r.index_keys        # 별표2 색인 종별을 주장하지 않는다
         assert set(r.extra_keys) <= catalog
         claimed |= set(r.extra_keys)
@@ -86,15 +87,14 @@ def test_synthetic_line_matches_and_rows(active, key):
         assert match_rule(_line(n, unit), active) is r, (key, n)
     mats, unread = aggregate([_line(r.match_names[-1], unit)], active)
     assert not unread and [m.material for m in mats] == [key]
-    rows = plan_rows(mats, active)
+    rows = plan_rows(mats, active, owner="LH")
     assert rows and all(x.item.startswith(r.label) for x in rows)
     if r.group_tests:
-        row = rows[0]
-        assert len(rows) == 1
-        if r.ks_mark:
-            assert row.count_ks == "◎"
+        if r.ks_mark:                                      # LH + KS: 종목별 행(L14-D2)
+            assert len(rows) == len([t for t in r.tests if not t.optional])
+            assert all(x.count_ks == "◎" for x in rows)
         else:
-            assert row.count_external >= 1
+            assert len(rows) == 1 and rows[0].count_external >= 1
 
 
 def test_per_qty_frequency(active):
@@ -116,7 +116,7 @@ def test_interior_sealant_and_fire_lock_split(active):
     assert match_rule(_line("실리콘 실링재"), active).material == "lh_sealant"
     assert match_rule(_line("방화용 도어락"), active).material == "lh_fire_door_lock"
     assert match_rule(_line("도어락"), active).material == "lh_door_lock"
-    assert match_rule(_line("디지털도어록"), active) is None             # 부록에 종별 없음
+    assert match_rule(_line("디지털도어록"), active).material == "lh_digital_door_lock"   # V2026.04 부록4 Ⅱ.5 아. 디지털 도어록(L14-C4)
     assert match_rule(_line("HDPE 보호재"), active).material == "lh_hdpe_wp_protection"
 
 

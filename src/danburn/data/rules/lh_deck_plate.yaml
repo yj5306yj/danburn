@@ -1,0 +1,38 @@
+# 출처: LHCS 10 40 00 V2026.04 「시험」 부록4 「품질시험 및 검사기준」 Ⅰ.1 공통 다. 철강구조물공사 데크플레이트(탈형데크플레이트 포함)
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 에는 데크플레이트 종별이 없다(색인 확인).
+# 원문 문장·표를 옮기지 않고 구성 재료·시험종목·시험방법 번호·빈도 사실만 적는다.
+# 일반 데크플레이트: 주철근(SD500 봉강)·철선 SWM-R(주철근)·SWM-F(래티스·래치)·용융아연도금강판.
+# 탈형 데크플레이트는 lh_deck_plate_removable(철선 SWM-P) — 품명 '탈형'이 더 길게 맞아 그쪽으로 간다.
+# KS 종목별 처리(ks_still_test): 부록4 비고 — 구성 재료가 KS 인증 제품이어도 모든 종목을 시험한다.
+material: lh_deck_plate
+label: 데크플레이트
+owner: LH
+work: 철골공사
+basis_version: "LHCS 10 40 00 V2026.04 부록4 「품질시험 및 검사기준」"
+match:
+  names: [데크플레이트, 데크프레이트, 덱크플레이트, 데크플레이드, 데크판]
+  units: [m2, ton, 매, ea]
+  exclude: [탈형, 설치, 시공, 인건, 노무, 운반, 하차, 할증, 철거, 복공판]
+ks_mark: true                          # 구성 재료(KS D 3504·3552·3506) — KS 칸 ◎
+ks_count: makers                       # KS라도 시험 — 제조회사 수 × 1회
+order: 12
+spec_group: all                          # 판 두께·골 높이 규격이 시험을 바꾸지 않는다 — 제조회사별
+group_tests: true
+group:
+  frequency: "제조회사별"
+  basis: "LHCS 10 40 00 V2026.04 부록4 Ⅰ.1 다. 철강구조물공사 데크플레이트 — 구성 재료는 KS 인증 제품이어도 시험"
+tests:
+  - {test_type: 주철근 항복점 또는 항복강도, ks_still_test: true, method: "KS D 3504", where: 외부, frequency: &f {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: &b "LHCS 10 40 00 V2026.04 부록4 Ⅰ.1 다. 데크플레이트 주철근 철근콘크리트용 봉강(KS D 3504) SD500", conditions: &c "구성 재료가 KS 인증 제품이어도 시험(부록4 비고)."}
+  - {test_type: 주철근 인장강도, ks_still_test: true, method: "KS D 3504", where: 외부, frequency: *f, basis: *b, conditions: *c}
+  - {test_type: 주철근 연신율, ks_still_test: true, method: "KS D 3504", where: 외부, frequency: *f, basis: *b, conditions: *c}
+  - {test_type: 주철근 굽힘성, ks_still_test: true, method: "KS D 3504", where: 외부, frequency: *f, basis: *b, conditions: *c}
+  - {test_type: 철선(SWM-R) 항복점 또는 0.2% 항복강도, ks_still_test: true, method: "KS D 3552", where: 외부, frequency: *f, basis: &bw "LHCS 10 40 00 V2026.04 부록4 Ⅰ.1 다. 데크플레이트 주철근 철선(KS D 3552) SWM-R", conditions: *c}
+  - {test_type: 철선(SWM-R) 굽힘성, ks_still_test: true, method: "KS D 3552", where: 외부, frequency: *f, basis: *bw, conditions: *c}
+  - {test_type: 철선(SWM-R) 연신율, ks_still_test: true, method: "KS D 3552", where: 외부, frequency: *f, basis: *bw, conditions: *c}
+  - {test_type: 철선(SWM-R) 인장강도, ks_still_test: true, method: "KS B 0802", where: 외부, frequency: *f, basis: *bw, conditions: *c}
+  - {test_type: 철선(SWM-F) 인장강도, ks_still_test: true, method: "KS B 0802", where: 외부, frequency: *f, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅰ.1 다. 데크플레이트 래티스·래치 철선(KS D 3552) SWM-F(데크플레이트용)", conditions: *c}
+  - {test_type: 아연도금강판 항복점, ks_still_test: true, method: "KS D 3506", where: 외부, frequency: *f, basis: &bg "LHCS 10 40 00 V2026.04 부록4 Ⅰ.1 다. 데크플레이트 용융 아연도금강판(KS D 3506) SGC245Y·SGC295Y·SGC560Y", conditions: &cg "구성 재료가 KS 인증 제품이어도 시험(부록4 비고). SGC560Y는 항복점·인장강도·아연 부착량만(연신율·굽힘성 없음)."}
+  - {test_type: 아연도금강판 인장강도, ks_still_test: true, method: "KS D 3506", where: 외부, frequency: *f, basis: *bg, conditions: *cg}
+  - {test_type: 아연도금강판 연신율, ks_still_test: true, method: "KS D 3506", where: 외부, frequency: *f, basis: *bg, conditions: *cg}
+  - {test_type: 아연도금강판 아연 부착량, ks_still_test: true, method: "KS D 3506", where: 외부, frequency: *f, basis: *bg, conditions: *cg}
+  - {test_type: 아연도금강판 굽힘성, ks_still_test: true, method: "KS D 3506", where: 외부, frequency: *f, basis: *bg, conditions: *cg}

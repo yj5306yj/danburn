@@ -23,7 +23,7 @@ G2 = {
     "tempered_glass": 7,
     "insulated_glass": 6,
     "gypsum_board": 11,
-    "ceramic_tile": 10,
+    "ceramic_tile": 11,
     "water_paint": 26,
     "ready_mixed_paint": 20,
     "epoxy_floor_finish": 21,
@@ -34,8 +34,8 @@ RAW_UNIT = {"m2": "㎡", "kg": "KG", "l": "L", "m": "M", "ea": "EA"}
 
 
 @pytest.fixture(scope="module")
-def rules():
-    return load_rules(RULES)
+def rules():   # 별표2 규칙만 — LH 규칙(lh_eps·lh_pur 등)은 --owner LH 에서만 켜진다(L14-C5)
+    return {k: r for k, r in load_rules(RULES).items() if not r.owner}
 
 
 def _line(name, unit, qty=500.0, spec="합성규격"):
@@ -66,7 +66,9 @@ def test_synthetic_line_row(rules, key):
     mats, unread = aggregate([line], rules)
     assert not unread
     rows = [x for x in plan_rows(mats, rules) if x.material == key]
-    assert len(rows) == 1
+    still = [t for t in r.tests if t.ks_still_test and not t.optional] if key in KS_EXEMPT else []
+    assert len(rows) == 1 + len(still)                       # 별표2 현장: 'KS라도 시험' 종목만 권고 행으로 따로(L14-D2)
+    assert all("권고: KS라도 시험" in x.note for x in rows[1:])
     row = rows[0]
     assert row.item.startswith(r.label)
     if key in KS_EXEMPT:
@@ -107,7 +109,9 @@ def test_excluded_neighbours(rules, name, unit, not_key):
 def test_optional_tests_not_in_default_row(rules):
     """종류·용도 한정 시험(예: 방수석고보드만, 바닥타일만)은 묶음 행 기본 종목에서 빠진다."""
     mats, _ = aggregate([_line("석고보드", "㎡"), _line("자기질타일", "㎡")], rules)
-    rows = {x.material: x for x in plan_rows(mats, rules)}
+    rows: dict = {}
+    for x in plan_rows(mats, rules):
+        rows.setdefault(x.material, x)                       # 첫 행 = 묶음 행(뒤는 KS라도 시험 권고 행, L14-D2)
     assert "흡수시 내박리성" not in rows["gypsum_board"].test_type
     assert "휨 파괴 하중" in rows["gypsum_board"].test_type
     assert "바닥타일" not in rows["ceramic_tile"].test_type

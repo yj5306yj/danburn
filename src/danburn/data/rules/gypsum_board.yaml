@@ -15,10 +15,10 @@ match:
 ks_mark: true                          # 종별 괄호에 KS F 3504 — KS 칸 ◎
 ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
 order: 55
-spec_group:                              # 두께별 행 대신 종류(방수·방화·차음·일반)별 — 원문도 종류별로 종목이 다르다(L4-D2)
-  pattern: "(방수|방화|차음|라스|치장)"
-  label: "{1}"
-  other: 일반
+spec_group:                              # L14-C6: 두께(9.5/12.5)와 방수·방화 종류는 제품 규격(승인본 건축!B754·B774·B794)
+  pattern: "^(?=(?:.*?(방수|방화|차음|라스|치장))?).*?(?<![0-9.])(9\\.5|12\\.5|15|19)(?![0-9])"
+  label: "{1}{2}T"
+  other: "두께 미기재"   # L14-C7: 패턴에 안 걸린 행 — 뜻이 보이게
 group_tests: true
 group:
   frequency: "제조회사별, 제품규격별"
@@ -98,6 +98,7 @@ tests:
     conditions: "치장석고보드(GB-D)에 한함."
 
   - test_type: "실내공기 오염물질 방출량(총휘발성유기화합물, 톨루엔, 폼알데하이드)"
+    eco_substitute: true
     method: "KS M 1998 또는 실내공기질 공정시험기준(환경부고시)"
     where: KS
     optional: true

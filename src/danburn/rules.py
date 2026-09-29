@@ -9,6 +9,7 @@ import yaml
 from .model import Frequency, Rule, TestRule
 
 WHERE_VALUES = ("현장", "외부", "KS")
+KS_SUBSTITUTE_VALUES = ("", "certificate")
 
 
 def _require(obj: dict, key: str, ctx: str):
@@ -44,6 +45,20 @@ def _test(raw: dict, ctx: str) -> TestRule:
     where = raw.get("where", "현장")
     if where not in WHERE_VALUES:
         raise ValueError(f"{ctx}: where 는 {WHERE_VALUES} 중 하나여야 함 (받은 값 {where!r})")
+    ks_substitute = _ks_substitute(raw.get("ks_substitute"), ctx)
+    ks_still_test = raw.get("ks_still_test", False)
+    if not isinstance(ks_still_test, bool):
+        raise ValueError(f"{ctx}: ks_still_test 는 true/false 여야 함 (받은 값 {ks_still_test!r})")
+    if ks_substitute and ks_still_test:
+        raise ValueError(f"{ctx}: ks_substitute 와 ks_still_test 를 함께 켤 수 없음")
+    below = raw.get("ks_substitute_below")
+    if below is not None and (isinstance(below, bool) or not isinstance(below, int) or below < 1):
+        raise ValueError(f"{ctx}: ks_substitute_below 는 1 이상 정수여야 함 (받은 값 {below!r})")
+    if below is not None and (ks_substitute or ks_still_test):
+        raise ValueError(f"{ctx}: ks_substitute_below 는 ks_substitute·ks_still_test 와 함께 쓸 수 없음")
+    eco_substitute = raw.get("eco_substitute", False)
+    if not isinstance(eco_substitute, bool):
+        raise ValueError(f"{ctx}: eco_substitute 는 true/false 여야 함 (받은 값 {eco_substitute!r})")
     return TestRule(
         test_type=test_type,
         method=_require(raw, "method", ctx),
@@ -53,7 +68,22 @@ def _test(raw: dict, ctx: str) -> TestRule:
         conditions=raw.get("conditions") or "",
         optional=bool(raw.get("optional", False)),
         display=raw.get("display") or "",
+        ks_substitute=ks_substitute,
+        ks_still_test=ks_still_test,
+        eco_substitute=eco_substitute,
+        ks_substitute_below=below,
     )
+
+
+def _ks_substitute(value, ctx: str) -> str:
+    """ks_substitute: 없음·false → "", true·'certificate' → "certificate"."""
+    if value is None or value is False:
+        return ""
+    if value is True:
+        return "certificate"
+    if value not in KS_SUBSTITUTE_VALUES:
+        raise ValueError(f"{ctx}: ks_substitute 는 true/false 또는 'certificate' 여야 함 (받은 값 {value!r})")
+    return value
 
 
 def _spec_group(raw, ctx: str) -> dict:

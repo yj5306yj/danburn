@@ -26,7 +26,7 @@ group:
 tests:
   - test_type: "치수"
     method: "KS F 3109, KS F 1515"
-    where: 외부
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
     basis: "별표2 3. 건축 마. 창호공사 문세트(KS F 3109) 치수 (PDF p.38~39)"
   - test_type: "비틀림 강도"

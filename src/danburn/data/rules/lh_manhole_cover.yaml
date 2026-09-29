@@ -31,12 +31,26 @@ match:
 ks_mark: false
 ks_count: makers
 order: 80
+spec_group:                              # 설치 깊이(h=…)는 조건 — 뚜껑 호칭(D900·D1200)은 제품 규격이라 남긴다(L14-C3)
+  pattern: "(D-?\\d{3,4}|@\\d{3,4})"
+  label: "{1}"
+  other: "규격 미기재"   # L14-C7: 패턴에 안 걸린 행 — 뜻이 보이게
 group_tests: true
 group:
   frequency: 제조회사별, 제품규격마다
   basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.1 공통 주철맨홀 뚜껑 및 조화맨홀 뚜껑
 tests:
-- test_type: 겉모양·치수·무게·정하중
+- test_type: 겉모양·치수                # L14-C5: 부록4 비고 '1) 현장시험: 겉모양, 치수'(V2026.04 같은 칸) — 무게·정하중과 나눔
+  method: SPS-KFCA-M201-1639
+  where: 현장
+  frequency:
+    per_qty: null
+    unit: null
+    text: 제조회사별, 제품규격마다
+    minimum: 1
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.1 공통 주철맨홀 뚜껑 겉모양·치수
+  conditions: '현장시험. 시료 3개'
+- test_type: 무게·정하중
   method: SPS-KFCA-M201-1639
   where: 외부
   frequency:
@@ -44,8 +58,8 @@ tests:
     unit: null
     text: 제조회사별, 제품규격마다
     minimum: 1
-  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.1 공통 주철맨홀 뚜껑 겉모양·치수·무게·정하중
-  conditions: '현장시험: 겉모양·치수. 시료 겉모양·치수 3개, 정하중 1개'
+  basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅰ.1 공통 주철맨홀 뚜껑 무게·정하중
+  conditions: '정하중 시료 1개'
 - test_type: 흑연구상화율·화학분석·기계적성질
   method: SPS-KFCA-M201-1639, SPS-KFCA-D4301-5015, SPS-KFCA-D4302-5016
   where: 외부

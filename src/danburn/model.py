@@ -58,6 +58,11 @@ class TestRule:
     conditions: str = ""   # 원문 조건 요약·해석 필요 표시
     optional: bool = False # 조건부 시험(예: 콘크리트포장에 한함) — 기본 산출에서 빼고 목록으로 알린다
     display: str = ""      # 계획서에 적는 실무 이름(예: 슬럼프). 비면 test_type
+    # KS 인증 제품일 때 이 종목의 처리(발주처 시험기준 비고 — 예: LHCS 10 40 00 V2026.04 부록4). 비면 지금 동작(규칙 ks_count).
+    ks_substitute: str = ""   # "certificate" = KS 인증업체가 공인기관에 의뢰한 시험성적서 확인으로 갈음(계획 0회, 비고 '성적서대체')
+    ks_still_test: bool = False  # True = KS 인증 제품이어도 이 종목은 시험한다(면제·갈음 안 됨)
+    eco_substitute: bool = False # True = 친환경 항목(TVOC·폼알데하이드·톨루엔 등) — 공인기관 성적서·환경표지인증서를 내면 시험 면제(LHCS 10 40 00 1.5.1(9))
+    ks_substitute_below: int | None = None  # KS 제품이고 규격 수량이 이 값 미만이면 성적서로 갈음, 이상이면 시험(LHCS 하수도용 관 "소량 10개 미만")
 
 
 @dataclass(frozen=True)
@@ -112,3 +117,4 @@ class PlanRow:
     material: str = ""     # 규칙 키 (채점 짝 맞추기용)
     spec: str = ""         # 정규화 규격
     sources: list[tuple[str, int]] = field(default_factory=list)
+    method: str = ""       # 시험방법(예: "KS F 2402"). 규칙 TestRule.method 에서 채운다

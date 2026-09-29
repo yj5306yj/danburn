@@ -44,6 +44,7 @@ tests:
   basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.13 도장재 아연도금 바탕면용 아크릴우레탄페인트
   conditions: 시료 1조 1ℓ×2통
 - test_type: 친환경(TVOC·폼알데하이드·톨루엔·중금속)
+  eco_substitute: true
   method: 환경부 실내공기질 공정시험방법
   where: 외부
   frequency:

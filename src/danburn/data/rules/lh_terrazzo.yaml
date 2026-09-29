@@ -1,0 +1,31 @@
+# 출처: LHCS 10 40 00 V2026.04 「시험」 부록4 「품질시험 및 검사기준」 Ⅱ.6 타일 및 석공사 기성테라조(테라조타일 및 판)(KS F 4035)
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 색인에 이 종별이 없다(L14-C4, 승인본 '대응 없음' 보강).
+# 원문 문장·표를 옮기지 않고 시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_terrazzo
+label: 기성테라조(타일·판)
+owner: LH
+work: 석공사
+basis_version: "LHCS 10 40 00 V2026.04 부록4 「품질시험 및 검사기준」"
+match:
+  names: [기성테라조, 테라조판, 테라조타일, 테라죠]
+  exclude: [설치, 시공, 인건, 노무, 운반, 하차, 할증, 철거, 갈기, 현장테라조]
+ks_mark: true
+ks_count: none
+order: 57
+spec_group:                              # L14-C6: 테라조 타일과 판은 다른 제품(승인본 건축!B1886·B1902)
+  pattern: "(타일|판)"
+  label: "테라조{1}"
+  other: "규격 미기재"   # L14-C7: 패턴에 안 걸린 행 — 뜻이 보이게
+group_tests: true
+group:
+  frequency: "제조회사별"
+  basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.6 타일 및 석공사 기성테라조(테라조타일 및 판)(KS F 4035)"
+tests:
+  - {test_type: "치수", method: "KS F 4035", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.6 타일 및 석공사 기성테라조(테라조타일 및 판)(KS F 4035) 치수"}
+  - {test_type: "뒤틀림", method: "KS F 4035", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.6 타일 및 석공사 기성테라조(테라조타일 및 판)(KS F 4035) 뒤틀림"}
+  - {test_type: "출석률", method: "KS F 4035", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.6 타일 및 석공사 기성테라조(테라조타일 및 판)(KS F 4035) 출석률"}
+  - {test_type: "휨강도", method: "KS F 4035", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.6 타일 및 석공사 기성테라조(테라조타일 및 판)(KS F 4035) 휨강도"}
+  - {test_type: "직각도", method: "KS F 4035", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.6 타일 및 석공사 기성테라조(테라조타일 및 판)(KS F 4035) 직각도"}
+  - {test_type: "내마모성", method: "KS L 1001", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.6 타일 및 석공사 기성테라조(테라조타일 및 판)(KS F 4035) 내마모성"}
+  - {test_type: "난연성", optional: true, method: "KS F 2271 등", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.6 타일 및 석공사 기성테라조(테라조타일 및 판)(KS F 4035) 난연성", conditions: "건축물 내부 피난계단실·특별피난계단실 및 부속실 바닥용"}
+  - {test_type: "미끄럼 저항성", optional: true, method: "KS L 1001", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.6 타일 및 석공사 기성테라조(테라조타일 및 판)(KS F 4035) 미끄럼 저항성", conditions: "계단실·복도·EV홀 등 공용공간 바닥"}

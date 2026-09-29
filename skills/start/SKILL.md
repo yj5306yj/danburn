@@ -73,6 +73,7 @@ argument-hint: "[도급내역서.xlsx 또는 폴더]"
   - `(작성 필요)` 로 남긴 칸: 산출 폴더의 `project.yaml` 에서 적은 뒤 다시 만들면 된다(방법 B 를 이어 하거나 아래 `plan`).
   - 현장 확인을 "나중에"로 남긴 수.
 - 초안이며 현장 조건(발주처 특기시방·감리 지시)은 **품질관리자가 확정**한다고 적는다. 한글(맥은 무료 한글 Viewer)에서 열어 확인하라고 안내한다.
+- 품질시험계획서만 따로 내야 하면(한글·엑셀): `/danburn:test-plan <산출 폴더>` — 같은 계산으로 질문 없이 만든다.
 - 더 자세한 항목은 산출 폴더의 `요약.json` 에 있다(`warnings`·`needs_confirmation`·`member_inferred`·`missing_common_specs` 등).
 
 ## 개인정보 — 도구의 규칙과 같게
@@ -91,7 +92,7 @@ start 없이 명령으로 돌릴 때(개정·옵션 조정). `danburn` 은 위 �
   - 요약을 보고 다시 돌리는 옵션:
     - `--owner LH`(LH 시험기준)
     - `--formwork-sets`(레미콘 부위 `member_inferred` 의 `confirm: true`)
-    - `--makers`·`--non-ks`(철근 "제조사 수 확인". KS 여부는 project.yaml `KS_인증: 예|아니오|모름` 으로도 — `--non-ks` 가 우선)
+    - `--makers`·`--non-ks`(제조사 수는 project.yaml `제조사수: {철근: 8}` 으로도 — `--makers` 가 우선. 없으면 1곳으로 계산하고 확인할 것에 한 줄. KS 여부는 project.yaml `KS_인증: 예|아니오|모름` 으로도 — `--non-ks` 가 우선)
     - `--add-spec`(`missing_common_specs`)
     - `--civil-scope 공구`
     - `--confirm key=예,…`(현장 확인)

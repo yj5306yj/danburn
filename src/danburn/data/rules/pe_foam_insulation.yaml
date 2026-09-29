@@ -14,7 +14,7 @@ match:
 ks_mark: true                          # 종별 괄호에 KS M 3862 — KS 칸 ◎
 ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
 order: 46
-spec_group: all                          # 두께·관경별 행을 한 행으로(단위가 다르면 ㎡·m 행으로 나뉜다, L4-D2)
+# spec_group 없음(L14-C6): 빈도가 제품규격별인데 규격에 제품·조건이 섞여 안전한 추출이 어렵다 — 묶지 않는다(규격별 행)
 group_tests: true
 group:
   frequency: "시공면적 1,000㎡마다, 1,000매마다"

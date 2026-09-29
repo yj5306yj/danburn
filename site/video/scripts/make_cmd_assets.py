@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
-"""랜딩 "두 가지 일" 영상(CmdStart·CmdCheck) 재료를 도구의 실제 출력에서 만든다(합성 예제만, 실제 현장 자료 없음).
+"""랜딩 "세 가지 일" 영상(CmdStart·CmdTestPlan·CmdCheck) 재료를 도구의 실제 출력에서 만든다(합성 예제만, 실제 현장 자료 없음).
 
 - start: 합성 내역서(scripts/make_example_boq.py)를 빈 폴더에 두고
   `danburn start --plain --input <답 목록> --offline --folder … --out-dir <tmp>` 를 돌린다.
   출력 줄(out)과 답 목록(answers)을 그대로 적고, 화면에 보일 줄(screen)은 그중에서 고르기만 한다.
   질문 줄 다음에는 그 질문이 읽은 답을 입력 줄(› 답)로 둔다(한 줄 모드는 답을 되풀이해 찍지 않으므로).
   만든 계획서(.hwpx)는 rhwp → PDF → 쪽 PNG(표지·8.11)로.
+- testplan: start 와 같은 답으로 산출 폴더를 만든 뒤 `danburn test-plan --project 산출/project.yaml --offline`.
+  출력 줄(사람용 결과 화면)을 out 으로, 화면 줄은 그중에서 고른다. 파일 위치·행 수는 같은 명령의 --json 으로 받고
+  화면의 '시험 N행' 이 JSON rows 와 같은지 verify 가 본다. 만든 한글 문서는 rhwp → PDF → 쪽 PNG(2부 가로 표·시험실 (스캔첨부)),
+  엑셀은 openpyxl 로 다시 읽어 시트 이름만 적는다(엑셀을 그림으로 그리지 않는다 — 오피스 프로그램 없음).
 - check: 우리 합성 계획서(`danburn plan`, tests/test_check_cli.py 의 our_plan 과 같은 인자)를
   tests/test_check_cli.py 의 _make_old_plan 으로 옛 기준 계획서로 바꾸고(같은 함수를 불러 씀)
   `danburn check "옛기준 계획서.hwpx"` 출력 줄을 적는다 — skills/check/SKILL.md 처럼 --offline·--json 없이(에이전트가
@@ -14,8 +18,9 @@
 화면 줄 규칙(대조표의 기준): screen 항목의 text 는 out[i] 와 같거나, 임시 폴더 경로 앞부분만 "…/" 로 줄인 것이다.
 줄을 건너뛴 자리는 {"k": "gap", "text": "…"}. 긴 줄의 끝 자르기(…)는 영상 쪽 줄 수(rows)로만 한다 — 글자는 바꾸지 않는다.
 
-산출: site/video/public/cmd/{start,check}.json, site/video/public/cmd/start-*.png
-사용(저장소 루트에서): .venv/bin/python site/video/scripts/make_cmd_assets.py
+산출: site/video/public/cmd/{start,testplan,check}.json, site/video/public/cmd/{start,testplan}-*.png
+사용(저장소 루트에서): .venv/bin/python site/video/scripts/make_cmd_assets.py [--only start,testplan,check]
+  --only 를 주면 그 재료만 새로 만들고 나머지 파일은 그대로 둔다(이미 렌더한 영상과 재료가 어긋나지 않게).
 필요: .venv(danburn), rhwp(.tools/rhwp/rhwp — 워크트리에 없으면 원래 체크아웃의 것), pdftoppm·pdftotext·pdfinfo(poppler)
 """
 from __future__ import annotations
@@ -87,7 +92,8 @@ def pick(out: list[str], tmp: Path, pred) -> dict:
     return {"k": "out", "i": i, "text": shorten(out[i], tmp)}
 
 
-def make_start(tmp: Path) -> dict:
+def run_start(tmp: Path) -> tuple[Path, list[str]]:
+    """합성 내역서 + ANSWERS 로 danburn start(한 줄 모드) → (산출 폴더, 출력 줄)."""
     folder = tmp / "현장"
     folder.mkdir()
     run(PY, ROOT / "scripts" / "make_example_boq.py", "--out", folder / BOQ_NAME)
@@ -95,7 +101,18 @@ def make_start(tmp: Path) -> dict:
     inp.write_text("\n".join(ANSWERS) + "\n", encoding="utf-8")
     outdir = tmp / "산출"
     _, text = run(DANBURN, "start", "--plain", "--input", inp, "--offline", "--folder", folder, "--out-dir", outdir)
-    out = text.splitlines()
+    return outdir, text.splitlines()
+
+
+def pdf_pages(hwpx: Path, pdf: Path) -> list[str]:
+    """hwpx → rhwp PDF → 쪽마다 글(빈칸 뺌)."""
+    run(rhwp(), "export-pdf", hwpx, "-o", pdf)
+    pages = int(re.search(r"Pages:\s+(\d+)", run("pdfinfo", pdf)[1]).group(1))
+    return [re.sub(r"\s", "", run("pdftotext", "-f", n, "-l", n, pdf, "-")[1]) for n in range(1, pages + 1)]
+
+
+def make_start(tmp: Path) -> dict:
+    outdir, out = run_start(tmp)
 
     # 질문 줄 ↔ 답: 한 줄 모드는 질문마다 답 한 줄을 읽는다(되묻기 없이 끝났는지 확인)
     prompts = [n for n, t in enumerate(out) if PROMPT.search(t)]
@@ -138,6 +155,53 @@ def make_start(tmp: Path) -> dict:
             "doc": {"file": hwpx.name, "pages": pages, "table_page": table, "shots": shots}}
 
 
+def next_steps(out: list[str], tmp: Path) -> list[dict]:
+    """'다음 할 일' 부분: 한 줄이면 그 줄(강조), 두 단계면 머리 줄 + 1) 줄(강조) + …(화면 줄 수 안에서)."""
+    head = pick(out, tmp, lambda t: t.startswith("다음 할 일"))
+    if head["text"] != "다음 할 일:":
+        return [{**head, "hl": True}]
+    one = pick(out, tmp, lambda t: t.startswith("  1) "))
+    return [head, {**one, "hl": True}, {"k": "gap", "text": "…"}]
+
+
+def make_testplan(tmp: Path) -> dict:
+    import openpyxl
+    outdir, _ = run_start(tmp)
+    project = outdir / "project.yaml"
+    # 화면 = 사람용 결과 화면(기본 출력). 파일 위치·행 수는 같은 명령의 --json 으로(두 번 돌려도 같은 계산)
+    _, text = run(DANBURN, "test-plan", "--project", project, "--offline")
+    _, raw = run(DANBURN, "test-plan", "--project", project, "--offline", "--json")
+    obj = json.loads(raw)
+    out = [shorten(t, tmp) for t in text.splitlines()]
+    rows = obj["test_plan"]["rows"]
+    gap = {"k": "gap", "text": "…"}
+    warn_head = next(n for n, t in enumerate(out) if t.startswith("확인할 것"))
+    screen = [
+        {"k": "cmd", "text": "/danburn:test-plan 산출"},
+        pick(out, tmp, lambda t: t.startswith("단번 품질시험계획서")),
+        {**pick(out, tmp, lambda t: t.startswith("만든 파일: ")), "hl": True},
+        {**pick(out, tmp, lambda t: t.startswith("시험 ")), "mark": f"시험 {rows}행"},
+        {"k": "out", "i": warn_head, "text": out[warn_head]},
+        *([{"k": "out", "i": warn_head + 1, "text": out[warn_head + 1]}, gap] if out[warn_head].endswith(":") else []),
+        {**(scan := pick(out, tmp, lambda t: t.startswith("(스캔첨부) 빈칸"))), "mark": scan["text"].split(":")[0]},
+        *next_steps(out, tmp),
+    ]
+    hwpx, xlsx = Path(obj["hwpx"]), Path(obj["xlsx"])
+    texts = pdf_pages(hwpx, tmp / "testplan.pdf")
+    table = next(n for n, t in enumerate(texts, 1) if "계획물량" in t and "시험품목" in t)          # 2부 표 첫 쪽(목차에는 이 칸 이름이 없다)
+    room = next(n for n, t in enumerate(texts, 1) if "(스캔첨부)시험실배치평면도" in t)
+    shots = {}
+    for name, n in (("table", table), ("room", room)):
+        run("pdftoppm", "-r", DPI, "-png", "-singlefile", "-f", n, "-l", n, tmp / "testplan.pdf", OUT / f"testplan-{name}")
+        shots[name] = f"cmd/testplan-{name}.png"
+    sheets = openpyxl.load_workbook(xlsx, read_only=True).sheetnames
+    return {"command": "/danburn:test-plan 산출",
+            "tool": "danburn test-plan --project 산출/project.yaml --offline (그림·행 수는 같은 명령 --json)",
+            "out": out, "screen": screen, "json_rows": rows,
+            "doc": {"file": hwpx.name, "xlsx": xlsx.name, "pages": len(texts), "table_page": table, "room_page": room,
+                    "shots": shots, "sheets": sheets, "rows": rows}}
+
+
 def make_check(tmp: Path) -> dict:
     spec = importlib.util.spec_from_file_location("test_check_cli", ROOT / "tests" / "test_check_cli.py")
     mod = importlib.util.module_from_spec(spec)
@@ -173,8 +237,10 @@ def make_check(tmp: Path) -> dict:
 
 
 def verify(d: dict) -> None:
-    """화면 줄 = 실제 출력 줄(경로 앞부분 …/ 만 허용), 입력 줄 = 답 목록."""
+    """화면 줄 = 실제 출력 줄(경로 앞부분 …/ 만 허용), 입력 줄 = 답 목록. 강조 글(mark)은 그 줄 안의 글자 그대로."""
     for s in d["screen"]:
+        if s.get("mark"):
+            assert s["mark"] in s["text"], s
         if s["k"] == "out":
             assert s["text"] == d["out"][s["i"]], s
         elif s["k"] == "in":
@@ -183,21 +249,38 @@ def verify(d: dict) -> None:
             assert s["text"] == d["command"], s
         else:
             assert s == {"k": "gap", "text": "…"}, s
+    if "json_rows" in d:                                   # testplan: 화면의 행 수 = --json 의 rows
+        assert any(s.get("mark") == f"시험 {d['json_rows']}행" for s in d["screen"]), d["json_rows"]
 
 
-def main() -> int:
-    if OUT.exists():
-        shutil.rmtree(OUT)
-    OUT.mkdir(parents=True)
-    with tempfile.TemporaryDirectory() as t:
-        start = make_start(Path(t))
-    with tempfile.TemporaryDirectory() as t:
-        check = make_check(Path(t))
-    for name, d in (("start", start), ("check", check)):
+MAKERS = {"start": make_start, "testplan": make_testplan, "check": make_check}
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--only", default=",".join(MAKERS), help="만들 재료(쉼표로): start, testplan, check")
+    names = [n.strip() for n in ap.parse_args(argv).only.split(",") if n.strip()]
+    bad = [n for n in names if n not in MAKERS]
+    if bad:
+        raise SystemExit(f"--only 는 {', '.join(MAKERS)} 중에서: {bad}")
+    if set(names) == set(MAKERS) and OUT.exists():
+        shutil.rmtree(OUT)                      # 전부 새로 만들 때만 비운다
+    OUT.mkdir(parents=True, exist_ok=True)
+    for name in names:
+        for old in OUT.glob(f"{name}-*.png"):
+            old.unlink()
+        with tempfile.TemporaryDirectory() as t:
+            d = MAKERS[name](Path(t))
         verify(d)
         (OUT / f"{name}.json").write_text(json.dumps(d, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    print(f"start: out {len(start['out'])}줄 → 화면 {len(start['screen'])}줄, 계획서 {start['doc']['pages']}쪽(8.11 p{start['doc']['table_page']})")
-    print(f"check: out {len(check['out'])}줄 → 화면 {len(check['screen'])}줄, 종료 {check['exit']}, 인터넷 확인 {'됨' if check['online'] else '실패 → --offline'}")
+        if name == "start":
+            print(f"start: out {len(d['out'])}줄 → 화면 {len(d['screen'])}줄, 계획서 {d['doc']['pages']}쪽(8.11 p{d['doc']['table_page']})")
+        elif name == "testplan":
+            print(f"testplan: out {len(d['out'])}줄 → 화면 {len(d['screen'])}줄, 시험 행 {d['doc']['rows']}, 한글 {d['doc']['pages']}쪽"
+                  f"(표 p{d['doc']['table_page']}, 시험실 p{d['doc']['room_page']}), 엑셀 시트 {len(d['doc']['sheets'])}")
+        else:
+            print(f"check: out {len(d['out'])}줄 → 화면 {len(d['screen'])}줄, 종료 {d['exit']}, 인터넷 확인 {'됨' if d['online'] else '실패 → --offline'}")
     return 0
 
 

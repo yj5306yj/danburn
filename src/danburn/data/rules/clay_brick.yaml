@@ -25,25 +25,25 @@ group:
 tests:
   - test_type: 겉모양
     method: "KS L 4201"
-    where: 외부
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     frequency: {per_qty: 50000, unit: ea, text: "제품 50,000매당", minimum: 1}
     basis: "별표2 3. 가. 점토벽돌(KS L 4201) 겉모양 (PDF p.32)"
     conditions: &clay "제품 50,000매당(쪽 경계 p.32→p.33에 걸친 병합 칸). KS 인증품은 ※주석(PDF p.52)으로 면제 → ◎. 내역 단위 천매·매·개는 unit_factors 로 개(ea)로 환산해 합산(천매=1,000매)."
   - test_type: 치수
     method: "KS L 4201"
-    where: 외부
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     frequency: {per_qty: 50000, unit: ea, text: "제품 50,000매당", minimum: 1}
     basis: "별표2 3. 가. 점토벽돌(KS L 4201) 치수 (PDF p.33)"
     conditions: *clay
   - test_type: 흡수율
     method: "KS L 4201"
-    where: 외부
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     frequency: {per_qty: 50000, unit: ea, text: "제품 50,000매당", minimum: 1}
     basis: "별표2 3. 가. 점토벽돌(KS L 4201) 흡수율 (PDF p.33)"
     conditions: *clay
   - test_type: 압축강도
     method: "KS L 4201"
-    where: 외부
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     frequency: {per_qty: 50000, unit: ea, text: "제품 50,000매당", minimum: 1}
     basis: "별표2 3. 가. 점토벽돌(KS L 4201) 압축강도 (PDF p.33)"
     conditions: *clay

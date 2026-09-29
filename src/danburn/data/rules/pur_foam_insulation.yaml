@@ -2,19 +2,23 @@
 #       3. 건축 > 다. 단열·보온공사 > 경질폴리우레탄폼 단열재(KS M 3809) (PDF p.37)
 # 원문 조문을 옮기지 않고 번호·항목명·요약만 적는다.
 # 창호 주위 '우레탄폼 충전'(1액형 발포 충전재)은 이 종별이 아니므로 match.exclude 와 단위(m2·매)로 뺐다.
+# KS 종목별 처리(ks_still_test): LHCS 10 40 00 V2026.04 부록4 해당 종별 비고 — KS 인증 제품이어도 시험하는 종목. LH 발주 기준(별표2 아님).
 material: pur_foam_insulation
 label: 경질폴리우레탄폼 단열재
 work: 단열공사
 basis_version: "국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2"
 index_keys: [pur_foam_insulation]
 match:
-  names: [경질폴리우레탄폼, 폴리우레탄폼, 우레탄폼, 경질우레탄, 우레탄보드, 폴리우레탄단열재, 경질발포플라스틱단열재PUR, 단열재(PUR), 단열재PUR]
+  names: [경질폴리우레탄폼, 폴리우레탄폼, 우레탄폼, 경질우레탄, 우레탄보드, 폴리우레탄단열재, 경질발포플라스틱단열재PUR, 단열재(PUR), 단열재PUR, 건축물단열재-PUR]   # LHCS 표기 "…-건축물 단열재-PUR"(L14-C2)
   units: [m2, 매, 장]
-  exclude: [충전, 인건, 노무, 운반, 할증]
+  exclude: [충전, 인건, 노무, 운반, 할증, 충진]   # "충진용 발포우레탄폼"은 lh_filling_pu_foam(L14-C4)
 ks_mark: true                          # 종별 괄호에 KS M 3809 — KS 칸 ◎
 ks_count: none                         # KS 인증품은 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재')
 order: 47
-spec_group: all                          # 두께·규격별 행을 한 행으로(KS ◎·면적 빈도, L4-D2)
+spec_group:                              # L14-C6: 두께·종호는 제품 규격 — 두께별 행(승인본 건축!B906~B1170 EPS·PUR·PF 두께별 행). 부위·붙임 방법만 뗀다
+  pattern: "((?:비드법|압출법)?[1-4]종[1-4]호|특호|[1-4]호)?[^0-9+]*?(\\d{2,3})MM"
+  label: "{1}{2}MM"
+  other: "두께 미기재"
 group_tests: true
 group:
   frequency: "시공면적 1,000㎡마다, 1,000매마다"
@@ -22,7 +26,7 @@ group:
 tests:
   - test_type: "겉모양 및 치수"
     method: "KS M 3809"
-    where: KS
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
     basis: "별표2 3. 건축 다. 단열·보온공사 경질폴리우레탄폼 단열재(KS M 3809) 겉모양 및 치수 (PDF p.37)"
 
@@ -47,11 +51,12 @@ tests:
 
   - test_type: "겉보기 밀도"
     method: "KS M ISO 845"
-    where: KS
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
     basis: "별표2 3. 건축 다. 단열·보온공사 경질폴리우레탄폼 단열재(KS M 3809) 겉보기 밀도 (PDF p.37)"
 
   - test_type: "열전도율"
+    ks_still_test: true
     method: "KS L 9016"
     where: KS
     frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}
@@ -70,6 +75,7 @@ tests:
     basis: "별표2 3. 건축 다. 단열·보온공사 경질폴리우레탄폼 단열재(KS M 3809) 압축 강도 (PDF p.37)"
 
   - test_type: "연소성"
+    ks_still_test: true
     method: "KS M ISO 9772"
     where: KS
     frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다, 1,000매마다", minimum: 1}

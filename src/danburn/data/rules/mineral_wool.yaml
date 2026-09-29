@@ -15,7 +15,7 @@ match:
 ks_mark: true                            # 종별 괄호 (KS L 9102)
 ks_count: none                           # KS 인증품은 시험 없이 ◎(산출근거 'KS자재')
 order: 48
-spec_group: all                          # 밀도·두께·관경별 행을 한 행으로(판재 ㎡·관 보온 m 은 단위별로 나뉜다, L4-D2)
+# spec_group 없음(L14-C6): 빈도가 제품규격별인데 규격에 제품·조건이 섞여 안전한 추출이 어렵다 — 묶지 않는다(규격별 행)
 group_tests: true
 group:
   frequency: "시공면적 1,000제곱미터마다
@@ -24,7 +24,7 @@ group:
 tests:
   - test_type: "겉모양, 치수, 밀도"
     method: "KS L 9102"
-    where: 외부
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     frequency: {per_qty: 1000, unit: m2, text: "시공면적 1,000㎡마다", minimum: 1}
     basis: "별표2 3. 건축 다. 단열·보온공사 인조광섬유 단열재(KS L 9102) 겉모양, 치수, 밀도 (PDF p.37)"
     conditions: "시공면적 1,000㎡마다, 1,000매마다(병합 빈도 칸). 해석 필요: 매 단위 내역은 ㎡ 기준 계산과 다름."

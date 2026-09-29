@@ -10,6 +10,7 @@ import json
 import re
 import os
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 from .paths import RULES_DIR
 
@@ -208,17 +209,44 @@ def _ks_answer(a: argparse.Namespace) -> str | None:
     raise ValueError(f"project.yaml 의 KS_인증 '{v}' 을 읽을 수 없습니다. 예·아니오·모름 중 하나로 적으세요.")
 
 
-def _ks_warning(rows, rules) -> str | None:
-    """KS 인증 확인 전(모름)인데 KS 여부로 계산이 갈리는 행(KS 종별 묶음 행)이 있으면 경고 한 줄."""
+def _makers(a: argparse.Namespace) -> dict[str, int]:
+    """제조사(골재원) 수: project.yaml '제조사수: {철근: 8, "rebar:SD400 D13": 2}' 위에 --makers 'SD400 D13=2,*=1' 을 덮는다.
+    키는 calc._lookup 이 찾는 모양 그대로 — 자재 이름(철근)·규칙 키(rebar)·'자재:규격'·규격·'분야:규격'·'*'. 값은 1 이상 정수."""
+    from .calc import parse_sets
+    out: dict[str, int] = {}
+    raw = _project(a).get("제조사수") if getattr(a, "project", None) else None
+    if raw not in (None, "", {}):
+        if not isinstance(raw, dict):
+            raise ValueError("project.yaml 의 제조사수 는 '자재: 수' 목록이어야 합니다. 예: 제조사수: {철근: 8}")
+        for k, v in raw.items():
+            try:
+                n = int(str(v).strip())
+            except ValueError:
+                n = 0
+            if n < 1 or str(v).strip() != str(n):
+                raise ValueError(f"project.yaml 제조사수 '{k}' 의 값 '{v}' 을 읽을 수 없습니다. 1 이상의 정수로 적으세요.")
+            out[str(k).strip()] = n
+    out.update(parse_sets(getattr(a, "makers", "")))           # 명령행 --makers 가 우선
+    return out
+
+
+def _ks_warning(rows, rules, owner: str = "") -> str | None:
+    """KS 인증 확인 전(모름)인데 KS 여부로 계산이 갈리는 행(KS 종별)이 있으면 경고 한 줄. 문구는 발주처 기준에 맞춘다(L14-I3):
+    LH 는 KS 제품도 종목별로 현장시험·'KS라도 시험'·부분 갈음을 계상하고 나머지는 성적서 대체(calc.ks_item_rows),
+    그 밖은 별표2 ※주석대로 KS 칸 ◎(시험 면제, 철근은 제조회사·규격별 1회)."""
     labels = list(dict.fromkeys(rules[r.material].label for r in rows
                                 if r.material in rules and rules[r.material].group_tests and rules[r.material].ks_mark))
     if not labels:
         return None
     shown = "·".join(labels[:3]) + (f" 외 {len(labels) - 3}종" if len(labels) > 3 else "")
     rebar = "rebar" in {r.material for r in rows}
-    return (f"KS 인증 확인 전 — {shown}을(를) KS 인증 제품으로 보고 KS 칸 ◎(시험 면제"
-            + (", 철근은 제조회사·규격별 1회" if rebar else "") + ")로 계산했습니다. "
-            "비KS 가 섞였으면 project.yaml 의 KS_인증 을 아니오 로 바꿔(또는 --non-ks) 다시 만드세요 — "
+    head = f"KS 인증 확인 전 — {shown}을(를) KS 인증 제품으로 보고 "
+    if owner.upper() == "LH":
+        how = ("LH 기준(LHCS 10 40 00 부록)으로 계산했습니다: 현장시험 종목과 'KS라도 시험' 종목은 횟수를 넣고, "
+               "나머지 종목은 KS 성적서로 대체(0회)했습니다. ")
+    else:
+        how = ("KS 칸 ◎(별표2 ※주석 — 시험 면제" + (", 철근은 제조회사·규격별 1회" if rebar else "") + ")로 계산했습니다. ")
+    return (head + how + "비KS 가 섞였으면 project.yaml 에 KS_인증: 아니오 로 적고(또는 --non-ks) 다시 만드세요 — "
             + ("철근은 50톤마다, 그 밖은 " if rebar else "") + "별표2 빈도·제조회사별 외부 시험 횟수로 바뀝니다.")
 
 
@@ -244,19 +272,31 @@ def _name_groups(items: list[dict]) -> list[dict]:
     return list(groups.values())
 
 
-def cmd_build(a: argparse.Namespace) -> int:
-    from .calc import aggregate, plan_rows, rows_to_json
-    from .hwpx_out import build_811
+class _CalcStop(Exception):
+    """계산을 시작하지 못함(읽을 행 없음·블록 이름·현장 확인 답 등 사용자 입력 문제). 메시지를 stderr 에 쓰고 종료 2."""
+
+
+@dataclass
+class Computed:
+    """compute() 결과 — build·plan·test-plan 이 같은 rows 를 쓴다(수록본과 단독본이 어긋나지 않게, L14-G)."""
+    rows: list
+    unlisted: list
+    warnings: list            # summary["warnings"] 와 같은 목록(build_plan 이 notes 로 덧붙이면 요약에도 보인다)
+    versions: list
+    unread: list
+    generated_note: str       # build(8.11 단독 초안) 표 아래 주석
+    summary: dict             # basis_check·hwpx·json(·xlsx)는 _finish_summary 가 채운다
+    rules: dict
+
+
+def compute(a: argparse.Namespace) -> Computed:
+    """도급내역서 → 8.11 행·경고·요약. 파일은 쓰지 않는다. 입력 문제는 _CalcStop."""
+    from .calc import aggregate, plan_rows
     from .rules import load_rules
 
-    if getattr(a, "project", None):                       # 쓰기 전에 현장 정보·개정 일자를 검사(W03 — 실패해도 기존 파일 그대로)
-        from .plan_doc import _revisions
-        try:
-            _revisions(_project(a), a.revision, a.date)
-        except (ValueError, TypeError, KeyError) as e:
-            print(f"계획서를 만들지 않았습니다: {e}", file=sys.stderr)
-            return 2
     rules = load_rules(a.rules)
+    if not a.owner and getattr(a, "project", None) and _project(a).get("발주처기준"):
+        a.owner = str(_project(a)["발주처기준"])     # --owner 가 없으면 project.yaml 발주처기준(start 가 적는 값) — plan·test-plan 공통
     owner = (a.owner or "").upper()
     rules = {k: r for k, r in rules.items() if not r.owner or r.owner.upper() == owner}   # 발주처 전용 규칙은 --owner 일 때만
     lines = []
@@ -265,26 +305,23 @@ def cmd_build(a: argparse.Namespace) -> int:
     if not lines:
         import openpyxl
         sheets = {str(p): openpyxl.load_workbook(p, read_only=True).sheetnames for p in a.boq}
-        print("읽을 수 있는 행이 없습니다. v0은 지급자재 내역서 양식(시트 '지급(건)'·'지급(기)'·'지급(토)')만 읽습니다.\n"
-              f"받은 파일의 시트: {json.dumps(sheets, ensure_ascii=False)}", file=sys.stderr)
-        return 2
+        raise _CalcStop("읽을 수 있는 행이 없습니다. v0은 지급자재 내역서 양식(시트 '지급(건)'·'지급(기)'·'지급(토)')만 읽습니다.\n"
+                        f"받은 파일의 시트: {json.dumps(sheets, ensure_ascii=False)}")
     blocks = sorted({ln.block for ln in lines if ln.block})
     if a.block is not None:
         hit = [b for b in blocks if a.block in b]
         if not hit and blocks:
-            print(f"--block '{a.block}' 과 맞는 블록이 없습니다. 있는 블록: {blocks}", file=sys.stderr)
-            return 2
+            raise _CalcStop(f"--block '{a.block}' 과 맞는 블록이 없습니다. 있는 블록: {blocks}")
         if len(hit) > 1:
-            print(f"--block '{a.block}' 이 여러 블록에 걸립니다: {hit}. 더 구체적으로 적으세요.", file=sys.stderr)
-            return 2
+            raise _CalcStop(f"--block '{a.block}' 이 여러 블록에 걸립니다: {hit}. 더 구체적으로 적으세요.")
     used = [ln for ln in lines if a.block is None or not ln.block or a.block in ln.block]
     all_blocks_for = frozenset({"토목"}) if a.civil_scope == "공구" else frozenset()
     try:
         confirm = _confirmations(a)
         ks_answer = _ks_answer(a)
+        makers = _makers(a)
     except ValueError as e:
-        print(str(e), file=sys.stderr)
-        return 2
+        raise _CalcStop(str(e)) from None
     from .calc import forced_matches, rule_for_key
     # 묶음 답 펼치기(L7-E9): 품명 확인 질문은 여러 품명을 한 key 로 묶어 묻는다 → 답을 묶음의 모든 품명 key 로 옮긴다
     if any(k.startswith("name:") for k in confirm):
@@ -301,8 +338,7 @@ def cmd_build(a: argparse.Namespace) -> int:
                             by_name={k[5:]: v for k, v in confirm.items() if k.startswith("name:") and isinstance(v, str)})
     mats, unread = aggregate(lines, rules, a.block, all_blocks_for, moved=(earthwork_moved := []), forced=forced)
     if not mats:
-        print("자재·규격으로 묶인 행이 없습니다(블록 이름 또는 품명 매칭 확인).", file=sys.stderr)
-        return 2
+        raise _CalcStop("자재·규격으로 묶인 행이 없습니다(블록 이름 또는 품명 매칭 확인).")
     found = {m.material for m in mats}
     warnings = [f"{r.material}({r.label}): 입력에서 0행 — 이 자재의 8.11 행이 없습니다(사급 내역·블록 선택 확인)"
                 for r in rules.values() if r.material not in found and r.warn_if_missing]
@@ -390,14 +426,25 @@ def cmd_build(a: argparse.Namespace) -> int:
         formwork_arg = to_formwork_arg(member_inferred)
     non_ks = a.non_ks or ks_answer == "아니오"                 # --non-ks 가 project.yaml KS_인증 보다 우선
     rows = plan_rows(mats, rules, parse_sets(a.sets_per_lot), parse_sets(formwork_arg), a.include_optional,
-                     parse_sets(a.makers), non_ks)
-    ks_warn = _ks_warning(rows, rules) if ks_answer == "모름" and not a.non_ks else None
+                     makers, non_ks, owner=owner)   # 발주처 기준(LH)이면 LH 계산(L14-D2)
+    ks_warn = _ks_warning(rows, rules, owner) if ks_answer == "모름" and not a.non_ks else None
     if ks_warn:
         warnings.insert(0, ks_warn)                             # start '확인할 것' 맨 앞에
     from .calc import added_spec_rows, missing_common_specs
     missing_common = missing_common_specs(mats)
     if a.add_spec:
-        rows += added_spec_rows([s.strip() for s in a.add_spec.split(",") if s.strip()], rules, parse_sets(a.makers))
+        rows += added_spec_rows([s.strip() for s in a.add_spec.split(",") if s.strip()], rules, makers, owner=owner)
+    # 제조사수 키가 어떤 자재·규격에도 안 맞으면 조용히 1곳으로 계산된다 → 알린다(예: 규칙 이름에 없는 '골재')
+    known = {n for r in rules.values() for n in (r.material, r.label, *r.index_keys)}
+    specs = {m.spec for m in mats} | {f"{m.discipline}:{m.spec}" for m in mats}
+    for k in makers:
+        head = k.split(":", 1)[0]
+        if k != "*" and k not in specs and head not in known and k.split(":", 1)[-1] not in specs:
+            warnings.append(f"제조사수 '{k}' 에 맞는 자재·규격이 없습니다 — 자재 이름(예: 철근)·규칙 키(rebar)·규격으로 적으세요(이 값은 쓰지 않았습니다)")
+    from .calc import makers_confirmation
+    makers_note = makers_confirmation(rows)                 # 제조사 수를 받지 않아 1곳으로 계산한 자재(행 비고 대신 한 줄, L14-D4)
+    if makers_note:
+        warnings.append(makers_note)
     forced_src = {(ln.sheet, ln.row) for ln in lines if id(ln) in forced}
     for r in rows:                                          # 현장 확인으로 들어온 내역 행이 섞인 8.11 행
         if forced_src & set(r.sources):
@@ -405,53 +452,17 @@ def cmd_build(a: argparse.Namespace) -> int:
     confirmed_included = sorted({(k, rule_for_key(k, rules).material) for k, v in confirm.items() if v is True and rule_for_key(k, rules)}
                                 | {(k, rule_for_key(v, rules).material) for k, v in confirm.items()
                                    if isinstance(v, str) and rule_for_key(v, rules)})
-    out = Path(a.out)
-    versions = sorted({r.basis_version for r in rules.values()})
-    json_path = out.with_suffix(".json")
-    json_path.parent.mkdir(parents=True, exist_ok=True)
-    tmp_out, tmp_json = _tmp_for(out), _tmp_for(json_path)   # 둘 다 만든 뒤에만 교체(W03)
     from .hwpx_out import unlisted_items
     unlisted = unlisted_items(uncovered, extras["owner_standard_needed"], extras["site_measurements"], rule_miss=rule_miss)
     unlisted += [{"kind": "owner_standard", "label": u["name"], "basis": "현장 확인", "lines": u["lines"]}
                  for u in name_unknown_confirmed]
     unlisted += [{"kind": "품명 확인 필요", "label": g["label"], "basis": f"규격에 '{'·'.join(g['spec_words'])}'", "lines": g["lines"],
                   "action": "품명으로 자재를 확인한 뒤 시험 대상이면 시험계획 작성"} for g in open_groups]
-    try:
-        tmp_json.write_text(json.dumps(rows_to_json(rows), ensure_ascii=False, indent=1), encoding="utf-8")
-        if getattr(a, "project", None):
-            from .plan_doc import build_plan
-            project = dict(_project(a))
-            if a.logo:
-                project["로고"] = a.logo          # CLI 가 YAML 보다 우선
-            if a.company:
-                project["회사명"] = a.company
-            try:
-                build_plan(rows, project, tmp_out, basis_version=", ".join(versions), revision=a.revision, date=a.date,
-                           unlisted=unlisted, notice_footer=a.notice_footer, notes=warnings)
-            except (ValueError, FileNotFoundError) as e:      # 개정 모순·로고 파일 없음·자리표시 누락 등 — 파일을 만들지 않음
-                print(f"계획서를 만들지 않았습니다: {e}", file=sys.stderr)
-                return 2
-        else:
-            build_811(rows, tmp_out, basis_version=", ".join(versions), logo=a.logo, company=a.company, unlisted=unlisted,
-                      notice_footer=a.notice_footer,
-                      generated_note=f"자동 산출 초안 — 품질관리자가 현장 조건을 확인한 뒤 확정한다. 규격 미판독 행 {len(unread)}건."
-                                     + "".join(f" [누락 경고] {w}" for w in warnings
-                                               if not w.startswith(("규칙 없음", "규칙 밖 행", "발주처 기준 필요", "품명으로 자재를 알 수 없음"))))   # 표로 싣는다
-        os.chmod(tmp_out, 0o644)
-        os.chmod(tmp_json, 0o644)
-        _commit([(tmp_out, out), (tmp_json, json_path)])
-    except OutputLocked as e:
-        print(str(e), file=sys.stderr)
-        return 2
-    finally:
-        tmp_out.unlink(missing_ok=True)
-        tmp_json.unlink(missing_ok=True)
+    versions = sorted({r.basis_version for r in rules.values()})
+    generated_note = (f"자동 산출 초안 — 품질관리자가 현장 조건을 확인한 뒤 확정한다. 규격 미판독 행 {len(unread)}건."
+                      + "".join(f" [누락 경고] {w}" for w in warnings
+                                if not w.startswith(("규칙 없음", "규칙 밖 행", "발주처 기준 필요", "품명으로 자재를 알 수 없음", "제조사(골재원) 수를"))))   # 표로 싣는다(제조사 수는 요약에만)
     from .calc import optional_tests
-    if a.offline or "1" in (os.environ.get("DANBURN_OFFLINE"), os.environ.get("QCPLAN_OFFLINE")):   # 옛 이름 호환(L7-N1)
-        basis_check = {"status": "unknown", "message": "--offline: 기준 최신 여부를 확인하지 않음"}
-    else:
-        from .basis import check_basis
-        basis_check = check_basis(rules)
     # 행별 비고에 흩어진 확인 항목을 한곳에(새 에이전트 스킬 시험 L5 지적)
     from collections import defaultdict
     confirm: dict[str, list[str]] = defaultdict(list)
@@ -459,6 +470,9 @@ def cmd_build(a: argparse.Namespace) -> int:
         for part in filter(None, (x.strip() for x in (r.note or "").split(";"))):
             confirm[part].append(r.item)
     needs_confirmation = [{"note": k, "rows": len(v), "items": sorted(set(v))[:10]} for k, v in confirm.items()]
+    if makers_note:                                          # 제조사 1곳 계산 한 줄(L14-D4 연결 1) — test-plan 도 같은 요약
+        needs_confirmation.append({"note": makers_note, "rows": sum("1곳으로 계산" in (r.detail or "") for r in rows),
+                                   "items": sorted({r.item for r in rows if "1곳으로 계산" in (r.detail or "")})[:10]})
     summary = {"needs_confirmation": needs_confirmation, "ambiguous_lines": amb,
                "labor_only_materials": [{k: u.get(k) for k in ("key", "label", "lines", "examples")} for u in labor_only],
                "owner_standard_needed": extras["owner_standard_needed"],
@@ -466,7 +480,7 @@ def cmd_build(a: argparse.Namespace) -> int:
                "uncovered_materials": [{k: u.get(k) for k in ("key", "label", "page", "lines", "examples")} for u in uncovered],
                "unmatched_in_covered": [{k: u.get(k) for k in ("key", "label", "page", "lines", "examples", "produced")}
                                         for u in cov["unmatched_in_covered"]],
-               "basis_check": {k: basis_check.get(k) for k in ("status", "message", "checked_at")}, "civil_scope": a.civil_scope, "missing_common_specs": missing_common, "member_inferred": member_inferred, "formwork_sets_used": formwork_arg, "basis_version": versions, "warnings": warnings,
+               "basis_check": None, "civil_scope": a.civil_scope, "missing_common_specs": missing_common, "member_inferred": member_inferred, "formwork_sets_used": formwork_arg, "makers_used": makers, "basis_version": versions, "warnings": warnings,
                "ks": {"KS_인증": ks_answer, "non_ks": non_ks, "warned": bool(ks_warn)}, "optional_tests_excluded": optional_tests(rules),
                "boq_lines_used": len(used), "spec_groups": len(mats), "plan_rows": len(rows), "work_missing": sum(1 for r in rows if not r.work), "earthwork_moved": earthwork_moved,
                "ask": ask, "confirmed_included": [{"key": k, "rule": m, "lines": sum(1 for ln in used if id(ln) in forced and forced[id(ln)][0].material == m
@@ -476,9 +490,258 @@ def cmd_build(a: argparse.Namespace) -> int:
                "name_unknown": [{**{k: u[k] for k in ("key", "name", "spec_word", "specs", "lines", "units", "install", "guess", "guesses")},
                                  "shown": u in name_unknown_open, "group": u.get("group")} for u in name_unknown],
                "name_unknown_confirmed": [{"key": u["key"], "name": u["name"], "lines": u["lines"]} for u in name_unknown_confirmed], "unread_spec_lines": len(unread),
-               "hwpx": str(out), "json": str(json_path)}
-    print(json.dumps(summary, ensure_ascii=False))
+               "hwpx": None, "json": None}
+    return Computed(rows=rows, unlisted=unlisted, warnings=warnings, versions=versions, unread=unread,
+                    generated_note=generated_note, summary=summary, rules=rules)
+
+
+
+
+def _basis_check(a: argparse.Namespace, rules: dict) -> dict:
+    if a.offline or "1" in (os.environ.get("DANBURN_OFFLINE"), os.environ.get("QCPLAN_OFFLINE")):   # 옛 이름 호환(L7-N1)
+        return {"status": "unknown", "message": "--offline: 기준 최신 여부를 확인하지 않음"}
+    from .basis import check_basis
+    return check_basis(rules)
+
+
+def _finish_summary(a: argparse.Namespace, comp: Computed, paths: dict) -> dict:
+    """파일을 쓴 뒤 요약을 마무리한다: 기준 최신 확인(네트워크 — 파일 교체 뒤에만)과 산출 경로."""
+    basis_check = _basis_check(a, comp.rules)
+    summary = comp.summary
+    summary["basis_check"] = {k: basis_check.get(k) for k in ("status", "message", "checked_at")}
+    summary.update(paths)
+    return summary
+
+
+def cmd_build(a: argparse.Namespace) -> int:
+    from .calc import rows_to_json
+    from .hwpx_out import build_811
+
+    if getattr(a, "project", None):                       # 쓰기 전에 현장 정보·개정 일자를 검사(W03 — 실패해도 기존 파일 그대로)
+        from .plan_doc import _revisions
+        try:
+            _revisions(_project(a), a.revision, a.date)
+        except (ValueError, TypeError, KeyError) as e:
+            print(f"계획서를 만들지 않았습니다: {e}", file=sys.stderr)
+            return 2
+    try:
+        comp = compute(a)
+    except _CalcStop as e:
+        print(str(e), file=sys.stderr)
+        return 2
+    rows, unlisted, warnings, versions = comp.rows, comp.unlisted, comp.warnings, comp.versions
+    out = Path(a.out)
+    json_path = out.with_suffix(".json")
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_out, tmp_json = _tmp_for(out), _tmp_for(json_path)   # 둘 다 만든 뒤에만 교체(W03)
+    try:
+        tmp_json.write_text(json.dumps(rows_to_json(rows), ensure_ascii=False, indent=1), encoding="utf-8")
+        if getattr(a, "project", None):
+            from .plan_doc import build_plan
+            project = _brand(a, dict(_project(a)))
+            try:
+                build_plan(rows, project, tmp_out, basis_version=", ".join(versions), revision=a.revision, date=a.date,
+                           unlisted=unlisted, notice_footer=a.notice_footer, notes=warnings)
+            except (ValueError, FileNotFoundError) as e:      # 개정 모순·로고 파일 없음·자리표시 누락 등 — 파일을 만들지 않음
+                print(f"계획서를 만들지 않았습니다: {e}", file=sys.stderr)
+                return 2
+        else:
+            build_811(rows, tmp_out, basis_version=", ".join(versions), logo=a.logo, company=a.company, unlisted=unlisted,
+                      notice_footer=a.notice_footer, generated_note=comp.generated_note)
+        os.chmod(tmp_out, 0o644)
+        os.chmod(tmp_json, 0o644)
+        _commit([(tmp_out, out), (tmp_json, json_path)])
+    except OutputLocked as e:
+        print(str(e), file=sys.stderr)
+        return 2
+    finally:
+        tmp_out.unlink(missing_ok=True)
+        tmp_json.unlink(missing_ok=True)
+    print(json.dumps(_finish_summary(a, comp, {"hwpx": str(out), "json": str(json_path)}), ensure_ascii=False))
     return 0
+
+
+def _brand(a: argparse.Namespace, project: dict) -> dict:
+    """--logo·--company 가 project.yaml 보다 우선."""
+    if a.logo:
+        project["로고"] = a.logo
+    if a.company:
+        project["회사명"] = a.company
+    return project
+
+
+TESTPLAN_NAME = "품질시험계획서"
+TESTPLAN_FORMATS = ("hwpx", "xlsx")
+
+
+def _project_calc_defaults(project: dict, project_path: Path) -> dict:
+    """project.yaml → 계산 입력(boq·block·owner). danburn start 가 plan 을 부를 때와 같은 규칙(start.plan_args 를 그대로 쓴다)."""
+    from .start import plan_args
+    boq = (project.get("내역서") or {}).get("경로") if isinstance(project.get("내역서"), dict) else None
+    if not boq:
+        return {}
+    args = plan_args(project, project_path, Path("-"), "-", offline=False)
+    out = {"boq": [args[args.index("--boq") + 1]]}
+    if "--block" in args:
+        out["block"] = args[args.index("--block") + 1]
+    if "--owner" in args:
+        out["owner"] = args[args.index("--owner") + 1]
+    p = Path(out["boq"][0]).expanduser()
+    if not p.is_absolute() and not p.exists():             # project.yaml 기준 상대 경로도 받는다
+        out["boq"] = [str(project_path.parent / p)]
+    return out
+
+
+def _testplan_revision(project: dict, revision, date) -> tuple[str, str]:
+    """개정 번호·일자 기본값: project.yaml 개정이력의 마지막 줄(없으면 0 · 제정일자 · 오늘)."""
+    revs = [r for r in project.get("개정이력") or [] if isinstance(r, dict) and "개정" in r]
+    last = max(revs, key=lambda r: int(r["개정"])) if revs else None
+    if revision is None:
+        revision = str(last["개정"]) if last else "0"
+    if date is None:
+        same = [r for r in revs if str(r["개정"]) == str(revision)]
+        if same:
+            date = str(same[0]["일자"])
+        else:
+            from .start import today_text
+            date = str(project.get("제정일자") or "") if str(revision) == "0" and project.get("제정일자") else today_text()
+    return str(revision), str(date)
+
+
+def cmd_test_plan(a: argparse.Namespace) -> int:
+    """품질시험계획서 단독본(HWPX·XLSX·JSON). 계산은 plan 과 같은 compute() — 수록본 8.11 과 같은 행."""
+    from .calc import rows_to_json
+    from .plan_doc import _revisions
+    from .start import tracked_in_repo
+    from .testplan import SCAN_ITEMS, build_testplan
+    from .testplan_xlsx import save_workbook
+
+    project_path = Path(a.project).expanduser()
+    project = _project(a)
+    kinds = [k.strip().lower() for k in str(a.format).split(",") if k.strip()]
+    bad = [k for k in kinds if k not in TESTPLAN_FORMATS]
+    if bad or not kinds:
+        raise InputError(f"--format 은 hwpx, xlsx 중에서 쉼표로 고르세요(받은 값: {a.format}).")
+    defaults = _project_calc_defaults(project, project_path)
+    if not a.boq:
+        if not defaults.get("boq"):
+            raise InputError(f"project.yaml 에 내역서 경로가 없습니다: {project_path} — --boq 로 도급내역서를 주거나 "
+                             "danburn start 로 만든 project.yaml 을 쓰세요.")
+        a.boq = defaults["boq"]
+    if a.block is None and defaults.get("block"):
+        a.block = defaults["block"]
+    if not a.owner and defaults.get("owner"):
+        a.owner = defaults["owner"]
+    _check_boq_paths(a.boq)
+    a.revision, a.date = _testplan_revision(project, a.revision, a.date)
+    try:
+        _revisions(project, a.revision, a.date)              # 쓰기 전에 개정 모순 검사(기존 파일 그대로)
+    except (ValueError, TypeError, KeyError) as e:
+        print(f"시험계획서를 만들지 않았습니다: {e}", file=sys.stderr)
+        return 2
+    out_dir = Path(a.out_dir).expanduser() if a.out_dir else project_path.parent
+    repo = tracked_in_repo(out_dir)
+    if repo:
+        raise InputError(f"출력 폴더가 git 저장소 안의 추적되는 곳입니다: {out_dir} — 현장 자료가 커밋될 수 있으니 저장소 밖 "
+                         "폴더를 --out-dir 로 주세요.")
+    try:
+        comp = compute(a)
+    except _CalcStop as e:
+        print(str(e), file=sys.stderr)
+        return 2
+    judged = project.get("판정") if isinstance(project.get("판정"), dict) else {}
+    # 품질시험계획 대상 현장은 start 가 계획서 전체를 '품질시험계획서.hwpx/.json' 이름으로 이미 썼다 → 덮지 않게 이름을 바꾼다
+    stem = TESTPLAN_NAME + ("(단독)" if judged.get("계획종류") == "품질시험계획" else "")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    targets = {"json": out_dir / f"{stem}.json"}
+    targets.update({k: out_dir / f"{stem}.{k}" for k in kinds})
+    tmps = {k: _tmp_for(p) for k, p in targets.items()}
+    project = _brand(a, dict(project))
+    kw = dict(basis_version=", ".join(comp.versions), revision=a.revision, date=a.date, unlisted=comp.unlisted)
+    try:
+        tmps["json"].write_text(json.dumps(rows_to_json(comp.rows), ensure_ascii=False, indent=1), encoding="utf-8")
+        try:
+            if "hwpx" in tmps:
+                build_testplan(comp.rows, project, tmps["hwpx"], notice_footer=a.notice_footer, **kw)
+            if "xlsx" in tmps:
+                save_workbook(comp.rows, project, tmps["xlsx"], **kw)
+        except (ValueError, FileNotFoundError) as e:          # 개정 모순·로고 파일 없음 — 파일을 만들지 않음
+            print(f"시험계획서를 만들지 않았습니다: {e}", file=sys.stderr)
+            return 2
+        for t in tmps.values():
+            os.chmod(t, 0o644)
+        _commit([(tmps[k], targets[k]) for k in targets])
+    except OutputLocked as e:
+        print(str(e), file=sys.stderr)
+        return 2
+    finally:
+        for t in tmps.values():
+            t.unlink(missing_ok=True)
+    summary = _finish_summary(a, comp, {"hwpx": str(targets["hwpx"]) if "hwpx" in targets else None,
+                                        "json": str(targets["json"]),
+                                        "xlsx": str(targets["xlsx"]) if "xlsx" in targets else None})
+    summary["test_plan"] = {"rows": len(comp.rows), "disciplines": list(dict.fromkeys(r.discipline for r in comp.rows)),
+                            "scan_attachments": SCAN_ITEMS, "revision": a.revision, "date": a.date,
+                            "boq": [str(x) for x in a.boq], "block": a.block, "owner": a.owner or None}
+    print(json.dumps(summary, ensure_ascii=False) if a.json else _testplan_report_text(summary, project, targets, out_dir, project_path))
+    return 0
+
+
+TESTPLAN_SHOW_WARNINGS = 3            # 결과 화면에 보이는 '확인할 것' 줄 수(나머지는 개수만 — --json 에 전부)
+# 확인할 것 줄 끝에 붙이는 할 일(경고 머리 → 사람이 할 일). 도구 경고 원문은 그대로 두고 뒤에 '→ 할 일'만 더한다
+TESTPLAN_WARN_ACTIONS = (
+    ("발주처 기준 필요", "발주처 시방서의 시험 기준을 받아 한글·엑셀 표에 직접 행 추가"),
+    ("규칙 없음", "발주처 시방서의 시험 기준을 받아 한글·엑셀 표에 직접 행 추가"),
+    ("제조사(골재원) 수를", "제조사가 여럿이면 project.yaml 에 제조사수: {철근: 8} 처럼 적고 다시 실행"),
+    ("KS 인증 확인 전", "KS 인증 여부를 확인해 project.yaml 의 KS_인증 을 예·아니오 로 적고 다시 실행"),
+)
+TESTPLAN_TODO_EXAMPLE = "공사위치: ○○시 ○○동 123"
+
+
+def _warn_with_action(w: str) -> str:
+    for head, act in TESTPLAN_WARN_ACTIONS:
+        if w.startswith(head):
+            return f"{w.split(' — 다르면 ')[0]} → {act}"           # 명령어 말(--makers) 대신 할 일 한 가지로
+    return w
+
+
+def _testplan_report_text(summary: dict, project: dict, targets: dict, out_dir: Path, project_path: Path) -> str:
+    """test-plan 결과 화면(사람용, check 결과 화면과 같은 방식). 에이전트·스크립트는 --json.
+    순서: 만든 것 → 확인할 것(할 일 붙임) → (작성 필요)·(스캔첨부) → 다음 할 일(작성 필요가 있으면 두 단계)."""
+    from .testplan import TODO
+    tp = summary["test_plan"]
+    kind = {"hwpx": "한글", "xlsx": "엑셀"}
+    files = " · ".join(f"{targets[k].name}({kind[k]})" for k in ("hwpx", "xlsx") if k in targets)
+    name = str(project.get("공사명") or "").strip()
+    lines = [f"단번 품질시험계획서 — {name}" if name else "단번 품질시험계획서",
+             f"만든 파일: {files} — 폴더 {out_dir}",
+             f"시험 {tp['rows']}행 · {'·'.join(tp['disciplines'])} · 4부(개요·시험계획표·시험시설·품질관리자 배치)"]
+    warns = list(summary.get("warnings") or [])
+    if warns:
+        lines.append(f"확인할 것 {len(warns)}가지:")
+        lines += [f"  - {_warn_with_action(w)}" for w in warns[:TESTPLAN_SHOW_WARNINGS]]
+        if len(warns) > TESTPLAN_SHOW_WARNINGS:
+            lines.append(f"  - 그 밖 {len(warns) - TESTPLAN_SHOW_WARNINGS}가지는 --json 의 warnings")
+    else:
+        lines.append("확인할 것: 없음")
+    todo = [k for k in ("공사명", "공사위치", "공사금액", "공사기간", "발주자", "시공자", "건설사업관리자", "시험장비",
+                        "품질관리자", "조직") if not project.get(k) or TODO in str(project.get(k))]
+    if todo:
+        lines.append(f"{TODO} 칸: {'·'.join(todo)}")
+    scans = [x.split("(")[0] for x in tp["scan_attachments"]]
+    lines.append(f"(스캔첨부) 빈칸 {len(scans)}곳: {'·'.join(scans)}")
+    check = "한글·엑셀로 열어 확인할 것을 보고, 스캔본을 붙여 제출하세요(초안 — 품질관리자가 확정)."
+    if todo:
+        lines += ["다음 할 일:",
+                  f"  1) 메모장·텍스트 편집기로 project.yaml 을 열어 {TODO} 칸을 적으세요"
+                  f"(예: '{TESTPLAN_TODO_EXAMPLE}' 한 줄). 파일: {project_path}",
+                  f"     그다음 같은 명령을 다시 실행: danburn test-plan --project \"{project_path}\"",
+                  f"  2) {check}",
+                  "  한글에서 직접 고친 내용은 다시 실행하면 덮어쓰입니다 — 고칠 것은 project.yaml 에 적으세요.",
+                  "터미널이 낯설면 Claude Code 에 \"공사위치는 ○○로 해 줘\"처럼 말하면 project.yaml 을 고쳐 다시 만들어 줍니다."]
+    else:
+        lines.append(f"다음 할 일: {check}")
+    return "\n".join(lines)
 
 
 def cmd_check_basis(a: argparse.Namespace) -> int:
@@ -575,8 +838,10 @@ def cmd_inspect(a: argparse.Namespace) -> int:
     return 0
 
 
-def _add_calc_args(b: argparse.ArgumentParser) -> None:
-    b.add_argument("--boq", nargs="+", required=True, help="도급내역서 xlsx (지급자재 내역서 형식)")
+def _add_calc_args(b: argparse.ArgumentParser, *, from_project: bool = False) -> None:
+    """계산 옵션. from_project=True(test-plan)면 --boq 는 선택(없으면 project.yaml 에서), --out 대신 --out-dir."""
+    b.add_argument("--boq", nargs="+", required=not from_project,
+                   help="도급내역서 xlsx (지급자재 내역서 형식)" + (". 없으면 project.yaml 의 내역서.경로" if from_project else ""))
     b.add_argument("--block", default=None, help="블록·공구 열 이름 일부 (예: 블록B). 없으면 전체")
     b.add_argument("--rules", default=str(DEFAULT_RULES))
     b.add_argument("--sets-per-lot", default="", help="레미콘 압축강도 로트당 조 수를 통째로 지정. 예: '25-24-150=7'. 없으면 규칙 기본값(28일3+7일1=4조)")
@@ -587,12 +852,14 @@ def _add_calc_args(b: argparse.ArgumentParser) -> None:
     b.add_argument("--civil-scope", choices=["블록", "공구"], default="블록",
                    help="토목 물량 범위. 원칙은 블록별, 한 업체가 두 공구 토목을 함께 맡으면 '공구'(모든 블록 합계)")
     b.add_argument("--add-spec", default="", help="도급내역서에 빠진 흔한 규격을 수량 없이 넣는다. 예: '건축:rebar:SD400 D10,건축:rebar:SD400 D13'")
-    b.add_argument("--makers", default="", help="철근 제조회사 수(규격별). 예: 'SD400 D13=2,*=1'. 없으면 1곳+확인 필요")
+    b.add_argument("--makers", default="", help="제조사(골재원) 수. 예: 'rebar=8,SD400 D13=2' 또는 '철근=8'. '*'는 철근류(ks_count makers)와 비KS에만. "
+                   "project.yaml 제조사수 보다 우선. 없으면 1곳으로 계산하고 요약에 한 줄")
     b.add_argument("--non-ks", action="store_true", help="KS 인증품이 아니면(철근 50톤마다 등 외부 시험). plan 의 project.yaml KS_인증 보다 우선")
     b.add_argument("--no-infer", action="store_true", help="부위 자동 추정을 끈다(거푸집 해체용 조를 더하지 않음)")
     b.add_argument("--include-optional", action="store_true", help="조건부·실무 생략 시험(휨강도, 온도·배합설계·현장배합수정)도 넣는다")
     b.add_argument("--formwork-sets", default="", help="거푸집 해체용 조를 규격별로 더한다. 부위로: 기둥·기초는 수직+예비, 슬래브·보까지면 수직+수평+예비. 예: '25-24-150=수직+수평+예비,25-24-80=수직+예비'")
-    b.add_argument("--out", required=True, help="출력 HWPX 경로 (같은 이름 .json 도 생성)")
+    if not from_project:
+        b.add_argument("--out", required=True, help="출력 HWPX 경로 (같은 이름 .json 도 생성)")
     b.add_argument("--confirm", default="", help="현장 확인 답(요약 ask 목록의 key). 예: 'steel_fiber=예,fiberboard=아니오' — 예: 그 종별 규칙으로 8.11 에 넣음, 아니오: 경고에서 뺌. project.yaml '현장_확인' 보다 우선")
     b.add_argument("--notice-footer", action="store_true", help="쪽 아래에 고지 줄 「본 제품은 한글과컴퓨터의 HWP 문서 파일(.hwp) 공개 문서를 참고하여 개발하였습니다.」를 넣는다(기본 끔 — 제출 문서용, 고지는 랜딩·README·NOTICE 에 둔다)")
 
@@ -609,6 +876,16 @@ def main(argv: list[str] | None = None) -> int:
     pl.add_argument("--revision", default="0", help="개정 번호 (예: 0, 3)")
     pl.add_argument("--date", required=True, help="개정 일자 (예: 2026. 09. 26.)")
     pl.set_defaults(func=cmd_build)
+    tp = sub.add_parser("test-plan", help="품질시험계획서만 따로: start 산출 폴더의 project.yaml 로 한글(HWPX)·엑셀(XLSX)을 만든다"
+                        "(관리계획서 8.11 과 같은 계산, 질문 없음)")
+    _add_calc_args(tp, from_project=True)
+    tp.add_argument("--project", required=True, help="danburn start 가 만든 project.yaml")
+    tp.add_argument("--out-dir", default=None, help="출력 폴더(기본: project.yaml 이 있는 폴더). 저장소 안 추적 폴더는 거부")
+    tp.add_argument("--format", default="hwpx,xlsx", help="만들 형식(쉼표로): hwpx, xlsx. 기본 둘 다. JSON 은 늘 만든다")
+    tp.add_argument("--revision", default=None, help="개정 번호(기본: project.yaml 개정이력의 마지막 번호)")
+    tp.add_argument("--date", default=None, help="개정 일자(기본: 그 개정의 일자)")
+    tp.add_argument("--json", action="store_true", help="사람용 결과 화면 대신 요약 JSON 한 줄(에이전트·스크립트용)")
+    tp.set_defaults(func=cmd_test_plan)
     c = sub.add_parser("check-basis", help="기준 판(업무지침 고시 번호)이 현행인지 확인한다. 종료 0=현행, 3=개정됨, 4=확인 못 함")
     c.add_argument("--rules", default=str(DEFAULT_RULES))
     c.add_argument("--offline", action="store_true", help="공개 법령 미러를 조회하지 않고 규칙 데이터의 기준 판만 보인다(종료 4)")
@@ -664,7 +941,8 @@ def _no_args(ap: argparse.ArgumentParser) -> int:
     print("danburn — 품질관리계획서")
     print("  1) 새로 만들기     도급내역서(xlsx)로 초안부터       danburn start")
     print("  2) 기존 계획서 검사  가진 계획서(hwp·hwpx·pdf)의 기준이 현행인지   danburn check <파일>")
-    choice = input("번호를 고르세요 [1/2, Enter=1, q=그만] > ").strip().lower()
+    print("  3) 시험계획서만 따로  새로 만들기 산출 폴더에서 한글·엑셀로   danburn test-plan --project <산출폴더>/project.yaml")
+    choice = input("번호를 고르세요 [1/2/3, Enter=1, q=그만] > ").strip().lower()
     if choice in ("q", "n", "no", "아니오"):
         ap.print_help()
         return 0
@@ -672,6 +950,13 @@ def _no_args(ap: argparse.ArgumentParser) -> int:
         from .start import clean_path
         path = clean_path(input("검사할 계획서 파일을 끌어다 놓거나 경로를 적으세요 > "))
         return main(["check", path]) if path else 2
+    if choice == "3":
+        from .start import clean_path
+        path = clean_path(input("새로 만들기 산출 폴더(또는 그 안의 project.yaml)를 끌어다 놓거나 경로를 적으세요 > "))
+        if not path:
+            return 2
+        p = Path(path).expanduser()
+        return main(["test-plan", "--project", str(p / "project.yaml" if p.is_dir() else p)])
     return main(["start"])
 
 

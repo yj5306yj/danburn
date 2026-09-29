@@ -121,7 +121,8 @@ def test_real_rules_door_window_pvc_grouping():
     got = {(m.material, m.spec): m.qty for m in mats}
     assert got[("door_set", "FSD")] == 10 and got[("door_set", "SD")] == 2
     assert got[("window_set", "AW")] == 8
-    assert got[("general_pvc_pipe", "VG1")] == 20 and got[("general_pvc_pipe", "규격별")] == 10
+    # L14-C6/C7: 지름은 제품 규격이라 묶지 않는다(규격 칸 D=35·D=50·D=75 → 각각 한 행)
+    assert got[("general_pvc_pipe", "D=35")] == 10 and got[("general_pvc_pipe", "D=50")] == 10 and got[("general_pvc_pipe", "D=75")] == 10
 
 
 def test_without_spec_group_real_rule_would_split():
@@ -129,4 +130,5 @@ def test_without_spec_group_real_rule_would_split():
     rules = load_rules(RULES)
     off = {k: replace(r, spec_group="") for k, r in rules.items()}
     lines = [_line(i, "경질폴리염화비닐관", f"D={d}", 1) for i, d in enumerate((35, 40, 50, 65, 75, 100), 1)]
-    assert len(aggregate(lines, off)[0]) == 6 and len(aggregate(lines, rules)[0]) == 1
+    # L14-C7: 지름(D=35…)은 제품 규격이라 spec_group 을 켜도 묶지 않는다
+    assert len(aggregate(lines, off)[0]) == 6 and len(aggregate(lines, rules)[0]) == 6

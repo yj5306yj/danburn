@@ -164,3 +164,19 @@ def test_question_skipped_without_ks_materials(boq, tmp_path):
     iv.info = read_boq_info(str(boq))
     assert iv.when(q["when"], q)
     assert Interview(mode="answers", folder=tmp_path).when(q["when"], q)                 # 내역서를 아직 안 읽었으면 묻는다
+
+
+def test_ks_warning_wording_follows_owner(boq, tmp_path, capsys):
+    """KS 인증 확인 전 경고는 발주처 기준에 맞는 말(L14-I3): 그 밖은 'KS 칸 ◎·시험 면제', LH 는 '종목별 계상·나머지 성적서 대체'."""
+    d1, d2 = tmp_path / "base", tmp_path / "lh"
+    d1.mkdir(), d2.mkdir()
+    rc, s, _ = _plan(boq, d1, capsys, "모름")
+    assert rc == 0
+    (w,) = _ks_warns(s)
+    assert "KS 칸 ◎" in w and "시험 면제" in w and "LH 기준" not in w
+    rc, s, _ = _plan(boq, d2, capsys, "모름", "--owner", "LH")
+    assert rc == 0
+    (w,) = _ks_warns(s)
+    assert "LH 기준" in w and "성적서로 대체" in w and "KS라도 시험" in w
+    assert "KS 칸 ◎" not in w and "시험 면제" not in w                                   # LH 는 면제로 계산하지 않는다
+    assert "KS_인증: 아니오" in w and "50톤마다" in w

@@ -75,6 +75,7 @@ tests:
     minimum: 1
   basis: LHCS 41 57 01:2020(부록 Ⅱ.17이 위임) 2.2(4) 데커레이션시트·엣지 상온 박리성
 - test_type: 친환경(TVOC·폼알데하이드·톨루엔)
+  eco_substitute: true
   method: 환경부 실내공기질 공정시험방법
   where: 외부
   frequency:

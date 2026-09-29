@@ -55,6 +55,7 @@ tests:
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
     basis: "별표2 3. 건축 아. 기타 도자기질타일용 접착제(KS L 1593) 가사 시간 및 부착가능 시간 (PDF p.51)"
   - test_type: "실내공기 오염물질 방출량(총휘발성유기화합물, 톨루엔, 폼알데하이드)"
+    eco_substitute: true
     method: "KS M 1998 또는 실내공기질 공정시험기준(환경부고시)"
     where: 외부
     optional: true

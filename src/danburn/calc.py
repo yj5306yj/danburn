@@ -38,7 +38,68 @@ def _spec_for(material: str, spec: str, name: str = "") -> str | None:
     if material == "rebar":
         from .boq import normalize_rebar_spec as from_boq
         return from_boq(name, spec)          # 사급 내역: 강종은 품명, 지름은 규격(H-13 등)
-    return _squash(spec) or "(규격 없음)"
+    return normalize_spec(spec) or "(규격 없음)"
+
+
+# 규격 키 정규화(L14-D1, FB1 P3). 같은 제품이 규격 칸의 표기 차이·시공 조건 때문에 여러 행으로 갈리지 않게 한다.
+# 조건 조각은 쉼표·괄호로 나뉜 한 조각 전체가 아래 정규식 하나와 통째로 맞을 때만 뗀다(공백 지우고 대문자로 본 글).
+# 두께·강종·호칭·지름·길이 같은 제품 규격은 여기에 넣지 않는다. 애매하면 넣지 않는다(과합산이 누락보다 위험).
+SPEC_CONDITIONS = (
+    r"바탕\d+(?:\.\d+)?MM",                  # 석재 붙임 바탕 두께: '(바탕20MM,건조시멘트모르타르)'
+    r"(?:건조)?(?:시멘트)?모르타르",            # 붙임·바탕 모르타르
+    r"(?:건조모르타르)?(?:조적벽)?H=[\d.~]+MM구간",  # 바르는 높이 구간: '건조모르타르(조적벽h=0~200MM구간)'
+    r"별산", r"(?:공사현장)?차상도",            # 가격·인도 조건
+    r"L=\d+(?:\.\d+)?KM", r"\d+(?:\.\d+)?KM까지",   # 운반 거리(KM 단위만. L=1000 같은 제품 길이는 그대로)
+    r"\d+개월",                               # 가설재 존치 기간: '10M이하(3개월)'
+    r"인건비\d+%가산",                         # 품셈 가산 조건
+    r"(?:모래|콘크리트)기초(?:\(\d+도\))?",      # 관 기초 조건: 'D-450MM,모래기초(60도)'
+)
+_CONDITION = re.compile("|".join(f"(?:{p})" for p in SPEC_CONDITIONS))
+
+
+def _split_top(s: str) -> list[str]:
+    """괄호 밖 쉼표로 나눈 조각."""
+    out, depth, cur = [], 0, ""
+    for ch in s:
+        depth += (ch == "(") - (ch == ")")
+        if ch == "," and depth == 0:
+            out.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    return out + [cur]
+
+
+def _drop_conditions(s: str) -> str:
+    """조각마다: 통째로 조건이면 버리고, 조각 안 괄호는 안쪽부터 같은 규칙으로 줄인다. 빈 괄호는 없앤다."""
+    kept = []
+    for part in _split_top(s):
+        if _CONDITION.fullmatch(part):
+            continue
+        # 조각 끝 괄호들을 안쪽 규칙으로 줄인다: '화강석(A-TYPE,곡선구간)' → 그대로, 'D450MM(별산)' → 'D450MM'
+        part = re.sub(r"\(([^()]*(?:\([^()]*\)[^()]*)*)\)",
+                      lambda m: f"({inner})" if (inner := _drop_conditions(m.group(1))) else "", part)
+        if part and not _CONDITION.fullmatch(part):
+            kept.append(part)
+    return ",".join(kept)
+
+
+_FULLWIDTH = {c: c - 0xFEE0 for c in range(0xFF01, 0xFF5F)}      # 전각 영숫자·기호 → 반각
+
+
+def normalize_spec(spec: str) -> str:
+    """내역서 규격 원문 → 합산 키용 규격. 표기 통일(전각·공백·대소문자·겹괄호·'D-450'·천 단위 쉼표·×) 후 시공 조건 조각을 뗀다."""
+    s = _squash((spec or "").translate(_FULLWIDTH)).upper().replace("×", "X")   # NFKC 는 한글 자모(ㅁ·ㄱ)를 바꿔 쓰지 않는다
+    s = re.sub(r"(?<![A-Z])D-(?=\d)", "D", s)                 # D-450 ↔ D450
+    s = re.sub(r"([X~])(\d{1,2}),(\d{3})(?![\dX,])", r"\1\2\3", s)   # 치수 끝 천 단위 쉼표만(앞 1~2자리): X1,000MM·~1,200 (목록 '300X300,600'· '300X300,600X600'·'D=13,200'·맨 앞 '150,200' 은 그대로 — L14-D6)
+    while True:
+        t = re.sub(r"\(\(([^()]*)\)\)", r"(\1)", s)           # ((초배무)) → (초배무)
+        if t == s:
+            break
+        s = t
+    if s.startswith("(") and s.endswith(")") and _split_top(s) == [s] and s.count("(") == 1:
+        s = s[1:-1]                                          # 전체가 한 괄호: (초배무) → 초배무
+    return "" if s in ("규격없음", "-") else _drop_conditions(s)
 
 
 def group_spec(rule: Rule, spec: str, name: str = "") -> str:
@@ -171,7 +232,9 @@ def aggregate(lines: list[BoqLine], rules: dict[str, Rule], block: str | None = 
               all_blocks_for: frozenset[str] = frozenset(),
               moved: list[dict] | None = None,
               forced: dict[int, tuple[Rule, bool, bool]] | None = None) -> tuple[list[MaterialQty], list[BoqLine]]:
-    """규칙에 걸린 행을 (자재, 규격, 단위, 블록, 분야)로 합산. 두 번째 값은 자재는 맞지만 규격을 못 읽은 행.
+    """규칙에 걸린 행을 (자재, 규격, 단위, 분야)로 합산 — 동·블록 열로 나뉜 수량도 규격 총량 하나로 모은다(L14-A).
+    block 을 주면 그 블록 행과 블록 없는 공통 행만 쓴다. all_blocks_for 분야는 block 을 줘도 모든 블록을 쓴다(토목 공구 합계).
+    두 번째 값은 자재는 맞지만 규격을 못 읽은 행.
     moved 를 주면 토목으로 옮긴 설비 토공을 [{from, material, spec, qty, unit, lines}] 로 채운다."""
     from .boq import normalize_unit
     sums: dict[tuple, float] = defaultdict(float)
@@ -230,7 +293,6 @@ def aggregate(lines: list[BoqLine], rules: dict[str, Rule], block: str | None = 
             continue
         spec = group_spec(rule, spec, ln.name)             # 규격 묶음(spec_group): 단위는 키에 남아 단위별로 나뉜다
         disc = _earthwork_discipline(ln, rule)             # 중복 판정은 원래 분야로, 합산은 옮긴 분야로
-        blk = "" if disc in all_blocks_for else ln.block     # 공구 합계 분야는 블록을 합친다
         unit, qty = normalize_unit(ln.unit), ln.qty
         no_qty = False
         fq = forced.get(id(ln)) if kinds[id(ln)][0] is rule else None
@@ -246,7 +308,7 @@ def aggregate(lines: list[BoqLine], rules: dict[str, Rule], block: str | None = 
             if (rule.material, ln.discipline, ln.block) in has_material or (rule.material, ln.discipline, "") in has_material:
                 continue                                    # 자재 행이 있으면 수량 없는 시공 행은 버린다
             spec = NO_QTY_SPEC                              # 시공 행 규격(두께·높이 등)마다 행이 생기지 않게 한 행으로
-        k = (rule.material, spec, unit, blk, disc)
+        k = (rule.material, spec, unit, disc)              # 동·블록은 키에 넣지 않는다: 규격 총량 한 행(L14-A)
         if inst:
             install_only.add(k)
         if no_qty:
@@ -264,7 +326,7 @@ def aggregate(lines: list[BoqLine], rules: dict[str, Rule], block: str | None = 
     if moved is not None:
         moved.extend({"from": d, "material": mat, "spec": sp, "qty": round(q, 3), "unit": u, "lines": n}
                      for (d, mat, sp, u), (q, n) in moves.items())
-    out = [MaterialQty(material=k[0], spec=k[1], unit=k[2], qty=round(v, 3), block=k[3], discipline=k[4], sources=tuple(srcs[k]),
+    out = [MaterialQty(material=k[0], spec=k[1], unit=k[2], qty=round(v, 3), block="", discipline=k[3], sources=tuple(srcs[k]),
                        from_install=k in install_only, work=_vote(works.get(k)))
            for k, v in sums.items() if v > 0 or (k in zero_ok and v == 0)]
     out.sort(key=lambda m: (m.discipline, m.material, m.spec))
@@ -353,12 +415,35 @@ def parse_sets(spec: str | None) -> dict[str, int]:
     return out
 
 
-def _lookup(table: dict, m: MaterialQty, default=None):
-    """'분야:규격' → '규격' → '*' 순으로 찾는다."""
-    for k in (f"{m.discipline}:{m.spec}", m.spec, "*"):
+def _lookup(table: dict, m: MaterialQty, default=None, rule: Rule | None = None, ks: bool = False):
+    """'분야:규격' → '규격' → '자재키:규격' → '자재키' → '*' 순으로 찾는다(L14-D4).
+    자재키는 규칙 키(rebar)·이름(철근)·색인 키. ks=True 이고 제조사 수가 법정 빈도가 아닌 KS 자재(ks_count≠makers)에는
+    '*' 를 쓰지 않는다 — '철근 제조사 수'로 준 '*=8' 이 모든 KS 자재의 횟수를 8배로 만들지 않게."""
+    names = [rule.material, rule.label, *rule.index_keys] if rule else []
+    keys = [f"{m.discipline}:{m.spec}", m.spec, *(f"{n}:{m.spec}" for n in names), *names]
+    if not (ks and rule and rule.ks_count != "makers"):
+        keys.append("*")
+    for k in keys:
         if k in table:
             return table[k]
     return default
+
+
+MAKERS_ASSUMED = "제조사(골재원) 1곳으로 계산"      # 행 detail 표시(JSON 전용) — 요약 한 줄은 makers_confirmation 이 만든다
+
+
+def _mark_assumed(row: PlanRow, assumed: bool) -> PlanRow:
+    if assumed:
+        row.detail = (row.detail + "; " if row.detail else "") + MAKERS_ASSUMED
+    return row
+
+
+def makers_confirmation(rows: list[PlanRow]) -> str | None:
+    """제조사 수를 받지 않아 1곳으로 계산한 자재 요약 한 줄(L14-D4, 행 비고 대신). 없으면 None."""
+    mats = {r.material for r in rows if MAKERS_ASSUMED in (r.detail or "")}
+    if not mats:
+        return None
+    return f"제조사(골재원) 수를 1곳으로 계산한 자재 {len(mats)}종 — 다르면 --makers 또는 project.yaml 제조사수"
 
 
 def sort_by_work(mats: list[MaterialQty], rules: dict[str, Rule]) -> list[MaterialQty]:
@@ -378,8 +463,9 @@ _DISC_ORDER = {"건축": 0, "토목": 1, "기계": 2}
 
 def plan_rows(mats: list[MaterialQty], rules: dict[str, Rule], sets_per_lot: dict[str, int] | None = None,
               formwork_sets: dict[str, int] | None = None, include_optional: bool = False,
-              makers: dict[str, int] | None = None, non_ks: bool = False) -> list[PlanRow]:
-    """sets_per_lot: 로트당 조 수를 통째로 지정(규칙 기본값보다 우선). formwork_sets: 거푸집 해체용 조를 기본값에 더한다."""
+              makers: dict[str, int] | None = None, non_ks: bool = False, owner: str = "") -> list[PlanRow]:
+    """sets_per_lot: 로트당 조 수를 통째로 지정(규칙 기본값보다 우선). formwork_sets: 거푸집 해체용 조를 기본값에 더한다.
+    owner: 발주처 기준('LH' 이면 KS 제품도 종목별 행·총량 기준 횟수, LHCS 부록4 성적서 갈음·KS라도 시험 적용 — L14-D2)."""
     sets_per_lot = sets_per_lot or {}
     formwork_sets = formwork_sets or {}
     rows: list[PlanRow] = []
@@ -394,12 +480,14 @@ def plan_rows(mats: list[MaterialQty], rules: dict[str, Rule], sets_per_lot: dic
     for m in mats:
         rule = rules[m.material]
         if rule.group_tests:
-            row = group_row(m, rule, ks=not non_ks, makers=_lookup(makers, m))
-            if rule.ks_mark and not non_ks:
-                row.count_ks = "◎"
-            if m.from_install:
-                row.note = (row.note + "; " if row.note else "") + ("시공 행 추정(수량 환산 없음)" if not m.qty else "시공 행 추정")
-            rows.append(row)
+            for row in group_rows(m, rule, ks=not non_ks, makers=_lookup(makers, m, rule=rule, ks=not non_ks and rule.ks_mark),
+                                  owner=owner,
+                                  include_optional=include_optional):
+                if rule.ks_mark and not non_ks:
+                    row.count_ks = "◎"
+                if m.from_install:
+                    row.note = (row.note + "; " if row.note else "") + ("시공 행 추정(수량 환산 없음)" if not m.qty else "시공 행 추정")
+                rows.append(row)
             continue
         ul = UNIT_LABEL.get(m.unit, m.unit)
         for t in rule.tests:
@@ -437,7 +525,7 @@ def plan_rows(mats: list[MaterialQty], rules: dict[str, Rule], sets_per_lot: dic
             row = PlanRow(discipline=m.discipline, work=m.work or rule.work, item=f"{rule.label}({m.spec})", test_type=t.display or t.test_type,
                           qty=m.qty, unit=ul, frequency=f.text, calc_basis=basis, note=note,
                           basis=t.basis, material=m.material, spec=m.spec, sources=list(m.sources),
-                          detail=detail if f.lot else "")
+                          detail=detail if f.lot else "", method=t.method)
             if rule.ks_mark and not non_ks:           # 비KS 로 답했으면 KS 표시(◎)를 붙이지 않는다(시험 횟수는 같음)
                 row.count_ks = "◎"
             if t.where == "외부":
@@ -450,34 +538,140 @@ def plan_rows(mats: list[MaterialQty], rules: dict[str, Rule], sets_per_lot: dic
     return rows
 
 
-def group_row(m: MaterialQty, rule: Rule, ks: bool = True, makers: int | None = None) -> PlanRow:
+COUNT_UNITS = ("ea", "개", "본")                        # 개수로 셀 수 있는 단위(ks_substitute_below 판정)
+KS_SUBSTITUTE_NOTE = "성적서대체"                       # ① LHCS 부록4 비고 '성적서 징구확인으로 갈음'
+KS_DEFAULT_NOTE = "KS 성적서대체"                       # ⑥ LHCS 1.5.1(6) KS 표시자재 시험 생략 가능(승인본 관행 문구)
+KS_ECO_NOTE = "친환경성적서/환경표지인증서 대체"          # ④ LHCS 1.5.1(9)
+KS_STILL_NOTE = "KS라도 시험"
+KS_STILL_ADVICE = "권고: KS라도 시험(LHCS 부록4)"
+
+
+def _methods(tests) -> str:
+    """시험방법을 중복 없이 ', ' 로(묶음 행)."""
+    return ", ".join(dict.fromkeys(t.method for t in tests if t.method))
+
+
+def group_rows(m: MaterialQty, rule: Rule, ks: bool = True, makers: int | None = None, owner: str = "",
+               include_optional: bool = False) -> list[PlanRow]:
+    """묶음 규칙(group_tests)의 행들(메인 결정 2026-09-29, L14-D2).
+    - LH 발주 + KS 제품: 종목별 행, 규격 총량 기준 횟수(ks_item_rows). 성적서 갈음 종목은 0회+'성적서대체', KS라도 시험 종목은 비고.
+    - 그 밖 발주 + KS 제품: 지금처럼 묶음 한 행(별표2 ※주석 면제). ks_still_test 종목만 따로 행을 두고 비고로 권고(횟수는 같은 규칙).
+    - 비KS: 새 필드 무시, 묶음 한 행(물량 빈도)."""
+    ks_eff = ks and rule.ks_mark
+    if ks_eff and owner.upper() == "LH":
+        return ks_item_rows(m, rule, makers=makers, include_optional=include_optional)
+    tests = [t for t in rule.tests if not t.optional]
+    still = [t for t in tests if t.ks_still_test] if ks_eff else []
+    rest = [t for t in tests if t not in still]
+    rows = [group_row(m, rule, ks=ks, makers=makers, tests=rest)] if rest else []
+    for t in still:
+        row = group_row(m, rule, ks=ks, makers=makers, tests=[t])
+        row.note = (row.note + "; " if row.note else "") + KS_STILL_ADVICE
+        rows.append(row)
+    return rows
+
+
+def _makers_text(rule: Rule, n: int) -> str:
+    """산출근거의 업체 수(승인본 모양 'N개업체'). 골재원 등 다른 이름이면 '골재원 N곳'."""
+    who = rule.makers_label
+    return f"{n}개업체" if who in ("제조회사", "제조사", "제조업체") else f"{who} {n}곳"
+
+
+def ks_item_rows(m: MaterialQty, rule: Rule, makers: int | None = None, include_optional: bool = False) -> list[PlanRow]:
+    """LH 발주 KS 제품: 종목마다 한 행, 횟수는 규격 총량 기준. 판정 순서(D2-b, 메인 결정 — LHCS 10 40 00 1.5.1(6)·(9)·1.5.2(1),
+    승인 시험계획서 관행):
+    ① ks_substitute(또는 ks_substitute_below=N 이고 개수 단위 총량 < N) → 0 + '성적서대체'  ② ks_still_test → 계상 + 'KS라도 시험'  ③ where 현장 → 현장 계상
+    ④ 친환경 종목(eco_substitute) → 0 + '친환경성적서/환경표지인증서 대체'
+    ⑤ 부분 갈음 종별(ks_substitute 가 일부 종목에만)의 나머지 → 의뢰 계상  ⑥ 그 밖 → 0 + 'KS 성적서대체'.
+    0회 행도 산출근거(업체·규격 수)는 적는다(승인본 관행). 계상은 ks_count 'makers'·문구 빈도면 업체 수×규격별 1회,
+    물량 빈도면 ⌈총량/빈도⌉×업체 수. makers 가 없으면 1곳(행 비고 없이 detail 표시 → 요약 한 줄)."""
+    assumed = makers is None
+    n = 1 if makers is None else makers
+    if n < 1:
+        raise ValueError("제조회사 수는 1 이상이어야 합니다.")
+    ul = UNIT_LABEL.get(m.unit, m.unit)
+    mk = _makers_text(rule, n)
+    tests = [t for t in rule.tests if include_optional or not t.optional]
+    # 부분 갈음: 조건부 종목·수량 조건부 갈음(ks_substitute_below)까지 본다(L14-D5 — 원심력관 방균성능만 갈음이어도 나머지는 계상)
+    partial = any(t.ks_substitute or getattr(t, "ks_substitute_below", None) for t in rule.tests)
+    rows = []
+    for t in tests:
+        f = t.frequency
+        notes: list[str] = []
+        if rule.ks_count == "makers" or not f.per_qty:
+            count, basis = n, f"{mk}×규격별 1회"
+        elif f.unit and f.unit != m.unit:                            # 단위 불일치: 조용히 계산하지 않는다
+            count, basis = n, f"단위 확인: 물량 {m.unit}, 빈도 {f.unit}"
+            notes.append("단위 확인")
+        elif m.from_install and not m.qty:                           # 수량 없는 시공 행: 횟수를 지어내지 않는다
+            count, basis = 0, "수량 없음(자재 포함 시공 행) — 수량 확인 필요"
+            notes.append("수량 확인 필요")
+        else:
+            k = max(1, math.ceil(m.qty / f.per_qty))
+            count = k * n
+            basis = f"{_fmt_qty(m.qty)}{ul}/{_fmt_qty(f.per_qty)}{ul}={k}회×{mk}"
+        below = getattr(t, "ks_substitute_below", None)             # LHCS 하수도용 관: 소량(N개 미만) 규격은 KS면 갈음
+        small = bool(below) and m.unit in COUNT_UNITS and 0 < m.qty < below
+        if below and m.unit not in COUNT_UNITS:                      # m 등으로 받은 관: 개수를 모르니 계상하고 알린다(과소 계상 방지)
+            notes.append(f"수량 {m.unit} — {below}개 미만 사용 규격이면 성적서 갈음 가능")
+        if t.ks_substitute or small:                                 # ①
+            count, verdict = 0, KS_SUBSTITUTE_NOTE + (f"(소량 {below}개 미만)" if small else "")
+        elif t.ks_still_test:                                        # ②
+            verdict = KS_STILL_NOTE
+        elif t.where == "현장":                                      # ③
+            verdict = ""
+        elif getattr(t, "eco_substitute", False):                    # ④ (규칙 필드는 rules 워커가 추가)
+            count, verdict = 0, KS_ECO_NOTE
+        elif partial:                                                # ⑤
+            verdict = ""
+        else:                                                        # ⑥
+            count, verdict = 0, KS_DEFAULT_NOTE
+        if verdict:
+            notes.append(verdict)
+        row = PlanRow(discipline=m.discipline, work=m.work or rule.work, item=f"{rule.label}({m.spec})",
+                      test_type=t.display or t.test_type, qty=m.qty, unit=ul, frequency=f.text or rule.group_frequency,
+                      calc_basis=basis, count_ks="◎", note="; ".join(notes), basis=t.basis or rule.group_basis,
+                      material=m.material, spec=m.spec, sources=list(m.sources), method=t.method)
+        if t.where == "현장":
+            row.count_site = count
+        else:
+            row.count_external = count
+        rows.append(_mark_assumed(row, assumed and count > 0))
+    return rows
+
+
+def group_row(m: MaterialQty, rule: Rule, ks: bool = True, makers: int | None = None, tests=None) -> PlanRow:
     """규격당 한 행(시험 묶음). KS 제품: ks_count='none' 이면 시험 없이 ◎(시행령 91조 면제, 산출근거 'KS자재'),
-    'makers' 면 제조사 수×1회(철근 관행). 비KS: 물량 빈도가 있으면 ⌈물량/빈도⌉×제조사 수, 없으면 제조사 수×1회."""
+    'makers' 면 제조사 수×1회(철근 관행). 비KS: 물량 빈도가 있으면 ⌈물량/빈도⌉×제조사 수, 없으면 제조사 수×1회.
+    tests 를 주면 그 종목만 묶는다(없으면 조건부 뺀 전 종목)."""
     ks = ks and rule.ks_mark                    # KS 종별이 아니면 KS 경로로 가지 않는다(L4-G1 제안)
     if rule.material == "rebar" or rule.ks_count == "makers" or not ks:
-        return rebar_group_row(m, rule, ks=ks, makers=makers)
-    tests = [t for t in rule.tests if not t.optional]
+        return rebar_group_row(m, rule, ks=ks, makers=makers, tests=tests)
+    tests = [t for t in rule.tests if not t.optional] if tests is None else tests
     ul = UNIT_LABEL.get(m.unit, m.unit)
     return PlanRow(discipline=m.discipline, work=m.work or rule.work, item=f"{rule.label}({m.spec})",
                    test_type=",".join(t.display or t.test_type for t in tests), qty=m.qty, unit=ul,
                    frequency=rule.group_frequency, calc_basis="KS자재", count_ks="◎",
-                   basis=rule.group_basis, material=m.material, spec=m.spec, sources=list(m.sources))
+                   basis=rule.group_basis, material=m.material, spec=m.spec, sources=list(m.sources),
+                   method=_methods(tests))
 
 
-def rebar_group_row(m: MaterialQty, rule: Rule, ks: bool = True, makers: int | None = None) -> PlanRow:
+def rebar_group_row(m: MaterialQty, rule: Rule, ks: bool = True, makers: int | None = None, tests=None) -> PlanRow:
     """철근 규격(강종·지름)당 한 행. 시험들을 ','로 묶고, 빈도는 KS/비KS 두 줄 문구.
     KS: 제조회사 수 × 1회(외부) — 별표2 ※주석(p.52)의 KS 시험 제외에 따른 실무 표기.
-    비KS: ⌈톤/50⌉ × 제조회사 수(외부). makers 를 안 주면 1곳으로 보고 '제조회사 수 확인 필요'를 남긴다."""
-    note = "제조사 수 확인" if makers is None else ""
+    비KS: ⌈톤/50⌉ × 제조회사 수(외부). makers 를 안 주면 1곳으로 보고 detail 에 표시한다(요약 한 줄 — makers_confirmation)."""
+    assumed = makers is None                     # 1곳으로 계산: 행 비고 대신 detail 표시 → 요약 한 줄(L14-D4)
+    note = ""
     makers = 1 if makers is None else makers
     if makers < 1:
         raise ValueError("제조회사 수는 1 이상이어야 합니다.")
-    tests = [t for t in rule.tests if not t.optional]
+    all_tests = [t for t in rule.tests if not t.optional]
+    tests = all_tests if tests is None else tests
     ul = UNIT_LABEL.get(m.unit, m.unit)
     if ks:
         count, basis = makers, "KS자재 - 제조회사 및 제품규격별 1회"
     else:
-        per_t = next((t for t in tests if t.frequency.per_qty), None)
+        per_t = next((t for t in tests if t.frequency.per_qty), None) or next((t for t in all_tests if t.frequency.per_qty), None)
         who = rule.makers_label
         if per_t is None:                        # 문구형 빈도(제조회사별·규격별 등): 제조사 수×1회 (L4-G1 제안)
             count = makers
@@ -494,10 +688,11 @@ def rebar_group_row(m: MaterialQty, rule: Rule, ks: bool = True, makers: int | N
             per = per_t.frequency.per_qty
             count = max(1, math.ceil(m.qty / per)) * makers
             basis = f"{_fmt_qty(m.qty)}{ul}/{_fmt_qty(per)}{ul}×{who}{makers}곳"
-    return PlanRow(discipline=m.discipline, work=m.work or rule.work, item=f"{rule.label}({m.spec})",
+    return _mark_assumed(PlanRow(discipline=m.discipline, work=m.work or rule.work, item=f"{rule.label}({m.spec})",
                    test_type=",".join(t.test_type for t in tests), qty=m.qty, unit=ul,
                    frequency=rule.group_frequency, calc_basis=basis, count_external=count, note=note,
-                   basis=rule.group_basis, material=m.material, spec=m.spec, sources=list(m.sources))
+                   basis=rule.group_basis, material=m.material, spec=m.spec, sources=list(m.sources),
+                   method=_methods(tests)), assumed and count > 0)
 
 
 COMMON_SPECS = DATA_DIR / "common_specs.yaml"
@@ -511,19 +706,19 @@ def missing_common_specs(mats: list[MaterialQty], path: Path = COMMON_SPECS) -> 
     return [f"{d}:{mat}:{s}" for d, by in table.items() for mat, specs in by.items() for s in specs if (d, mat, s) not in have]
 
 
-def added_spec_rows(specs: list[str], rules: dict[str, Rule], makers: dict[str, int] | None = None) -> list[PlanRow]:
+def added_spec_rows(specs: list[str], rules: dict[str, Rule], makers: dict[str, int] | None = None,
+                    owner: str = "") -> list[PlanRow]:
     """사용자가 고른 누락 추정 규격을 수량 없이(“-”) 넣는다. 형식 '분야:자재:규격'."""
     rows = []
     for item in specs:
         disc, material, spec = item.split(":", 2)
         rule = rules[material]
         m = MaterialQty(material, spec, (rule.match_units or ("",))[0], 0.0, "", disc)
-        if rule.group_tests:
-            row = group_row(m, rule, makers=_lookup(makers or {}, m))
-        else:
-            row = plan_rows([m], rules)[0]
-        row.note = "도급내역서 누락 추정 — 임시 계상" + (f"; {row.note}" if row.note else "")
-        rows.append(row)
+        new = (group_rows(m, rule, makers=_lookup(makers or {}, m, rule=rule, ks=rule.ks_mark), owner=owner) if rule.group_tests
+               else plan_rows([m], rules, owner=owner)[:1])
+        for row in new:
+            row.note = "도급내역서 누락 추정 — 임시 계상" + (f"; {row.note}" if row.note else "")
+        rows += new
     return rows
 
 
@@ -535,5 +730,5 @@ def optional_tests(rules: dict[str, Rule]) -> list[str]:
 def rows_to_json(rows: list[PlanRow]) -> list[dict]:
     """채점기 형식(JSON)."""
     keys = ("discipline", "work", "item", "material", "spec", "test_type", "qty", "unit", "frequency",
-            "calc_basis", "count_site", "count_external", "count_ks", "note", "detail", "basis")
+            "calc_basis", "count_site", "count_external", "count_ks", "note", "detail", "basis", "method")
     return [{k: getattr(r, k) for k in keys} for r in rows]

@@ -16,6 +16,15 @@ PAGES = {"ordinary_plywood": (39, 40), "veneer_floor": (40,), "fiberboard": (40,
          "lacquer": (48,), "varnish": (49,), "multicolor_paint": (49,)}
 
 
+# L14-C5: LHCS 10 40 00 V2026.04 부록4 비고 '현장시험' 종목은 where 현장(병합 칸으로 범위 확인)
+LHCS_ONSITE = {("concrete_brick", "겉모양"), ("concrete_brick", "치수"), ("concrete_brick", "기건 비중"), ("concrete_brick", "압축 강도"),
+               ("concrete_brick", "흡수율"), ("hollow_concrete_block", "겉모양 및 치수"), ("hollow_concrete_block", "흡수율"),
+               ("clay_brick", "겉모양"), ("clay_brick", "치수"), ("clay_brick", "흡수율"), ("clay_brick", "압축강도"),
+               ("curb_block", "겉모양, 모양 및 치수"), ("fiberboard", "함수율"), ("ordinary_plywood", "함수율"),
+               ("mineral_wool", "겉모양, 치수, 밀도"), ("door_set", "치수"), ("window_set", "치수"),
+               ("synthetic_window_profile", "겉모양, 치수 및 질량")}
+
+
 @pytest.fixture(scope="module")
 def rules():
     return load_rules(RULES)
@@ -41,7 +50,7 @@ def test_rule_file_links_index_and_basis(key):
     assert "2026-360" in rule.basis_version
     for t in rule.tests:
         assert any(f"(PDF p.{p})" in t.basis for p in PAGES[key]), t.basis
-        assert t.where == "외부"
+        assert t.where == ("현장" if (key, t.test_type) in LHCS_ONSITE else "외부"), (key, t.test_type)
 
 
 def test_test_counts_follow_byeolpyo2():

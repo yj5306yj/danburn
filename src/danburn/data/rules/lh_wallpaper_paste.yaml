@@ -76,6 +76,7 @@ tests:
   basis: LHCS 10 40 00:2020 부록 「품질시험 및 검사기준」 Ⅱ.16 바닥재 및 벽지 벽지용 전분계 접착제 곰팡이저항성
   conditions: 시료 1포
 - test_type: 친환경(TVOC·폼알데하이드·톨루엔)
+  eco_substitute: true
   method: 환경부 실내공기질 공정시험방법
   where: 외부
   frequency:

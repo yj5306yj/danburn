@@ -87,14 +87,17 @@ def test_one_table_per_discipline_with_widths_and_header_rows(built):
     x = _xml(built)
     body = x.split("</hp:secPr>", 1)[1]
     assert "[건축공사]" in body and "[토목공사]" in body
-    tbls = re.findall(r'<hp:tbl [^>]*repeatHeader="1"[^>]*rowCnt="(\d+)" colCnt="11"', body)
+    tbls = re.findall(r'<hp:tbl [^>]*repeatHeader="1"[^>]*rowCnt="(\d+)" colCnt="12"', body)
     assert [int(n) for n in tbls] == [2 + 8, 2 + 3]
     first = _first_plan_table(body)
     row0 = first.split("</hp:tr>", 1)[0]
     widths = [int(w) for w in re.findall(r'<hp:cellSz width="(\d+)"', row0)]
     assert widths[0] == round(WIDTHS_MM[0] * 7200 / 25.4)
-    assert re.search(r'colAddr="5" rowAddr="0"/><hp:cellSpan colSpan="2" rowSpan="1"', row0)   # 시험빈도
-    assert re.search(r'colAddr="7" rowAddr="0"/><hp:cellSpan colSpan="3" rowSpan="1"', row0)   # 계획횟수
+    assert re.search(r'colAddr="6" rowAddr="0"/><hp:cellSpan colSpan="2" rowSpan="1"', row0)   # 시험빈도
+    assert re.search(r'colAddr="8" rowAddr="0"/><hp:cellSpan colSpan="3" rowSpan="1"', row0)   # 계획시험횟수
+    heads = "".join(re.findall(r"<hp:t>([^<]*)</hp:t>", first.split("</hp:tr>", 2)[0] + first.split("</hp:tr>", 2)[1]))
+    for h in ("시험품목", "시험종목", "시험방법", "계획물량", "계획시험횟수", "의뢰"):          # L14-E 칸 이름
+        assert h in heads
     assert 'width="0.4 mm"' in _xml(built, "Contents/header.xml")                             # 바깥 굵은 선
 
 
@@ -103,10 +106,11 @@ def test_merge_plan_groups_work_item_and_rebar_bundle():
     plan = merge_plan(rows)
     assert plan[0] == [(0, 7)]               # 공종: 비어 있으면 자재 기본 공종으로 한 칸
     assert plan[1] == [(0, 2), (3, 5), (6, 6), (7, 7)]   # 시험항목: 규격마다
-    assert plan[3] == plan[1]                # 수량: 시험항목과 같이
-    assert (6, 7) in plan[2] and (6, 7) in plan[5] and (6, 7) in plan[6]   # 철근 규격 묶음의 시험종류·빈도·근거
-    assert plan[4] == [(0, 2), (3, 5), (6, 7)]
-    assert plan[7] == [(i, i) for i in range(8)]   # 계획횟수는 병합하지 않는다
+    assert plan[4] == plan[1]                # 계획물량: 시험품목과 같이
+    assert (6, 7) in plan[2] and (6, 7) in plan[6] and (6, 7) in plan[7]   # 철근 규격 묶음의 시험종목·빈도·근거
+    assert (6, 7) in plan[3]                 # 시험방법도 같은 묶음이면 병합(빈칸이어도)
+    assert plan[5] == [(0, 2), (3, 5), (6, 7)]
+    assert plan[8] == [(i, i) for i in range(8)]   # 계획시험횟수는 병합하지 않는다
 
 
 def test_merged_cells_are_omitted_and_work_is_stacked(built):
@@ -246,7 +250,7 @@ def test_unlisted_table_after_811_tables(tmp_path):
     body = _xml(out).split("</hp:secPr>", 1)[1]
     assert re.findall(r'<hp:tbl [^>]*rowCnt="(\d+)" colCnt="5"', body) == ["4"]     # 머리 1 + 항목 3
     i = body.index("[시험계획 미작성 자재 (확인 필요)]")
-    assert body.rindex('colCnt="11"') < i < body.index("근거 기준: 합성 기준판")          # 8.11 표 뒤, 주석 앞
+    assert body.rindex('colCnt="12"') < i < body.index("근거 기준: 합성 기준판")          # 8.11 표 뒤, 주석 앞
     tbl = body[i:body.index("</hp:tbl>", i)]
     texts = re.findall(r"<hp:t>([^<]*)</hp:t>", tbl)
     for t in ("구분", "내역 행 수", "규칙 없음", "발주처 기준 필요", "현장측정 확인", "별표2 p.12", "별표2 밖", "7", "-",
@@ -287,7 +291,7 @@ def test_compact_date_and_header_title_fit():
 
 def test_811_columns_follow_canonical_widths():
     assert abs(sum(WIDTHS_MM) - 181.0) < 1e-6
-    assert WIDTHS_MM[2] == 42.1 and WIDTHS_MM[6] == 32.3 and WIDTHS_MM[10] == 7.6
+    assert WIDTHS_MM[2] == 30.1 and WIDTHS_MM[3] == 18.0 and WIDTHS_MM[7] == 26.3 and WIDTHS_MM[11] == 7.6   # L14-E 시험방법 칸
 
 
 def _many_rows(n_specs=30):
@@ -318,4 +322,5 @@ def test_long_test_item_is_set_smaller_instead_of_wrapping():
     assert _cell_pt(1, "레미콘\n(25-24-150)", WIDTHS_MM[1]) == 8
     long = "시멘트계 액체형 방수제\n(건조모르타르 조적벽 h=0~200 MM구간)"
     assert ITEM_PT_STEPS[-1] <= _cell_pt(1, long, WIDTHS_MM[1]) < 8
-    assert _cell_pt(2, "아무 글", WIDTHS_MM[2]) == 6.5 and _cell_pt(3, "1,000", WIDTHS_MM[3]) == 8
+    assert _cell_pt(2, "아무 글", WIDTHS_MM[2]) == 6.5 and _cell_pt(4, "1,000", WIDTHS_MM[4]) == 8
+    assert _cell_pt(3, "KS F 2402", WIDTHS_MM[3]) == 6.5                   # 시험방법은 작은 글

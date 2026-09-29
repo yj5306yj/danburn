@@ -5,6 +5,7 @@
 #   종류에만 있는 14종목은 optional(조건: 종류)로 둔다 — --include-optional 이면 모두 나온다. 행 이름은 규격의 종류(융착·상온 등)로 나눈다.
 # KS 처리: 종별 괄호 안 KS 규격 제품은 ※주석(PDF p.52)에 따라 시행령 제91조제1항 시험 제외 → ◎.
 # 내역서 관행: '차선도색(백색, 실선)'·'주차선도색'처럼 도색 공종 행(㎡)에 도료가 들어 있다(규격 칸에 '융착식 도료' 등).
+# KS 종목별 처리(ks_substitute): LHCS 10 40 00 V2026.04 부록4 해당 종별 비고 — KS 인증업체 공인기관 성적서 확인으로 갈음하는 종목. LH 발주 기준(별표2 아님).
 material: road_marking_paint
 label: 도로표지용 도료
 work: 도장공사                           # 내역서 구분 경로에 공종이 없을 때(건축 주차선 등). 토목은 경로(교통안전시설 등)가 우선
@@ -20,61 +21,70 @@ order: 42
 spec_group:                              # 색·선 모양별 행 대신 도료 종류별로 묶는다(시험 종목이 종류로 갈림)
   pattern: "(융착|가열|수용|상온)"
   label: "{1}형"
-  other: 규격별
+  other: "규격 미기재"   # L14-C7: 패턴에 안 걸린 행 — 뜻이 보이게
 group_tests: true
 group:
   frequency: "제조회사별, 제품규격마다"
   basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) (PDF p.29); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외"
 tests:
   - test_type: "불점착 건조성"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 불점착 건조성 (PDF p.29)"
     conditions: "1~3종과 4종(융착식) 모두의 시험종목."
   - test_type: "도막의 겉모양"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 도막의 겉모양 (PDF p.29)"
     conditions: "1~3종과 4종(융착식) 모두의 시험종목."
   - test_type: "45도·0도 확산반사율"
+    ks_substitute: certificate
     method: "KS M 6080(1~3종), KS M 5000-3121(4종)"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 45도·0도 확산반사율 (PDF p.29)"
     conditions: "1~3종과 4종(융착식) 모두의 시험종목."
   - test_type: "촉진 내후성"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 촉진 내후성 (PDF p.29)"
     conditions: "1~3종과 4종(융착식) 모두의 시험종목."
   - test_type: "비휘발분"
+    ks_substitute: certificate
     method: "KS M ISO 3251"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 비휘발분 (PDF p.29)"
     conditions: "1~3종과 4종(융착식) 모두의 시험종목."
   - test_type: "납, 카드뮴"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 납, 카드뮴 (PDF p.29)"
     conditions: "1~3종과 4종(융착식) 모두의 시험종목."
   - test_type: "색상"
+    ks_substitute: certificate
     method: "KS M 5000-3011"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 색상 (PDF p.29)"
     conditions: "1~3종과 4종(융착식) 모두의 시험종목."
   - test_type: "열안정성"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격마다", minimum: 1}
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 열안정성 (PDF p.29)"
     conditions: "1~3종과 4종(융착식) 모두의 시험종목."
   - test_type: "용기내에서의 상태(1~3종)"
+    ks_substitute: certificate
     method: "KS M 5000-2011"
     where: 외부
     optional: true
@@ -82,6 +92,7 @@ tests:
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 용기내에서의 상태 (PDF p.29)"
     conditions: "1종(상온형)·2종(수용성)·3종(가열형)에 한함."
   - test_type: "은폐율(1~3종)"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     optional: true
@@ -89,6 +100,7 @@ tests:
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 은폐율 (PDF p.29)"
     conditions: "1종(상온형)·2종(수용성)·3종(가열형)에 한함."
   - test_type: "블리딩성, 내마모성(1~3종)"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     optional: true
@@ -96,6 +108,7 @@ tests:
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 블리딩성, 내마모성 (PDF p.29)"
     conditions: "1종(상온형)·2종(수용성)·3종(가열형)에 한함."
   - test_type: "내수성, 내알칼리성(1~3종)"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     optional: true
@@ -103,6 +116,7 @@ tests:
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 내수성, 내알칼리성 (PDF p.29)"
     conditions: "1종(상온형)·2종(수용성)·3종(가열형)에 한함."
   - test_type: "냉동안정성(1~3종)"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     optional: true
@@ -110,6 +124,7 @@ tests:
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 냉동안정성 (PDF p.29)"
     conditions: "1종(상온형)·2종(수용성)·3종(가열형)에 한함."
   - test_type: "안료분(1~3종)"
+    ks_substitute: certificate
     method: "KS M 5000-2111"
     where: 외부
     optional: true
@@ -117,6 +132,7 @@ tests:
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 안료분 (PDF p.29)"
     conditions: "1종(상온형)·2종(수용성)·3종(가열형)에 한함."
   - test_type: "내세척성(1~3종)"
+    ks_substitute: certificate
     method: "KS M 5000-3351"
     where: 외부
     optional: true
@@ -124,6 +140,7 @@ tests:
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 내세척성 (PDF p.29)"
     conditions: "1종(상온형)·2종(수용성)·3종(가열형)에 한함."
   - test_type: "밀도, 연화점(4종)"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     optional: true
@@ -131,6 +148,7 @@ tests:
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 밀도, 연화점 (PDF p.29)"
     conditions: "4종(융착식)에 한함."
   - test_type: "황색도(4종)"
+    ks_substitute: certificate
     method: "KS M 5000-3211"
     where: 외부
     optional: true
@@ -138,6 +156,7 @@ tests:
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 황색도 (PDF p.29)"
     conditions: "4종(융착식)에 한함."
   - test_type: "내마모성, 압축강도(4종)"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     optional: true
@@ -145,6 +164,7 @@ tests:
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 내마모성, 압축강도 (PDF p.29)"
     conditions: "4종(융착식)에 한함."
   - test_type: "내알칼리성(4종)"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     optional: true
@@ -152,6 +172,7 @@ tests:
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 내알칼리성 (PDF p.29)"
     conditions: "4종(융착식)에 한함."
   - test_type: "비휘발전색제분(4종)"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     optional: true
@@ -159,6 +180,7 @@ tests:
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 비휘발전색제분 (PDF p.29)"
     conditions: "4종(융착식)에 한함."
   - test_type: "유리알 함유량(4종)"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     optional: true
@@ -166,6 +188,7 @@ tests:
     basis: "별표2 2. 토목 가. 도로공사 도로표지용 도료(KS M 6080) 유리알 함유량 (PDF p.29)"
     conditions: "4종(융착식)에 한함."
   - test_type: "유리알 겉모양, 모양(4종)"
+    ks_substitute: certificate
     method: "KS M 6080"
     where: 외부
     optional: true

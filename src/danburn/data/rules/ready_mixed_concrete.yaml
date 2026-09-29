@@ -13,7 +13,7 @@ match:
   units: ["m3"]
 tests:
   - test_type: 압축강도
-    method: "KS F 2403, KS F 2405, 콘크리트표준시방서"
+    method: "KS F 2403, KS F 2405, KCS 14 20 00"   # 옛 명칭 콘크리트표준시방서 → KCS 14 20 00(2016 코드 전환, standards_snapshot obsolete_names)
     where: 현장
     # 사용자 실무 설명(09-26): 120㎥마다는 현장물성시험 1회, 3회(360㎥)가 1로트. 로트 안에서 부위(수직·수평)·재령(7·28일)별로
     # 공시체를 떠 합친 것이 N조. 현행 기준 근거는 R3(KCS 확인)로 보강 예정.
@@ -61,7 +61,7 @@ tests:
     conditions: "비고: 정전용량법·단위용적질량법·고주파가열법·마이크로파법 중 하나, 판정은 시방배합 단위수량 ±20kg/㎥ 이내. 1일 타설량 구분은 슬럼프와 같음."
 
   - test_type: 배합설계
-    method: "콘크리트표준시방서"
+    method: "KCS 14 20 00"
     where: 현장
     optional: true                    # 실무 8.11에서 생략(사용자 결정 09-26: 원본 현장 계획서에 없음). --include-optional 로 포함
     frequency: {per_qty: null, unit: null, text: "배합마다", minimum: 1}

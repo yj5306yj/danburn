@@ -11,7 +11,7 @@ index_keys: [window_set]
 accept_install_rows: true                # 합성수지 발코니창·이중창은 ‘…창 설치’ 시공 행으로만 나온다(L4-T4)
 install_units: [개소, ea, set]
 match:
-  names: [창세트, 창호세트, 시스템창호, PVC창호, 알루미늄창호, 합성수지창호, AL창호, 시스템창, 합성수지창, 이중창, 발코니창, /AW, /AG, /FSW, /SSW]   # 창호 부호 품명(재질+W/G=창) — L4-T3
+  names: [창세트, 창호세트, 시스템창호, PVC창호, 알루미늄창호, 합성수지창호, AL창호, 시스템창, 합성수지창, 이중창, 발코니창, /AW, /AG, /FSW, /SSW, 합성수지제창호]   # 창호 부호 품명(재질+W/G=창) — L4-T3
   units: [ea, 개, 개소, set, 틀, 조, m2]
   exclude: [/AWD, /AGD, 형재, 문세트, 방충망, 철물, 설치, 하차, 코킹, 실링, 인건, 노무, 운반, 할증]
 ks_mark: true                            # 종별 괄호 (KS F 3117)
@@ -28,7 +28,7 @@ group:
 tests:
   - test_type: "치수"
     method: "KS F 3117, KS F 1515"
-    where: 외부
+    where: 현장   # LHCS 10 40 00 V2026.04 부록4 비고 '현장시험'(L14-C5)
     frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}
     basis: "별표2 3. 건축 마. 창호공사 창세트(KS F 3117) 치수 (PDF p.39)"
   - test_type: "개폐력"

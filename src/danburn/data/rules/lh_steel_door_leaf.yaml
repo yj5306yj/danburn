@@ -1,0 +1,21 @@
+# 출처: LHCS 10 40 00 V2026.04 「시험」 부록4 「품질시험 및 검사기준」 Ⅱ.5 라. 강제창호 문짝 완성품(철판+단열재+접착제)
+# 발주처(LH) 전용 규칙 — `--owner LH` 일 때만 켜진다. 별표2 색인에 이 종별이 없다(L14-C4, 승인본 '대응 없음' 보강).
+# 원문 문장·표를 옮기지 않고 시험종목·시험방법 번호·빈도 사실만 적는다.
+material: lh_steel_door_leaf
+label: 강제창호 문짝 완성품
+owner: LH
+work: 창호공사
+basis_version: "LHCS 10 40 00 V2026.04 부록4 「품질시험 및 검사기준」"
+match:
+  names: [문짝완성품, 강제창호문짝완성품]
+  exclude: [설치, 시공, 인건, 노무, 운반, 하차, 할증, 철거]
+ks_mark: false
+ks_count: none
+order: 66
+# spec_group 없음(L14-C6): 빈도가 제품규격별인데 규격에 제품·조건이 섞여 안전한 추출이 어렵다 — 묶지 않는다(규격별 행)
+group_tests: true
+group:
+  frequency: "제조회사별, 제품규격별"
+  basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.5 라. 강제창호 문짝 완성품(철판+단열재+접착제)"
+tests:
+  - {test_type: "가스유해성", method: "KS F 2271", where: 외부, frequency: {per_qty: null, unit: null, text: "제조회사별, 제품규격별", minimum: 1}, basis: "LHCS 10 40 00 V2026.04 부록4 Ⅱ.5 라. 강제창호 문짝 완성품(철판+단열재+접착제) 가스유해성", conditions: "문짝 완성품에서 시편 크기로 절단, 구성체로 시험"}

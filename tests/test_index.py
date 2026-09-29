@@ -137,7 +137,7 @@ def test_labor_only_flags_material_hidden_in_install_rows():
 
 def test_rules_follow_index_fixes():
     from danburn.calc import match_rule
-    rules = load_rules(RULES)
+    rules = {k: r for k, r in load_rules(RULES).items() if not r.owner}   # 별표2 색인 교정 확인 — 발주처(LH) 규칙은 빼고(L14-D5)
 
     def rule_of(name, unit):
         r = match_rule(_line(name, unit=unit), rules)
