@@ -353,3 +353,33 @@ main section#about-en, main section.lost { padding-top: 28px; padding-bottom: 28
   .en main section.hero { grid-template-columns: 1fr; }
   main section#roadmap, main section#limits { padding-top: 28px; padding-bottom: 28px; }
 }
+
+/* 영문 쪽 증거 표(#proof): 내역서 행 → 시험계획 행. 표 모양은 .job-table 과 같은 선·머리칸.
+   좁은 화면에서는 가로로 넘치지 않게 행마다 카드로 접고, 칸 이름은 data-label 로 보인다 */
+.proof { max-width: 62em; }
+.proof-table { border-collapse: collapse; width: 100%; font-size: 0.9rem; line-height: 1.55; color: var(--ink-2); }
+.proof-table caption { text-align: left; font-size: 0.8rem; letter-spacing: 0.02em; color: var(--muted); padding: 0 0 6px; }
+.proof-table th, .proof-table td { border: 1px solid var(--rule); padding: 9px 12px; text-align: left; vertical-align: top; }
+.proof-table thead th { background: var(--head); color: var(--ink); font-weight: 650; border-top: 2px solid var(--ink); }
+.proof-table.out thead th { background: var(--blue-soft); border-bottom-color: var(--blue-line); }
+.proof-table .num { font-family: var(--mono); text-align: right; white-space: nowrap; }
+.proof-table .ko { display: block; font-size: 0.86em; color: var(--muted); }
+.proof-table strong { color: var(--ink); font-weight: 650; }
+.proof-table .count { font-family: var(--mono); font-size: 1.15rem; font-weight: 500; color: var(--ink); }
+.proof-table.out td:nth-child(1) { width: 30%; }
+.proof-table.out td:nth-child(2) { width: 22%; }
+.proof-table.out td:nth-child(3) { width: 22%; }
+.proof-step { margin: 18px 0; color: var(--ink-2); }
+.proof .small { margin-top: 10px; }
+.proof .small code { overflow-wrap: anywhere; }
+#claude h3#proof { scroll-margin-top: 16px; }
+@media (max-width: 760px) {
+  .proof-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .proof-table, .proof-table tbody, .proof-table tr, .proof-table td, .proof-table caption { display: block; width: auto; }
+  .proof-table.out td:nth-child(n) { width: auto; }
+  .proof-table tr { border: 1px solid var(--rule); border-top: 2px solid var(--ink); margin-top: 10px; }
+  .proof-table td { border: 0; border-top: 1px solid var(--rule); padding: 8px 12px; }
+  .proof-table td:first-child { border-top: 0; }
+  .proof-table td::before { content: attr(data-label); display: block; font-size: 0.75rem; letter-spacing: 0.02em; color: var(--muted); }
+  .proof-table .num { text-align: left; }
+}

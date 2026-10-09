@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Danburn — Quality Management Plans for Korean construction sites, built on Claude</title>
-<meta name="description" content="An open-source Claude Code plugin that turns a bill of quantities into a draft Quality Management Plan. Claude Code runs the workflow, deterministic code calculates the tests, a quality manager confirms.">
+<title>Danburn — Quality Management Plans for Korean apartment construction sites, built on Claude</title>
+<meta name="description" content="An open-source Claude Code plugin that turns a bill of quantities into a draft Quality Management Plan for Korean apartment construction sites. Claude Code runs the workflow, deterministic code calculates the tests, a quality manager confirms.">
 <link rel="canonical" href="https://danburn.kr/en">
 <link rel="alternate" hreflang="ko" href="https://danburn.kr/">
 <link rel="alternate" hreflang="en" href="https://danburn.kr/en">
@@ -15,15 +15,15 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ko_KR">
 <meta property="og:url" content="https://danburn.kr/en">
-<meta property="og:title" content="Danburn — Quality Management Plans for Korean construction sites, built on Claude">
-<meta property="og:description" content="An open-source Claude Code plugin that turns a bill of quantities into a draft Quality Management Plan. Claude Code runs the workflow, deterministic code calculates the tests, a quality manager confirms.">
+<meta property="og:title" content="Danburn — Quality Management Plans for Korean apartment construction sites, built on Claude">
+<meta property="og:description" content="An open-source Claude Code plugin that turns a bill of quantities into a draft Quality Management Plan for Korean apartment construction sites. Claude Code runs the workflow, deterministic code calculates the tests, a quality manager confirms.">
 <meta property="og:image" content="https://danburn.kr/media/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Test plan table of a Quality Management Plan generated from a synthetic example (Korean)">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Danburn — Quality Management Plans for Korean construction sites, built on Claude">
-<meta name="twitter:description" content="An open-source Claude Code plugin that turns a bill of quantities into a draft Quality Management Plan. Claude Code runs the workflow, deterministic code calculates the tests, a quality manager confirms.">
+<meta name="twitter:title" content="Danburn — Quality Management Plans for Korean apartment construction sites, built on Claude">
+<meta name="twitter:description" content="An open-source Claude Code plugin that turns a bill of quantities into a draft Quality Management Plan for Korean apartment construction sites. Claude Code runs the workflow, deterministic code calculates the tests, a quality manager confirms.">
 <meta name="twitter:image" content="https://danburn.kr/media/og.jpg">
 <!-- 구조화 데이터: 한국어 쪽(../index.html)과 같은 사실. 법적 형태 속성(legalName 등)은 넣지 않는다 -->
 <script type="application/ld+json">
@@ -36,7 +36,7 @@
       "name": "Danburn",
       "alternateName": "단번",
       "url": "https://danburn.kr/",
-      "description": "Open-source Claude Code plugin that drafts the Quality Management Plan for Korean construction sites from a bill of quantities.",
+      "description": "Open-source Claude Code plugin that drafts the Quality Management Plan for Korean apartment construction sites from a bill of quantities.",
       "foundingDate": "2026-09",
       "founder": { "@type": "Person", "name": "Sanghyun Lee", "alternateName": "이상현" },
       "email": "contact@danburn.kr",
@@ -48,9 +48,9 @@
       "name": "Danburn",
       "alternateName": "단번",
       "url": "https://danburn.kr/en",
-      "description": "Claude Code plugin and command-line tool that turns a contractor's bill of quantities into a draft Quality Management Plan (HWPX) with calculated test counts, exports the test plan on its own, and checks existing plans for outdated standards.",
+      "description": "Claude Code plugin and command-line tool that turns a contractor's bill of quantities into a draft Quality Management Plan (HWPX) for Korean apartment construction sites, with calculated test counts, exports the test plan on its own, and checks existing plans for outdated standards.",
       "applicationCategory": "BusinessApplication",
-      "operatingSystem": "macOS, Windows",
+      "operatingSystem": "macOS, Windows (command-line tool only)",
       "inLanguage": "ko",
       "license": "https://www.apache.org/licenses/LICENSE-2.0",
       "isAccessibleForFree": true,
@@ -88,8 +88,8 @@
   <section class="hero" id="top">
     <div class="hero-text">
       <p class="label">Open source · Claude Code plugin</p>
-      <h1>A Claude Code plugin that drafts Quality Management Plans for Korean construction sites</h1>
-      <p class="lead">Danburn drafts the Quality Management Plan that Korean law requires of construction projects above a set size, from the contractor's bill of quantities.</p>
+      <h1>A Claude Code plugin that drafts Quality Management Plans for Korean apartment construction sites</h1>
+      <p class="lead">Danburn drafts the Quality Management Plan that Korean law requires of construction projects above a set size, from the contractor's bill of quantities. It currently covers apartment projects.</p>
       <p class="byline">Built and run by Sanghyun Lee, a former site quality manager on public housing projects in Korea.</p>
       <p class="actions">
         <a class="btn primary" href="https://github.com/yj5306yj/danburn">GitHub repository</a>
@@ -136,6 +136,59 @@
         <h3>The quality manager</h3>
         <p>Checks the draft against site conditions and confirms it before submission.</p>
       </div>
+    </div>
+
+    <!-- 증거 표: 합성 예제를 실제로 돌린 산출(JSON)에서 그대로 옮긴 행. 숫자·근거를 고치면 안 된다(다시 돌려서 옮긴다) -->
+    <h3 class="sub" id="proof">From a bill of quantities to a test plan</h3>
+    <p class="wide">Four rows from the synthetic example in the repository, and the test plan rows the tool calculated from them. Korean originals are kept next to the English.</p>
+    <div class="proof">
+      <table class="proof-table">
+        <caption>Input · rows of the bill of quantities (xlsx), block 나동</caption>
+        <thead>
+          <tr><th scope="col">Item</th><th scope="col">Spec</th><th scope="col">Unit</th><th scope="col">Quantity</th></tr>
+        </thead>
+        <tbody>
+          <tr><td data-label="Item">Ready-mixed concrete <span class="ko" lang="ko">레미콘</span><span class="ko">superstructure <span lang="ko">(상부공사)</span></span></td><td data-label="Spec" class="mono">25-24-150</td><td data-label="Unit" class="mono">M3</td><td data-label="Quantity" class="num">2,000</td></tr>
+          <tr><td data-label="Item">Ready-mixed concrete <span class="ko" lang="ko">레미콘</span><span class="ko">underground parking <span lang="ko">(지하주차장)</span></span></td><td data-label="Spec" class="mono">25-24-150</td><td data-label="Unit" class="mono">M3</td><td data-label="Quantity" class="num">950</td></tr>
+          <tr><td data-label="Item">Deformed steel bar (SD500) <span class="ko" lang="ko">이형봉강(SD500)</span></td><td data-label="Spec" class="mono">H-13</td><td data-label="Unit" class="mono">TON</td><td data-label="Quantity" class="num">150.2</td></tr>
+          <tr><td data-label="Item">Asphalt paving <span class="ko" lang="ko">아스팔트포장</span></td><td data-label="Spec"><span class="mono" lang="ko">표층 t=50mm</span><span class="ko">surface course, 50 mm thick</span></td><td data-label="Unit" class="mono">M2</td><td data-label="Quantity" class="num">1,900</td></tr>
+        </tbody>
+      </table>
+      <p class="proof-step">The tool adds up the two concrete rows (2,950 ㎥), reads <span class="mono">H-13</span> under SD500 as <span class="mono">SD500 D13</span>, and writes these rows, 4 of the 95 in this run:</p>
+      <table class="proof-table out">
+        <caption>Output · rows of the quality test plan</caption>
+        <thead>
+          <tr><th scope="col">Test item</th><th scope="col">Frequency standard</th><th scope="col">Calculated count</th><th scope="col">Basis</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Test item"><strong>Compressive strength</strong> <span class="ko" lang="ko">압축강도</span><span class="ko">Concrete <span lang="ko">콘크리트(25-24-150)</span>, 2,950 ㎥</span></td>
+            <td data-label="Frequency standard">Every 360 ㎥ <span class="ko" lang="ko">360㎥ 마다</span></td>
+            <td data-label="Calculated count"><span class="count">36</span> on site<span class="ko"><span lang="ko">2,950㎥/360㎥당4조</span> (4 specimen sets per 360 ㎥)</span></td>
+            <td data-label="Basis"><span lang="ko">별표2 1. 나. 굳은 콘크리트(레미콘포함) 압축 강도 (PDF p.7)</span></td>
+          </tr>
+          <tr>
+            <td data-label="Test item"><strong>Slump</strong> <span class="ko" lang="ko">슬럼프</span><span class="ko">Concrete <span lang="ko">콘크리트(25-24-150)</span>, 2,950 ㎥</span></td>
+            <td data-label="Frequency standard">Every 120 ㎥ <span class="ko" lang="ko">120㎥ 마다</span></td>
+            <td data-label="Calculated count"><span class="count">25</span> on site<span class="ko"><span lang="ko">2,950㎥/120㎥당1회</span> (once per 120 ㎥)</span></td>
+            <td data-label="Basis"><span lang="ko">별표2 1. 나. 굳지 아니한 콘크리트(레미콘포함) 슬럼프 또는 슬럼프플로 (PDF p.6~7)</span></td>
+          </tr>
+          <tr>
+            <td data-label="Test item"><strong>Appearance, dimensions, mass; yield point or yield strength; tensile strength; elongation; bendability; carbon equivalent (weldable); chemical composition</strong> <span class="ko" lang="ko">겉모양, 치수, 무게,항복점 또는 항복강도,인장강도,연신율,굽힘성,탄소당량(용접용),화학성분</span><span class="ko">Rebar <span lang="ko">철근(SD500 D13)</span>, 150.2 ton</span></td>
+            <td data-label="Frequency standard">KS products: per manufacturer and product size. Non-KS products: every 50 tons per manufacturer and product size. <span class="ko" lang="ko">1. KS제품은 제조회사 및 제품규격별마다 2. 비KS제품은 제조회사별·제품규격별 50톤마다</span></td>
+            <td data-label="Calculated count"><span class="count">1</span> at an outside lab<span class="ko"><span lang="ko">KS자재 - 제조회사 및 제품규격별 1회</span> (KS material: once per manufacturer and product size)</span><span class="ko"><span lang="ko">제조사(골재원) 1곳으로 계산</span> (counted as one manufacturer; listed for the user to confirm)</span></td>
+            <td data-label="Basis"><span lang="ko">별표2 1. 나. 철근콘크리트용 봉강(KS D 3504) (PDF p.7); KS 제품은 별표2 ※주석(PDF p.52) — 종별 괄호 안 KS 규격 제품은 건설기술 진흥법 시행령 제91조제1항 시험 제외</span></td>
+          </tr>
+          <tr>
+            <td data-label="Test item"><strong>Thickness</strong> <span class="ko" lang="ko">두께</span><span class="ko">Asphalt concrete laying <span lang="ko">아스팔트콘크리트 포설(표층T=50MM)</span>, 1,900 ㎡</span></td>
+            <td data-label="Frequency standard">Every 30 ares (3,000 ㎡) per laid layer <span class="ko" lang="ko">포설 1층당 30아르(3,000㎡)마다</span></td>
+            <td data-label="Calculated count"><span class="count">1</span> on site<span class="ko"><span lang="ko">1,900㎡/3,000㎡당1회</span> (once per 3,000 ㎡)</span></td>
+            <td data-label="Basis"><span lang="ko">별표2 2. 가. (2) 혼합물의 포설 두께 (PDF p.26)</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="small"><span lang="ko">별표2</span> is Appendix 2 of the government guideline the tool calculates from; this run printed its edition as <span lang="ko">국토교통부고시 제2026-360호(2026-07-08 시행) 「건설공사 품질관리 업무지침」 별표2</span>. The basis column is copied from the output as written. The numbers are counts for a made-up bill of quantities, not from a real site.</p>
+      <p class="small">Generated from the synthetic example in the repository with <code>danburn plan --boq examples/out/example_boq.xlsx --block 나동 --project src/danburn/data/templates/project.example.yaml --revision 0 --date "2026. 01. 05." --offline --out examples/out/품질관리계획서.hwpx</code> (the example file comes from <code>scripts/make_example_boq.py</code>; rows are in the <code>.json</code> written next to the plan).</p>
     </div>
 
     <h3 class="sub">Three skills</h3>
@@ -213,7 +266,7 @@
     <p class="label">Who makes it</p>
     <h2 id="maker-title">Built and run by a former site quality manager</h2>
     <p>Danburn is built and run by Sanghyun Lee, a former site quality manager on public housing projects in Korea. Independent and self-funded. Started in September 2026.</p>
-    <p>Writing a Quality Management Plan meant looking up standards, recounting quantities every time the bill of quantities changed, and reworking a long document, a month or two each time. Danburn is meant to cut that to feeding in the bill of quantities once.</p>
+    <p>Writing a Quality Management Plan meant looking up standards, recounting quantities every time the bill of quantities changed, and reworking a long document. In Sanghyun's own experience as a site quality manager, that took a month or two each time. Danburn is meant to cut that to feeding in the bill of quantities once.</p>
     <p class="small">Contact: <a href="mailto:contact@danburn.kr">contact@danburn.kr</a> · Repository: <a href="https://github.com/yj5306yj/danburn">github.com/yj5306yj/danburn</a> · Apache-2.0</p>
   </section>
 
@@ -227,6 +280,7 @@
       <li>Test scheduling</li>
       <li>Flagging plan rows affected by standard revisions</li>
     </ul>
+    <p class="wide">Why a model there: strength-test reports and delivery tickets are laid out differently by each testing lab and ready-mix supplier, and they arrive as scans or photos, so rule-based code cannot read them.</p>
   </section>
 
   <!-- ⑤ 한계: 한국어 쪽 비고와 같은 사실 -->
