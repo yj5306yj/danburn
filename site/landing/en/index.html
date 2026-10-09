@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danburn — Quality Management Plans for Korean construction sites, built on Claude</title>
+<meta name="description" content="An open-source Claude Code plugin that turns a bill of quantities into a draft Quality Management Plan. Claude Code runs the workflow, deterministic code calculates the tests, a quality manager confirms.">
+<link rel="canonical" href="https://danburn.kr/en">
+<link rel="alternate" hreflang="ko" href="https://danburn.kr/">
+<link rel="alternate" hreflang="en" href="https://danburn.kr/en">
+<link rel="alternate" hreflang="x-default" href="https://danburn.kr/en">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Danburn">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ko_KR">
+<meta property="og:url" content="https://danburn.kr/en">
+<meta property="og:title" content="Danburn — Quality Management Plans for Korean construction sites, built on Claude">
+<meta property="og:description" content="An open-source Claude Code plugin that turns a bill of quantities into a draft Quality Management Plan. Claude Code runs the workflow, deterministic code calculates the tests, a quality manager confirms.">
+<meta property="og:image" content="https://danburn.kr/media/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Test plan table of a Quality Management Plan generated from a synthetic example (Korean)">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Danburn — Quality Management Plans for Korean construction sites, built on Claude">
+<meta name="twitter:description" content="An open-source Claude Code plugin that turns a bill of quantities into a draft Quality Management Plan. Claude Code runs the workflow, deterministic code calculates the tests, a quality manager confirms.">
+<meta name="twitter:image" content="https://danburn.kr/media/og.jpg">
+<!-- 구조화 데이터: 한국어 쪽(../index.html)과 같은 사실. 법적 형태 속성(legalName 등)은 넣지 않는다 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://danburn.kr/#org",
+      "name": "Danburn",
+      "alternateName": "단번",
+      "url": "https://danburn.kr/",
+      "description": "Open-source Claude Code plugin that drafts the Quality Management Plan for Korean construction sites from a bill of quantities.",
+      "foundingDate": "2026-09",
+      "founder": { "@type": "Person", "name": "Sanghyun Lee", "alternateName": "이상현" },
+      "email": "contact@danburn.kr",
+      "sameAs": ["https://github.com/yj5306yj/danburn"]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://danburn.kr/#app",
+      "name": "Danburn",
+      "alternateName": "단번",
+      "url": "https://danburn.kr/en",
+      "description": "Claude Code plugin and command-line tool that turns a contractor's bill of quantities into a draft Quality Management Plan (HWPX) with calculated test counts, exports the test plan on its own, and checks existing plans for outdated standards.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "macOS, Windows",
+      "inLanguage": "ko",
+      "license": "https://www.apache.org/licenses/LICENSE-2.0",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "downloadUrl": "https://github.com/yj5306yj/danburn",
+      "author": { "@id": "https://danburn.kr/#org" }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5.2.5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5.2.5/500.css">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="en">
+<!-- 영문 쪽(/en): 해외 방문자가 무엇인지·누가 만드는지 바로 알 수 있게. 디자인은 한국어 쪽과 같은 style.css.
+     주소는 /style.css·/media/… 처럼 뿌리 기준(배포에서 /en 으로 열린다). 영상은 한국어 쪽과 같은 파일 -->
+
+<header class="top">
+  <span class="brand">Danburn <span class="mono" lang="ko">단번</span></span>
+  <nav>
+    <a href="#claude">Claude Code</a>
+    <a href="#maker">Who makes it</a>
+    <a href="#roadmap">Roadmap</a>
+    <span class="nav-break" aria-hidden="true"></span>
+    <a href="https://github.com/yj5306yj/danburn">GitHub</a>
+    <a href="/" lang="ko" hreflang="ko">한국어</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ① 첫 화면: 무엇인지 한 문장 + 보조 문장 + 저장소·설치 버튼 -->
+  <section class="hero" id="top">
+    <div class="hero-text">
+      <p class="label">Open source · Claude Code plugin</p>
+      <h1>A Claude Code plugin that drafts Quality Management Plans for Korean construction sites</h1>
+      <p class="lead">Danburn drafts the Quality Management Plan that Korean law requires of construction projects above a set size, from the contractor's bill of quantities.</p>
+      <p class="byline">Built and run by Sanghyun Lee, a former site quality manager on public housing projects in Korea.</p>
+      <p class="actions">
+        <a class="btn primary" href="https://github.com/yj5306yj/danburn">GitHub repository</a>
+        <a class="btn" href="#install">Install</a>
+      </p>
+      <p class="small">Apache-2.0 · The plugin's interface and output are in Korean.</p>
+    </div>
+    <figure class="hero-media">
+      <video id="hero-video" autoplay muted loop playsinline preload="metadata" poster="/media/hero-v4-poster.jpg" data-poster-narrow="/media/hero-v4-45-poster.jpg"
+        aria-label="16-second video, Korean screen: rows of a bill of quantities become lines of the Quality Management Plan, and a ready-mixed concrete quantity is checked against the test plan table (synthetic example)">
+        <source src="/media/hero-v4-45.mp4" type="video/mp4" media="(max-width: 760px)">
+        <source src="/media/hero-v4.mp4" type="video/mp4">
+      </video>
+      <figcaption class="small">
+        <span>Real output from a synthetic example. The screen is in Korean.</span>
+        <button type="button" id="video-toggle" class="video-toggle" aria-controls="hero-video" aria-pressed="false"><span class="ico" aria-hidden="true"></span>Pause</button>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ② Claude Code 안에서: 설치 두 줄 · 일의 나눔 · 세 스킬과 영상 -->
+  <section id="claude">
+    <h2>Works inside Claude Code</h2>
+    <p class="wide">Danburn ships as a Claude Code plugin. Install it once, then ask Claude: <code>/danburn:start</code> to draft a new plan, <code>/danburn:check</code> to audit an existing one, <code>/danburn:test-plan</code> to export the test plan.</p>
+
+    <h3 id="install">Install — two lines in a terminal</h3>
+    <div class="install-cmds">
+      <div class="cmd"><code id="cmd-plugin-add">claude plugin marketplace add https://<wbr>github.com/<wbr>yj5306yj/<wbr>danburn</code><button type="button" data-copy="cmd-plugin-add">Copy</button></div>
+      <div class="cmd"><code id="cmd-plugin-install">claude plugin install danburn@<wbr>danburn</code><button type="button" data-copy="cmd-plugin-install">Copy</button></div>
+    </div>
+    <p class="small">Requires <a href="https://docs.astral.sh/uv/">uv</a>. The same tool also runs from a plain terminal as <code>danburn</code>.</p>
+
+    <h3 class="sub">How the work is split</h3>
+    <div class="grid3">
+      <div>
+        <h3>Claude Code</h3>
+        <p>Runs the tool, asks its questions one at a time, passes your answers back, and reports the result along with the list of items to confirm.</p>
+      </div>
+      <div>
+        <h3>Deterministic code</h3>
+        <p>Reads the bill of quantities, matches items to test standards, and calculates the test counts. Each row cites its basis. Items with no rule are flagged, not guessed.</p>
+      </div>
+      <div>
+        <h3>The quality manager</h3>
+        <p>Checks the draft against site conditions and confirms it before submission.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">Three skills</h3>
+    <article class="job" aria-labelledby="job-new">
+      <div class="job-text">
+        <h3 id="job-new">Draft a new plan</h3>
+        <dl class="job-dl">
+          <dt>You give</dt><dd>A bill of quantities (xlsx) and answers to a few questions</dd>
+          <dt>You get</dt><dd>A draft Quality Management Plan (.hwpx, the Korean word-processor format) and a list of items for a person to confirm</dd>
+          <dt>In Claude Code</dt>
+          <dd><div class="cmd agent"><code id="cmd-start-agent">/danburn:start</code><button type="button" data-copy="cmd-start-agent">Copy</button></div></dd>
+        </dl>
+      </div>
+      <figure class="job-media">
+        <video id="video-start" autoplay muted loop playsinline preload="metadata" poster="/media/cmd-start-poster.jpg" data-poster-narrow="/media/cmd-start-m-poster.jpg"
+          aria-label="10-second video, Korean screen: after /danburn:start the tool asks for the bill of quantities and the building block, decides which plan type applies, and writes the plan file; its cover and test plan pages appear (synthetic example)">
+          <source src="/media/cmd-start-m.mp4" type="video/mp4" media="(max-width: 760px)">
+          <source src="/media/cmd-start.mp4" type="video/mp4">
+        </video>
+        <figcaption class="small">
+          <span><code>/danburn:start</code> asks a few questions, then writes the plan. Synthetic example, Korean screen.</span>
+          <button type="button" class="video-toggle" aria-controls="video-start" aria-pressed="false"><span class="ico" aria-hidden="true"></span>Pause</button>
+        </figcaption>
+      </figure>
+    </article>
+    <article class="job" aria-labelledby="job-testplan">
+      <div class="job-text">
+        <h3 id="job-testplan">Export the test plan</h3>
+        <dl class="job-dl">
+          <dt>You give</dt><dd>The output folder from <code>/danburn:start</code> — no further questions</dd>
+          <dt>You get</dt><dd>The quality test plan on its own, as HWPX and Excel, from the same calculation as the full plan</dd>
+          <dt>In Claude Code</dt>
+          <dd><div class="cmd agent"><code id="cmd-testplan-agent">/danburn:test-plan output-folder</code><button type="button" data-copy="cmd-testplan-agent">Copy</button></div></dd>
+        </dl>
+      </div>
+      <figure class="job-media">
+        <video id="video-testplan" autoplay muted loop playsinline preload="metadata" poster="/media/cmd-testplan-poster.jpg" data-poster-narrow="/media/cmd-testplan-m-poster.jpg"
+          aria-label="10-second video, Korean screen: after /danburn:test-plan the result lists the files written, the number of test rows, items to confirm and blanks left for scanned attachments; the test plan table page appears (synthetic example)">
+          <source src="/media/cmd-testplan-m.mp4" type="video/mp4" media="(max-width: 760px)">
+          <source src="/media/cmd-testplan.mp4" type="video/mp4">
+        </video>
+        <figcaption class="small">
+          <span><code>/danburn:test-plan</code> writes the test plan as HWPX and Excel. Synthetic example, Korean screen.</span>
+          <button type="button" class="video-toggle" aria-controls="video-testplan" aria-pressed="false"><span class="ico" aria-hidden="true"></span>Pause</button>
+        </figcaption>
+      </figure>
+    </article>
+    <article class="job" aria-labelledby="job-check">
+      <div class="job-text">
+        <h3 id="job-check">Audit an existing plan</h3>
+        <dl class="job-dl">
+          <dt>You give</dt><dd>One existing plan file (hwp, hwpx or pdf), including plans written by someone else</dd>
+          <dt>You get</dt><dd>A list of cited standards that have since been revised or repealed: where in the plan, what to change, and a link to the official source</dd>
+          <dt>In Claude Code</dt>
+          <dd><div class="cmd agent"><code id="cmd-check-agent">/danburn:check plan.hwp</code><button type="button" data-copy="cmd-check-agent">Copy</button></div></dd>
+        </dl>
+      </div>
+      <figure class="job-media">
+        <video id="video-check" autoplay muted loop playsinline preload="metadata" poster="/media/cmd-check-poster.jpg" data-poster-narrow="/media/cmd-check-m-poster.jpg"
+          aria-label="10-second video, Korean screen: after /danburn:check on a plan citing old standards, the result lists five revised or repealed citations, each shown next to the current standard (synthetic example)">
+          <source src="/media/cmd-check-m.mp4" type="video/mp4" media="(max-width: 760px)">
+          <source src="/media/cmd-check.mp4" type="video/mp4">
+        </video>
+        <figcaption class="small">
+          <span><code>/danburn:check</code> lists outdated citations next to the current standard. Synthetic example, Korean screen.</span>
+          <button type="button" class="video-toggle" aria-controls="video-check" aria-pressed="false"><span class="ico" aria-hidden="true"></span>Pause</button>
+        </figcaption>
+      </figure>
+    </article>
+    <p class="notice"><strong>Built with Claude Code.</strong></p>
+  </section>
+
+  <!-- ③ 만든 사람 -->
+  <section id="maker" aria-labelledby="maker-title">
+    <p class="label">Who makes it</p>
+    <h2 id="maker-title">Built and run by a former site quality manager</h2>
+    <p>Danburn is built and run by Sanghyun Lee, a former site quality manager on public housing projects in Korea. Independent and self-funded. Started in September 2026.</p>
+    <p>Writing a Quality Management Plan meant looking up standards, recounting quantities every time the bill of quantities changed, and reworking a long document, a month or two each time. Danburn is meant to cut that to feeding in the bill of quantities once.</p>
+    <p class="small">Contact: <a href="mailto:contact@danburn.kr">contact@danburn.kr</a> · Repository: <a href="https://github.com/yj5306yj/danburn">github.com/yj5306yj/danburn</a> · Apache-2.0</p>
+  </section>
+
+  <!-- ④ 로드맵: 계획이며 아직 만들지 않았다 -->
+  <section id="roadmap" aria-labelledby="roadmap-title">
+    <p class="label">Roadmap · planned, not built yet</p>
+    <h2 id="roadmap-title">Next, on the Claude API</h2>
+    <ul class="credits">
+      <li>A hosted web app</li>
+      <li>Extraction from scanned concrete strength-test reports and ready-mix delivery tickets</li>
+      <li>Test scheduling</li>
+      <li>Flagging plan rows affected by standard revisions</li>
+    </ul>
+  </section>
+
+  <!-- ⑤ 한계: 한국어 쪽 비고와 같은 사실 -->
+  <section id="limits" aria-labelledby="limits-title">
+    <h2 id="limits-title">What the output is</h2>
+    <p class="note"><span class="note-head">Note</span><span>The output is a draft for review before submission. The quality manager confirms it. Danburn does not guarantee that a plan meets the statutory form or will be approved. Videos and screenshots on this site show plans generated from synthetic examples.</span></p>
+  </section>
+</main>
+
+<footer>
+  <span>Danburn (단번)</span>
+  <a href="https://danburn.kr/en">danburn.kr/en</a>
+  <a href="/" lang="ko" hreflang="ko">한국어</a>
+  <a href="https://github.com/yj5306yj/danburn">GitHub</a>
+  <a href="mailto:contact@danburn.kr">contact@danburn.kr</a>
+  <span>Apache License 2.0</span>
+</footer>
+
+<p id="copy-status" class="sr-only" aria-live="polite"></p>
+
+<script>
+  // 한국어 쪽(../index.html)과 같은 동작, 안내 글만 영어.
+  // 영상: 좁은 화면 poster 바꾸기, 움직임 줄이기 설정이면 멈추고 poster 만, 일시정지 단추
+  (function () {
+    var narrow = window.matchMedia && window.matchMedia('(max-width: 760px)').matches;
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('video').forEach(function (v) {
+      if (narrow && v.dataset.posterNarrow) v.poster = v.dataset.posterNarrow;
+      if (still) { v.removeAttribute('autoplay'); v.pause(); }
+    });
+    document.querySelectorAll('.video-toggle[aria-controls]').forEach(function (t) {
+      var v = document.getElementById(t.getAttribute('aria-controls'));
+      if (!v) return;
+      function sync() { t.setAttribute('aria-pressed', v.paused ? 'true' : 'false'); }
+      v.addEventListener('play', sync); v.addEventListener('pause', sync); sync();
+      t.addEventListener('click', function () {
+        if (v.paused) { var p = v.play(); if (p && p.then) p.then(sync, sync); } else v.pause();
+        sync();
+      });
+    });
+  })();
+  // 복사 단추: 클립보드를 못 쓰면 명령을 선택해 두고 직접 복사하라고 안내한다
+  var copyStatus = document.getElementById('copy-status');
+  document.querySelectorAll('button[data-copy]').forEach(function (b) {
+    var code = document.getElementById(b.dataset.copy);
+    function say(btn, msg, ms) {
+      b.textContent = btn; copyStatus.textContent = msg;
+      setTimeout(function () { b.textContent = 'Copy'; copyStatus.textContent = ''; }, ms);
+    }
+    function selectCmd() {
+      var r = document.createRange(); r.selectNodeContents(code);
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      var msg = 'Command selected. Press ⌘C or Ctrl+C to copy.';
+      say('Selected', msg, 4000);
+      var box = code.parentNode, help = box.nextElementSibling;
+      if (!help || !help.classList.contains('copy-help')) {
+        help = document.createElement('p'); help.className = 'small copy-help'; help.setAttribute('aria-hidden', 'true');
+        box.parentNode.insertBefore(help, box.nextSibling);
+      }
+      help.textContent = msg;
+    }
+    b.addEventListener('click', function () {
+      var t = code.textContent;
+      if (!navigator.clipboard || !navigator.clipboard.writeText) { selectCmd(); return; }
+      navigator.clipboard.writeText(t).then(function () {
+        say('Copied', 'Command copied.', 1500);
+      }, selectCmd);
+    });
+  });
+</script>
+</body>
+</html>

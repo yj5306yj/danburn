@@ -1,13 +1,17 @@
 [project]
 name = "danburn"
 version = "0.0.1"
-description = "단번(Danburn) — 도급내역서로 품질관리계획서를 만드는 도구"
+description = "Danburn drafts Quality Management Plans (HWPX) for Korean construction sites from a bill of quantities. 단번(Danburn) — 도급내역서로 품질관리계획서를 만드는 도구"
 requires-python = ">=3.10"
 license = "Apache-2.0"
 dependencies = ["openpyxl>=3.1", "python-hwpx==6.5.0", "PyYAML>=6", "olefile>=0.47", "pypdf>=5"]
 
 [project.optional-dependencies]
 dev = ["pytest", "pillow"]    # 개발·테스트 전용(배포 휠의 실행 의존성 아님)
+
+[project.urls]
+Homepage = "https://danburn.kr"
+Repository = "https://github.com/yj5306yj/danburn"
 
 [project.scripts]
 danburn = "danburn.cli:main"

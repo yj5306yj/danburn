@@ -6,10 +6,15 @@
 <title>단번 — 도급내역서로 품질관리계획서 초안</title>
 <meta name="description" content="도급내역서와 몇 가지 질문으로 품질관리계획서(HWPX) 초안을 만드는 오픈소스 도구.">
 <link rel="canonical" href="https://danburn.kr/">
+<link rel="alternate" hreflang="ko" href="https://danburn.kr/">
+<link rel="alternate" hreflang="en" href="https://danburn.kr/en">
+<link rel="alternate" hreflang="x-default" href="https://danburn.kr/en">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <!-- 공유 미리보기(카카오톡·메신저). 그림은 영상 끝 장면(합성 예제) 1200×630 -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="단번">
 <meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US">
 <meta property="og:url" content="https://danburn.kr/">
 <meta property="og:title" content="단번 — 도급내역서로 품질관리계획서 초안">
 <meta property="og:description" content="도급내역서와 몇 가지 질문으로 품질관리계획서(HWPX) 초안을 만드는 오픈소스 도구.">
@@ -21,6 +26,42 @@
 <meta name="twitter:title" content="단번 — 도급내역서로 품질관리계획서 초안">
 <meta name="twitter:description" content="도급내역서와 몇 가지 질문으로 품질관리계획서(HWPX) 초안을 만드는 오픈소스 도구.">
 <meta name="twitter:image" content="https://danburn.kr/media/og.jpg">
+<!-- 구조화 데이터: 영문 쪽(en/index.html)과 같은 사실. 법적 형태 속성(legalName 등)은 넣지 않는다 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://danburn.kr/#org",
+      "name": "Danburn",
+      "alternateName": "단번",
+      "url": "https://danburn.kr/",
+      "description": "도급내역서로 건설현장 품질관리계획서 초안을 만드는 오픈소스 Claude Code 플러그인.",
+      "foundingDate": "2026-09",
+      "founder": { "@type": "Person", "name": "Sanghyun Lee", "alternateName": "이상현" },
+      "email": "contact@danburn.kr",
+      "sameAs": ["https://github.com/yj5306yj/danburn"]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://danburn.kr/#app",
+      "name": "Danburn",
+      "alternateName": "단번",
+      "url": "https://danburn.kr/",
+      "description": "도급내역서와 몇 가지 질문으로 품질관리계획서(HWPX) 초안을 만들고, 시험계획서만 따로 내고, 기존 계획서의 기준이 현행인지 검사하는 Claude Code 플러그인이자 명령줄 도구.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "macOS, Windows",
+      "inLanguage": "ko",
+      "license": "https://www.apache.org/licenses/LICENSE-2.0",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "downloadUrl": "https://github.com/yj5306yj/danburn",
+      "author": { "@id": "https://danburn.kr/#org" }
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5.2.5/400.css">
@@ -39,6 +80,7 @@
     <span class="nav-break" aria-hidden="true"></span>
     <a href="#install">설치</a>
     <a href="https://github.com/yj5306yj/danburn">GitHub</a>
+    <a href="/en" lang="en" hreflang="en">English</a>
   </nav>
 </header>
 
@@ -264,14 +306,20 @@
     </div>
   </section>
 
-  <!-- ⑥ 만든 사람: 사실만 짧게. 현장명·회사명·사람 이름·사진·발주처 로고 없음 -->
+  <!-- ⑥ 만든 사람: 사실만 짧게. 만든 사람 이름과 시작 시점은 적는다(사용자 결정 2026-10-09). 현장명·회사명·사진·발주처 로고 없음 -->
   <section id="maker" aria-labelledby="maker-title">
     <p class="label">만든 사람</p>
     <h2 id="maker-title">LH 공공주택 현장 품질관리자 출신 개발자가 만들었습니다</h2>
+    <p><strong>이상현</strong> — 2026년 9월에 시작해 혼자 만들고 운영합니다.</p>
     <p>착공 전에 품질관리계획서를 쓰고, 공사 내내 고쳐 냈습니다. 기준을 찾고, 바뀌는 내역서로 수량을 다시 셈하고, 긴 한글 문서를 손보는 데 한 번에 한두 달씩 걸렸습니다.</p>
     <p>그 일을 내역서 한 번 넣는 것으로 줄이려고 만든 도구입니다. 가장 공들인 곳은 8.11 검사 및 시험, 모니터링입니다.</p>
     <p class="small">개인이 만든 오픈소스 · Apache-2.0 · <a href="https://github.com/yj5306yj/danburn">GitHub</a></p>
     <p class="small">연락: <a href="mailto:contact@danburn.kr">contact@danburn.kr</a> — 질문·오류 제보·현장 의견을 받습니다.</p>
+  </section>
+
+  <!-- ⑥-2 영문 안내: 영문 쪽(/en)으로 가는 한 줄 -->
+  <section id="about-en" lang="en" aria-label="In English">
+    <p><span class="label">In English</span> · Danburn is an open-source Claude Code plugin that drafts Quality Management Plans for Korean construction sites. <a href="/en" hreflang="en">Read about Danburn in English →</a></p>
   </section>
 
   <!-- ⑦ 감사와 출처 -->

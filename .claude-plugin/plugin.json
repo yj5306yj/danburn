@@ -1,12 +1,12 @@
 {
   "name": "danburn",
   "version": "0.0.1",
-  "description": "단번(Danburn) — 도급내역서로 품질관리계획서 HWPX를 만들고(/danburn:start), 품질시험계획서만 따로 한글·엑셀로 내며(/danburn:test-plan), 기존 계획서의 인용 기준이 현행인지 검사한다(/danburn:check).",
+  "description": "Draft a Quality Management Plan (HWPX) for Korean construction sites from a bill of quantities, inside Claude Code. 단번(Danburn) — 도급내역서로 품질관리계획서 HWPX를 만들고(/danburn:start), 품질시험계획서만 따로 한글·엑셀로 내며(/danburn:test-plan), 기존 계획서의 인용 기준이 현행인지 검사한다(/danburn:check).",
   "author": {
-    "name": "danburn contributors"
+    "name": "Sanghyun Lee"
   },
-  "homepage": "https://github.com/yj5306yj/danburn",
+  "homepage": "https://danburn.kr",
   "repository": "https://github.com/yj5306yj/danburn",
   "license": "Apache-2.0",
-  "keywords": ["construction", "quality-plan", "hwpx", "korean"]
+  "keywords": ["claude-code", "claude-code-plugin", "quality-management", "construction", "quality-plan", "hwpx", "korean"]
 }

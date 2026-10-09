@@ -1,5 +1,17 @@
 # 단번(Danburn) — 도급내역서로 품질관리계획서 만들기
 
+> **In English** · [danburn.kr/en](https://danburn.kr/en)
+>
+> Danburn is an open-source **Claude Code plugin** (and CLI) that turns a contractor's bill of quantities (xlsx) into a draft Quality Management Plan (HWPX) for Korean apartment construction sites. The test plan inside it is calculated from Appendix 2 of the government's quality management guideline (건설공사 품질관리 업무지침 별표2).
+>
+> - **Install in Claude Code:** `claude plugin marketplace add https://github.com/yj5306yj/danburn`, then `claude plugin install danburn@danburn`.
+> - **Three skills:** `/danburn:start` drafts a new plan, `/danburn:check` checks whether an existing plan (hwp, hwpx, pdf) cites current standards, `/danburn:test-plan` exports the test plan alone as HWPX and Excel.
+> - **How the work is split:** Claude runs the tool and carries its questions and results through the conversation, deterministic code reads the spreadsheet, matches items to test rules and calculates the counts, and a quality manager confirms.
+> - **No separate API key:** the plugin runs inside your own Claude Code session, so there is no key to set up.
+> - **Also a plain CLI:** `uv tool install git+https://github.com/yj5306yj/danburn`, then `danburn start`.
+>
+> Built and maintained by Sanghyun Lee, a former site quality manager. Built with Claude Code. The output is a draft for review, not a guarantee of approval. The full documentation below is in Korean.
+
 **공동주택 현장의 도급내역서와 현장 정보를 넣으면 품질관리계획서(한글 HWPX) 한 권이 나옵니다.** 1~10장의 틀(장·절·표·양식)은 전부 만들어 주고, 절마다의 문장은 현장에 맞게 고쳐 쓰는 **공통 초안**이며, **8.11 시험계획은 「건설공사 품질관리 업무지침」 별표2로 시험횟수를 계산**해 채웁니다.
 
 ```
@@ -339,7 +351,7 @@ danburn test-plan --project 산출폴더/project.yaml   # 품질시험계획서�
 ## 범위와 한계
 
 - **대상**: 공동주택 신축공사의 품질관리계획서. 장·절 구성은 업무지침 별표1 작성기준 항목을 따르는 자체 템플릿(`src/danburn/data/templates/qplan.yaml`)입니다. 고시의 항목을 따랐다는 뜻이지 **법정 서식 충족을 보장한다는 뜻은 아닙니다**. 절마다 들어가는 흐름표·분장표·양식 문장은 공통 문구라 현장에 맞게 고쳐야 합니다.
-- **자재 규칙**: `src/danburn/data/rules/*.yaml` — 이 글을 쓴 시점에 124종(별표2 기반 82종은 항상 적용, LH 전용 42종 `lh_*.yaml`은 `--owner LH`일 때만). 규칙은 계속 늘어나므로 개수는 `ls src/danburn/data/rules | wc -l`로 셉니다. 파일을 추가하면 자동 등록됩니다.
+- **자재 규칙**: `src/danburn/data/rules/*.yaml` — 이 글을 쓴 시점에 155종(별표2 기반 83종은 항상 적용, LH 전용 72종 `lh_*.yaml`은 `--owner LH`일 때만). 규칙은 계속 늘어나므로 개수는 `ls src/danburn/data/rules | wc -l`로 셉니다. 파일을 추가하면 자동 등록됩니다.
 - **규칙이 없는 자재**: 내역서에서 알아본 자재는 8.11 계획표나 경고 중 한 곳에 나오게 했습니다. 별표2에 있으나 규칙이 아직 없으면 “규칙 없음”, 별표2에 없는 자재(실링재·벽지·바닥 완충재 등)는 **“발주처 기준 필요 — 시험계획 미작성”**으로 요약과 계획서에 표시합니다. 품명이 특이하면 자재로 알아보지 못할 수 있으니 요약의 ‘규칙 밖 행’(`unmatched_in_covered`)을 함께 확인하세요. 이 자재의 시험계획은 사람이 발주처 기준으로 써야 합니다. 법정 현장측정(실내공기질·바닥충격음)은 확인 안내만 합니다.
 - **기준 판**: 규칙은 국토교통부고시 제2026-360호 「건설공사 품질관리 업무지침」 별표2 기준입니다. 개정되면 `check-basis`가 알려 주지만 규칙 갱신은 사람이 공식 PDF로 확인한 뒤 합니다.
 - LH 외 발주처의 전문시방서 강화 기준과 감리 지시는 반영하지 않습니다. **계산 결과는 초안**이고 품질관리자가 확정합니다.

@@ -1,14 +1,14 @@
 {
   "name": "danburn",
   "owner": {
-    "name": "danburn contributors"
+    "name": "Sanghyun Lee"
   },
-  "description": "단번(Danburn) 품질관리계획서 도구 플러그인",
+  "description": "Danburn — a Claude Code plugin that drafts Quality Management Plans for Korean construction sites. 단번(Danburn) 품질관리계획서 도구 플러그인",
   "plugins": [
     {
       "name": "danburn",
       "source": "./",
-      "description": "도급내역서로 품질관리계획서 만들기(/danburn:start), 품질시험계획서만 한글·엑셀로 따로 내기(/danburn:test-plan), 기존 계획서 기준 검사(/danburn:check)."
+      "description": "Draft a Quality Management Plan from a bill of quantities (/danburn:start), export the test plan alone (/danburn:test-plan), check an existing plan against current standards (/danburn:check). 도급내역서로 품질관리계획서 만들기(/danburn:start), 품질시험계획서만 한글·엑셀로 따로 내기(/danburn:test-plan), 기존 계획서 기준 검사(/danburn:check)."
     }
   ]
 }
